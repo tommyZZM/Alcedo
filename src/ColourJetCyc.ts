@@ -38,20 +38,21 @@ module game{
         }
 
         private onAssetLoaded(){
+            alcedo.proxy(GameUIManager).init();
+
             var sp = new Sprite(<alcedo.canvas.Texture>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
             this.stage.addChild(sp);
-            sp.x = 100;
-            sp.y = 100;
+            //sp.x = 100;
+            //sp.y = 100;
             sp.pivotX = 0.5;
             sp.pivotY = 0.5;
             sp.scale(1);
             //sp.visible = false;
-            this.stage.enterframe(()=>{
+            this.stage.addEventListener(Stage.ENTER_SECOND,()=>{
                 sp.rotation++;
             },this);
 
             trace("abc",alcedo.proxy(TextureRepository));
-            alcedo.proxy(GameUIManager).init();
         }
 
         private onResize(){

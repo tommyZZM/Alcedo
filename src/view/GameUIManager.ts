@@ -43,6 +43,11 @@ module game{
                 ele.transition = 1;
                 ele.css({left:(stageSize().width-width)/2+"px"})
             }
+
+            this.gamescreens.forEach((screen)=>{
+                //trace(screen.resize)
+                screen.resize();
+            })
         }
 
         private bindScreen(classname:string,screenClass:any){
@@ -79,14 +84,18 @@ module game{
 
         }
 
-        public active(){
+        public active(callback?:Function,thisObject?:any){
             this.emit(GameScreen.ACTIVE,this.screen.data(name));
             //overridren
         }
 
-        public disactive(){
+        public disactive(callback?:Function,thisObject?:any){
             this.emit(GameScreen.DISACTIVE,this.screen.data(name));
             //overridren
+        }
+
+        public resize(){
+
         }
     }
 

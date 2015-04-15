@@ -13,7 +13,7 @@ module alcedo {
             public begin:Point2D;
             public end:Point2D;
 
-            public static identity:Segment2D = new Segment2D(Point2D.identity,Point2D.identity);
+            public static identity:Segment2D = new Segment2D(Point2D.identity(),Point2D.identity());
             public constructor(begin:Point2D,end:Point2D){
                 this.begin = begin;
                 this.end   = end;

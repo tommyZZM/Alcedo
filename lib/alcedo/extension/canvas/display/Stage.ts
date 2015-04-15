@@ -21,19 +21,29 @@ module alcedo{
             public _options:any;
             private _orientchanged:boolean;
 
+            private _camera:Camera2D;
+
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
                 //this._canvas = canvas;
                 this._stageWidth = this.width = width;
                 this._stageHeight = this.height = height;
-                this._options = opts;
-                this.setOptions(this._options);
-
-                this._maincontext = new CanvasMainContext(this,canvas);
+                this._options = opts
+                ;
                 this._ticker = new Ticker(this);
+                this._camera = new Camera2D(this);
+                this._maincontext = new CanvasMainContext(this,canvas);
             }
 
-            //private _fps:number = 0;
+            public _transform(){
+                var wt = this._worldtransform;
+                wt.identity();
+                this._getMatrix(wt);
+                this.eachChilder((child)=>{
+                    child._transform();
+                })
+            }
+
             private _enterframe(){
                 //TODO:广播EnterFrame;
                 this.notify(this._notifymap,Stage.ENTER_FRAME);
@@ -47,17 +57,21 @@ module alcedo{
                 return this._maincontext.canvas;
             }
 
-            private setOptions(opt:any){
-
-            }
-
             public get options():any{
                 return this._options;
             }
 
-            public resizecontext(){}
+            public resizecontext(){}//Dont Remove!! 该方法会在CanvasMainCOntext被覆盖重写,
             public get orientchanged():boolean{
                 return this._orientchanged;
+            }
+
+            public viewPort():Rectangle{
+                return Rectangle.identity(this._camera.viewfinder());
+            }
+
+            public camera():Camera2D{
+                return this._camera;
             }
 
             /**
@@ -81,7 +95,7 @@ module alcedo{
 
             private _center:Point2D;
             public center(offsetx:number=0,offsety:number=0):Point2D{
-                if(!this._center)this._center = Point2D.identity.clone();
+                if(!this._center)this._center = Point2D.identity().clone();
                 this._center.reset(this.width>>1+this.x+offsetx,this.height>>1+this.y+offsety);
                 return this._center;
             }

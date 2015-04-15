@@ -117,15 +117,17 @@ module alcedo {
              * @private
              */
             public _transform(){
-                var pt = this.parent?this.parent.worldtransform:Matrix2D.identity;
-                var wt = this._worldtransform;
+                var flag = !!this._parent,
+                    pt = Matrix2D.identity,
+                    wt = this._worldtransform;
 
-                wt.identity();
+                if(flag)pt = this._parent["_worldtransform"];
+
                 wt.identityMatrix(pt);
-                wt = this._getMatrix(wt);
+                this._getMatrix(wt);
 
-                this._worldtransform = wt;
-                this._worldalpha = this._alpha*(this.parent?this.parent.worldalpha:1);
+                //this._worldtransform = wt;
+                this._worldalpha = flag?(this._alpha*this._parent["_worldalpha"]):this._alpha;
             }
 
             /**
@@ -145,7 +147,7 @@ module alcedo {
              * @returns {Rectangle}
              */
             public get staticBound():Rectangle{
-                return Rectangle.identity.resetAs(this._staticboundingbox);
+                return Rectangle.identity(this._staticboundingbox);
             }
 
 
@@ -188,9 +190,7 @@ module alcedo {
                 var offsetx = o._pivot.x * o._staticboundingbox.width;
                 var offsety = o._pivot.y * o._staticboundingbox.height;
 
-                var result = Point2D.identity;
-                result.x = offsetx;
-                result.y = offsety;
+                var result = Point2D.identity(offsetx,offsety);
 
                 return result;
                 //return Point(0,0);

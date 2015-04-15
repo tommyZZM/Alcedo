@@ -5,7 +5,14 @@ module alcedo {
     export module canvas {
         export class Rectangle {
 
-            public static identity:Rectangle = new Rectangle();
+            public static _identity:Rectangle = new Rectangle();
+            public static identity(rect_or_x:number|Rectangle = 0, y:number = 0, width:number = 0, height:number = 0){
+                if(typeof rect_or_x == "number"){
+                    return Rectangle._identity.reset(<number>rect_or_x,y,width,height)
+                }else{
+                    return Rectangle._identity.resetAs(<Rectangle>rect_or_x)
+                }
+            }
             constructor(x:number = 0, y:number = 0, width:number = 0, height:number = 0) {
                 //super();
                 this.x = x;

@@ -15,7 +15,7 @@ module alcedo{
                 this._canvasRenderContext.globalAlpha = 1;
                 this._canvasRenderContext.globalCompositeOperation = "source-over";
 
-
+                var viewport = this._stage.viewPort();
                 if(this._renderoption.background){
                     this._canvasRenderContext.fillStyle = this._renderoption.background;
                     this._canvasRenderContext.fillRect(0,0,this._stage._stageWidth,this._stage._stageHeight);
@@ -74,6 +74,7 @@ module alcedo{
 
                 //混合设置
                 this._canvasRenderContext.globalCompositeOperation = "source-over";
+                this.smooth = true;
 
                 animationFrame(this.render,this);
             }

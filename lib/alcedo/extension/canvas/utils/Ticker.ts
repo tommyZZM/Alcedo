@@ -10,11 +10,12 @@ module alcedo{
             private _startTime:number = 0;
             private _lastTime:number = 0;
 
-            private _totalmicrosecond:number = 0;
+            private _total100microsecond:number = 0;
             private _totalsecond:number = 0;
 
-            private _countmillisecond:number = 0;
-            private _countsecond:number = 0;
+            private _countmicrosecond:number = 0;
+            private _count100microsecond:number = 0;
+            private _last100microsecond:number = 0;
 
             public constructor(stage:Stage){
                 super();
@@ -30,28 +31,32 @@ module alcedo{
 
             private update(){
                 var nowTime:number = this._nowTime();
-                var dt = nowTime-this._lastTime;
-                this._countsecond+=dt;
-                this._countmillisecond+=dt;
+                var dt = nowTime-this._lastTime,
+                    i,_counter:number = 0;
+                this._countmicrosecond+=dt;
 
-                for(var i:number=0;i<(+(this._countmillisecond/100)^0);i++){
-                    this._totalmicrosecond++;
-                    this._stage.emit(Stage.ENTER_100MILLSECOND,{fps:this.fps(),count:this._totalmicrosecond});
-                    if(i>=(+(this._countmillisecond/100)^0)-1){
-                        this._countmillisecond = 0;
+                _counter = +(this._countmicrosecond/100)^0;
+                for(i=0;i<_counter;i++){
+                    this._total100microsecond++;
+                    this._stage.emit(Stage.ENTER_100MILLSECOND,{fps:this.fps(),count:this._total100microsecond});
+                    if(i>=(_counter-1)){
+                        this._countmicrosecond = 0;
                     }
                 }
 
-                for(var i:number=0;i<(+(this._countsecond/1000)^0);i++){
+                this._count100microsecond+=(this._total100microsecond-this._last100microsecond);
+                _counter = +(this._count100microsecond/10)^0;
+                for(i=0;i<_counter;i++){
                     this._totalsecond++;
                     this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond});
-                    if(i>=(+(this._countsecond/1000)^0)-1){
-                        this._countsecond = 0;
+                    if(i>=(_counter-1)){
+                        this._count100microsecond = 0;
                     }
                 }
 
                 this._fps = 1000/dt;
                 this._lastTime = nowTime;
+                this._last100microsecond = this._total100microsecond;
             }
 
             private fps():number{

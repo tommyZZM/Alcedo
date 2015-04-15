@@ -8,7 +8,11 @@ module alcedo {
 
             public y:number;
 
-            public static identity:Point2D = new Point2D();
+            private static _identity:Point2D = new Point2D();
+            public static identity(x:number=0,y:number=0):Point2D{
+                Point2D._identity.reset(x,y);
+                return Point2D._identity;
+            }
             public constructor(x:number=0,y:number=0){
                 //super();
                 this.x = x;

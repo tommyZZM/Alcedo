@@ -118,10 +118,10 @@ module alcedo {
                     this._stage._stageHeight = this._stage._stageWidth/currstylew2h;
                 }
 
+                this._stage.emit(Stage.RESIZED);
+
                 this._canvas.node["width"] = this._stage._stageWidth;
                 this._canvas.node["height"] = this._stage._stageHeight;
-
-                this._stage.emit(Stage.RESIZED);
                 //console.log("resized");
             }
 
