@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/5.
  */
 module alcedo{
-    export module client{
+    export module currclient{
         var navigator;
         if(!navigator){
             navigator = {userAgent:"commonJS"}

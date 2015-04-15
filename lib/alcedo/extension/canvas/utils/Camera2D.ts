@@ -20,6 +20,7 @@ module alcedo{
             public constructor(stage:Stage,buffer:number=1.2){
                 super();
                 this._focal = 1;
+                this._pivot = 0;
                 this._buffer = buffer>1?buffer:1;
                 this._position = new Point2D();
 
@@ -30,7 +31,7 @@ module alcedo{
 
                 this._stage.addEventListener(Stage.RESIZED,this._updateViewPort,this);
 
-                this.zoomToPoint(Point2D.identity(0,0),2,0.5);
+                //this.zoomToPoint(Point2D.identity(0,0),1,0);
             }
 
             public zoomTo(x:number,y:number,focal:number,pivot:number=0.5){

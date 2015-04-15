@@ -190,9 +190,7 @@ module alcedo {
                 var offsetx = o._pivot.x * o._staticboundingbox.width;
                 var offsety = o._pivot.y * o._staticboundingbox.height;
 
-                var result = Point2D.identity(offsetx,offsety);
-
-                return result;
+                return  Point2D.identity(offsetx,offsety);
                 //return Point(0,0);
             }
 

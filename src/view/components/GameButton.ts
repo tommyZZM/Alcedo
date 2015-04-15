@@ -12,7 +12,7 @@ module game {
             this._texture = texture;
 
             this._btn.css({
-                background: "#fff",//"url("+texture.sourceUrl+")",
+                background: "url("+texture.sourceUrl+")",//"#fff",//"url("+texture.sourceUrl+")",
                 "background-size": "cover",
                 "-webkit-background-size": "cover"
             });

@@ -42,8 +42,8 @@ module game{
 
             var sp = new Sprite(<alcedo.canvas.Texture>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
             this.stage.addChild(sp);
-            //sp.x = 100;
-            //sp.y = 100;
+            sp.x = 100;
+            sp.y = 100;
             sp.pivotX = 0.5;
             sp.pivotY = 0.5;
             sp.scale(1);
@@ -51,6 +51,8 @@ module game{
             this.stage.addEventListener(Stage.ENTER_SECOND,()=>{
                 sp.rotation++;
             },this);
+
+            trace(sp["x"],sp.x);
 
             trace("abc",alcedo.proxy(TextureRepository));
         }

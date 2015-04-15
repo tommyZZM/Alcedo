@@ -81,7 +81,8 @@ module alcedo {
             }
 
             private run():void{
-                this._canvasrenderer = CanvasRenderer.detecter();
+                this._canvasrenderer = CanvasRenderer.detecter();//default 2d(cpu|webgl)
+                //TODO:if webgl3d || other reset this._canvasrender
                 this._canvasrenderer.executeMainLoop(this._stage,<any>this._canvas.node);
                 this._canvasrenderer.registMainLoopTask(this.mainloop,this);
                 //this._stage = new Stage();
