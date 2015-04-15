@@ -1,0 +1,15 @@
+{
+    "resources": [
+        {
+            "name": "egretIcon",
+            "type": "image",
+            "url": "assets/egret_icon.png"
+        }
+    ],
+    "groups": [
+        {
+            "name": "preload",
+            "keys": "egretIcon"
+        }
+    ]
+}

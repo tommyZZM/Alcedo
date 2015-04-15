@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+demo/lib
+demo/script
+ref
+#demo/res
+demo/test.html
+lib/alcedo/alcedo.d.ts

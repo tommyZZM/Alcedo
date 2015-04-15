@@ -1,0 +1,12 @@
+{
+	"resources":
+	[
+		{"name":"paopaoxieyanxiao","type":"image","url":"paopaoxieyanxiao.png"},
+		{"name":"startbtn","type":"image","url":"game/ui/startbtn.png"},
+		{"name":"aboutbtn","type":"image","url":"game/ui/aboutbtn.png"}
+	],
+
+    "groups":[
+        {"name":"preload","keys":"paopaoxieyanxiao,startbtn,aboutbtn"}
+    ]
+}
