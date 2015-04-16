@@ -124,6 +124,7 @@ module alcedo {
                 if(!this._csstransitionSleep){
                     this._csstransitionSleep = true;
                     this.emit(StyleEvent.TRAN_SITION_END);
+                    this.index(this._lastindex);
                 }
                 setTimeout(()=>{
                     this._csstransitionSleep = false; //防止重复出发transitionend事件,在下个时间点再允许事件触发
@@ -171,6 +172,7 @@ module alcedo {
                 }else{
                     this.css({display:"block"})
                 }
+                this.transition = this._lasttransition;
                 return this;
             }
 
@@ -181,6 +183,7 @@ module alcedo {
                 return this;
             }
 
+            private _lastindex:number;
             public index(index?:number):number{
                 var result;
                 if(!index && index!==0){
@@ -196,6 +199,8 @@ module alcedo {
 
             //CSS3动画效果
             public to(cssprops:any, transition:number = 660):DomElement {
+                this._lastindex = this.index();
+                this.index(999);
                 this.transition = transition;
                 this.css(cssprops);
                 return this;
@@ -228,9 +233,11 @@ module alcedo {
                 return this;
             }
 
+            private _lasttransition:number;
             public set transition(ms:number){
                 this._node.style["transition-duration"]= ms + "ms";
                 this._node.style["-webkit-transition-duration"] = ms + "ms";
+                this._lasttransition = ms;
             }
 
             public then(fn:(_this?:DomElement)=>void,waittime_ms:number = 0):void{

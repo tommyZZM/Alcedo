@@ -18,6 +18,10 @@ module alcedo{
             this.registNotify(this._eventsMap,event,listener,thisObject,null,priority);
         }
 
+        public clearEventListener(event:string){
+            this._eventsMap.set(event,[]);
+        }
+
         public removeEventListener(event:string, listener:Function, thisObject:any):void{
             this.unregistNotify(this._eventsMap,event,listener,thisObject);
         }

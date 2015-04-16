@@ -1,4 +1,11 @@
 # Alcedo
 Testing is the future, and the future starts with alcedo
 
-A Simple TypeScript HTML5 App FrameWork!
+A Simple TypeScript HTML5 App/Game FrameWork!
+
+# Thanks
+http://www.egret-labs.org/
+http://www.pixijs.com/
+http://createjs.com/
+
+else.

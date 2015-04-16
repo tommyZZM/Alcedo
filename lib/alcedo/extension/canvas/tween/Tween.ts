@@ -256,9 +256,6 @@ module alcedo{
 
             /**
              * 设置是否暂停
-             * @method egret.Tween#setPaused
-             * @param value {boolean} 是否暂停
-             * @returns Tween对象本身
              */
             public setPaused(value:boolean):Tween {
                 this._paused = value;

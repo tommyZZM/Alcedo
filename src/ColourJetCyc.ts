@@ -51,11 +51,6 @@ module game{
             this.stage.addEventListener(Stage.ENTER_10MILLSECOND,()=>{
                 sp.rotation++;
             },this);
-
-            this.stage.camera().zoomTo(0,0,2,0);
-            trace(sp["x"],sp.x);
-
-            trace("abc",alcedo.proxy(TextureRepository));
         }
 
         private onResize(){
@@ -78,8 +73,9 @@ module game{
         }
     }
 
-    export var Sprite:any = alcedo.canvas.Sprite ;
+
     export var Stage:any = alcedo.canvas.Stage;
+    export var Sprite:any = alcedo.canvas.Sprite ;
     export var AsyncAssetsLoader:any = alcedo.net.AsyncAssetsLoader;
     export var AsyncRES:any = alcedo.net.AsyncRES;
 

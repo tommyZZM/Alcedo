@@ -47,6 +47,17 @@ module alcedo{
                 this.zoomTo(point.x,point.y,focal,offset,duration);
             }
 
+            /**
+             * 跟随指定对象
+             * @param target
+             * @param focal
+             * @param offset
+             * @param duration
+             */
+            public followTarget(target:DisplayObject,offset:number=0.5){
+
+            }
+
             private _updateViewPort(duration:number){
                 this._viewfinder.width = this._focal*this._stage._stageWidth;
                 this._viewfinder.height = this._focal*this._stage._stageHeight;
