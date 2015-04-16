@@ -112,6 +112,14 @@ module alcedo {
                 }
             }
 
+            public get scaleX():number{
+                return this._scale.x;
+            }
+
+            public get scaleY():number{
+                return this._scale.y;
+            }
+
             /**
              * 矩阵运算物体在场景中的位置
              * @private

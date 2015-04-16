@@ -13,4 +13,12 @@ module alcedo{
         if(!_str){_str=0}
         return _str;
     }
+
+    export function tryExecute(fn:Function,onerror?:Function,thisObject?:any){
+        try{
+            thisObject?fn.apply(thisObject):fn();
+        }catch(e){
+            thisObject?onerror.apply(thisObject,e):onerror(e);
+        }
+    }
 }

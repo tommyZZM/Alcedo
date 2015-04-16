@@ -48,10 +48,11 @@ module game{
             sp.pivotY = 0.5;
             sp.scale(1);
             //sp.visible = false;
-            this.stage.addEventListener(Stage.ENTER_SECOND,()=>{
+            this.stage.addEventListener(Stage.ENTER_10MILLSECOND,()=>{
                 sp.rotation++;
             },this);
 
+            this.stage.camera().zoomTo(0,0,2,0);
             trace(sp["x"],sp.x);
 
             trace("abc",alcedo.proxy(TextureRepository));

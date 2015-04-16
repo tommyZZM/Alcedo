@@ -74,11 +74,12 @@ module alcedo{
                                     break;
                                 }
                                 case RequestDataType.JSON:{
-                                    try{
+                                    //TODO:tryCatch隔离
+                                    tryExecute(()=>{
                                         data = JSON.parse(xhr.responseText);
-                                    }catch(e){
+                                    },()=>{
                                         console.warn("data is not a json type",{data:xhr.responseText})
-                                    }
+                                    });
                                     break;
                                 }
                                 case RequestDataType.BINARY:{

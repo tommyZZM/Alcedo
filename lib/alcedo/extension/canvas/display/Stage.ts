@@ -5,7 +5,7 @@ module alcedo{
     export module canvas{
         export class Stage extends DisplatObjectContainer{
             public static ENTER_FRAME:string = "Stage_ENTER_FRAME";
-            public static ENTER_100MILLSECOND:string = "Stage_ENTER_100MILLSECOND";
+            public static ENTER_10MILLSECOND:string = "Stage_ENTER_100MILLSECOND";
             public static ENTER_SECOND:string = "Stage_ENTER_SECOND";
 
             public static RESIZED:string = "Stage_RESIZE";
@@ -16,23 +16,31 @@ module alcedo{
             public _stageHeight:number;
 
             private _maincontext:CanvasMainContext;
-            private _ticker:Ticker;
 
             public _options:any;
             private _orientchanged:boolean;
 
+            //component
+            private _ticker:Ticker;
             private _camera:Camera2D;
+            private _tweens:Tweens
 
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
                 //this._canvas = canvas;
                 this._stageWidth = this.width = width;
                 this._stageHeight = this.height = height;
-                this._options = opts
-                ;
+                this._options = opts;
+                this.initcomponent();
+                this._maincontext = new CanvasMainContext(this,canvas);
+            }
+
+            private initcomponent(){
                 this._ticker = new Ticker(this);
                 this._camera = new Camera2D(this);
-                this._maincontext = new CanvasMainContext(this,canvas);
+                this._tweens = (new Tweens()).init(this);
+
+                this._startTime = Date.now();
             }
 
             public _transform(){
@@ -44,10 +52,18 @@ module alcedo{
                 })
             }
 
+            private _startTime:number = 0;
+            private _lastTime:number = 0;
+            private _nowTime(){
+                return Date.now()-this._startTime;
+            }
             private _enterframe(){
+                var nowTime:number = this._nowTime();
+                var dt = nowTime-this._lastTime;
                 //TODO:广播EnterFrame;
-                this.notify(this._notifymap,Stage.ENTER_FRAME);
-                this.emit(Stage.ENTER_FRAME);
+                this.notify(this._notifymap,Stage.ENTER_FRAME,[{dt:dt}]);
+                this.emit(Stage.ENTER_FRAME,{dt:dt});
+                this._lastTime = nowTime;
             }
             public enterframe(callback,thisOBject){
                 this.registNotify(this._notifymap,Stage.ENTER_FRAME,callback,thisOBject)
@@ -72,6 +88,10 @@ module alcedo{
 
             public camera():Camera2D{
                 return this._camera;
+            }
+
+            public tweens():Tweens{
+                return this._tweens;
             }
 
             /**
