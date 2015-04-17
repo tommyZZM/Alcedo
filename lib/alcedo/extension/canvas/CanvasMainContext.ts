@@ -36,7 +36,7 @@ module alcedo {
                 this._canvas.node["width"] = this._stage._stageWidth;
                 this._canvas.node["height"] = this._stage._stageHeight;
 
-                this._canvascontainer = d$.query("<div></div>")[0];
+                this._canvascontainer = d$.query("<div style='overflow: hidden;'></div>")[0];
                 this._canvascontainer.id = this._canvas.id+"_container";
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);

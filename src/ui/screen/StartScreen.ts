@@ -2,6 +2,9 @@
  * Created by tommyZZM on 2015/4/14.
  */
 module game{
+    /**
+     * 游戏开始界面
+     */
     export class StartScreen extends GameScreen{
         private _startbtnpos:number;
 
@@ -10,7 +13,7 @@ module game{
         private _aboutbtn:GameButton;
 
         protected init() {
-            //this.screen.hide();
+            this.screen.hide();
             this._title = new GameUIComponent(this.screen.find(".title")[0],alcedo.proxy(TextureRepository).get("title"));
             this._title.e.css({"margin-top":alcedo.px(-this._title.height)});
             this._title.e.show();
@@ -29,6 +32,7 @@ module game{
         public active(){
             super.active();
 
+            this.screen.show();
             //TODO:why?where? why need then
             this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360).then(()=>{
                     this._startbtn.e.show().to({"margin-top":alcedo.px(-10),top:0},360)
@@ -48,7 +52,9 @@ module game{
 
             this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
             this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
-            this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260);
+            this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260).then(()=>{
+                this.screen.hide();
+            });
         }
 
         private enableTouch(boo:boolean=true){
@@ -64,7 +70,7 @@ module game{
         private toStart(){
             this.enableTouch(false);
             this._startbtn.e.then(()=>{
-                trace("onstart");
+                trace("onstart");//todo:跳转游戏界面
                 this.disactive();
             })
         }
@@ -72,7 +78,7 @@ module game{
         private toAbout(){
             this.enableTouch(false);
             this._aboutbtn.e.then(()=>{
-                trace("onabout");
+                trace("onabout");//todo:跳转关于面板
                 this.disactive();
             })
         }
@@ -83,8 +89,14 @@ module game{
             this._startbtn.width = stageSize().height*0.5;
             this._aboutbtn.width = stageSize().height*0.3;
 
-            //this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},100);
-            
+            if(this._isactive){
+                this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360)
+            }else{
+                this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
+                this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
+                this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260);
+            }
+
             this._startbtnpos = stageSize().height*0.29;
             //this._startbtn.e.to({"margin-top":alcedo.px(this._startbtnpos),top:0},100)
         }

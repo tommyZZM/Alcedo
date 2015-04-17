@@ -40,7 +40,7 @@ module game{
         private onAssetLoaded(){
             alcedo.proxy(GameUIManager).init();
 
-            var sp = new Sprite(<alcedo.canvas.Texture>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
+            var sp = new Sprite(<any>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
             this.stage.addChild(sp);
             sp.x = 100;
             sp.y = 100;

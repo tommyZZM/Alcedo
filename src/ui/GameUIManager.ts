@@ -60,6 +60,8 @@ module game{
         public static ACTIVE:string = "GameScreen_Active";
         public static DISACTIVE:string = "GameScreen_Active";
 
+        protected _isactive:boolean;
+
         private _root:alcedo.dom.DomElement;
         private _screen:alcedo.dom.DomElement;
 
@@ -85,11 +87,13 @@ module game{
         }
 
         public active(callback?:Function,thisObject?:any){
+            this._isactive = true;
             this.emit(GameScreen.ACTIVE,this.screen.data(name));
             //overridren
         }
 
         public disactive(callback?:Function,thisObject?:any){
+            this._isactive = false;
             this.emit(GameScreen.DISACTIVE,this.screen.data(name));
             //overridren
         }
