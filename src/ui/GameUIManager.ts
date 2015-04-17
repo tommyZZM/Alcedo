@@ -40,7 +40,7 @@ module game{
                 width = ele.node.style.width?ele.node.style.width:ele.abscss()["width"];
                 width = alcedo.toValue(width);
                 //trace("onResize",alcedo.toValue(width));
-                ele.transition = 1;
+                ele.transition = 0;
                 ele.css({left:(stageSize().width-width)/2+"px"})
             }
 

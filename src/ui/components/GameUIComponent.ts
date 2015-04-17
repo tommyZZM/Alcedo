@@ -18,7 +18,6 @@ module game{
                 "background-size": "cover",
                 "-webkit-background-size": "cover"
             });
-            //this._com.transition = 300;
 
             this.width = texture._sourceWidth;
         }

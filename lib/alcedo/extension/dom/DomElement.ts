@@ -28,6 +28,7 @@ module alcedo {
             private initevent(){
                 var touchcallback = (e,fn)=>{
                     e.preventDefault();
+                    e.stopPropagation()
                     fn.call(this,e);
                 };
 
@@ -68,20 +69,21 @@ module alcedo {
             }
 
             private ontouchmove(e){
-                e.preventDefault();
-                if (Math.abs(e.touches[0].clientX - this._touchObserver.startx) > 20
-                    || Math.abs(e.touches[0].clientY - this._touchObserver.start) > 20) {
-                    this._touchObserver.moved = true;
-                    this._touchObserver.lastx = e.touches[0].clientX - this._touchObserver.startx;
-                    this._touchObserver.lasty = e.touches[0].clientY - this._touchObserver.starty;
-                }
+                //if (Math.abs(e.touches[0].clientX - this._touchObserver.startx) > 20
+                //    || Math.abs(e.touches[0].clientY - this._touchObserver.starty) > 20) {
+                //    this._touchObserver.moved = true;
+                //    this._touchObserver.lastx = e.touches[0].clientX - this._touchObserver.startx;
+                //    this._touchObserver.lasty = e.touches[0].clientY - this._touchObserver.starty;
+                //}
             }
 
             private ontouchend(e){
-                //e.stopPropagation();
-                //e.preventDefault();
-                //trace("ontouchend",e);
                 this._touchObserver.touchDown = false;
+
+                var lasttouch = e.changedTouches[0];
+                this._touchObserver.moved =
+                    !d$.compare(this._node,document.elementFromPoint(lasttouch.clientX,lasttouch.clientY));
+                //trace(document.elementFromPoint(lasttouch.clientX,lasttouch.clientY))
 
                 this.emit(TouchEvent.TOUCH_END);
 
@@ -102,9 +104,7 @@ module alcedo {
                     if (!e.target.dispatchEvent(evt)) {
                         e.preventDefault();
                     }
-                    //console.log("tap.....",e.target,evt)
                 }
-                //trace("here");
             }
 
             private ontouchtap(e){
@@ -172,7 +172,7 @@ module alcedo {
                 }else{
                     this.css({display:"block"})
                 }
-                this.transition = this._lasttransition;
+                //this.transition = this._lasttransition;
                 return this;
             }
 
@@ -235,8 +235,13 @@ module alcedo {
 
             private _lasttransition:number;
             public set transition(ms:number){
-                this._node.style["transition-duration"]= ms + "ms";
-                this._node.style["-webkit-transition-duration"] = ms + "ms";
+                if(ms<=0 || !ms){
+                    delete this._node.style["transition-duration"];
+                    delete this._node.style["-webkit-transition-duration"];
+                }else{
+                    this._node.style["transition-duration"]= ms + "ms";
+                    this._node.style["-webkit-transition-duration"] = ms + "ms";
+                }
                 this._lasttransition = ms;
             }
 
