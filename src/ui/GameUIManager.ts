@@ -23,7 +23,9 @@ module game{
 
             this.bindScreen("start",StartScreen);
 
-            alcedo.d$.resize(this.onResize,this);
+            //alcedo.d$.resize(this.onResize,this);
+            this.onResize();
+            stage.addEventListener(Stage.RESIZED,this.onResize,this);
 
             this.onReady()
         }

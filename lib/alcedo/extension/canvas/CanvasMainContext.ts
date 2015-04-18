@@ -36,7 +36,7 @@ module alcedo {
                 this._canvas.node["width"] = this._stage._stageWidth;
                 this._canvas.node["height"] = this._stage._stageHeight;
 
-                this._canvascontainer = d$.query("<div style='overflow: hidden;'></div>")[0];
+                this._canvascontainer = d$.query("<div></div>")[0];
                 this._canvascontainer.id = this._canvas.id+"_container";
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
@@ -56,18 +56,18 @@ module alcedo {
 
             private createui(){
                 if(this._stage.options.ui===true){
-                    this._canvasui = d$.query("<div></div>")[0];
+                    this._canvasui = d$.query("<div'></div>")[0];
                     this._canvasui.id = this._canvas.id+"_ui";
-                    this._canvasui.css({position:"absolute"});
+                    this._canvasui.css({position:"absolute",overflow: "hidden",width:"100%",height:"100%"});
                     this._canvasui.insertBefore(this._canvas)
                 }
 
                 if(typeof this._stage.options.ui == "string"){
-                    this._canvasui = d$.query("#"+this._stage.options.ui)[0]
+                    this._canvasui = d$.query("#"+this._stage.options.ui)[0];
                     if(this._canvasui){
                         this._canvasui.id = this._stage.options.ui;
-                        this._canvasui.insertBefore(this._canvas)
-                        this._canvasui.css({position:"absolute"});
+                        this._canvasui.insertBefore(this._canvas);
+                        this._canvasui.css({position:"absolute",overflow: "hidden",width:"100%",height:"100%"});
                     }
                 }
 
@@ -85,6 +85,9 @@ module alcedo {
                 //TODO:if webgl3d || other reset this._canvasrender
                 this._canvasrenderer.executeMainLoop(this._stage,<any>this._canvas.node);
                 this._canvasrenderer.registMainLoopTask(this.mainloop,this);
+
+                this._canvascontainer.transition = 100;
+                this._canvascontainer.addEventListener(dom.StyleEvent.TRAN_SITION_END,this.onResizeComplete,this)
                 //this._stage = new Stage();
             }
 
@@ -119,11 +122,15 @@ module alcedo {
                     this._stage._stageHeight = this._stage._stageWidth/currstylew2h;
                 }
 
-                this._stage.emit(Stage.RESIZED);
+                this._stage.emit(Stage.RESIZE);
 
                 this._canvas.node["width"] = this._stage._stageWidth;
                 this._canvas.node["height"] = this._stage._stageHeight;
                 //console.log("resized");
+            }
+
+            public onResizeComplete(){
+                this._stage.emit(Stage.RESIZED);
             }
 
             public get container():dom.DomElement{

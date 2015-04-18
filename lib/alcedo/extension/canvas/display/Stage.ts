@@ -8,7 +8,8 @@ module alcedo{
             public static ENTER_10MILLSECOND:string = "Stage_ENTER_100MILLSECOND";
             public static ENTER_SECOND:string = "Stage_ENTER_SECOND";
 
-            public static RESIZED:string = "Stage_RESIZE";
+            public static RESIZED:string = "Stage_RESIZED";
+            public static RESIZE:string = "Stage_RESIZE";
 
             //private _canvas:dom.DomElement;
 

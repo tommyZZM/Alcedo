@@ -54,19 +54,22 @@ module game{
         }
 
         private onResize(){
-            this.canvas.css({width:alcedo.dom.width()+"px",height:alcedo.dom.height()+"px"});
+            var _domwidth = alcedo.dom.width();
+            var _domheight = alcedo.dom.height();
+
+            this.canvas.css({width:_domwidth+"px",height:_domheight+"px"});
             this.stage.resizecontext();
             if(this.stage.orientchanged){
-                this.canvas.css({width:alcedo.dom.height()+"px",height:alcedo.dom.width()+"px"});
+                this.canvas.css({width:_domheight+"px",height:_domwidth+"px"});
                 this.canvas.parent().css({
-                    width:alcedo.dom.height()+"px",
-                    height:alcedo.dom.width()+"px"
+                    width:_domheight+"px",
+                    height:_domwidth+"px"
                 });
-                this.canvas.parent().css({left:(alcedo.dom.width()-alcedo.dom.height())/2+"px"});
-                this.canvas.parent().css({top:(alcedo.dom.height()-alcedo.dom.width())/2+"px"});
+                this.canvas.parent().css({left:(_domwidth-_domheight)/2+"px"});
+                this.canvas.parent().css({top:(_domheight-_domwidth)/2+"px"});
                 this.canvas.parent().rotate(-90)
             }else{
-                this.canvas.parent().css({width:alcedo.dom.width()+"px",height:alcedo.dom.height()+"px"});
+                this.canvas.parent().css({width:_domwidth+"px",height:_domheight+"px"});
                 this.canvas.parent().css({top:"0px",left:"0px"});
                 this.canvas.parent().rotate(0)
             }

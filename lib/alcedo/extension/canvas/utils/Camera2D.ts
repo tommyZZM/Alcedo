@@ -30,7 +30,7 @@ module alcedo{
                 this._viewsafe   = this._vieworigin.clone();
                 this._updatingObj = {x:this._stage.x,y:this._stage.y,scale:this._stage.scaleX}
 
-                this._stage.addEventListener(Stage.RESIZED,this._updateViewPort,this);
+                this._stage.addEventListener(Stage.RESIZE,this._updateViewPort,this);
 
                 //this.zoomToPoint(Point2D.identity(0,0),1,0);
             }
