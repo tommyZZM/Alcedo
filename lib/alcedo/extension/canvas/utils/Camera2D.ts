@@ -62,6 +62,7 @@ module alcedo{
             }
 
             private _updateViewSafe():void{
+                //TODO:现在的Viewport计算不正确！
                 this._viewfinder.width = this._focal*this._stage.width();
                 this._viewfinder.height = this._focal*this._stage.height();
 
@@ -74,6 +75,8 @@ module alcedo{
 
                 this._viewsafe.x = this._viewfinder.x-(this._viewfinder.width*(buffer-1))/2;
                 this._viewsafe.y = this._viewfinder.y-(this._viewfinder.width*(buffer-1))/2;
+
+                //trace(this._viewsafe.x);
             }
 
             public viewfinder():Rectangle{

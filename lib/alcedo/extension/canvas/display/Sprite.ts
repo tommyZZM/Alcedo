@@ -70,6 +70,10 @@ module alcedo{
                 this._scale.y = scaley;
                 this._visualboundingbox.height = this._visualboundingbox.height*scaley
             }
+
+            public visualBound():Rectangle{
+                return this._visualboundingbox.clone();
+            }
         }
     }
 }
