@@ -84,7 +84,7 @@ module alcedo{
             }
 
             public viewPort():Rectangle{
-                return Rectangle.identity(this._camera.viewfinder());
+                return Rectangle.identity(this._camera.viewsafe());
             }
 
             public camera():Camera2D{
@@ -95,32 +95,10 @@ module alcedo{
                 return this._tweens;
             }
 
-            /**
-             * 定位系统
-             */
-            public left(offset:number=0):number{
-                return this.x+offset
+            addChild(child:DisplayObject){
+                if(child instanceof Stage)return;//todo:error log here;
+                super.addChild(child);
             }
-
-            public right(offset:number=0):number{
-                return this.x+this.width-offset;
-            }
-
-            public top(offset:number=0):number{
-                return this.y+offset
-            }
-
-            public bottom(offset:number=0):number{
-                return this.y+this.height-offset;
-            }
-
-            private _center:Point2D;
-            public center(offsetx:number=0,offsety:number=0):Point2D{
-                if(!this._center)this._center = Point2D.identity().clone();
-                this._center.reset(this.width>>1+this.x+offsetx,this.height>>1+this.y+offsety);
-                return this._center;
-            }
-
         }
     }
 }

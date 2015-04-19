@@ -20,7 +20,7 @@ module alcedo{
                 this._querypool = new Dict();
 
                 this._domtask = new Dict();
-                this._domtask.set(DomEvent.ready,[]);
+                this._domtask.set(_DomEvent.ready,[]);
 
                 window.onresize = this.onresize.bind(this);
 
@@ -48,8 +48,8 @@ module alcedo{
             private _readychekced:boolean;
             private onready(){
                 this._readychekced = true;
-                this.notify(this._domtask,DomEvent.ready);
-                this._domtask.set(DomEvent.ready,[]);
+                this.notify(this._domtask,_DomEvent.ready);
+                this._domtask.set(_DomEvent.ready,[]);
             }
             private checkready(){
                 if ( document.readyState === "complete" || this._readychekced) {
@@ -71,7 +71,7 @@ module alcedo{
                 if(this._readychekced){
                     callback.apply(thisObject,param);
                 }else{
-                    this.registNotify(this._domtask,DomEvent.ready,callback,thisObject,param)
+                    this.registNotify(this._domtask,_DomEvent.ready,callback,thisObject,param)
                     this.checkready();
                 }
 
@@ -82,11 +82,11 @@ module alcedo{
              * resized
              */
             private onresize(){
-                this.notify(this._domtask,DomEvent.resize);
+                this.notify(this._domtask,_DomEvent.resize);
             }
             public resize(callback:Function,thisObject?:any,...param){
                 callback.apply(thisObject,param);//注册的时候先执行一次
-                this.registNotify(this._domtask,DomEvent.resize,callback,thisObject,param)
+                this.registNotify(this._domtask,_DomEvent.resize,callback,thisObject,param)
             }
 
             /**
@@ -153,10 +153,10 @@ module alcedo{
                             }
                             result = [elem];
                         }else{
-                            result = (<any>window).Sizzle(selector)
+                            result = Sizzle(selector)
                         }
                     }else{
-                        result = (<any>window).Sizzle(selector);
+                        result = Sizzle(selector);
                         //console.log(result)
                     }
                 }else if ( selector.nodeType == NodeType.ELEMENT ) {
@@ -189,7 +189,7 @@ module alcedo{
             DOCUMENT = 9
         }
 
-        export var DomEvent = {
+        var _DomEvent = {
             "ready":"ready",
             "resize":"resize"
         };

@@ -28,6 +28,7 @@ module alcedo{
                 child.removeFromParent();
                 this._children.push(child);
                 (<any>child)._setParent(this);
+
             }
 
             removeChild(child:DisplayObject){
@@ -46,6 +47,13 @@ module alcedo{
                 for(var i=0;i<this._children.length;i++){
                     fn.call(this,this._children[i]);
                 }
+            }
+
+            protected _setParent(parent:DisplatObjectContainer){
+                super._setParent(parent);
+                this.eachChilder((child)=>{
+                    child._setRoot();
+                })
             }
         }
 

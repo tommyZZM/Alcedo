@@ -142,20 +142,20 @@ module alcedo {
              * 碰撞检测,可以被重写
              * @private
              */
-            public hitPointTest(point:Point2D):boolean{
-                return this._staticboundingbox.contains(point)
-            }
-
-            public hitDisplayObjectTest(toHit:DisplayObject):boolean{
-                return this._staticboundingbox.hitRectangelTest(toHit.staticBound)
-            }
+            //public hitPointTest(point:Point2D):boolean{
+            //    return this._staticboundingbox.contains(point)
+            //}
+            //
+            //public hitDisplayObjectTest(toHit:DisplayObject):boolean{
+            //    return this._staticboundingbox.hitRectangelTest(toHit.staticBound)
+            //}
 
             /**
              * [只读]获得现实对象当前的静态包围盒
              * @returns {Rectangle}
              */
-            public get staticBound():Rectangle{
-                return Rectangle.identity(this._staticboundingbox);
+            public get boundBox():Rectangle{
+                return this._staticboundingbox.clone();
             }
 
 
@@ -163,17 +163,50 @@ module alcedo {
              * 显示列表
              */
             /**父节点**/
-            private _parent:DisplatObjectContainer = null;
+            protected _parent:DisplatObjectContainer = null;
             public get parent():DisplatObjectContainer{
                 return this._parent;
             }
 
-            private _setParent(parent:DisplatObjectContainer){
+            protected _setParent(parent:DisplatObjectContainer){
+                this.removeFromParent();
                 this._parent = parent;
+                if(!this._parent){
+                    this._root = null;
+                    return;
+                }
+                if(!this._parent._root|| this._parent._root.hashIndex != this._root.hashIndex){
+                    this._setRoot();
+                }
+            }
+
+            protected _setRoot(){
+                var parent = this._parent;
+                if(!parent)return;
+                var _root = parent;
+                if(_root._parent){
+                    while(_root._parent){
+                        _root = parent._parent;
+                    }
+                }
+                this._root = _root;
+
+                if(this.isAddtoStage()){
+                    this.emit(DisplayObjectEvent.ON_ADD_TO_STAGE);
+                }
             }
 
             public removeFromParent(){
                 if(this._parent)this._parent.removeChild(this)
+            }
+
+            protected _root:DisplatObjectContainer = null;
+            public get root():DisplatObjectContainer{
+                return this._root;
+            }
+
+            public isAddtoStage():boolean{
+                return this._root instanceof Stage;
             }
 
             /**
@@ -182,6 +215,12 @@ module alcedo {
              */
             public _draw(renderer:CanvasRenderer){
                 //needs to be override;
+            }
+
+            public isInViewPort():boolean{
+                if(!this.isAddtoStage()){return false;}
+
+                return (<Stage>this._root).viewPort().hitRectangelTest(this.boundBox)
             }
 
             protected _refresh(){

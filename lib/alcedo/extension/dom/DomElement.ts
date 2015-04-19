@@ -124,7 +124,8 @@ module alcedo {
                 if(!this._csstransitionSleep){
                     this._csstransitionSleep = true;
                     this.emit(StyleEvent.TRAN_SITION_END);
-                    this.index(this._lastindex);
+                    //trace(this.apid,this._lastindex,this.index());
+                    this.index(0);
                 }
                 setTimeout(()=>{
                     this._csstransitionSleep = false; //防止重复出发transitionend事件,在下个时间点再允许事件触发
@@ -183,11 +184,10 @@ module alcedo {
                 return this;
             }
 
-            private _lastindex:number;
-            public index(index?:number):number{
-                var result;
+            private _lastindex:string|number;
+            public index(index?:string|number):string|number{
+                var result = this.abscss()["z-index"];
                 if(!index && index!==0){
-                    result = this.abscss()["z-index"]
                     if(!Number(result))return 0;
                     return +result;
                 }
@@ -199,7 +199,7 @@ module alcedo {
 
             //CSS3动画效果
             public to(cssprops:any, transition:number = 660):DomElement {
-                this._lastindex = this.index();
+                //this.index();
                 this.index(999);
                 this.transition = transition;
                 this.css(cssprops);
@@ -289,7 +289,7 @@ module alcedo {
 
             public find(selector:string):DomElement[]{
                 var results:any = [],
-                    eles = (<any>window).Sizzle(selector,this.node);
+                    eles = Sizzle(selector,this.node);
                 //console.log(selector,eles)
                 for(var i=0;i<eles.length;i++){
                     results.push(d$.htmlele2domele(eles[i]));
