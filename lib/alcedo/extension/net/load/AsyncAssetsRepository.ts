@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module net {
-        class AsyncAssetsRepository extends AppProxyer {
+        export class AsyncAssetsRepository extends AppProxyer {
             private static instanceable:boolean = true;
 
             public static ASSETS_COMPLETE:string = "AsyncAssetsEvent_LOAD_COMPLETE";
@@ -34,9 +34,14 @@ module alcedo {
                 return this._assetspool.get(key);
             }
 
-            getAt(key:any, index:number = 0):any {
-                return this._assetspool.get(key)[index];
+            get assets():Array<any>{
+                return this._assetspool.values;
             }
+
+            get keys():Array<any>{
+                return this._assetspool.keys;
+            }
+
         }
         export var AsyncRES:any = AsyncAssetsRepository;
     }

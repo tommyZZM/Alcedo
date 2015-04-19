@@ -35,6 +35,7 @@ module game{
             this.screen.show();
             //TODO:why?where? why need then
             this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360).then(()=>{
+                trace("transionend");
                     this._startbtn.e.show().to({"margin-top":alcedo.px(-10),top:0},360)
                         .then(()=>{
                             this._startbtn.e.to({"margin-top":alcedo.px(10),top:0},320)
@@ -47,13 +48,14 @@ module game{
                 })
         }
 
-        public disactive(){
-            super.disactive();
+        public disactive(callback:Function,thisObject?:any){
+            super.disactive(callback,thisObject);
 
             this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
             this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
             this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260).then(()=>{
                 this.screen.hide();
+                callback.apply(thisObject);
             });
         }
 
@@ -68,18 +70,16 @@ module game{
         }
 
         private toStart(){
-            this.enableTouch(false);
             this._startbtn.e.then(()=>{
-                trace("onstart");//todo:跳转游戏界面
-                this.disactive();
+                this.enableTouch(false);
+                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
             })
         }
 
         private toAbout(){
-            this.enableTouch(false);
             this._aboutbtn.e.then(()=>{
-                trace("onabout");//todo:跳转关于面板
-                this.disactive();
+                this.enableTouch(false);
+                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["about"]);
             })
         }
 

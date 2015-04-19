@@ -54,9 +54,9 @@ class Dict{
         return values;
     }
 
-    /*public get keys(){
-     return this._keys;
-     }*/
+    public get keys() {
+        return this._keys;
+    }
 
     public get size():number{
         return this._keys.length;

@@ -69,55 +69,75 @@ module alcedo {
             public get x(){return this._position.x}
             public set x(x:number){
                 this._position.x = x;
-                this._staticboundingbox.x =x-this.pivotOffsetX;
+                this._staticboundingbox.x =x-this.pivotOffsetX();
             }
             public get y(){return this._position.y}
             public set y(y:number){
                 this._position.y = y;
-                this._staticboundingbox.y =y-this.pivotOffsetY;
+                this._staticboundingbox.y =y-this.pivotOffsetY();
             }
 
-            public get width(){return this._staticboundingbox.width}
-            public set width(width:number){
-                this._staticboundingbox.width =width
-            }
-            public get height(){return this._staticboundingbox.height}
-            public set height(height:number){
-                this._staticboundingbox.height =height
+            public width(width?:number):any{
+                if(!width)return this._staticboundingbox.width;
+                this._staticboundingbox.width =width;
+                return this;
             }
 
-            public set pivotX(x:number){
+            public height(height?:number):any{
+                if(!height)return this._staticboundingbox.height;
+                this._staticboundingbox.height =height;
+                return this;
+            }
+
+            public pivotX(x?:number){
+                if(x===undefined)return this._pivot.x;
                 this._pivot.x =x;
             }
 
-            public set pivotY(y:number){
+            public pivotY(y?:number){
+                if(y===undefined)return this._pivot.y;
                 this._pivot.y =y;
             }
 
-            public get pivotOffsetX(){
-                return this._pivot.x*this._staticboundingbox.width;
+            public pivotOffsetX(offsetx?:number){
+                if(offsetx===undefined)return this._pivot.x*this._staticboundingbox.width;
+                this._pivot.x = offsetx/this._staticboundingbox.width;
             }
 
-            public get pivotOffsetY(){
-                return this._pivot.y*this._staticboundingbox.height;
+            public pivotOffsetY(offsety?:number){
+                if(offsety===undefined)return this._pivot.y*this._staticboundingbox.height;
+                this._pivot.y = offsety/this._staticboundingbox.height;
             }
 
             public scale(ax:number,y?:number){
                 if(!y){
-                    this._scale.x = ax;
-                    this._scale.y = ax;
+                    if(ax==1){return;}
+                    this.scaleX(ax);
+                    this.scaleY(ax);
                 }else{
-                    this._scale.x = ax;
-                    this._scale.y = y;
+                    this.scaleX(ax);
+                    this.scaleY(y);
                 }
             }
 
-            public get scaleX():number{
-                return this._scale.x;
+            public scaleToWidth(width:number){
+                var _scale = width/this._staticboundingbox.width;
+                this.scale(_scale);
             }
 
-            public get scaleY():number{
-                return this._scale.y;
+            public scaleToHeight(height:number){
+                var _scale = height/this._staticboundingbox.height;
+                this.scale(_scale);
+            }
+
+            public scaleX(scalex?:number){
+                if(!scalex)return this._scale.x;
+                this._scale.x = scalex;
+            }
+
+            public scaleY(scaley?:number){
+                if(!scaley)return this._scale.y;
+                this._scale.y = scaley;
             }
 
             /**
@@ -215,12 +235,6 @@ module alcedo {
              */
             public _draw(renderer:CanvasRenderer){
                 //needs to be override;
-            }
-
-            public isInViewPort():boolean{
-                if(!this.isAddtoStage()){return false;}
-
-                return (<Stage>this._root).viewPort().hitRectangelTest(this.boundBox)
             }
 
             protected _refresh(){

@@ -28,13 +28,13 @@ module alcedo {
             public constructor(stage:Stage,canvas:dom.DomElement){
                 super();
                 this._stage = stage;
-                this._designwidth = this._stage._stageWidth;
-                this._designheight = this._stage._stageHeight;
+                this._designwidth = this._stage.width();
+                this._designheight = this._stage.height();
                 this._designw2h    = this._designwidth/this._designheight;
 
                 this._canvas = canvas;
-                this._canvas.node["width"] = this._stage._stageWidth;
-                this._canvas.node["height"] = this._stage._stageHeight;
+                this._canvas.node["width"] = this._designwidth;
+                this._canvas.node["height"] = this._designheight;
 
                 this._canvascontainer = d$.query("<div></div>")[0];
                 this._canvascontainer.id = this._canvas.id+"_container";
@@ -115,17 +115,17 @@ module alcedo {
 
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
-                    this._stage._stageHeight = this._designheight;
-                    this._stage._stageWidth = this._stage._stageHeight*currstylew2h;
+                    this._stage.height(this._designheight);
+                    this._stage.width(this._stage._stageHeight*currstylew2h);
                 }else{
-                    this._stage._stageWidth = this._designwidth;
-                    this._stage._stageHeight = this._stage._stageWidth/currstylew2h;
+                    this._stage.width(this._designwidth);
+                    this._stage.height(this._stage._stageWidth/currstylew2h);
                 }
 
                 this._stage.emit(Stage.RESIZE);
 
-                this._canvas.node["width"] = this._stage._stageWidth;
-                this._canvas.node["height"] = this._stage._stageHeight;
+                this._canvas.node["width"] = this._stage.width();
+                this._canvas.node["height"] = this._stage.height();
                 //console.log("resized");
             }
 

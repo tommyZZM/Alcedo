@@ -22,16 +22,16 @@ module game{
             this.gamescreens = new Dict();
 
             this.bindScreen("start",StartScreen);
+            this.bindScreen("playing",PlayingScreen)
 
             //alcedo.d$.resize(this.onResize,this);
             this.onResize();
-            stage.addEventListener(Stage.RESIZED,this.onResize,this);
+            alcedo.d$.resize(this.onResize,this);
+            stage.addEventListener(alcedo.canvas.Stage.RESIZED,this.onResize,this);
 
-            this.onReady()
-        }
+            alcedo.addDemandListener(ScreenControl,CmdCatalog.TO_SCREEN,this.resToggleScreen,this);
 
-        private onReady(){
-            this.gamescreens.get("start").active();
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
         }
 
         private onResize(){
@@ -55,6 +55,21 @@ module game{
         private bindScreen(classname:string,screenClass:any){
             var screen = alcedo.d$.query("#apertureui")[0].find(".screen."+classname)[0];
             new screenClass(screen,this._gameui,screen.styleClass[1]);
+        }
+
+        private _currscreen:GameScreen;
+        private resToggleScreen(screenname:string,callback?:Function){
+            var screen = this.gamescreens.get(screenname);
+            if(!screen)return;
+            if(this._currscreen){
+                if(this._currscreen.hashIndex == screen.hashIndex){return;}
+                this._currscreen.disactive(()=>{
+                    screen.active();
+                });
+            }else{
+                screen.active();
+            }
+            this._currscreen = screen;
         }
     }
 
@@ -94,7 +109,7 @@ module game{
             //overridren
         }
 
-        public disactive(callback?:Function,thisObject?:any){
+        public disactive(callback:Function,thisObject?:any){
             this._isactive = false;
             this.emit(GameScreen.DISACTIVE,this.screen.data(name));
             //overridren

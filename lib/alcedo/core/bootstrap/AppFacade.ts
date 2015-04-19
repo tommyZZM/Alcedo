@@ -5,18 +5,25 @@ module alcedo{
     export var isdebug = false;
 
     export function proxy(proxy:any,proxyid?:string):AppProxyer|any{
-        return a$.proxy(proxy,proxyid);
+        return AppFacade.instance.proxy(proxy,proxyid);
     }
 
-    export function dispatchCmd(command:any,cmd:string, courier:Array<any>):void{
-        a$.dispatchCmd(command, cmd, courier)
+    export function dispatchCmd(command:any,cmd:string, courier:Array<any> = []):void{
+        AppFacade.instance.dispatchCmd(command, cmd, courier)
     }
 
     export function addDemandListener(com:any, type:string, callback:Function, thisObject:any):boolean {
-        return a$.addDemandListener(com, type, callback, thisObject)
+        return AppFacade.instance.addDemandListener(com, type, callback, thisObject)
+    }
+
+    var _facadeinittask:Array<any> = [];
+    export function addFacadeInitTask(fn,thisObject?,param?:Array<any>){
+        _facadeinittask.push({callback:fn,thisObject:thisObject,param:param});
     }
 
     export class AppFacade extends EventDispatcher{
+        public static ON_INIT:string = "AppFacadeCreate";
+
         private _app:AppCycler;
 
         private _cmdpool:Dict;//Map<string,GameCmder>;//存放所有命令
@@ -37,6 +44,10 @@ module alcedo{
 
             this._postman = new FacadeEvent();
             this.addEventListener(FacadeEvent.UNIQUE,this._postOffice,this);
+        }
+
+        private init(){
+            this.notifyArray(_facadeinittask);
         }
 
         public set app(cycler:AppCycler){
@@ -93,7 +104,7 @@ module alcedo{
             if(getClassName(command)==getClassName(AppCmder)){return;}
             var key = command.prototype['__class__'];
             if(!this._cmdpool.get(key)){
-                if(isOfClass(this._cmdpool,AppCmder)){//c instanceof instance
+                if(isOfClass(command,AppCmder)){//c instanceof instance
                     var c = new command();
                     this._cmdpool.set(key,c);
                 }else{
@@ -103,7 +114,7 @@ module alcedo{
             return this._cmdpool.get(key);
         }
 
-        public dispatchCmd(command:any,cmd:string, courier:Array<any>){
+        public dispatchCmd(command:any,cmd:string, courier:Array<any> = []){
             if(getClassName(command)==getClassName(AppCmder)){return;}
             if(!(command instanceof AppCmder))this.command(command);
             this._postman.setNotify(command,cmd,courier);
@@ -126,11 +137,12 @@ module alcedo{
         //instance mode
         private static _instance:AppFacade;
         public static get instance():AppFacade{
-            if (this._instance == null) {
-                this._instance = new AppFacade();
+            if (!AppFacade._instance) {
+                AppFacade._instance = new AppFacade();
+                AppFacade._instance.init();
             }
             //if(this._instance['_game'] && this._instance['_display']){this._instance['_isinit'] = true;}
-            return this._instance;
+            return AppFacade._instance;
         }
     }
 }

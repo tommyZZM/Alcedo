@@ -25,14 +25,26 @@ module alcedo {
             get(key:string): Texture{
                 //trace(a$.proxy(net.AsyncRES))
                 if(!this._texurespool.has(key)){
-                    if(a$.proxy(net.AsyncRES).get(key) && a$.proxy(net.AsyncRES).get(key)[0] instanceof HTMLImageElement){
-                        var img = a$.proxy(net.AsyncRES).get(key)[0];
+                    if(proxy(net.AsyncRES).get(key) && proxy(net.AsyncRES).get(key)[0] instanceof HTMLImageElement){
+                        var img = proxy(net.AsyncRES).get(key)[0];
                         var texture = new Texture(img);
                         this._texurespool.set(key,texture);
                     }
                 }
                 return this._texurespool.get(key);
             }
+
+            find(reg:RegExp):Array<any>{
+                var i,keys = proxy(net.AsyncRES).keys,
+                    result = [];
+                for(i=0;i<keys.length;i++){
+                    if(reg.test(keys[i])){
+                        if(this.get(keys[i]))result.push(this.get(keys[i]))
+                    }
+                }
+                return result;
+            }
         }
+        export var TextureRES:any = TextureRepository;
     }
 }

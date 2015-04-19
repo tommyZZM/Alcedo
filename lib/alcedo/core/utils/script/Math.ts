@@ -24,7 +24,8 @@ Math.probabilityPool = function probabilityPool(pool:number[]) {
             return Number(x);
     return -1; // should never runs here, assuming last element in cdf is 1
 };
-/**缓存数组**/(<any>Math.probabilityPool)._cache = {
+/**缓存数组**/
+(<any>Math.probabilityPool)._cache = {
     pool: {},
     length: 0,
     get: function (array) {
@@ -40,7 +41,8 @@ Math.probabilityPool = function probabilityPool(pool:number[]) {
         return this.pool[cachename];
     }
 };
-/**逆变换取样**/(<any>Math.probabilityPool)._pdf2cdf = function(pdf) {
+/**逆变换取样**/
+(<any>Math.probabilityPool)._pdf2cdf = function(pdf) {
     var total = 0;
     for (var i = 0; i < pdf.length ; i++){
         total+=<number>pdf[i];

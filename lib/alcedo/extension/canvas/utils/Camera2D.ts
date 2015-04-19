@@ -25,67 +25,49 @@ module alcedo{
                 this._position = new Point2D();
 
                 this._stage = stage;
-                this._vieworigin = new Rectangle(stage.x,stage.y,stage._stageWidth,stage._stageHeight);
+                this._vieworigin = new Rectangle(stage.x,stage.y,stage.width(),stage.height());
                 this._viewfinder = this._vieworigin.clone();
                 this._viewsafe   = this._vieworigin.clone();
-                this._updatingObj = {x:this._stage.x,y:this._stage.y,scale:this._stage.scaleX}
-
-                this._stage.addEventListener(Stage.RESIZE,this._updateViewPort,this);
 
                 //this.zoomToPoint(Point2D.identity(0,0),1,0);
             }
 
-            public zoomTo(x:number,y:number,focal:number,pivot:number=0.5,duration:number=0){
+            public set x(x:number){
+                this._position.x = x;
+                this._stage.pivotOffsetX(this._position.x);
+                this._updateViewSafe();
+            }
+
+            public set y(y:number){
+                this._position.y = y;
+                this._stage.pivotOffsetY(this._position.y);
+                this._updateViewSafe();
+            }
+
+            public focal(focal:number,pivot:number = 0.5){
                 this._focal = 1/focal;
                 this._pivot = pivot;
-                this._position.x = x;
-                this._position.y = y;
-                this._updateViewPort(duration);
-            }
 
-            public zoomToPoint(point:Point2D,focal:number,offset:number=0.5,duration:number=0){
-                this.zoomTo(point.x,point.y,focal,offset,duration);
-            }
-
-            /**
-             * 跟随指定对象
-             * @param target
-             * @param focal
-             * @param offset
-             * @param duration
-             */
-            public followTarget(target:DisplayObject,offset:number=0.5){
-
-            }
-
-            private _updateViewPort(duration:number){
-                this._viewfinder.width = this._focal*this._stage._stageWidth;
-                this._viewfinder.height = this._focal*this._stage._stageHeight;
-
-                this.resetUpdatingObj();
-                if(duration>100){
-                    this._stage.tweens().from(this._updatingObj)
-                        .to({x:this._position.x + this._stage._stageWidth*this._pivot,
-                            y:this._position.y + this._stage._stageHeight*this._pivot,scale:1/this._focal
-                        },1000,(target)=>{
-                            trace(target,target.x,target.y,target.scale);
-                            this._stage.x = target.x;
-                            this._stage.y = target.y;
-                            this._stage.scale(target.scale);
-                        });
-                }else{
-                    this._stage.x = this._position.x + this._stage._stageWidth*this._pivot;
-                    this._stage.y = this._position.y + this._stage._stageHeight*this._pivot;
-                    this._stage.scale(1/this._focal);
-                }
-
-                this._viewfinder.x = -this._stage.x;
-                this._viewfinder.y = -this._stage.y;
+                this._stage.x = this._stage.width()*this._pivot;
+                this._stage.y = this._stage.height()*this._pivot;
+                this._stage.scale(1/this._focal);
 
                 this._updateViewSafe();
             }
 
+            public zoomTo(x:number,y:number,focal:number,pivot:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
+                this.x = x;
+                this.y = y;
+                this.focal(focal,pivot);
+            }
+
             private _updateViewSafe():void{
+                this._viewfinder.width = this._focal*this._stage.width();
+                this._viewfinder.height = this._focal*this._stage.height();
+
+                this._viewfinder.x = this._position.x-this._viewfinder.width/2;
+                this._viewfinder.y = this._position.y-this._viewfinder.height/2;
+
                 var buffer = this._buffer;
                 this._viewsafe.width = this._viewfinder.width*buffer;
                 this._viewsafe.height = this._viewfinder.height*buffer;
@@ -100,13 +82,6 @@ module alcedo{
 
             public viewsafe():Rectangle{
                 return Rectangle.identity(this._viewsafe);
-            }
-
-            private _updatingObj:any;
-            private resetUpdatingObj(){
-                this._updatingObj.x = this._stage.x;
-                this._updatingObj.y = this._stage.y;
-                this._updatingObj.scale = this._stage.scaleX
             }
         }
     }

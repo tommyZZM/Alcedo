@@ -28,15 +28,20 @@
 </head>
 <body>
 <script type="text/javascript">
-    /*mobileConsole.show();
-    mobileConsole.commands({
-        'check': 'console.log("hello mobile");'
-    });*/
+    if(alcedo.dom.device() == alcedo.dom.DeviceType.Android){
+        mobileConsole.show();
+        mobileConsole.commands({
+            'check': 'console.log("hello mobile");'
+        });
+    }
     new game.ColourJetCyc();
     alcedo.launch(true);
 </script>
 <div id="apertureui">
-    <div class="screen start">
+    <div class="screen playing"><!--游戏界面-->
+
+    </div>
+    <div class="screen start"><!--开始界面-->
         <div class="title center" style="display: none"></div>
         <div class="btn startgame center" style="background-color: cornflowerblue"></div>
         <div class="btn about center"></div>

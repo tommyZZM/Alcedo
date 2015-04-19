@@ -17,7 +17,7 @@ module game{
             alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
             this.canvas = alcedo.d$.query("#aperturetest1")[0];
 
-            this.stage = new Stage(alcedo.d$.query("#aperturetest1")[0],480,320,{
+            this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0],480,320,{
                 background:"#16a085",
                 orient:true,
                 profiler:true,
@@ -34,23 +34,23 @@ module game{
             //加载资源
             alcedo.proxy(AsyncAssetsLoader).addEventListener(AsyncRES.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload")
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud")
         }
 
+        private _background:BackGround;
+        private _mainground:MainGround;
+        private _fronttground:FrontGround;
         private onAssetLoaded(){
             alcedo.proxy(GameUIManager).init();
 
-            var sp = new Sprite(<any>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
-            this.stage.addChild(sp);
-            sp.x = 100;
-            sp.y = 100;
-            sp.pivotX = 0.5;
-            sp.pivotY = 0.5;
-            sp.scale(1);
-            //sp.visible = false;
-            this.stage.addEventListener(Stage.ENTER_10MILLSECOND,()=>{
-                sp.rotation++;
-            },this);
+            this._background = new BackGround();
+            this.stage.addChild(this._background);
+
+            this._mainground = new MainGround();
+            this.stage.addChild(this._mainground);
+
+            this._fronttground = new FrontGround();
+            this.stage.addChild(this._fronttground);
         }
 
         private onResize(){
@@ -77,7 +77,7 @@ module game{
     }
 
 
-    export var Stage:any = alcedo.canvas.Stage;
+    //export var Stage:any = alcedo.canvas.Stage;
     export var Sprite:any = alcedo.canvas.Sprite ;
     export var AsyncAssetsLoader:any = alcedo.net.AsyncAssetsLoader;
     export var AsyncRES:any = alcedo.net.AsyncRES;

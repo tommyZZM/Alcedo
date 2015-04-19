@@ -8,7 +8,7 @@ module alcedo{
 
             private _fps:number = 0;
 
-            private _total100microsecond:number = 0;
+            private _total10microsecond:number = 0;
             private _totalsecond:number = 0;
 
             private _countmicrosecond:number = 0;
@@ -29,18 +29,18 @@ module alcedo{
 
                 _counter = +(this._countmicrosecond/10)^0;
                 if(_counter>=1){
-                    this._totalsecond+=_counter;
+                    this._total10microsecond+=_counter;
                     if(_counter>1){
                         for(i=0;i<_counter;i++){
-                            this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total100microsecond,dt:dt});
+                            this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total10microsecond,dt:dt});
                         }
                     }else{
-                        this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total100microsecond,dt:dt});
+                        this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total10microsecond,dt:dt});
                     }
                     this._countmicrosecond = 0;
                 }
 
-                this._count10microsecond+=(this._total100microsecond-this._last10microsecond);
+                this._count10microsecond+=(this._total10microsecond-this._last10microsecond);
                 _counter = +(this._count10microsecond/100)^0;
                 if(_counter>=1){
                     this._totalsecond+=_counter;
@@ -49,13 +49,14 @@ module alcedo{
                             this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt});
                         }
                     }else{
+
                         this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt});
                     }
                     this._count10microsecond = 0;
                 }
 
                 this._fps = 1000/dt;
-                this._last10microsecond = this._total100microsecond;
+                this._last10microsecond = this._total10microsecond;
             }
 
             private fps():number{

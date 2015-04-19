@@ -24,16 +24,30 @@ module alcedo{
             //component
             private _ticker:Ticker;
             private _camera:Camera2D;
-            private _tweens:Tweens
+            private _tweens:Tweens;
 
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
                 //this._canvas = canvas;
-                this._stageWidth = this.width = width;
-                this._stageHeight = this.height = height;
+                this.width(width);
+                this.height(height);
                 this._options = opts;
                 this.initcomponent();
                 this._maincontext = new CanvasMainContext(this,canvas);
+            }
+
+            public width(width?:number):any{
+                if(!width)return this._staticboundingbox.width;
+                this._staticboundingbox.width =width;
+                this._stageWidth = width;
+                return this;
+            }
+
+            public height(height?:number):any{
+                if(!height)return this._staticboundingbox.height;
+                this._staticboundingbox.height =height;
+                this._stageHeight = height;
+                return this;
             }
 
             private initcomponent(){

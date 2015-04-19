@@ -47,6 +47,7 @@ module alcedo {
                 this._node.addEventListener("DOMSubtreeModified",this._onmodified.bind(this));
 
                 this._node.addEventListener('transitionend',this._oncsstransitionend.bind(this),false);
+                this._node.addEventListener("webkitTransitionEnd",this._oncsstransitionend.bind(this),false)
             }
 
             /**

@@ -38,6 +38,7 @@ module alcedo {
             }
 
             private update(e:any){
+                //trace(e.fps);
                 this._profilerdiv.find(".fps")[0].innerContent(e.fps)
             }
         }
