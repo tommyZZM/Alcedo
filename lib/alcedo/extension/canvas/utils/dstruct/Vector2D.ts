@@ -14,11 +14,34 @@ module alcedo {
                 this.y = y;
             }
 
-            /**
-             * 克隆矢量对象
-             */
-            public clone():Vector2D {
-                return new Vector2D(this.x, this.y);
+            //四则运算
+            /** 加 **/
+            public add(vector:Vector2D){
+                this.x += vector.x;
+                this.y += vector.y;
+
+                return this;
+            }
+            /** 减 **/
+            public subtract(vector: Vector2D): Vector2D {
+                this.x -= vector.x;
+                this.y -= vector.y;
+
+                return this;
+            }
+            /** 乘 **/
+            public multiply(vector: Vector2D): Vector2D {
+                this.x *= vector.x;
+                this.y *= vector.y;
+
+                return this;
+            }
+            /** 除 **/
+            public divide(vector: Vector2D): Vector2D {
+                this.x /= vector.x;
+                this.y /= vector.y;
+
+                return this;
             }
 
             /**
@@ -35,6 +58,20 @@ module alcedo {
 
             public toRad():number{
                 return 0
+            }
+
+            /**
+             * 克隆矢量对象
+             */
+            public clone():Vector2D {
+                return new Vector2D(this.x, this.y);
+            }
+
+            /**
+             * 从两个点创建适量对象
+             */
+            public static createFromPoint(start:Point2D,end:Point2D){
+                return new Vector2D(end.x-start.x,end.y-start.y);
             }
         }
     }

@@ -7,7 +7,7 @@ module alcedo{
 
             protected _texture:Texture;
 
-            protected _visualboundingbox:Rectangle;//静态包围盒(不参与旋转)
+            //protected _visualboundingbox:Rectangle;//可视包围盒
 
             public constructor(texture:Texture){
                 super();
@@ -29,50 +29,32 @@ module alcedo{
                 }
             }
 
+
             public texture(texture:Texture){
                 this._texture = texture;
                 this.width(this._texture._sourceWidth);
                 this.height(this._texture._sourceHeight);
-                this._visualboundingbox = this._staticboundingbox.clone();
+                //this._visualboundingbox = this._staticboundingbox.clone();
             }
 
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                return (<Stage>this._root).viewPort().hitRectangelTest(this._visualboundingbox)
+                return (<Stage>this._root).viewPort().hitRectangelTest(this.visualBound());
             }
 
             /**
              * OverRide position method
+             * 主要更新了可视包围盒，TODO:有Bug,待优化
              */
-            public scaleX(scalex?:number){
-                if(!scalex)return this._scale.x;
-                this._scale.x = scalex;
-                this._visualboundingbox.width = this._staticboundingbox.width*scalex
-            }
-
-            public scaleY(scaley?:number){
-                if(!scaley)return this._scale.y;
-                this._scale.y = scaley;
-                this._visualboundingbox.height = this._staticboundingbox.height*scaley
-            }
-
-            protected updateBound(x?,y?,width?,height?){
-                if(typeof x == "number"){
-                    this._staticboundingbox.x =x-this.pivotOffsetX();
-                    this._visualboundingbox.x =x-this.pivotOffsetX()*this.scaleX()-this._visualboundingbox.width*this.pivotX();
-                    //trace(this._visualboundingbox.x)
-                }
-                if(typeof y == "number"){
-                    this._staticboundingbox.y =y-this.pivotOffsetY();
-                    this._visualboundingbox.y =y-this.pivotOffsetY()*this.scaleY()-this._visualboundingbox.height*this.pivotY();
-                }
-                if(typeof width == "number")this._staticboundingbox.width =width;
-                if(typeof height =="number")this._staticboundingbox.height =height;
-            }
 
             public visualBound():Rectangle{
-                return this._visualboundingbox.clone();
+                var _oglobalpoint = this.localToGlobal(this._staticboundingbox.x,this._staticboundingbox.y,Point2D.identity());
+
+                var _oglobalwidth = this._staticboundingbox.width*this._worldscale.x;
+                var _oglobalheight = this._staticboundingbox.height*this._worldscale.y;
+
+                return new Rectangle(_oglobalpoint.x,_oglobalpoint.y,_oglobalwidth,_oglobalheight);
             }
         }
     }

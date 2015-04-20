@@ -4,6 +4,9 @@
 module alcedo {
     export module canvas {
         export class DisplayObject extends EventDispatcher{
+
+            protected static ON_UPDATE_BOUND:string = "DisplayObject_ON_UPDATE_BOUND";
+
             /**位置**/
             protected _position:Point2D;
 
@@ -12,6 +15,7 @@ module alcedo {
 
             /**缩放**/
             protected _scale:Vector2D;
+            protected _worldscale:Vector2D;
 
             /**矩阵变换**/
             protected _worldtransform:Matrix2D;
@@ -61,6 +65,7 @@ module alcedo {
                 this._position = new Point2D(0,0);
                 this._pivot = new Vector2D(0,0);
                 this._scale = new Vector2D(1,1);
+                this._worldscale = this._scale.clone()
 
                 this._worldtransform = new Matrix2D();
                 this._staticboundingbox = new Rectangle()
@@ -79,7 +84,7 @@ module alcedo {
             }
 
             public width(width?:number):any{
-                if(!width)return this._staticboundingbox.width;
+                if(!width&&typeof width!="number")return this._staticboundingbox.width;
                 this.updateBound(null,null,width);
 
                 this._staticboundingbox.width =width;
@@ -87,16 +92,18 @@ module alcedo {
             }
 
             public height(height?:number):any{
-                if(!height)return this._staticboundingbox.height;
+                if(!height&&typeof height!="number")return this._staticboundingbox.height;
                 this.updateBound(null,null,null,height);
                 return this;
             }
 
-            protected updateBound(x?,y?,width?,height?){
+            private updateBound(x?,y?,width?,height?){
                 if(typeof x == "number")this._staticboundingbox.x =x-this.pivotOffsetX();
                 if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY();
                 if(typeof width == "number")this._staticboundingbox.width =width;
                 if(typeof height =="number")this._staticboundingbox.height =height;
+
+                this.emit(DisplayObject.ON_UPDATE_BOUND,{x:x,y:y,width:width,height:height});
             }
 
             public pivotX(x?:number){
@@ -145,11 +152,13 @@ module alcedo {
             public scaleX(scalex?:number){
                 if(!scalex)return this._scale.x;
                 this._scale.x = scalex;
+                this._worldscale = (!!this._parent)?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             public scaleY(scaley?:number){
                 if(!scaley)return this._scale.y;
                 this._scale.y = scaley;
+                this._worldscale = (!!this._parent)?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             /**
@@ -161,13 +170,13 @@ module alcedo {
                     pt = Matrix2D.identity,
                     wt = this._worldtransform;
 
-                if(flag)pt = this._parent["_worldtransform"];
+                if(flag)pt = this._parent._worldtransform;
 
                 wt.identityMatrix(pt);
                 this._getMatrix(wt);
 
-                //this._worldtransform = wt;
-                this._worldalpha = flag?(this._alpha*this._parent["_worldalpha"]):this._alpha;
+                this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
+                this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             /**
@@ -186,8 +195,68 @@ module alcedo {
              * [只读]获得现实对象当前的静态包围盒
              * @returns {Rectangle}
              */
-            public get boundBox():Rectangle{
+            public boundBox():Rectangle{
                 return this._staticboundingbox.clone();
+            }
+
+            /**
+             * 将 point 对象从显示对象的（本地）坐标转换为舞台（全局）坐标。
+             * 此方法允许您将任何给定的 x 和 y 坐标从相对于特定显示对象原点 (0,0) 的值（本地坐标）转换为相对于舞台原点的值（全局坐标）。
+             * @method canvas.DisplayObject#localToGlobal
+             * @param x {number} 本地x坐标
+             * @param y {number} 本地y坐标
+             * @param resultPoint {Point2D} 可选参数，传入用于保存结果的Point对象，避免重复创建对象。
+             * @returns 具有相对于舞台的坐标的 Point 对象。
+             */
+            public localToGlobal(x:number = 0, y:number = 0, resultPoint?):Point2D {
+                var mtx = this._getConcatenatedMatrix();
+                mtx.append(1, 0, 0, 1, x, y);
+                if (!resultPoint) {
+                    resultPoint = new Point2D();
+                }
+                resultPoint.x = mtx.tx;
+                resultPoint.y = mtx.ty;
+                return resultPoint;
+            }
+
+            /**
+             * 将指定舞台坐标（全局）转换为显示对象（本地）坐标。
+             * @method canvas.DisplayObject#globalToLocal
+             * @param x {number} 全局x坐标
+             * @param y {number} 全局y坐标
+             * @param resultPoint {Point2D} 可选参数，传入用于保存结果的Point对象，避免重复创建对象。
+             * @returns 具有相对于显示对象的坐标的 Point2D 对象。
+             */
+            public globalToLocal(x:number = 0, y:number = 0, resultPoint?:Point2D):Point2D {
+                var mtx = this._getConcatenatedMatrix();
+                mtx.invert();
+                mtx.append(1, 0, 0, 1, x, y);
+                if (!resultPoint) {
+                    resultPoint = new Point2D();
+                }
+                resultPoint.x = mtx.tx;
+                resultPoint.y = mtx.ty;
+                return resultPoint;
+            }
+
+            private static identityMatrixForGetConcatenated = new Matrix2D();
+
+            public _getConcatenatedMatrix():Matrix2D {
+                //todo:采用local_matrix模式下这里的逻辑需要修改
+                var matrix:Matrix2D = DisplayObject.identityMatrixForGetConcatenated.identity();
+                var o = this;
+                while (o != null && !(o instanceof Stage)) {
+                    if (o._pivot.x != 0 || o._pivot.y != 0) {
+                        var bounds = this.boundBox();
+                        matrix.prependTransform(o._position.x, o._position.y, o._scale.x, o._scale.y, o._rotation, 0, 0,
+                            bounds.width * o._pivot.x, bounds.height * o._pivot.y);
+                    }
+                    else {
+                        matrix.prependTransform(o._position.x, o._position.y, o._scale.x, o._scale.y, o._rotation, 0, 0, o.pivotOffsetX(), o.pivotOffsetY());
+                    }
+                    o = o._parent;
+                }
+                return matrix;
             }
 
 

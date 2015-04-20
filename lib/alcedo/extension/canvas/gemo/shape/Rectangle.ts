@@ -110,7 +110,24 @@ module alcedo {
                 return new Rectangle(this.x, this.y, this.width, this.height);
             }
 
+            /** 乘 **/
+            public multiply(vector: Vector2D): Rectangle {
+                this.x *= vector.x;
+                this.y *= vector.y;
+                this.width *= vector.x;
+                this.height *= vector.y;
 
+                return this;
+            }
+            /** 除 **/
+            public divide(vector: Vector2D): Rectangle {
+                this.x /= vector.x;
+                this.y /= vector.y;
+                this.width /= vector.x;
+                this.height /= vector.y;
+
+                return this;
+            }
         }
     }
 }

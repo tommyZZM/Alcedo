@@ -5,7 +5,7 @@ module alcedo{
     export module canvas{
         export class Stage extends DisplatObjectContainer{
             public static ENTER_FRAME:string = "Stage_ENTER_FRAME";
-            public static ENTER_10MILLSECOND:string = "Stage_ENTER_100MILLSECOND";
+            public static ENTER_MILLSECOND10:string = "Stage_ENTER_100MILLSECOND";
             public static ENTER_SECOND:string = "Stage_ENTER_SECOND";
 
             public static RESIZED:string = "Stage_RESIZED";
@@ -98,7 +98,7 @@ module alcedo{
             }
 
             public viewPort():Rectangle{
-                return Rectangle.identity(this._camera.viewsafe());
+                return this._camera.viewsafe();
             }
 
             public camera():Camera2D{

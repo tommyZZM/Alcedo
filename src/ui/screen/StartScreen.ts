@@ -50,6 +50,7 @@ module game{
 
         public disactive(callback:Function,thisObject?:any){
             super.disactive(callback,thisObject);
+            this.enableTouch(false);
 
             this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
             this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
@@ -71,14 +72,14 @@ module game{
 
         private toStart(){
             this._startbtn.e.then(()=>{
-                this.enableTouch(false);
+                trace("toStart");
                 alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
             })
         }
 
         private toAbout(){
             this._aboutbtn.e.then(()=>{
-                this.enableTouch(false);
+                trace("toAbout");
                 alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["about"]);
             })
         }

@@ -80,11 +80,11 @@ module alcedo{
             }
 
             public viewfinder():Rectangle{
-                return Rectangle.identity(this._viewfinder);
+                return this._viewfinder.clone();
             }
 
             public viewsafe():Rectangle{
-                return Rectangle.identity(this._viewsafe);
+                return this._viewsafe.clone();
             }
         }
     }

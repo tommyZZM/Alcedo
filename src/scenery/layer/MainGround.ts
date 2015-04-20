@@ -22,16 +22,39 @@ module game {
 
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
 
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_10MILLSECOND,()=>{
-                this._fuckobj.x+=3;
-                stage.camera().zoomTo(this._fuckobj.x,this._fuckobj.y,1,0.5);
-                this._fuckobj.rotation+=2;
-            },this);
+            speed.plane = speed.plane_lazy;
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
         }
 
+        private onEachTime(){
+            this.updatePlane();
+            this.updateCamera();
+        }
+
+        /**更新灰机**/
+        private updatePlane(){
+            this._fuckobj.x+=speed.plane;
+            this._fuckobj.rotation+=2;
+        }
+
+        /**更新镜头**/
+        private updateCamera(){
+            stage.camera().zoomTo(this._fuckobj.x,this._fuckobj.y,1,0.5);
+        }
+
+        /**
+         * Response Command
+         */
+
+        /**开始游戏**/
         private resStartPlaying(){
             trace(this._fuckobj.isInViewPort());
-            //sp.visible = false;
+            speed.plane = speed.plane_active;
+        }
+
+        /**重置位置**/
+        public resReturnPos(){
+            //TODO:
         }
     }
 }

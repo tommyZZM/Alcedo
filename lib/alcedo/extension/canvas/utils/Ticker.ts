@@ -32,10 +32,10 @@ module alcedo{
                     this._total10microsecond+=_counter;
                     if(_counter>1){
                         for(i=0;i<_counter;i++){
-                            this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total10microsecond,dt:dt});
+                            this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps(),count:this._total10microsecond,dt:dt});
                         }
                     }else{
-                        this._stage.emit(Stage.ENTER_10MILLSECOND,{fps:this.fps(),count:this._total10microsecond,dt:dt});
+                        this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps(),count:this._total10microsecond,dt:dt});
                     }
                     this._countmicrosecond = 0;
                 }
