@@ -78,34 +78,41 @@ module game{
 
             for(var i=0;i<this._props.length;i++){
                 var prop = this._props[i];
-                //if((!prop.isInViewPort())&&(prop.x<stage.viewPort().x)){
-                //    this.destoryAProp(prop);
-                //    this.createAProp();
-                //    trace("destoried",prop.x,stage.viewPort().x,prop.isInViewPort());
-                //}
+
+                if((!prop.isInViewPort())&&(prop.x<stage.viewPort().x)){
+                    this.destoryAProp(prop);
+                    this.addChild(this.createAProp());
+                }
             }
         }
 
         private createAProp():alcedo.canvas.Sprite{
             var prop:alcedo.canvas.Sprite,texture=this.selectAtexture();
-            if(this._propspool && this._propspool.length>0){
-                prop = this._propspool.pop();
-                prop.texture(texture);
-            }else if(this._props.length<this._propmax){
+            trace("create this._props.length=",this._props.length)
+            if(this._props.length<this._propmax){
+                trace("this._props.length<this._propmax",this._props.length,this._propmax)
                 prop = new Sprite(texture);
                 prop.scaleToWidth(stage.width()*1.6)
-            }else{
+            }else if(this._propspool && this._propspool.length>0){
+                trace("this._propspool && this._propspool.length>0",this._propspool.length)
+                prop = this._propspool.pop();
+                prop.texture(texture);
+            }else {
+                trace("this._props.shift()");
                 prop = this._props.shift();
             }
 
             var lastprop = this._props[this._props.length-1];
             if(lastprop){
                 prop.x = lastprop.x+lastprop.visualBound().width;
+                trace(prop.x,lastprop.visualBound().width);
             }else{
                 prop.x = stage.width();
             }
+            //TODO:DisplayObject xy和锚点设置有问题哦
             prop.y = stage.height();
             prop.pivotX(0);prop.pivotY(1);
+            trace(prop.y,prop.pivotY())
 
             this._props.push(prop);
             return prop;
@@ -115,6 +122,7 @@ module game{
             var index = this._props.indexOf(prop);
             this._props.splice(index,1);
             this._propspool.push(prop);
+            trace("destoried",prop.x,stage.viewPort().x,prop.isInViewPort(), this._propspool.length);
         }
 
         private selectAtexture():alcedo.canvas.Texture{

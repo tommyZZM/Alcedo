@@ -69,44 +69,56 @@ module alcedo {
             public get x(){return this._position.x}
             public set x(x:number){
                 this._position.x = x;
-                this._staticboundingbox.x =x-this.pivotOffsetX();
+                this.updateBound(x)
             }
             public get y(){return this._position.y}
             public set y(y:number){
                 this._position.y = y;
                 this._staticboundingbox.y =y-this.pivotOffsetY();
+                this.updateBound(null,y);
             }
 
             public width(width?:number):any{
                 if(!width)return this._staticboundingbox.width;
+                this.updateBound(null,null,width);
+
                 this._staticboundingbox.width =width;
                 return this;
             }
 
             public height(height?:number):any{
                 if(!height)return this._staticboundingbox.height;
-                this._staticboundingbox.height =height;
+                this.updateBound(null,null,null,height);
                 return this;
+            }
+
+            protected updateBound(x?,y?,width?,height?){
+                if(typeof x == "number")this._staticboundingbox.x =x-this.pivotOffsetX();
+                if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY();
+                if(typeof width == "number")this._staticboundingbox.width =width;
+                if(typeof height =="number")this._staticboundingbox.height =height;
             }
 
             public pivotX(x?:number){
                 if(x===undefined)return this._pivot.x;
                 this._pivot.x =x;
+                this.updateBound(this.x);
             }
 
             public pivotY(y?:number){
                 if(y===undefined)return this._pivot.y;
                 this._pivot.y =y;
+                this.updateBound(null,this.y);
             }
 
             public pivotOffsetX(offsetx?:number){
                 if(offsetx===undefined)return this._pivot.x*this._staticboundingbox.width;
-                this._pivot.x = offsetx/this._staticboundingbox.width;
+                this.pivotX(offsetx/this._staticboundingbox.width);
             }
 
             public pivotOffsetY(offsety?:number){
                 if(offsety===undefined)return this._pivot.y*this._staticboundingbox.height;
-                this._pivot.y = offsety/this._staticboundingbox.height;
+                this.pivotY(offsety/this._staticboundingbox.height);
             }
 
             public scale(ax:number,y?:number){
@@ -195,7 +207,7 @@ module alcedo {
                     this._root = null;
                     return;
                 }
-                if(!this._parent._root|| this._parent._root.hashIndex != this._root.hashIndex){
+                if(!this._parent._root|| (this._parent._root && this._root && this._parent._root.hashIndex != this._root.hashIndex)){
                     this._setRoot();
                 }
             }

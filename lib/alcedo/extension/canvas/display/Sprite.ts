@@ -13,12 +13,8 @@ module alcedo{
                 super();
 
                 if(texture){
-                    this._texture = texture;
-                    this.width(this._texture._sourceWidth);
-                    this.height(this._texture._sourceHeight);
+                    this.texture(texture)
                 }
-
-                this._visualboundingbox = this._staticboundingbox.clone();
             }
 
             public _draw(renderer:CanvasRenderer){
@@ -35,6 +31,9 @@ module alcedo{
 
             public texture(texture:Texture){
                 this._texture = texture;
+                this.width(this._texture._sourceWidth);
+                this.height(this._texture._sourceHeight);
+                this._visualboundingbox = this._staticboundingbox.clone();
             }
 
             public isInViewPort():boolean{
@@ -46,29 +45,30 @@ module alcedo{
             /**
              * OverRide position method
              */
-            public get x(){return this._position.x}
-            public set x(x:number){
-                this._position.x = x;
-                this._staticboundingbox.x =x-this.pivotOffsetX();
-                this._visualboundingbox.x =x-this.pivotOffsetX();
-            }
-            public get y(){return this._position.y}
-            public set y(y:number){
-                this._position.y = y;
-                this._staticboundingbox.y =y-this.pivotOffsetY();
-                this._visualboundingbox.y =y-this.pivotOffsetY();
-            }
-
             public scaleX(scalex?:number){
                 if(!scalex)return this._scale.x;
                 this._scale.x = scalex;
-                this._visualboundingbox.width = this._visualboundingbox.width*scalex
+                this._visualboundingbox.width = this._staticboundingbox.width*scalex
             }
 
             public scaleY(scaley?:number){
                 if(!scaley)return this._scale.y;
                 this._scale.y = scaley;
-                this._visualboundingbox.height = this._visualboundingbox.height*scaley
+                this._visualboundingbox.height = this._staticboundingbox.height*scaley
+            }
+
+            protected updateBound(x?,y?,width?,height?){
+                if(typeof x == "number"){
+                    this._staticboundingbox.x =x-this.pivotOffsetX();
+                    this._visualboundingbox.x =x-this.pivotOffsetX()*this.scaleX()-this._visualboundingbox.width*this.pivotX();
+                    //trace(this._visualboundingbox.x)
+                }
+                if(typeof y == "number"){
+                    this._staticboundingbox.y =y-this.pivotOffsetY();
+                    this._visualboundingbox.y =y-this.pivotOffsetY()*this.scaleY()-this._visualboundingbox.height*this.pivotY();
+                }
+                if(typeof width == "number")this._staticboundingbox.width =width;
+                if(typeof height =="number")this._staticboundingbox.height =height;
             }
 
             public visualBound():Rectangle{

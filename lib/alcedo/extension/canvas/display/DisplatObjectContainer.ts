@@ -49,10 +49,14 @@ module alcedo{
                 }
             }
 
-            protected _setParent(parent:DisplatObjectContainer){
-                super._setParent(parent);
+            protected _setRoot(){
+                super._setRoot();
                 this.eachChilder((child)=>{
-                    child._setRoot();
+                    if(child instanceof DisplatObjectContainer){
+                        child._setRoot();
+                    }else{
+                        child._root = this._root;
+                    }
                 })
             }
         }

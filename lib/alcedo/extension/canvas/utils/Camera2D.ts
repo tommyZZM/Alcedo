@@ -76,7 +76,7 @@ module alcedo{
                 this._viewsafe.x = this._viewfinder.x-(this._viewfinder.width*(buffer-1))/2;
                 this._viewsafe.y = this._viewfinder.y-(this._viewfinder.width*(buffer-1))/2;
 
-                //trace(this._viewsafe.x);
+                //trace(this._viewfinder.x,this._viewsafe.x);
             }
 
             public viewfinder():Rectangle{

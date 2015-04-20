@@ -23,7 +23,7 @@ module game {
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_10MILLSECOND,()=>{
-                this._fuckobj.x+=0.5;
+                this._fuckobj.x+=3;
                 stage.camera().zoomTo(this._fuckobj.x,this._fuckobj.y,1,0.5);
                 this._fuckobj.rotation+=2;
             },this);
