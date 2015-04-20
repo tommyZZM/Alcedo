@@ -103,7 +103,7 @@ module alcedo {
                 if(typeof width == "number")this._staticboundingbox.width =width;
                 if(typeof height =="number")this._staticboundingbox.height =height;
 
-                this.emit(DisplayObject.ON_UPDATE_BOUND,{x:x,y:y,width:width,height:height});
+                //this.emit(DisplayObject.ON_UPDATE_BOUND,{x:x,y:y,width:width,height:height});
             }
 
             public pivotX(x?:number){
@@ -197,6 +197,12 @@ module alcedo {
              */
             public boundBox():Rectangle{
                 return this._staticboundingbox.clone();
+            }
+
+            public isInViewPort():boolean{
+                if(!this.isAddtoStage()){return false;}
+
+                return (<Stage>this._root).viewPort().hitRectangelTest(this.boundBox());
             }
 
             /**

@@ -59,6 +59,11 @@ module alcedo{
                     }
                 })
             }
+
+            public isInViewPort():boolean{
+                return true;
+                //nothing
+            }
         }
 
         export interface IDisplatObjectContainer{
