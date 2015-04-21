@@ -31,11 +31,13 @@ module alcedo{
                 if(_counter>=1){
                     this._total10microsecond+=_counter;
                     if(_counter>1){
+                        trace("too slow",_counter)
                         for(i=0;i<_counter;i++){
-                            this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps(),count:this._total10microsecond,dt:dt});
+                            this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps()
+                                ,count:this._total10microsecond,dt:dt,delay:i});
                         }
                     }else{
-                        this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps(),count:this._total10microsecond,dt:dt});
+                        this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps(),count:this._total10microsecond,dt:dt,currdelay:1,delay:1});
                     }
                     this._countmicrosecond = 0;
                 }
@@ -46,11 +48,11 @@ module alcedo{
                     this._totalsecond+=_counter;
                     if(_counter>1){
                         for(i=0;i<_counter;i++){
-                            this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt});
+                            this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt,delay:_counter});
                         }
                     }else{
 
-                        this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt});
+                        this._stage.emit(Stage.ENTER_SECOND,{fps:this.fps(),count:this._totalsecond,dt:dt,delay:1});
                     }
                     this._count10microsecond = 0;
                 }

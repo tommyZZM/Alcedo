@@ -128,6 +128,27 @@ module alcedo {
 
                 return this;
             }
+
+            /**
+             * 静态方法
+             */
+            //从4个点生成一个最大包围矩形
+            public static rectangleFromFourPoint(p1:Point2D,p2:Point2D,p3:Point2D,p4:Point2D,saveRectt?:Rectangle){
+                var __x = Math.min(p1.x,p2.x,p3.x,p4.x);
+                var __y = Math.min(p1.y,p2.y,p3.y,p4.y);
+
+                var __x_r = Math.max(p1.x,p2.x,p3.x,p4.x);
+                var __y_b = Math.max(p1.y,p2.y,p3.y,p4.y);
+
+                //trace(p1.x,p2.x,p3.x,p4.x)
+                if(saveRectt){
+                    saveRectt.reset(__x,__y,(__x_r-__x),(__y_b-__y))
+                }else{
+                    saveRectt = new Rectangle(__x,__y,(__x_r-__x),(__y_b-__y))
+                }
+
+                return saveRectt;
+            }
         }
     }
 }

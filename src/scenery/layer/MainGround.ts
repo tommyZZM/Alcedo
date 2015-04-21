@@ -17,20 +17,18 @@ module game {
             this.addChild(sp);
             this._f$obj = new game.LogicObject(sp);
             this._f$obj.direction = alcedo.canvas.Vector2D.identity(1,0);
-            this._f$obj.speed = speed.plane_lazy;
+            speed.plane = this._f$obj.speed = speed.plane_lazy;
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
+            alcedo.proxy(CameraManager).init(stage.camera());
+            alcedo.proxy(CameraManager).lookAt(this._f$obj.b);
+            stage.camera().focal = 1
         }
 
         private onEachTime(){
             this._f$obj.b.rotation++;
-            this.updateCamera();
-        }
-
-        /**更新镜头**/
-        private updateCamera(){
-            stage.camera().zoomTo(this._f$obj.b.x,this._f$obj.b.y,1,0.5);
+            //stage.camera().zoomTo(this._f$obj.b.x,this._f$obj.b.y,1,0.5);
         }
 
         /**
@@ -42,6 +40,7 @@ module game {
             //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
             this._f$obj.speed = speed.plane;
+            this._f$obj.acceleration.y = 0.6;
         }
 
         /**重置位置**/

@@ -7,6 +7,8 @@ module alcedo {
 
             protected static ON_UPDATE_BOUND:string = "DisplayObject_ON_UPDATE_BOUND";
 
+            public debug:boolean
+
             /**位置**/
             protected _position:Point2D;
 
@@ -65,7 +67,7 @@ module alcedo {
                 this._position = new Point2D(0,0);
                 this._pivot = new Vector2D(0,0);
                 this._scale = new Vector2D(1,1);
-                this._worldscale = this._scale.clone()
+                this._worldscale = this._scale.clone();
 
                 this._worldtransform = new Matrix2D();
                 this._staticboundingbox = new Rectangle()
@@ -152,13 +154,11 @@ module alcedo {
             public scaleX(scalex?:number){
                 if(!scalex)return this._scale.x;
                 this._scale.x = scalex;
-                this._worldscale = (!!this._parent)?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             public scaleY(scaley?:number){
                 if(!scaley)return this._scale.y;
                 this._scale.y = scaley;
-                this._worldscale = (!!this._parent)?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             /**
@@ -247,7 +247,7 @@ module alcedo {
 
             private static identityMatrixForGetConcatenated = new Matrix2D();
 
-            public _getConcatenatedMatrix():Matrix2D {
+            protected _getConcatenatedMatrix():Matrix2D {
                 //todo:采用local_matrix模式下这里的逻辑需要修改
                 var matrix:Matrix2D = DisplayObject.identityMatrixForGetConcatenated.identity();
                 var o = this;
@@ -279,6 +279,7 @@ module alcedo {
                 this.removeFromParent();
                 this._parent = parent;
                 if(!this._parent){
+                    //trace("_setParent !this._parent");
                     this._root = null;
                     return;
                 }
@@ -288,6 +289,7 @@ module alcedo {
             }
 
             protected _setRoot(){
+                //trace("_setRoot");
                 var parent = this._parent;
                 if(!parent)return;
                 var _root = parent;

@@ -9,7 +9,7 @@ module alcedo{
 
             private _position:Point2D;
             private _focal:number;
-            private _pivot:number;
+            private _yaw:Vector2D;
 
             private _buffer:number;
 
@@ -20,7 +20,7 @@ module alcedo{
             public constructor(stage:Stage,buffer:number=1.2){
                 super();
                 this._focal = 1;
-                this._pivot = 0;
+                this._yaw = new Vector2D(0.5,0.5);
                 this._buffer = buffer>1?buffer:1;
                 this._position = new Point2D();
 
@@ -32,37 +32,54 @@ module alcedo{
                 //this.zoomToPoint(Point2D.identity(0,0),1,0);
             }
 
+            public get x(){return this._position.x}
             public set x(x:number){
                 this._position.x = x;
                 this._stage.pivotOffsetX(this._position.x);
-                this._updateViewSafe();
+                this._updateView();
             }
 
+            public get y(){return this._position.y}
             public set y(y:number){
                 this._position.y = y;
                 this._stage.pivotOffsetY(this._position.y);
-                this._updateViewSafe();
+                this._updateView();
             }
 
-            public focal(focal:number,pivot:number = 0.5){
+            public get focal(){return this._focal}
+            public set focal(focal:number){
                 this._focal = 1/focal;
-                this._pivot = pivot;
+                this._updateView();
+            }
 
-                this._stage.x = this._stage.width()*this._pivot;
-                this._stage.y = this._stage.height()*this._pivot;
+            public get yawX(){return this._yaw.x}
+            public get yawY(){return this._yaw.y}
+            public set yaw(yaw:number){
+                this._yaw.x = yaw;
+                this._yaw.y = yaw;
+                this._updateView();
+            }
+
+            public zoomTo(x:number,y:number,focal:number,yaw:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
+                this._position.x = x;
+                this._stage.pivotOffsetX(this._position.x);
+
+                this._position.y = y;
+                this._stage.pivotOffsetY(this._position.y);
+
+                this._focal = 1/focal;
+
+                this._yaw.x = yaw;
+                this._yaw.y = yaw;
+                this._updateView();
+            }
+
+            private _updateView():void{
+                //TODO:现在的Viewport计算不正确！
+                this._stage.x = this._stage.width()*this._yaw.x;
+                this._stage.y = this._stage.height()*this._yaw.y;
                 this._stage.scale(1/this._focal);
 
-                this._updateViewSafe();
-            }
-
-            public zoomTo(x:number,y:number,focal:number,pivot:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
-                this.x = x;
-                this.y = y;
-                this.focal(focal,pivot);
-            }
-
-            private _updateViewSafe():void{
-                //TODO:现在的Viewport计算不正确！
                 this._viewfinder.width = this._focal*this._stage.width();
                 this._viewfinder.height = this._focal*this._stage.height();
 
@@ -76,7 +93,7 @@ module alcedo{
                 this._viewsafe.x = this._viewfinder.x-(this._viewfinder.width*(buffer-1))/2;
                 this._viewsafe.y = this._viewfinder.y-(this._viewfinder.width*(buffer-1))/2;
 
-                //trace(this._viewfinder.x,this._viewsafe.x);
+                //trace(this._stage.x,this._stage.y,this._stage.width(),this._stage.height(),this._stage["_staticboundingbox"]);
             }
 
             public viewfinder():Rectangle{

@@ -18,10 +18,10 @@ module alcedo {
             var insertIndex:number = -1;
             for (var i:number = 0; i < length; i++) {
                 var bin:any = map[i];
-                if (bin.callback === callback && bin.thisObject === thisObject) {
+                if (bin && bin.callback === callback && bin.thisObject === thisObject) {
                     return false;//防止重复插入
                 }
-                if (insertIndex == -1 && bin.priority < priority) {
+                if (bin && insertIndex == -1 && bin.priority < priority) {
                     insertIndex = i;
                 }
             }
@@ -46,7 +46,7 @@ module alcedo {
                 //var length = map.length;
                 for(var i in map){
                     var bin = map[i];
-                    if(bin.callback===callback && bin.thisObject===thisObject){
+                    if(bin&&bin.callback===callback && bin.thisObject===thisObject){
                         map.splice(i, 1);
                     }
                 }
@@ -68,7 +68,7 @@ module alcedo {
             var length = arr.length;
             for(var i=0;i<length;i++){
                 var bin = arr[i];
-                if(bin.callback){
+                if(bin&&bin.callback){
                     if(!param)param=[];
                     if(bin.param)param = bin.param.concat(param);
                     bin.callback.apply(bin.thisObject?bin.thisObject:window,param)

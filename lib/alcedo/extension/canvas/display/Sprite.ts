@@ -18,6 +18,8 @@ module alcedo{
             }
 
             public _draw(renderer:CanvasRenderer){
+                //if(!this.isInViewPort())return;
+
                 this._texture_to_render = this._texture;
 
                 //console.log(this._position)
@@ -40,21 +42,28 @@ module alcedo{
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                return (<Stage>this._root).viewPort().hitRectangelTest(this.visualBound());
+                var result = (<Stage>this._root).viewPort().hitRectangelTest(this.visualBound());
+
+                return result;
             }
 
             /**
              * OverRide position method
              * 主要更新了可视包围盒，TODO:有Bug,待优化
              */
-
+            protected _visualboundingbox:Rectangle = new Rectangle();
             public visualBound():Rectangle{
-                var _oglobalpoint = this.localToGlobal(0,0,Point2D.identity());
+                //计算最大包围盒
+                var _pointlefttop = this.localToGlobal(0,0);
+                var _pointrighttop = this.localToGlobal(this._staticboundingbox.width,0);
+                var _pointrightbottom = this.localToGlobal(this._staticboundingbox.width
+                    ,this._staticboundingbox.height);
+                var _pointleftbottom = this.localToGlobal(0,this._staticboundingbox.height);
 
-                var _oglobalwidth = this._staticboundingbox.width*this._worldscale.x;
-                var _oglobalheight = this._staticboundingbox.height*this._worldscale.y;
+                Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._visualboundingbox)
 
-                return new Rectangle(_oglobalpoint.x,_oglobalpoint.y,_oglobalwidth,_oglobalheight);
+                //trace(this._maxboundingbox);
+                return this._visualboundingbox;
             }
         }
     }

@@ -10,25 +10,43 @@ module game{
 
         private _velocity:alcedo.canvas.Vector2D;//速度哦
 
-        private _dvelocity:alcedo.canvas.Vector2D;//加速度哦
-
+        public acceleration:alcedo.canvas.Vector2D;//加速度哦
 
         public constructor(displayobject:alcedo.canvas.Sprite){
             super();
             this._display = displayobject;
             this._direction = new alcedo.canvas.Vector2D(1,0);
             this._velocity = new alcedo.canvas.Vector2D();
-            //this._dvelocity = new alcedo.canvas.Vector2D();
+            this.acceleration = new alcedo.canvas.Vector2D(0,0);
+            this._isobjactive = true;
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onCheckTime,this);
         }
 
-        private onEachTime(){
-            if(this._display.isInViewPort() && this._velocity.length){
+        private onEachTime(e){
+            if( this._velocity.length){
                 this.updateVelocity();
+                this._velocity.x+=this.acceleration.x;
                 this._display.x += this._velocity.x;
-                this._display.y += this._velocity.y;
+                if(this._isobjactive){
+                    this._velocity.y+=this.acceleration.y;
+                    this._display.y += this._velocity.y;
+                }else{
+
+                }
             }
+        }
+
+        private _isobjactive:boolean;
+        private onCheckTime(){
+            if(!this._display.isInViewPort()){
+                this._isobjactive = false;
+            }
+        }
+
+        public resetObjct(){
+            //TODO:重置物体
         }
 
         public get speed():number{
@@ -46,14 +64,12 @@ module game{
         }
 
         private updateVelocity(){
-            var _s = this._velocity.length
+            var _s = this._velocity.length;
             //trace(_s);
             if(!_s)return;
-            this._velocity.resetAs(this._direction)
+            this._velocity.resetAs(this._direction);
             this._velocity.length = _s;
         }
-
-
 
         public get b():alcedo.canvas.Sprite{
             return this._display;

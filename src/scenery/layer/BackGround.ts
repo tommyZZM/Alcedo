@@ -10,7 +10,7 @@ module game{
 
         private _clouds:BackGroundClouds;
         public init(){
-            this._clouds = new BackGroundClouds(0.1);
+            this._clouds = new BackGroundClouds(0.8);
             this.addChild(this._clouds);
         }
 
@@ -22,7 +22,7 @@ module game{
     class BackGroundClouds extends alcedo.canvas.DisplatObjectContainer{
 
         private _propoffset:number = 0.5;
-        private _propoffsetspeed:number = 0.5;
+        //private _propoffsetspeed:number = 0.5;
 
         private _propstextures:Array<any>;
         private _ramdomarray:Array<number>;
@@ -40,7 +40,7 @@ module game{
             if(offset>0.99)offset=0.99;
 
             /** **/
-            this._propoffsetspeed = speed.plane*offset;
+            this._propoffset = offset;
 
             this._props = [];
             this._propspool = [];
@@ -52,7 +52,7 @@ module game{
         }
 
         private onEachTime(){
-            this.x+=this._propoffsetspeed
+            this.x+=speed.plane*this._propoffset;
         }
 
         private initProps(){
@@ -83,7 +83,7 @@ module game{
                 }
             }
 
-            trace(this._ramdomarray,this.selectAtexture());
+            //trace(this._ramdomarray,this.selectAtexture());
 
             for(i=0;i<this._propmax;i++){
                 this.addChild(this.createAProp());
@@ -100,6 +100,7 @@ module game{
                 if((!prop.isInViewPort())&&(prop.x<stage.viewPort().x)){
                     this.destoryAProp(prop);
                     this.addChild(this.createAProp());
+                    //trace(this._props.length)
                 }
             }
         }
@@ -123,7 +124,7 @@ module game{
             var lastprop = this._props[this._props.length-1];
             if(lastprop){
                 prop.x = lastprop.x+lastprop.visualBound().width;
-                //trace(prop.x,lastprop.visualBound().width);
+                //trace(prop.x,lastprop.visualBound(),lastprop._staticboundingbox);
             }else{
                 prop.x = stage.width();
             }
