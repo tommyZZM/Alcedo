@@ -8,38 +8,29 @@ module game {
             this.init();
         }
 
-        private _fuckobj:alcedo.canvas.Sprite;
+        private _f$obj:LogicObject;
         public init(){
             var sp = new Sprite(<any>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
-            sp.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_ADD_TO_STAGE,()=>{trace("added...")});
-            this.addChild(sp);
             sp.x = 100;
             sp.y = stage.height()/2;
-            sp.pivotX(0.5);
-            sp.pivotY(0.5);
-            sp.scale(1);
-            this._fuckobj = sp;
+            sp.pivotX(0.5);sp.pivotY(0.5)
+            this.addChild(sp);
+            this._f$obj = new game.LogicObject(sp);
+            this._f$obj.direction = alcedo.canvas.Vector2D.identity(1,0);
+            this._f$obj.speed = speed.plane_lazy;
 
-            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
-
-            speed.plane = speed.plane_lazy;
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
         }
 
         private onEachTime(){
-            this.updatePlane();
+            this._f$obj.b.rotation++;
             this.updateCamera();
-        }
-
-        /**更新灰机**/
-        private updatePlane(){
-            this._fuckobj.x+=speed.plane;
-            this._fuckobj.rotation+=2;
         }
 
         /**更新镜头**/
         private updateCamera(){
-            stage.camera().zoomTo(this._fuckobj.x,this._fuckobj.y,1,0.5);
+            stage.camera().zoomTo(this._f$obj.b.x,this._f$obj.b.y,1,0.5);
         }
 
         /**
@@ -48,8 +39,9 @@ module game {
 
         /**开始游戏**/
         private resStartPlaying(){
-            trace(this._fuckobj.isInViewPort());
+            //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
+            this._f$obj.speed = speed.plane;
         }
 
         /**重置位置**/

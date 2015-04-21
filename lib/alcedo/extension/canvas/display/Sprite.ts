@@ -49,7 +49,7 @@ module alcedo{
              */
 
             public visualBound():Rectangle{
-                var _oglobalpoint = this.localToGlobal(this._staticboundingbox.x,this._staticboundingbox.y,Point2D.identity());
+                var _oglobalpoint = this.localToGlobal(0,0,Point2D.identity());
 
                 var _oglobalwidth = this._staticboundingbox.width*this._worldscale.x;
                 var _oglobalheight = this._staticboundingbox.height*this._worldscale.y;
