@@ -27,7 +27,8 @@ module alcedo{
                     renderer.context.globalAlpha = this._worldalpha;
                     renderer.setTransform(this._worldtransform);
                     renderer.context.drawImage(<any>this._texture_to_render.bitmapData
-                        ,0,0,this._texture_to_render._sourceWidth,this._texture_to_render._sourceHeight)
+                        ,this._texture_to_render._sourceX,this._texture_to_render._sourceY
+                        ,this._texture_to_render._sourceWidth,this._texture_to_render._sourceHeight)
                 }
             }
 

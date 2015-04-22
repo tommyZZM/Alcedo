@@ -4,6 +4,10 @@
 module alcedo{
     export module canvas{
         export class Texture{
+
+            public _sourceX = 0;
+            public _sourceY = 0;
+
             /**
              * 表示这个纹理在 源 bitmapData 上的宽度
              */
@@ -12,6 +16,14 @@ module alcedo{
              * 表示这个纹理在 源 bitmapData 上的高度
              */
             public _sourceHeight:number = 0;
+
+            /**
+             * 这个纹理的纹理x,Y,width,height
+             */
+            public _textureX:number = 0;
+            public _textureY:number = 0;
+            public _textureWidth:number = 0;
+            public _textureHeight:number = 0;
 
             /**
              * 表示这个纹理在 源 bitmapData 上的宽高比
@@ -39,6 +51,11 @@ module alcedo{
                 this._sourceWidth = value.width;
                 this._sourceHeight = value.height;
                 this._sourceW2H = this._sourceWidth/this._sourceHeight;
+            }
+
+            public clone():Texture {
+                var texture = new Texture(this._bitmapData);
+                return texture;
             }
         }
     }
