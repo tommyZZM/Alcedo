@@ -16,7 +16,7 @@ module game {
             sp.pivotX(0.5);sp.pivotY(0.5)
             this.addChild(sp);
             this._f$obj = new game.LogicObject(sp);
-            this._f$obj.direction = alcedo.canvas.Vector2D.identity(1,0);
+            //this._f$obj.direction = alcedo.canvas.Vector2D.identity(1,0);
             speed.plane = this._f$obj.speed = speed.plane_lazy;
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
@@ -26,9 +26,12 @@ module game {
             stage.camera().focal = 1
         }
 
-        private onEachTime(){
-            this._f$obj.b.rotation++;
+        private onEachTime(e){
+            this._f$obj.b.rotation+=1*e.delay;
             //stage.camera().zoomTo(this._f$obj.b.x,this._f$obj.b.y,1,0.5);
+            if(this._f$obj.b.y>=480){
+                this._f$obj.velocity.y-=3;
+            }
         }
 
         /**
@@ -40,7 +43,8 @@ module game {
             //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
             this._f$obj.speed = speed.plane;
-            this._f$obj.acceleration.y = 0.6;
+            this._f$obj.velocity.y-=3
+            this._f$obj.acceleration.y = 0.1;
         }
 
         /**重置位置**/

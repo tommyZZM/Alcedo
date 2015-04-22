@@ -2,11 +2,12 @@
  * Created by tommyZZM on 2015/4/20.
  */
 module game{
+    //TODO: 20150422 物体的旋转角度和方向对应
     export class LogicObject extends alcedo.AppObject{
 
         private _display:alcedo.canvas.Sprite;
 
-        private _direction:alcedo.canvas.Vector2D;//方向
+        //private _direction:alcedo.canvas.Vector2D;//方向
 
         private _velocity:alcedo.canvas.Vector2D;//速度哦
 
@@ -15,7 +16,7 @@ module game{
         public constructor(displayobject:alcedo.canvas.Sprite){
             super();
             this._display = displayobject;
-            this._direction = new alcedo.canvas.Vector2D(1,0);
+            //this._direction = new alcedo.canvas.Vector2D(1,0);
             this._velocity = new alcedo.canvas.Vector2D();
             this.acceleration = new alcedo.canvas.Vector2D(0,0);
             this._isobjactive = true;
@@ -24,29 +25,27 @@ module game{
             stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onCheckTime,this);
         }
 
-        private onEachTime(e){
+        private onEachTime(e:alcedo.canvas.ITickerEvent){
             if( this._velocity.length){
                 this.updateVelocity();
-                this._velocity.x+=this.acceleration.x;
-                this._display.x += this._velocity.x;
-                if(this._isobjactive){
-                    this._velocity.y+=this.acceleration.y;
-                    this._display.y += this._velocity.y;
-                }else{
-
-                }
+                this._velocity.x+=this.acceleration.x*e.delay;
+                this._display.x += this._velocity.x*e.delay;
+                this._velocity.y+=this.acceleration.y*e.delay;
+                this._display.y+=this._velocity.y*e.delay;
             }
         }
 
         private _isobjactive:boolean;
         private onCheckTime(){
-            if(!this._display.isInViewPort()){
-                this._isobjactive = false;
-            }
+            this._isobjactive = this._display.isInViewPort();
         }
 
         public resetObjct(){
             //TODO:重置物体
+        }
+
+        public get velocity():alcedo.canvas.Vector2D{
+            return this._velocity
         }
 
         public get speed():number{
@@ -58,16 +57,15 @@ module game{
             //trace(value,this._velocity.length);
         }
 
-        public set direction(direction:alcedo.canvas.Vector2D){
-            this._direction.resetAs(direction);
-            this._direction.unitlize();
-        }
+        //public set direction(direction:alcedo.canvas.Vector2D){
+        //    this._direction.resetAs(direction);
+        //    this._direction.unitlize();
+        //}
 
         private updateVelocity(){
             var _s = this._velocity.length;
             //trace(_s);
             if(!_s)return;
-            this._velocity.resetAs(this._direction);
             this._velocity.length = _s;
         }
 

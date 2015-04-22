@@ -51,8 +51,8 @@ module game{
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
         }
 
-        private onEachTime(){
-            this.x+=speed.plane*this._propoffset;
+        private onEachTime(e){
+            this.x+=speed.plane*this._propoffset*e.delay;
         }
 
         private initProps(){
