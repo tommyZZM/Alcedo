@@ -25,6 +25,9 @@ module alcedo{
             public _textureWidth:number = 0;
             public _textureHeight:number = 0;
 
+            public _offsetX:number = 0;
+            public _offsetY:number = 0;
+
             /**
              * 表示这个纹理在 源 bitmapData 上的宽高比
              */
@@ -47,6 +50,7 @@ module alcedo{
             }
 
             public constructor(value?:HTMLImageElement|ImageData,args?:any){
+                super();
                 this._bitmapData = value;
                 this._sourceWidth = value.width;
                 this._sourceHeight = value.height;

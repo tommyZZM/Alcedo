@@ -4,7 +4,7 @@
 module alcedo {
     export module canvas {
         export class MovieClipRepository extends AppProxyer {
-            private instanceable:boolean = true;
+            private static instanceable:boolean = true;
 
             private _movieclipdataspool:Dict;
 
@@ -18,23 +18,33 @@ module alcedo {
              * @param dataset
              * @param sheet
              */
-            public praseMovieClipData(dataset?:any, sheettexture:Texture){
-                if(!dataset.mc)return;//invalid foramt
+            public praseMovieClipData(dataset:any, sheettexture:Texture){
+                var _dataset = dataset;
+                if(Array.isArray(_dataset)){
+                    _dataset = _dataset[0]
+                }
+                if(!_dataset.mc){
+                    trace("praseMovieClipData dataset format invalid!!!",_dataset)
+                    return;
+                }//invalid foramt
 
-                if(dataset.res && sheettexture){//
-                    var _tmpsheetdata = this.praseSheetData(dataset.res,new SpriteSheet(sheettexture))
+                if(_dataset.res && sheettexture){//
+                    var _tmpsheetdata = this.praseSheetData(_dataset.res,new SpriteSheet(sheettexture))
                 }
 
-                for(var name in dataset.mc){
+                for(var name in _dataset.mc){
                     if(typeof name == "string"){
                         var moveclip:MovieClipData,frames = [],
-                            moveclipdata = dataset.mc[name];
+                            moveclipdata = _dataset.mc[name];
                         if(!this._movieclipdataspool.has(name) && Array.isArray(moveclipdata.frames)) {
                             moveclip = new MovieClipData(name);
                             for(var i=0;i<moveclipdata.frames.length;i++){
-                                frames.push(_tmpsheetdata.get(moveclipdata.frames[i].res))
+                                var texture = _tmpsheetdata.get(moveclipdata.frames[i].res);
+                                texture._offsetX = moveclipdata.frames[i].x||0;
+                                texture._offsetY = moveclipdata.frames[i].y||0;
+                                frames.push(texture)
                             }
-                            moveclip._importFrames(frames);
+                            if(frames.length>0)moveclip._importFrames(frames,moveclipdata.frameRate);
                             this._movieclipdataspool.set(name, moveclip)
                         }else{
 
@@ -60,10 +70,16 @@ module alcedo {
                 }
                 return sheetdata;
             }
+
+            public get(name:string):MovieClipData{
+                return this._movieclipdataspool.get(name);
+            }
         }
 
         export class MovieClipData extends AppObject{
             private _name:string;
+
+            private _framerate:number;
 
             private _frames:Array<Texture>;
 
@@ -74,8 +90,22 @@ module alcedo {
                 this._name = name;
             }
 
-            public _importFrames(frames:Array<Texture>){
+            public _importFrames(frames:Array<Texture>,frameRate:number){
+                this._frames = frames;
+                this._framerate = frameRate;
+                this._framescount = frames.length;
+            }
 
+            public getFrames():Array<Texture>{
+                return this._frames;
+            }
+
+            public getFrame(index:number):Texture{
+                return this._frames[index];
+            }
+
+            public getFrameRate(){
+                return this._framerate
             }
 
 

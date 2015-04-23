@@ -102,7 +102,7 @@ module alcedo {
                     for(var i=0;i<assets.length;i++){
                         var asset = assets[i];
                         var name:string = asset.name;
-                        if(a$.proxy(AsyncRES).get(name)){
+                        if(proxy(AsyncRES).get(name)){
                             continue;
                         }
                         this.loadAsset(asset,groupname,basedir);
@@ -122,7 +122,7 @@ module alcedo {
                     case DataType.IMAGE:{
                         asyncImage(basedir+"/"+asset.url,{
                             success:(image,courier)=>{
-                                a$.proxy(AsyncRES).set(courier.name,image);//{type:asset.type,res:image}
+                                proxy(AsyncRES).set(courier.name,image);//{type:asset.type,res:image}
                                 this._oneAsssetComplete(groupname);
                             },
                             error:()=>{
@@ -133,6 +133,28 @@ module alcedo {
                             }
                         },this)}
                         break;
+                    case DataType.JSON:{
+                        ajax(basedir+"/"+asset.url,{
+                            success:(json,courier)=>{
+                                var _jsonobj;
+                                try{
+                                    _jsonobj = JSON.parse(json)
+                                }catch (e){
+                                    trace(json,"format error!");
+                                    this._oneAsssetComplete(groupname);
+                                    return;
+                                }
+                                proxy(AsyncRES).set(courier.name,_jsonobj);//{type:asset.type,res:image}
+                                this._oneAsssetComplete(groupname);
+                            },
+                            error:()=>{
+                                this._oneAsssetComplete(groupname);
+                            },
+                            courier:{
+                                name:asset.name//防止变量提升,把name存进courier里
+                            }
+                        })
+                    }
                 }
             }
 
