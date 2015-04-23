@@ -27,13 +27,12 @@ module alcedo{
                 return this._textureMap.get(name);
             }
 
-            public createTexture(name:string
-                , sourceX:number = 0, sourceY:number = 0, sourceWidth?:number, sourceHeight?:number):Texture {
+            public createTexture(sourceX:number = 0, sourceY:number = 0, sourceWidth?:number, sourceHeight?:number):Texture {
 
                 var texture = this._texture.clone();
 
                 texture._sourceX = sourceX;
-                texture._sourceY = sourceX;
+                texture._sourceY = sourceY;
                 texture._sourceWidth = sourceWidth;
                 texture._sourceHeight = sourceHeight;
 

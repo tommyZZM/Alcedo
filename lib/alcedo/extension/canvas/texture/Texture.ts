@@ -3,7 +3,7 @@
  */
 module alcedo{
     export module canvas{
-        export class Texture{
+        export class Texture extends AppObject{
 
             public _sourceX = 0;
             public _sourceY = 0;

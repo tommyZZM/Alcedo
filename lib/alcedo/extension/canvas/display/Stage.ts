@@ -24,7 +24,7 @@ module alcedo{
             //component
             private _ticker:Ticker;
             private _camera:Camera2D;
-            private _tweens:Tweens;
+            //private _tweens:Tweens;
 
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
@@ -53,7 +53,7 @@ module alcedo{
             private initcomponent(){
                 this._ticker = new Ticker(this);
                 this._camera = new Camera2D(this);
-                this._tweens = (new Tweens()).init(this);
+                //this._tweens = (new Tweens()).init(this);
 
                 this._startTime = Date.now();
             }
@@ -105,9 +105,9 @@ module alcedo{
                 return this._camera;
             }
 
-            public tweens():Tweens{
-                return this._tweens;
-            }
+            //public tweens():Tweens{
+            //    return this._tweens;
+            //}
 
             addChild(child:DisplayObject){
                 if(child instanceof Stage)return;//todo:error log here;
