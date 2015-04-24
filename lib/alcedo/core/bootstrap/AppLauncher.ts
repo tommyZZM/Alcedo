@@ -21,7 +21,7 @@ module alcedo{
             isdebug = debug;
             debuginit();
             info("%cAlcedo","color:#1ac2ff;font-weight:bold;",
-                "A Simple TypeScript HTML5 App FrameWork!");
+                "A Simple TypeScript HTML5 App/Game FrameWork!");
             info("gitHub:",'https://github.com/tommyZZM/Alcedo');
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
             "Welcome! And remember: Testing is the future, and the future starts with you.");

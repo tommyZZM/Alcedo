@@ -8,6 +8,7 @@ module alcedo{
             AppFacade.instance.app=this;
             //GameFacade.instance['_cmdPostals'].setRoute(notify.CMD.GameReady,this,this.onReady);
             this.addCmdHandler(AppLauncher.START_UP,this.cmdStartup);
+            alcedo.launch(true);
         }
 
         protected cmdStartup(...courier){
