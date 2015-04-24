@@ -3,11 +3,11 @@
     "version": {
         "index": "0.1",
         "subversion": "dev",
-        "build": 1233,
+        "build": 1235,
         "track": true
     },
     "debugserver": {
-        "path": "demo/example/movieclip.html",
+        "path": "demo/test.html",
         "port": 2010
     },
     "source": [
@@ -22,7 +22,8 @@
             "out": "demo/script/app.js",
             "require": [
                 "lib/alcedo"
-            ]
+            ],
+            "ignore": true
         },
         {
             "name": "movieclip",
