@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module canvas {
-        export class Vector2D {
+        export class Vector2D implements Ixy{
             public x:number;
 
             public y:number;

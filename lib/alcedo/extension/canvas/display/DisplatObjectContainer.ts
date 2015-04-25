@@ -18,9 +18,9 @@ module alcedo{
                 })
             }
 
-            public _draw(renderer:CanvasRenderer){
+            protected _render(renderer:CanvasRenderer){
                 this.eachChilder((child)=>{
-                    child._draw(renderer);
+                    child._render(renderer);
                 })
             }
 
@@ -49,11 +49,11 @@ module alcedo{
                 }
             }
 
-            protected _setRoot(){
-                super._setRoot();
+            protected _onAdd(){
+                super._onAdd();
                 this.eachChilder((child)=>{
                     if(child instanceof DisplatObjectContainer){
-                        child._setRoot();
+                        child._onAdd();
                     }else{
                         child._root = this._root;
                     }

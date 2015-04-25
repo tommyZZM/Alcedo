@@ -29,25 +29,27 @@ module alcedo{
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
                 //this._canvas = canvas;
-                this.width(width);
-                this.height(height);
+                this.setWidth(width);
+                this.setHeight(height);
                 this._options = opts;
                 this.initcomponent();
                 this._maincontext = new CanvasMainContext(this,canvas);
             }
 
-            public width(width?:number):any{
-                if(!width)return this._staticboundingbox.width;
+            public width():any{
+                return this._staticboundingbox.width;
+            }
+            private setWidth(width:number){
                 this._staticboundingbox.width =width;
                 this._stageWidth = width;
-                return this;
             }
 
-            public height(height?:number):any{
-                if(!height)return this._staticboundingbox.height;
+            public height():any{
+                return this._staticboundingbox.height;
+            }
+            private setHeight(height:number){
                 this._staticboundingbox.height =height;
                 this._stageHeight = height;
-                return this;
             }
 
             private initcomponent(){
@@ -56,6 +58,10 @@ module alcedo{
                 //this._tweens = (new Tweens()).init(this);
 
                 this._startTime = Date.now();
+            }
+
+            public render(renderer:CanvasRenderer){
+                this._render(renderer)
             }
 
             public _transform(){
@@ -72,11 +78,13 @@ module alcedo{
             private _nowTime(){
                 return Date.now()-this._startTime;
             }
-            private _enterframe(){
+
+            /** @deprecated dont use outside*/
+            public _enterframe(renderer){
                 var nowTime:number = this._nowTime();
                 var dt = nowTime-this._lastTime;
                 //TODO:广播EnterFrame;
-                this.notify(this._notifymap,Stage.ENTER_FRAME,[{dt:dt}]);
+                this.notify(this._notifymap,Stage.ENTER_FRAME,[{dt:dt,renderer:renderer}]);
                 this.emit(Stage.ENTER_FRAME,{dt:dt});
                 this._lastTime = nowTime;
             }

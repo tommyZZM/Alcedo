@@ -3,20 +3,26 @@
  */
 module alcedo {
     export module canvas {
-        export class DisplayObject extends EventDispatcher{
+        export class DisplayObject extends EventDispatcher implements IDisplayObject{
 
             protected static ON_UPDATE_BOUND:string = "DisplayObject_ON_UPDATE_BOUND";
 
-            public debug:boolean
+            public debug:boolean;
 
             /**位置**/
             protected _position:Point2D;
+            public get position():Point2D{
+                return this._position;
+            }
 
             /**描点**/
             protected _pivot:Vector2D;
 
             /**缩放**/
             protected _scale:Vector2D;
+            public get scale():Vector2D{
+                return this._scale
+            }
             protected _worldscale:Vector2D;
 
             /**矩阵变换**/
@@ -130,25 +136,19 @@ module alcedo {
                 this.pivotY(offsety/this._staticboundingbox.height);
             }
 
-            public scale(ax:number,y?:number){
-                if(!y){
-                    if(ax==1){return;}
-                    this.scaleX(ax);
-                    this.scaleY(ax);
-                }else{
-                    this.scaleX(ax);
-                    this.scaleY(y);
-                }
-            }
-
             public scaleToWidth(width:number){
                 var _scale = width/this._staticboundingbox.width;
-                this.scale(_scale);
+                this.scaleALL(_scale);
             }
 
             public scaleToHeight(height:number){
                 var _scale = height/this._staticboundingbox.height;
-                this.scale(_scale);
+                this.scaleALL(_scale);
+            }
+
+            public scaleALL(value:number){
+                this.scaleX(value);
+                this.scaleY(value);
             }
 
             public scaleX(scalex?:number){
@@ -159,24 +159,6 @@ module alcedo {
             public scaleY(scaley?:number){
                 if(!scaley)return this._scale.y;
                 this._scale.y = scaley;
-            }
-
-            /**
-             * 矩阵运算物体在场景中的位置
-             * @private
-             */
-            public _transform(){
-                var flag = !!this._parent,
-                    pt = Matrix2D.identity,
-                    wt = this._worldtransform;
-
-                if(flag)pt = this._parent._worldtransform;
-
-                wt.identityMatrix(pt);
-                this._getMatrix(wt);
-
-                this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
-                this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;
             }
 
             /**
@@ -283,12 +265,14 @@ module alcedo {
                     this._root = null;
                     return;
                 }
-                if(!this._parent._root|| (this._parent._root && this._root && this._parent._root.hashIndex != this._root.hashIndex)){
-                    this._setRoot();
+                if(!this._parent._root||
+                    (this._parent._root && this._root && this._parent._root.hashIndex != this._root.hashIndex)){
+                    this._onAdd();
                 }
             }
 
-            protected _setRoot(){
+            protected _stage:Stage;
+            protected _onAdd(){
                 //trace("_setRoot");
                 var parent = this._parent;
                 if(!parent)return;
@@ -300,8 +284,10 @@ module alcedo {
                 }
                 this._root = _root;
 
+                //this.emit(DisplayObjectEvent.ON_ADD);
                 if(this.isAddtoStage()){
                     this.emit(DisplayObjectEvent.ON_ADD_TO_STAGE);
+                    this._stage = <any>this._root;
                 }
             }
 
@@ -319,14 +305,40 @@ module alcedo {
             }
 
             /**
+             * 矩阵运算物体在场景中的位置
+             * @private
+             */
+            public _transform(){
+                var flag = !!this._parent,
+                    pt = Matrix2D.identity,
+                    wt = this._worldtransform;
+
+                if(flag)pt = this._parent._worldtransform;
+
+                wt.identityMatrix(pt);
+                this._getMatrix(wt);
+
+                this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
+                this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;
+            }
+
+            /**
              * 每帧渲染
              * @private
              */
-            public _draw(renderer:CanvasRenderer){
-                //needs to be override;
+            protected _render(renderer:CanvasRenderer){
+                //处理其他通用的渲染步骤（滤镜，遮罩等）
+                renderer.context.globalAlpha = this._worldalpha;
+                renderer.setTransform(this._worldtransform);
+                this._draw(renderer);
             }
 
-            protected _refresh(){
+            public _draw(renderer:CanvasRenderer){
+                //绘制
+                //needs to be override or extend;
+            }
+
+            protected _refreshBitmapCache(){
 
             }
 

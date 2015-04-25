@@ -24,8 +24,6 @@ module alcedo{
 
                 //console.log(this._position)
                 if (this._texture_to_render && this._texture_to_render.bitmapData && this._alpha>0 && this._visible){
-                    renderer.context.globalAlpha = this._worldalpha;
-                    renderer.setTransform(this._worldtransform);
                     renderer.context.drawImage(<any>this._texture_to_render.bitmapData
                         ,this._texture_to_render._sourceX,this._texture_to_render._sourceY
                         ,this._texture_to_render._sourceWidth,this._texture_to_render._sourceHeight)

@@ -41,10 +41,9 @@ module alcedo{
                 }
             }
 
-            protected _setRoot(){
-                super._setRoot();
-                //trace("_setRoot",this.isAddtoStage(),this._playstatetmp);
-                this.setPlayState(this._playstatetmp);
+            protected _onAdd(){
+                super._onAdd();
+                this.setPlayState(this._playstatetmp);//防止在add到stage之前执行playstate;
             }
 
             public play(){
@@ -70,7 +69,6 @@ module alcedo{
                     currtime = this._passtime+e.dt;
                     this._passtime = currtime % countdt;
 
-
                 var delay = currtime/countdt;
 
                 if(delay<1){
@@ -93,11 +91,6 @@ module alcedo{
                 var currframe = this._currframeindex-1;
 
                 this._currframe = this._moveclipdata.getFrame(currframe);
-
-                //trace(currframe)
-                //if(currframe===0)
-                //    trace(this._currframe._sourceX
-                //        ,this._currframe._sourceY,this._currframe._sourceWidth,this._currframe._sourceHeight)
             }
 
             private _playstate:boolean;
@@ -109,14 +102,14 @@ module alcedo{
 
                 if(!this.isAddtoStage()){
                     this._playstatetmp = value;
-                    trace("!this.isAddtoStage()");
+                    trace("'[dev]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;
                 if(value){
-                    this._root.addEventListener(Stage.ENTER_MILLSECOND10,this._frameRateControl, this);
+                    this._stage.addEventListener(Stage.ENTER_MILLSECOND10,this._frameRateControl, this);
                 }else{
-                    this._root.removeEventListener(Stage.ENTER_MILLSECOND10,this._frameRateControl, this);
+                    this._stage.removeEventListener(Stage.ENTER_MILLSECOND10,this._frameRateControl, this);
                 }
             }
         }

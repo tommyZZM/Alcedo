@@ -1,0 +1,29 @@
+{
+    "name": "alcedo-framework",
+    "version": {
+        "index": "0.1",
+        "subversion": "dev",
+        "build": 1240,
+        "track": true
+    },
+    "debugserver": {
+        "path": "demo/test.html",
+        "port": 2010
+    },
+    "source": [
+        {
+            "name": "alcedo",
+            "src": "lib/alcedo",
+            "out": "demo/lib/alcedo.js"
+        },
+        {
+            "name": "src",
+            "src": "src",
+            "out": "demo/script/app.js",
+            "require": [
+                "lib/alcedo"
+            ]
+        }
+    ],
+    "sourcedict": {}
+}

@@ -1,3 +1,10 @@
+Math.randomFrom = function(begin,to){
+    var d = to-begin,
+        min = to>begin?begin:to;
+    if(d<0)d = -d;
+  return Math.random()*d+min;
+};
+
 //相加
 Math.add = function(...nums){
     var result:number = 0;
@@ -72,5 +79,6 @@ Math.probabilityPool = function probabilityPool(pool:number[]) {
 
 interface Math{
     add(...nums);
+    randomFrom(num1:number,num2:number)
     probabilityPool(pool:number[]);
 }

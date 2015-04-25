@@ -78,7 +78,7 @@ module alcedo{
                 //TODO:现在的Viewport计算不正确！
                 this._stage.x = this._stage.width()*this._yaw.x;
                 this._stage.y = this._stage.height()*this._yaw.y;
-                this._stage.scale(1/this._focal);
+                this._stage.scaleALL(1/this._focal);
 
                 this._viewfinder.width = this._focal*this._stage.width();
                 this._viewfinder.height = this._focal*this._stage.height();

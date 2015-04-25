@@ -74,27 +74,25 @@ var demo;
     demo.TextureRepository = TextureRepository;
 })(demo || (demo = {}));
 /**
- * Created by tommyZZM on 2015/4/23.
+ * Created by tommyZZM on 2015/4/25.
  */
 ///<reference path="../ExampleCycler.ts"/>
 var demo;
 (function (demo) {
-    var MovieClipExample = (function (_super) {
-        __extends(MovieClipExample, _super);
-        function MovieClipExample() {
+    var ParticleExample = (function (_super) {
+        __extends(ParticleExample, _super);
+        function ParticleExample() {
             _super.apply(this, arguments);
         }
-        MovieClipExample.prototype.run = function () {
-            demo.MovieClipRepository().praseMovieClipData(demo.AsyncRES().get("smallstarling_json"), demo.TextureRepository().get("smallstarling_png"));
-            var mc = new alcedo.canvas.MovieClip(demo.MovieClipRepository().get("smallstarling"));
-            mc.play();
-            mc.x = demo.stage.width() / 2;
-            mc.y = demo.stage.height() / 2;
-            mc.scaleALL(0.5);
-            demo.stage.addChild(mc);
+        ParticleExample.prototype.run = function () {
+            var pe = new alcedo.canvas.ParticleEmitter();
+            pe.x = demo.stage.width() / 2;
+            pe.y = demo.stage.height() / 2 - 100;
+            demo.stage.addChild(pe);
+            pe.play();
         };
-        return MovieClipExample;
+        return ParticleExample;
     })(demo.ExampleCycler);
-    demo.MovieClipExample = MovieClipExample;
-    MovieClipExample.prototype.__class__ = "demo.MovieClipExample";
+    demo.ParticleExample = ParticleExample;
+    ParticleExample.prototype.__class__ = "demo.ParticleExample";
 })(demo || (demo = {}));

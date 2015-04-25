@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module canvas {
-        export class Point2D {
+        export class Point2D implements Ixy{
             public x:number;
 
             public y:number;
@@ -34,11 +34,33 @@ module alcedo {
                 this.y = y;
             }
 
-            /**
-             * 确定两个点是否相同。如果两个点具有相同的 x 和 y 值，则它们是相同的点。
-             */
-            public equals(target:Point2D):boolean {
-                return this.x == target.x && this.y == target.y;
+            /** 加 **/
+            public add(vector:Vector2D){
+                this.x += vector.x;
+                this.y += vector.y;
+
+                return this;
+            }
+            /** 减 **/
+            public subtract(vector: Vector2D): Point2D {
+                this.x -= vector.x;
+                this.y -= vector.y;
+
+                return this;
+            }
+            /** 乘 **/
+            public multiply(vector: Vector2D): Point2D {
+                this.x *= vector.x;
+                this.y *= vector.y;
+
+                return this;
+            }
+            /** 除 **/
+            public divide(vector: Vector2D): Point2D {
+                this.x /= vector.x;
+                this.y /= vector.y;
+
+                return this;
             }
         }
     }

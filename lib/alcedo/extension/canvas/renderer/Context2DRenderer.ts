@@ -24,9 +24,9 @@ module alcedo{
 
                 //render
                 //this._stage._debugdraw(this);
-                this._stage._draw(this);
+                this._stage.render(this);
 
-                this.notify(this._mainlooptask,CanvasRenderer.MainLoop);
+                this.notify(this._mainlooptask,CanvasRenderer.MainLoop,[this]);
 
                 animationFrame(this.render,this);
             }

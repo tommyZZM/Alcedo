@@ -54,7 +54,10 @@ module alcedo {
             }
         }
 
-        protected notify(notifymap:Dict, name:string,param?:Array<any>):boolean{
+        protected notify(notifymap:Dict, name:string,param?:Array<any>){
+            AppNotifyable.notify(notifymap,name,param);
+        }
+        public static notify(notifymap:Dict, name:string,param?:Array<any>):boolean{
             var map = notifymap.get(name);
             if(map){
                 this.notifyArray(map,param);
@@ -65,13 +68,16 @@ module alcedo {
         }
 
         protected notifyArray(arr:Array<{callback:Function;thisObject:any;param:Array<any>}>,param?:Array<any>){
+            AppNotifyable.notifyArray(arr,param);
+        }
+        public static notifyArray(arr:Array<{callback:Function;thisObject:any;param:Array<any>}>,param?:Array<any>){
             var length = arr.length;
             for(var i=0;i<length;i++){
                 var bin = arr[i];
                 if(bin&&bin.callback){
                     if(!param)param=[];
                     if(bin.param)param = bin.param.concat(param);
-                    bin.callback.apply(bin.thisObject?bin.thisObject:window,param)
+                    bin.callback.apply(bin.thisObject,param)
                 }
             }
         }

@@ -91,8 +91,8 @@ module alcedo {
                 //this._stage = new Stage();
             }
 
-            private mainloop():void {
-                (<any>this._stage)._enterframe();
+            private mainloop(renderer:CanvasRenderer):void {
+                (<any>this._stage)._enterframe(renderer);
             }
 
             private resizecontext(){
@@ -115,11 +115,11 @@ module alcedo {
 
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
-                    this._stage.height(this._designheight);
-                    this._stage.width(this._stage._stageHeight*currstylew2h);
+                    this._stage["setHeight"](this._designheight);
+                    this._stage["setWidth"](this._stage._stageHeight*currstylew2h);
                 }else{
-                    this._stage.width(this._designwidth);
-                    this._stage.height(this._stage._stageWidth/currstylew2h);
+                    this._stage["setWidth"](this._designwidth);
+                    this._stage["setHeight"](this._stage._stageWidth/currstylew2h);
                 }
 
                 this._stage.emit(Stage.RESIZE);
