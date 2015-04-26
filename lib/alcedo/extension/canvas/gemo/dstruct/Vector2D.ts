@@ -66,6 +66,7 @@ module alcedo {
                 this.y *= length;
             }
             public get length():number{
+                if(this.x==0&&this.y==0)return 0;
                 var result = Math.sqrt(this.x*this.x + this.y*this.y);
                 if(isNaN(result)){result=0}
                 return result;
@@ -82,7 +83,8 @@ module alcedo {
             }
 
             public toDeg():number{
-                return 0;
+                //TODO:x,y更新时才需要重新计算 , PS 我也不知道什么要-270哦
+                return +(Math.atan2(this.x, this.y)* Constant.RAD_TO_DEG).toFixed(1)-270;
             }
 
             public toRad():number{
@@ -109,11 +111,28 @@ module alcedo {
                 return this;
             }
 
+            public resetToDeg(deg:number){
+                var length = this.length;
+
+                if(length === 0){
+                    return;
+                }
+
+                this.x = Constant.cos(deg*Constant.DEG_TO_RAD);
+                this.y = Constant.sin(deg*Constant.DEG_TO_RAD);
+
+                this.length = length;
+            }
+
             /**
              * 从两个点创建适量对象
              */
             public static createFromPoint(start:Point2D,end:Point2D){
                 return new Vector2D(end.x-start.x,end.y-start.y);
+            }
+
+            public static createFromDeg(deg:number){
+                return new Vector2D(Constant.cos(deg), Constant.sin(deg) );
             }
         }
     }

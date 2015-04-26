@@ -85,11 +85,14 @@ var demo;
             _super.apply(this, arguments);
         }
         ParticleExample.prototype.run = function () {
-            var pe = new alcedo.canvas.ParticleEmitter();
+            var v = new alcedo.canvas.Vector2D(0, -5);
+            var pe = new alcedo.canvas.ParticleEmitter(v, { spread: 20, max: 20, rate: 10 });
             pe.x = demo.stage.width() / 2;
-            pe.y = demo.stage.height() / 2 - 100;
+            pe.y = demo.stage.height() / 2;
             demo.stage.addChild(pe);
             pe.play();
+            pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
+            trace(v.toDeg());
         };
         return ParticleExample;
     })(demo.ExampleCycler);

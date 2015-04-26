@@ -3,10 +3,12 @@
  */
 Object.defineProperty(Array.prototype, 'fastRemove', {
     value: function (index:number) {
-        var __arr:any = this;
-        var result = __arr[index];
-        __arr[index] = __arr.pop();
-        if(index==0) {this.length = 0;}
+        var result = this[index];
+        if(this.length==1){
+            this.length=0;
+            return result;
+        }
+        this[index] = this.pop();
         return result;
     },enumerable: false
 });

@@ -4,6 +4,8 @@
 module alcedo {
     export module canvas {
         export class Constant {
+
+            public static PI:number = 3.14;
             /**
              * @property {Number} PI_2
              */

@@ -9,23 +9,45 @@ module alcedo{
             private _particlespool:Array<Particle>;
             private _particles:Array<Particle>;
 
-            private _maxparticles:number;
+            private _max:number;
 
+            private _particleClass:any;
+
+            private _currdirection:Vector2D;
+            private _direction:Vector2D;
             private _mass:number;
-            private _force:Vector2D;
-            private _alphadecay:number;//alpha衰减
-            private _scaledecay:number;//scale衰减
 
-            public constructor(){
+            private _spread:number;
+            private _massrandom:number;
+
+            private _rate:number;//喷射速率 个数/秒
+            private _raterandom:number;
+
+            /**
+             * @param direction 喷射方向
+             * @param opts
+             * { particleClass粒子类
+             */
+            public constructor(direction:Vector2D,opts:any={}){
                 super();
-
-                this._maxparticles = 1;
 
                 this._particles = [];
                 this._particlespool = [];
 
-                this._mass = 1;
-                this._force = new Vector2D(0,0.1);
+                this._direction = direction.clone();
+                this._currdirection = new Vector2D()
+                this._forcemoment = new Vector2D();
+                this._force = new Vector2D();
+                this._shouldcreate = 0;
+
+                //frequency
+                this._spread = opts.spread || 0;
+                this._mass   = opts.massrandom || 1;
+                this._massrandom = opts.massrandom || 0;
+                this._rate = opts.rate || 1;
+                this._max = opts.max || 1;
+
+                this._particleClass = isOfClass(opts.particleClass,Particle)?opts.particleClass:Particle;
             }
 
             public _draw(renderer){
@@ -49,30 +71,52 @@ module alcedo{
                 if(this._particlespool.length>0){
                     partile = this._particlespool.pop();
                 }else{
-                    partile = new Particle();
+                    partile = new this._particleClass();
                 }
-                partile.create(this.x,this.y);
-                partile.applyForce(new Vector2D(Math.randomFrom(-2,2),Math.randomFrom(-1,-6)));
+                this._ParticleInit(partile);
                 this._particles.push(partile);
-                partile.onDecay((index)=>{
-                    this._particles.fastRemove(index);//you dian diao a
-                },this,[this._particles.length-1]);
+                partile.onDecay((particle)=>{
+                    this._particles.fastRemove(this._particles.indexOf(particle));//you dian diao a
+                    this._particlespool.push(particle);
+                },this);
+            }
+
+            private _ParticleInit(paricle:Particle){
+                paricle.create(this.x,this.y);
+
+                this._currdirection.resetAs(this._direction);
+                if(this._spread){//计算散射角
+                    var _randeg = Math.randomFrom(-1,1)*this._spread/2;
+                    var _curdeg = _randeg+this._direction.toDeg();
+                    this._currdirection.resetToDeg(_curdeg);
+                }
+                paricle.applyForce(this._currdirection);
             }
 
             /**
-             * 更新栗子们
+             * 更新栗子们,判断是否创建栗子
              * @param e
              * @private
              */
+            private _shouldcreate:number;//本帧数应该创建的粒子数
             private _updateParticles(e){
                 var partile:Particle;
                 for(var i=0;i<this._particles.length;i++){
                     partile = this._particles[i];
-                    this._updateOnePartivle(partile);
+                    this._updateOneParticle(partile);
                     partile.update(e);
                 }
 
-                if(this._particles.length<this._maxparticles){
+                if(this._forcemoment.length>0){
+                    this._forcemoment.reset();
+                }
+
+                this._shouldcreate+=(this._rate/100);
+                var delay = (this._shouldcreate)^0;
+                if(this._shouldcreate>1)this._shouldcreate=0;
+
+                if(delay<1 || this._particles.length>=this._max)return;
+                for(var i=0;i<delay;i++){
                     this._createOneParticle()
                 }
             }
@@ -82,10 +126,37 @@ module alcedo{
              * @param partile
              * @private
              */
-            protected _updateOnePartivle(partile:Particle){
+            protected _updateOneParticle(partile:Particle){
                 partile.applyForce(this._force);
+
+                if(this._forcemoment.length>0){
+                    partile.applyForce(this._forcemoment);
+                }
+
+
             }
 
+            //private _particleupdatetask:Function[];
+            //public onEachParticleUpdate(fn:(particle:Particle)=>{}){
+            //    this._particleupdatetask.push(fn);
+            //}
+
+            //粒子行为控制
+            private _force:Vector2D;
+            private _forcemoment:Vector2D;
+            public applyForce(force:Vector2D,continute:boolean = true){
+                if(continute){
+                    this._force.add(force);
+                }else{
+                    this._forcemoment.add(force);
+                }
+            }
+
+
+            /**
+             * 发射器开关控制系统
+             * @private
+             */
             protected _onAdd(){
                 super._onAdd();
                 if(this.isAddtoStage()){

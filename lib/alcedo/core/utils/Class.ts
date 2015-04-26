@@ -48,7 +48,7 @@ if (!Function.prototype.bind) {
  * @returns {boolean}
  */
 function isOfClass(target,test):boolean{
-    if(!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
+    if(!target||!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
         //console.warn("not typescript class");
         return false;
     }

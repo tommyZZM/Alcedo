@@ -75,12 +75,10 @@ module alcedo{
                     return;
                 }
 
-                while(delay >= 1) {
-                    delay--;
-                    this._nextframeindex++;
-                    if(this._nextframeindex > this._totalframescount){
-                        this._nextframeindex = 1;
-                    }
+                delay = delay^0;
+                this._nextframeindex+=delay;
+                if(this._nextframeindex > this._totalframescount){
+                    this._nextframeindex = 1;
                 }
 
                 this._updateCurrFrame();

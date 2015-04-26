@@ -9,6 +9,10 @@ module alcedo{
         export class Particle implements IDisplayObject{
             public position:Vector2D;
             public scale:Vector2D;
+            public scaleAll(value){
+                this.scale.x = value;
+                this.scale.y = value;
+            }
             public pivot:Vector2D;
             public rotation:number = 0;
             public alpha:number = 1;
@@ -65,18 +69,21 @@ module alcedo{
              * 栗子生命周期开始
              * @param x
              * @param y
-             * @param preserve //保留参
+             * @param mass
+             * @param preserve
              */
-            public create(x:number,y:number,...preserve){
+            public create(x:number,y:number,mass:number=1,...preserve){
                 this.position.reset(x,y);
                 this.scale.reset(1,1);
                 this.rotation = 0;
                 this._velocity.reset();
                 this._acceleration.reset();
                 this._currtime = 0;
-                this.alpha = 1;
-                this._lifetime = 6000;
+                this._lifetime = 60000;
                 this._onDecayTask = [];
+
+                this.alpha = 1;
+                this._mass = mass;
 
                 this._isdecayed = false;
                 this._currphase = 0;
@@ -93,7 +100,8 @@ module alcedo{
                 if(this._lifephase[this._currphase].call(this,e)===true){
                     this._currphase++;
                 }
-                if(this._currphase >= this._lifephase.length){
+                //trace(this._currtime>this._lifetime);
+                if(this._currphase >= this._lifephase.length || this._currtime>this._lifetime){
                     this.decay()
                 }
             }
@@ -101,8 +109,13 @@ module alcedo{
              * 当栗子诞生
              */
             protected prebron():boolean{
-                this.alive();
-                return true;
+                this.scale.x+=0.05;
+                this.scale.y+=0.05;
+                if(this.scale.x>1.6){
+                    this.scale.x = 1.6;
+                    this.scale.y = 1.6;
+                    return true;
+                }
             }
 
             /**
@@ -117,6 +130,8 @@ module alcedo{
              */
             protected decaying():boolean{
                 this.alpha-=0.01;
+                this.scale.x-=0.01;
+                this.scale.y-=0.01;
                 if(this.alpha<0){
                     this.alpha=0;
                     return true;
@@ -126,7 +141,7 @@ module alcedo{
             private _isdecayed:boolean;
             protected decay(){
                 this._isdecayed = true;
-                AppNotifyable.notifyArray(this._onDecayTask);
+                AppNotifyable.notifyArray(this._onDecayTask,[this]);
             }
             private _onDecayTask = [];
             public onDecay(callback:Function,thisObject:any,param:Array<any> = []){
