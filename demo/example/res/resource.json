@@ -1,7 +1,7 @@
 {
 	"groups":[
 	{
-		"keys":"smallstarling_json,smallstarling_png",
+		"keys":"smallstarling_json,smallstarling_png,paopaohappy",
 		"name":"preload"
 	}],
 	"resources":[
@@ -14,5 +14,10 @@
 		"name":"smallstarling_png",
 		"type":"image",
 		"url":"movieclip/smallstarling.png"
+	},
+	{
+		"name":"paopaohappy",
+		"type":"image",
+		"url":"paopaohappy.png"
 	}]
 }

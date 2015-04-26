@@ -14,15 +14,15 @@ module game{
 
         protected init() {
             this.screen.hide();
-            this._title = new GameUIComponent(this.screen.find(".title")[0],alcedo.proxy(TextureRepository).get("title"));
+            this._title = new GameUIComponent(this.screen.find(".title")[0],TextureRepository().get("title"));
             this._title.e.css({"margin-top":alcedo.px(-this._title.height)});
             this._title.e.show();
 
             this._startbtn = new GameButton(this.screen.find(".btn.startgame")[0],
-                alcedo.proxy(TextureRepository).get("startbtn"));
+                TextureRepository().get("startbtn"));
 
             this._aboutbtn = new GameButton(this.screen.find(".btn.about")[0],
-                alcedo.proxy(TextureRepository).get("aboutbtn"));
+                TextureRepository().get("aboutbtn"));
             this._startbtn.e.css({top:alcedo.px(stageSize().height)}).hide();
             this._aboutbtn.e.css({top:alcedo.px(stageSize().height)}).hide();
 

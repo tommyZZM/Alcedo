@@ -2,30 +2,29 @@
  * Created by tommyZZM on 2015/4/20.
  */
 module game{
-    //TODO: 20150422 物体的旋转角度和方向对应
+    //TODO: 20150422 物体的旋转角度和方向对应 done
     export class LogicObject extends alcedo.AppObject{
 
-        private _display:alcedo.canvas.Sprite;
+        protected _display:alcedo.canvas.Sprite;
 
-        //private _direction:alcedo.canvas.Vector2D;//方向
+        protected _mass:number = 1;
 
-        private _velocity:alcedo.canvas.Vector2D;//速度哦
+        protected _velocity:alcedo.canvas.Vector2D;//速度哦
 
         public acceleration:alcedo.canvas.Vector2D;//加速度哦
 
-        public constructor(displayobject:alcedo.canvas.Sprite){
+        public constructor(displayobject?:alcedo.canvas.Sprite){
             super();
             this._display = displayobject;
             //this._direction = new alcedo.canvas.Vector2D(1,0);
             this._velocity = new alcedo.canvas.Vector2D();
             this.acceleration = new alcedo.canvas.Vector2D(0,0);
-            this._isobjactive = true;
+            //this._isobjactive = true;
 
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onCheckTime,this);
+            //stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onCheckTime,this);
         }
 
-        private onEachTime(e:alcedo.canvas.ITickerEvent){
+        public update(e:alcedo.canvas.ITickerEvent){
             if( this._velocity.length){
                 this.updateVelocity();
                 this._velocity.x+=this.acceleration.x*e.delay;
@@ -33,17 +32,23 @@ module game{
                 this._velocity.y+=this.acceleration.y*e.delay;
                 this._display.y+=this._velocity.y*e.delay;
             }
+
+            this.b.rotation = this.velocity.toDeg()
         }
 
-        private _isobjactive:boolean;
-        private onCheckTime(){
-            this._isobjactive = this._display.isInViewPort();
+        public applyForce(vector:alcedo.canvas.Vector2D){
+            this._velocity.add(vector.divide(alcedo.canvas.Vector2D.identity(this._mass,this._mass)));
+            //trace(this._velocity.y,vector.y);
         }
 
         public resetObjct(){
             //TODO:重置物体
         }
 
+        /**
+         * [物体运动]
+         * @returns {alcedo.canvas.Vector2D}
+         */
         public get velocity():alcedo.canvas.Vector2D{
             return this._velocity
         }
@@ -54,13 +59,15 @@ module game{
 
         public set speed(value:number){
             this._velocity.length =value;
-            //trace(value,this._velocity.length);
         }
 
-        //public set direction(direction:alcedo.canvas.Vector2D){
-        //    this._direction.resetAs(direction);
-        //    this._direction.unitlize();
-        //}
+        public set direction(degree:number){
+
+        }
+
+        public get direction(){
+            return 0
+        }
 
         private updateVelocity(){
             var _s = this._velocity.length;

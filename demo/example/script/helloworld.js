@@ -79,23 +79,32 @@ var demo;
 ///<reference path="../ExampleCycler.ts"/>
 var demo;
 (function (demo) {
-    var ParticleExample = (function (_super) {
-        __extends(ParticleExample, _super);
-        function ParticleExample() {
+    var HelloWorld = (function (_super) {
+        __extends(HelloWorld, _super);
+        function HelloWorld() {
             _super.apply(this, arguments);
         }
-        ParticleExample.prototype.run = function () {
-            var v = new alcedo.canvas.Vector2D(0, -5);
-            var pe = new alcedo.canvas.ParticleEmitter({ initial: v, spread: 20, max: 30, rate: 16 });
-            pe.x = demo.stage.width() / 2;
-            pe.y = demo.stage.height() / 2;
-            demo.stage.addChild(pe);
-            pe.play();
-            pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
-            //trace(v.toDeg())
+        HelloWorld.prototype.run = function () {
+            var sp = new alcedo.canvas.Sprite(demo.TextureRepository().get("paopaohappy"));
+            sp.x = demo.stage.width() / 2;
+            sp.y = demo.stage.height() / 2;
+            sp.pivotX(0.5);
+            sp.pivotY(0.5);
+            demo.stage.addChild(sp);
+            sp.rotation = 180;
+            var splocaltoglobal = sp.localToGlobal(0, 0);
+            var cri = new alcedo.canvas.shape.Circle(splocaltoglobal.x, splocaltoglobal.y, 5, "#e74c3c");
+            demo.stage.addChild(cri);
+            return;
+            demo.stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10, function () {
+                sp.rotation++;
+                var splocaltoglobal = sp.localToGlobal(0, 0);
+                cri.x = splocaltoglobal.x;
+                cri.y = splocaltoglobal.y;
+            }, this);
         };
-        return ParticleExample;
+        return HelloWorld;
     })(demo.ExampleCycler);
-    demo.ParticleExample = ParticleExample;
-    ParticleExample.prototype.__class__ = "demo.ParticleExample";
+    demo.HelloWorld = HelloWorld;
+    HelloWorld.prototype.__class__ = "demo.HelloWorld";
 })(demo || (demo = {}));

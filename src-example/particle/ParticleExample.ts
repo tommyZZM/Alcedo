@@ -7,7 +7,7 @@ module demo {
         protected run(){
 
             var v = new alcedo.canvas.Vector2D(0,-5);
-            var pe = new alcedo.canvas.ParticleEmitter(v,{spread:20,max:20,rate:10});
+            var pe = new alcedo.canvas.ParticleEmitter({initial:v,spread:20,max:30,rate:16});
             pe.x = stage.width()/2;
             pe.y = stage.height()/2;
 
@@ -15,7 +15,7 @@ module demo {
             pe.play();
             pe.applyForce(new alcedo.canvas.Vector2D(0,0.09));
 
-            trace(v.toDeg())
+            //trace(v.toDeg())
         }
     }
 }

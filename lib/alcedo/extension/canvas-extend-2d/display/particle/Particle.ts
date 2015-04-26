@@ -39,8 +39,12 @@ module alcedo{
                 this.create(0,0);
             }
 
+            public _stagetransform(stage:Stage){
+                this.worldtransform.identityMatrix(stage.worldtransform)
+            }
+
             public _transform(){
-                this.worldtransform.identityMatrix(Matrix2D.identity);
+                //this.worldtransform.identityMatrix(Matrix2D.identity);
                 this.worldtransform.appendTransform(this.position.x, this.position.y,
                     this.scale.x, this.scale.y, this.rotation, 0, 0, this.pivot.x, this.pivot.y);
             }

@@ -121,7 +121,7 @@ module alcedo {
              */
             public prependTransform(x:number, y:number, scaleX:number, scaleY:number, rotation:number, skewX:number, skewY:number, regX:number, regY:number):Matrix2D {
 
-                var r = rotation;// * Matrix2D.DEG_TO_RAD;
+                var r = rotation* Constant.DEG_TO_RAD;// * Matrix2D.DEG_TO_RAD;
                 var cos = Constant.cos(r);
                 var sin = Constant.sin(r);
 

@@ -64,6 +64,14 @@ module alcedo{
                 //trace(this._maxboundingbox);
                 return this._visualboundingbox;
             }
+
+            public visualWidth():number{
+                return this._visualboundingbox.width;
+            }
+
+            public visualHeight():number{
+                return this._visualboundingbox.height;
+            }
         }
     }
 }

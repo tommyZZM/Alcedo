@@ -3,11 +3,11 @@
     "version": {
         "index": "0.1",
         "subversion": "dev",
-        "build": 1452,
+        "build": 1334,
         "track": true
     },
     "debugserver": {
-        "path": "demo/example/particle.html",
+        "path": "demo/test.html",
         "port": 2010
     },
     "source": [
@@ -17,15 +17,24 @@
             "out": "demo/lib/alcedo.js"
         },
         {
-            "name": "movieclip",
-            "src": "src-example/movieclip",
-            "out": "demo/example/script/movieclip.js",
-            "require": "lib/alcedo"
+            "name": "src",
+            "src": "src",
+            "out": "demo/script/app.js",
+            "require": [
+                "lib/alcedo"
+            ]
         },
         {
             "name": "particle",
             "src": "src-example/particle",
             "out": "demo/example/script/particle.js",
+            "require": "lib/alcedo",
+            "ignore": false
+        },
+        {
+            "name": "helloworld",
+            "src": "src-example/helloworld",
+            "out": "demo/example/script/helloworld.js",
             "require": "lib/alcedo"
         }
     ],

@@ -76,13 +76,11 @@ module game{
         }
     }
 
-
-    //export var Stage:any = alcedo.canvas.Stage;
-    export var Sprite:any = alcedo.canvas.Sprite ;
     export var AsyncAssetsLoader:any = alcedo.net.AsyncAssetsLoader;
     export var AsyncRES:any = alcedo.net.AsyncRES;
 
-    export var Texture:any = alcedo.canvas.Texture;
-    export var TextureRepository:any = alcedo.canvas.TextureRepository;
+    export function TextureRepository():alcedo.canvas.TextureRepository{
+        return <any>alcedo.proxy(alcedo.canvas.TextureRepository);
+    }
 
 }

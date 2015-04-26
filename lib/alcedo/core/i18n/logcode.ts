@@ -2,7 +2,6 @@
  * Created by tommyZZM on 2015/4/6.
  */
 module alcedo{
-    //canvas 心跳控制器
     export module core{
         export var _log_code = {};
         _log_code["apcore"+1001] = "AppFacade是框架内部使用的单例,不允许在外部实例化,请使用a$访问";

@@ -84,7 +84,12 @@ module alcedo {
 
             public toDeg():number{
                 //TODO:x,y更新时才需要重新计算 , PS 我也不知道什么要-270哦
-                return +(Math.atan2(this.x, this.y)* Constant.RAD_TO_DEG).toFixed(1)-270;
+                return -(Math.atan2(this.x, this.y)* Constant.RAD_TO_DEG).toFixed(1)+90;
+            }
+
+            //法向量角
+            public toNormalDeg(left:boolean):number{
+                return this.toDeg()-(left?90:(-90));
             }
 
             public toRad():number{
@@ -131,7 +136,10 @@ module alcedo {
                 return new Vector2D(end.x-start.x,end.y-start.y);
             }
 
-            public static createFromDeg(deg:number){
+            /**
+             * 从一个角度创建向量
+             */
+            public static createFromDeg(deg:number,length:number=1){
                 return new Vector2D(Constant.cos(deg), Constant.sin(deg) );
             }
         }

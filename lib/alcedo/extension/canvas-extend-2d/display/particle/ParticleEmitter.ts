@@ -13,8 +13,8 @@ module alcedo{
 
             private _particleClass:any;
 
-            private _currdirection:Vector2D;
-            private _direction:Vector2D;
+            private _currinitial:Vector2D;
+            private _initial:Vector2D;
             private _mass:number;
 
             private _spread:number;
@@ -24,23 +24,24 @@ module alcedo{
             private _raterandom:number;
 
             /**
-             * @param direction 喷射方向
+             * @param initial
              * @param opts
-             * { particleClass粒子类
+             * @particleClass 粒子类
              */
-            public constructor(direction:Vector2D,opts:any={}){
+            public constructor(opts:any={}){
                 super();
+                trace(opts)
 
                 this._particles = [];
                 this._particlespool = [];
 
-                this._direction = direction.clone();
-                this._currdirection = new Vector2D()
+                this._currinitial = new Vector2D();
                 this._forcemoment = new Vector2D();
                 this._force = new Vector2D();
                 this._shouldcreate = 0;
 
                 //frequency
+                this._initial = opts.initial?opts.initial.clone():new Vector2D();
                 this._spread = opts.spread || 0;
                 this._mass   = opts.massrandom || 1;
                 this._massrandom = opts.massrandom || 0;
@@ -51,12 +52,14 @@ module alcedo{
             }
 
             public _draw(renderer){
-                var partile:Particle;
+                var wt,partile:Particle;
                 for(var i=0;i<this._particles.length;i++){
                     partile = this._particles[i];
+                    partile._stagetransform(this._stage)
                     partile._transform();
                     renderer.context.globalAlpha = partile.alpha*this._alpha;
                     //trace(partile.alpha,this._alpha,partile.alpha*this._alpha);
+                    //partile.worldtransform = this._getMatrix(partile.worldtransform)
                     renderer.setTransform(partile.worldtransform);
                     partile._draw(renderer);
                 }
@@ -84,13 +87,13 @@ module alcedo{
             private _ParticleInit(paricle:Particle){
                 paricle.create(this.x,this.y);
 
-                this._currdirection.resetAs(this._direction);
+                this._currinitial.resetAs(this._initial);
                 if(this._spread){//计算散射角
                     var _randeg = Math.randomFrom(-1,1)*this._spread/2;
-                    var _curdeg = _randeg+this._direction.toDeg();
-                    this._currdirection.resetToDeg(_curdeg);
+                    var _curdeg = _randeg+this._initial.toDeg();
+                    this._currinitial.resetToDeg(_curdeg);
                 }
-                paricle.applyForce(this._currdirection);
+                paricle.applyForce(this._currinitial);
             }
 
             /**
@@ -115,6 +118,7 @@ module alcedo{
                 var delay = (this._shouldcreate)^0;
                 if(this._shouldcreate>1)this._shouldcreate=0;
 
+                //trace(delay,this._particles.length,this._max);
                 if(delay<1 || this._particles.length>=this._max)return;
                 for(var i=0;i<delay;i++){
                     this._createOneParticle()
@@ -141,7 +145,9 @@ module alcedo{
             //    this._particleupdatetask.push(fn);
             //}
 
-            //粒子行为控制
+            /**
+             * 粒子行为控制
+             */
             private _force:Vector2D;
             private _forcemoment:Vector2D;
             public applyForce(force:Vector2D,continute:boolean = true){
@@ -150,6 +156,10 @@ module alcedo{
                 }else{
                     this._forcemoment.add(force);
                 }
+            }
+
+            public set initialdegree(drgee:number){
+                this._initial.resetToDeg(drgee);
             }
 
 
@@ -175,6 +185,7 @@ module alcedo{
             private _playstate:boolean;
             private _playstatetmp:boolean;
             private setPlayState(value:boolean){
+                //trace(this._playstate , value)
                 if(this._playstate == value) {
                     return;
                 }
@@ -190,6 +201,10 @@ module alcedo{
                 }else{
                     this._stage.removeEventListener(Stage.ENTER_MILLSECOND10,this._updateParticles, this);
                 }
+            }
+
+            public dispose(){
+                //todo:释放粒子发射器
             }
         }
     }

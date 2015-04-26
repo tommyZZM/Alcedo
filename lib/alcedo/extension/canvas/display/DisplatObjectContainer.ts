@@ -24,26 +24,55 @@ module alcedo{
                 })
             }
 
-            addChild(child:DisplayObject){
-                child.removeFromParent();
+            public addChild(child:DisplayObject){
+                var success = this._addChild(child);
+                if(!success)return;
+                child.emit(DisplayObjectEvent.ON_ADD,{parent:this,index:this._children.length-1});
+            }
+            private _addChild(child):boolean{
+                if(child.parent==this)return false;
                 this._children.push(child);
                 (<any>child)._setParent(this);
-
+                return true;
             }
 
-            removeChild(child:DisplayObject){
+            public addChildAt(child:DisplayObject,index:number){
+                var success = this._addChild(child);
+                if(!success)return;
+                this.setChildIndex(child,index);
+                child.emit(DisplayObjectEvent.ON_ADD,{parent:this});
+            }
+
+            public setChildIndex(child:DisplayObject,index:number){
+                var lastIdx = this._children.indexOf(child);
+                if (lastIdx < 0) {
+                    return;
+                }
+                //从原来的位置删除
+                this._children.splice(lastIdx, 1);
+                //放到新的位置
+                if (index < 0 || this._children.length <= index) {
+                    this._children.push(child);
+                }
+                else {
+                    this._children.splice(index, 0, child);
+                }
+            }
+
+            public removeChild(child:DisplayObject){
                 var i = this._children.indexOf(child);
                 if(i>=0){
                     this._children.splice(i,1);
                     (<any>child)._setParent(null);
+                    child.emit(DisplayObjectEvent.ON_REMOVE,{parent:this});
                 }
             }
 
-            removeChildren(){
+            public removeChildren(){
                 this._children = [];
             }
 
-            eachChilder(fn:(child)=>void){
+            public eachChilder(fn:(child)=>void){
                 for(var i=0;i<this._children.length;i++){
                     fn.call(this,this._children[i]);
                 }
@@ -52,11 +81,8 @@ module alcedo{
             protected _onAdd(){
                 super._onAdd();
                 this.eachChilder((child)=>{
-                    if(child instanceof DisplatObjectContainer){
-                        child._onAdd();
-                    }else{
-                        child._root = this._root;
-                    }
+                    child._root = this._root;
+                    child._onAdd();
                 })
             }
 

@@ -258,6 +258,7 @@ module alcedo {
             }
 
             protected _setParent(parent:DisplatObjectContainer){
+                if(this._parent === parent)return;
                 this.removeFromParent();
                 this._parent = parent;
                 if(!this._parent){
@@ -267,23 +268,21 @@ module alcedo {
                 }
                 if(!this._parent._root||
                     (this._parent._root && this._root && this._parent._root.hashIndex != this._root.hashIndex)){
+                    var parent = this._parent;
+                    if(!parent)return;
+                    var _root = parent;
+                    if(_root._parent){
+                        while(_root._parent){
+                            _root = parent._parent;
+                        }
+                    }
+                    this._root = _root;
                     this._onAdd();
                 }
             }
 
             protected _stage:Stage;
             protected _onAdd(){
-                //trace("_setRoot");
-                var parent = this._parent;
-                if(!parent)return;
-                var _root = parent;
-                if(_root._parent){
-                    while(_root._parent){
-                        _root = parent._parent;
-                    }
-                }
-                this._root = _root;
-
                 //this.emit(DisplayObjectEvent.ON_ADD);
                 if(this.isAddtoStage()){
                     this.emit(DisplayObjectEvent.ON_ADD_TO_STAGE);
@@ -316,7 +315,7 @@ module alcedo {
                 if(flag)pt = this._parent._worldtransform;
 
                 wt.identityMatrix(pt);
-                this._getMatrix(wt);
+                this._worldtransform = this._getMatrix(wt);
 
                 this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
                 this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;

@@ -1,7 +1,7 @@
 {
 	"groups":[
 	{
-		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn",
+		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao",
 		"name":"preload"
 	},
 	{
@@ -53,5 +53,10 @@
 		"name":"bgcloud05",
 		"type":"image",
 		"url":"game/bg/bgcloud05.png"
+	},
+	{
+		"name":"paopaotucao",
+		"type":"image",
+		"url":"paopaotucao.png"
 	}]
 }

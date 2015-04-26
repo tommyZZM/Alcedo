@@ -110,7 +110,7 @@ module game{
             //trace("create this._props.length=",this._props.length)
             if(this._props.length<this._propmax){
                 //trace("this._props.length<this._propmax",this._props.length,this._propmax)
-                prop = new Sprite(texture);
+                prop = new alcedo.canvas.Sprite(texture);
                 prop.scaleToWidth(stage.width()*1.6)
             }else if(this._propspool && this._propspool.length>0){
                 //trace("this._propspool && this._propspool.length>0",this._propspool.length)

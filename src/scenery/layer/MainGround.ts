@@ -8,32 +8,45 @@ module game {
             this.init();
         }
 
-        private _f$obj:LogicObject;
+        private _myplane:LogicObject;
         public init(){
-            var sp = new Sprite(<any>alcedo.proxy(TextureRepository).get("paopaoxieyanxiao"));
-            sp.x = 100;
-            sp.y = stage.height()/2;
-            sp.pivotX(0.5);sp.pivotY(0.5)
-            this.addChild(sp);
-            this._f$obj = new game.LogicObject(sp);
-            //this._f$obj.direction = alcedo.canvas.Vector2D.identity(1,0);
-            speed.plane = this._f$obj.speed = speed.plane_lazy;
+            
+            this._myplane = new game.He162S("paopaotucao");
+            this._myplane.b.x = 100;
+            this._myplane.b.y = stage.height()/2;
+            this._myplane.b.pivotX(0.5);this._myplane.b.pivotY(0.5);
+            this.addObject(this._myplane);
 
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
+            speed.plane = this._myplane.speed = speed.plane_lazy;
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
+
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
             alcedo.proxy(CameraManager).init(stage.camera());
-            alcedo.proxy(CameraManager).lookAt(this._f$obj.b);
+            alcedo.proxy(CameraManager).lookAt(this._myplane.b);
             stage.camera().focal = 1
         }
 
         private onEachTime(e){
-            this._f$obj.b.rotation+=1*e.delay;
-            //stage.camera().zoomTo(this._f$obj.b.x,this._f$obj.b.y,1,0.5);
-            if(this._f$obj.b.y>=480){
-                this._f$obj.velocity.y-=3;
+            var i;
+            for(i=0;i<this._gameobjects.length;i++){
+                this._gameobjects[i].update(e);
+            }
+            if(this._myplane.b.y>=260){
+                this._myplane.applyForce(new alcedo.canvas.Vector2D(0,-2));
             }
         }
 
+        private _gameobjects = [];
+        public addObject(obj:LogicObject){
+            this.addChild(obj.b);
+            this._gameobjects.push(obj);
+        }
+
+        public removeObject(obj:LogicObject){
+            this.removeChild(obj.b);
+            var index = this._gameobjects.indexOf(obj);
+            this._gameobjects.splice(index,1);
+        }
         /**
          * Response Command
          */
@@ -42,9 +55,9 @@ module game {
         private resStartPlaying(){
             //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
-            this._f$obj.speed = speed.plane;
-            this._f$obj.velocity.y-=3
-            this._f$obj.acceleration.y = 0.1;
+            this._myplane.speed = speed.plane;
+            this._myplane.velocity.y-=3
+            this._myplane.acceleration.y = 0.1;
         }
 
         /**重置位置**/
