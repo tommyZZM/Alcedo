@@ -1,9 +1,9 @@
 {
     "name": "alcedo-framework",
     "version": {
-        "index": "0.1",
+        "index": "0.01a",
         "subversion": "dev",
-        "build": 1334,
+        "build": 1335,
         "track": true
     },
     "debugserver": {
