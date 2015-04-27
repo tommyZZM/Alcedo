@@ -10,7 +10,7 @@ module game {
 
         private _camera:alcedo.canvas.Camera2D;
 
-        private _lookat:alcedo.canvas.DisplayObject|alcedo.canvas.Point2D;
+        private _lookat:alcedo.canvas.Ixy;
 
         public init(camera:alcedo.canvas.Camera2D){
             this._camera = camera;
@@ -20,7 +20,7 @@ module game {
         }
 
         public lookAt(target:alcedo.canvas.DisplayObject){
-            this._lookat = target;
+            this._lookat = <any>target;
         }
 
         private onEachTime(){

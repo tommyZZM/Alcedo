@@ -20,11 +20,31 @@ module alcedo{
 
                 this._stage = stage;
                 this._stage.enterframe(this.update,this)
+
+                this._lostfocustime = 0;
+                d$.addEventListener(dom.DomEvents.ON_FOCUS,this.onWindowFocus,this);
+                d$.addEventListener(dom.DomEvents.ON_LOST_FOCUS,this.onWindowLostFocus,this);
+            }
+
+            private _lostfocustime:number;
+            private onWindowFocus(e){
+                if(!this._lostfocustime)return;
+                this._lostfocustime = e.time - this._lostfocustime;
+                //trace("onWindowFocus",this._lostfocustime)
+            }
+
+            private onWindowLostFocus(e){
+                //trace("onWindowLostFocus")
+                this._lostfocustime = e.time;
             }
 
             private update(e){
                 var i,dt = e.dt,
                     _counter:number;
+                if(this._lostfocustime>0 && e.dt>this._lostfocustime){//防止失去焦点时dt计算不正确
+                    dt = e.dt-this._lostfocustime;//trace("ReFocus",e.dt,this._lostfocustime,dt)
+                    this._lostfocustime = 0;
+                }
                 this._countmicrosecond+=dt;
                 this._fps = 1000/dt;
 

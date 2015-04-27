@@ -1,11 +1,12 @@
 /**
  * Created by tommyZZM on 2015/4/5.
+ * TODO:Dom元素操作优化
  */
 module alcedo{
     export var d$:dom.DomManager;
 
     export module dom{
-        export class DomManager extends AppNotifyable{
+        export class DomManager extends EventDispatcher{
 
             private _readytask:string;
             private _domtask:Dict;
@@ -22,9 +23,36 @@ module alcedo{
                 this._domtask = new Dict();
                 this._domtask.set(_DomEvent.ready,[]);
 
+                this.usefulDomEvent();
+                this.windowConfigure()
+            }
+
+            private usefulDomEvent(){
                 window.onresize = this.onresize.bind(this);
 
-                this.windowConfigure()
+                document.addEventListener('webkitvisibilitychange', ()=>{
+                    if(!document.hidden){
+                        this.onShow();
+                    }else{
+                        this.onHide();
+                    }
+                });
+                window.addEventListener("pageshow",  this.onShow.bind(this));
+                window.addEventListener("pagehide", this.onHide.bind(this));
+            }
+
+            private _focus:boolean;
+            private _lastfocusstate:boolean;
+            private onShow(){
+                if(this._lastfocusstate===this._focus)return;
+                this._focus = true;
+                this._lastfocusstate = this._focus;
+                this.emit(DomEvents.ON_FOCUS,{time:Date.now()})
+            }
+
+            private onHide(){
+                this._focus = false;
+                this.emit(DomEvents.ON_LOST_FOCUS,{time:Date.now()})
             }
 
             private windowConfigure(){
