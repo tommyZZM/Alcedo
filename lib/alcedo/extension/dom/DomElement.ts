@@ -26,6 +26,7 @@ module alcedo {
             }
 
             private initevent(){
+                //TODO:点击事件可能会有BUG,待优化.
                 var touchcallback = (e,fn)=>{
                     e.preventDefault();
                     e.stopPropagation()
@@ -136,6 +137,23 @@ module alcedo {
             /**
              * CSS style
              */
+            public hasClass(className) {
+                var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+                return this._node.className.match(reg);
+            }
+
+            public addClass(className) {
+                if (!this.hasClass(className)) {
+                    this._node.className += " " + className;
+                }
+            }
+
+            public removeClass(className) {
+                if (this.hasClass(className)) {
+                    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+                    this._node.className = this._node.className.replace(reg, ' ');
+                }
+            }
             //public get style():any{return this._node.style}
             public get styleClass():string[]{
                 var result = this.node.className.split(" ")
