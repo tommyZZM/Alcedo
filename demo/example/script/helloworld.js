@@ -83,6 +83,8 @@ var demo;
         HelloWorld.prototype.run = function () {
             var sp = new alcedo.canvas.graphic.Rectangle(100, 100, 100, 100);
             demo.stage.addChild(sp);
+            sp.alpha = 0.5;
+            trace(sp);
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
             //sp.y = stage.height()/2;

@@ -8,6 +8,8 @@ module demo {
 
             var sp = new alcedo.canvas.graphic.Rectangle(100,100,100,100);
             stage.addChild(sp);
+            sp.alpha = 0.5
+            trace(sp);
 
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;

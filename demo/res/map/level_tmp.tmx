@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="200" height="80" tilewidth="5" tileheight="5" nextobjectid="30">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="600" height="80" tilewidth="5" tileheight="5" nextobjectid="30">
  <objectgroup color="#2980b9" name="clourpower">
-  <object id="14" x="591.5" y="96">
+  <object id="14" x="848.5" y="101">
    <polyline points="0,0 -7.5,64.5 39,68.5 47.5,3"/>
   </object>
-  <object id="15" x="394" y="120.5">
+  <object id="15" x="651" y="125.5">
    <polyline points="0,0 36,0.5"/>
   </object>
-  <object id="16" x="593" y="93">
+  <object id="16" x="850" y="98">
    <polyline points="0,0 46.5,2.5"/>
   </object>
-  <object id="17" x="521" y="91.5">
+  <object id="17" x="778" y="96.5">
    <polyline points="0,0 -6.5,64.5 43,67"/>
   </object>
-  <object id="18" x="323" y="118">
+  <object id="18" x="580" y="123">
    <polyline points="0,0 33,1"/>
   </object>
-  <object id="19" x="357" y="92.5">
+  <object id="19" x="614" y="97.5">
    <polyline points="0,0 -3.5,53.5"/>
   </object>
-  <object id="20" x="457.5" y="93.5">
+  <object id="20" x="714.5" y="98.5">
    <polyline points="0,0 -7,58 36.5,60.5"/>
   </object>
-  <object id="21" x="394.5" y="92">
+  <object id="21" x="651.5" y="97">
    <polyline points="0,0 41,2"/>
   </object>
-  <object id="22" x="392" y="100.5">
+  <object id="22" x="649" y="105.5">
    <polyline points="0,0 -5.5,50 35,50.5"/>
   </object>
-  <object id="23" x="324.5" y="89.5">
+  <object id="23" x="581.5" y="94.5">
    <polyline points="0,0 -3.5,53.5"/>
   </object>
  </objectgroup>
  <objectgroup color="#e67e22" name="obstacle_darkcloud">
-  <object id="25" x="423.25" y="219.25" width="99.5" height="63.5"/>
+  <object id="25" x="680.25" y="224.25" width="99.5" height="63.5"/>
  </objectgroup>
 </map>

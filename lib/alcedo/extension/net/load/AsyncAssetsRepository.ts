@@ -36,6 +36,17 @@ module alcedo {
                 return this._assetspool.get(key);
             }
 
+            public find(reg:RegExp):Array<any>{
+                var i,keys = <any>this._assetspool.keys,
+                    result = [];
+                for(i=0;i<keys.length;i++){
+                    if(reg.test(keys[i])){
+                        if(this.get(keys[i]))result.push(this.get(keys[i])[0])
+                    }
+                }
+                return result;
+            }
+
             get assets():Array<any>{
                 return this._assetspool.values;
             }

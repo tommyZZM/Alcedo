@@ -19,6 +19,17 @@ class Dict{
         return this._map[key]
     }
 
+    public find(reg:RegExp):Array<any>{
+        var i,keys = this._keys,
+            result = [];
+        for(i=0;i<keys.length;i++){
+            if(reg.test(keys[i])){
+                if(this.get(keys[i]))result.push(this.get(keys[i]))
+            }
+        }
+        return result;
+    }
+
     public delete(key:string){
         var index = this._keys.indexOf(key, 0);
         if(index>=0){

@@ -48,6 +48,7 @@ module game {
             var index = this._gameobjects.indexOf(obj);
             this._gameobjects.splice(index,1);
         }
+
         /**
          * Response Command
          */
@@ -57,9 +58,16 @@ module game {
             //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
             this._myplane.speed = speed.plane;
-            this._myplane.velocity.y-=3
+            this._myplane.velocity.y-=3;
             this._myplane.acceleration.y = 0.1;
+
+            alcedo.proxy(LevelManager).startLevel(this._myplane.b.x);
         }
+
+
+
+
+
 
         /**重置位置**/
         public resReturnPos(){

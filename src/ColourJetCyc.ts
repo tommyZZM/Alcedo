@@ -38,7 +38,7 @@ module game{
         }
 
         private onAssetLoaded(){
-            alcedo.proxy(MainManager).init(this.stage);
+            alcedo.proxy(GroundManager).init(this.stage);
         }
 
         private onResize(){

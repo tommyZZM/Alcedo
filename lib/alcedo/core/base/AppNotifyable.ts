@@ -27,9 +27,9 @@ module alcedo {
                     insertIndex = i;
                 }
 
-                if(getClassName(thisObject)==="game.MainGround" && getClassName(bin.thisObject)==="game.CameraManager"){
-                    trace(getClassName(thisObject),bin.priority,priority,bin.priority < priority)
-                }
+                //if(getClassName(thisObject)==="game.MainGround" && getClassName(bin.thisObject)==="game.CameraManager"){
+                //    trace(getClassName(thisObject),bin.priority,priority,bin.priority < priority)
+                //}
             }
 
             var bin:any = {callback:callback,thisObject:thisObject,param:param?param:[],priority:priority};
@@ -40,10 +40,9 @@ module alcedo {
                 map.push(bin);
             }
 
-            if(name===alcedo.canvas.Stage.ENTER_MILLSECOND10){
-                trace(getClassName(thisObject),priority,map)
-            }
-
+            //if(name===alcedo.canvas.Stage.ENTER_MILLSECOND10){
+            //    trace(getClassName(thisObject),priority,map)
+            //}
             //console.log(name,map)
 
             notifymap.set(name,map);

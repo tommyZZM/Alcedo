@@ -7,7 +7,7 @@ module alcedo {
 
             protected static ON_UPDATE_BOUND:string = "DisplayObject_ON_UPDATE_BOUND";
 
-            public debug:boolean;
+            //public debug:boolean;
 
             /**位置**/
             protected _position:Point2D;
@@ -49,7 +49,10 @@ module alcedo {
             }
 
             protected _alpha:number = 1;
-            protected _worldalpha:number;
+            protected _worldalpha:number = 1;
+            public set alpha(alpha:number){
+                this._alpha = alpha;
+            }
             public get alpha():number{
                 return this._alpha;
             }

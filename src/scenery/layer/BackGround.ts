@@ -19,6 +19,7 @@ module game{
         }
     }
 
+    //TODO:[BUG]某些情况下背景会消失的问题
     class BackGroundClouds extends alcedo.canvas.DisplatObjectContainer{
 
         private _propoffset:number = 0.5;

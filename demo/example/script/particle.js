@@ -43,7 +43,7 @@ var demo;
                 border: 0,
                 margin: "0"
             });
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRES.ASSETS_COMPLETE, this.onAssetLoaded, this);
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE, this.onAssetLoaded, this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload");
         };
@@ -88,7 +88,7 @@ var demo;
             demo.stage.addChild(pe);
             pe.play();
             pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
-            //trace(v.toDeg())
+            trace(v.toDeg());
         };
         return ParticleExample;
     })(demo.ExampleCycler);

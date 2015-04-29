@@ -15,7 +15,7 @@ module demo {
             pe.play();
             pe.applyForce(new alcedo.canvas.Vector2D(0,0.09));
 
-            //trace(v.toDeg())
+            trace(v.toDeg())
         }
     }
 }
