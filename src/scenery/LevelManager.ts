@@ -38,7 +38,8 @@ module game{
         private checkLevels(){
             //检查当前场景是否已经从视图中离去;
             if(this._currlevel){
-                trace(this._currlevel.isInViewPort(),this._currlevel.isAddtoStage());
+                if(!this._currlevel.isInViewPort()&&this._currlevel.x<stage.viewPort().x)
+                this._currlevel.x = stage.viewPort().right+600
             }
         }
 
