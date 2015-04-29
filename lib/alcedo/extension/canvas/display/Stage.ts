@@ -113,9 +113,10 @@ module alcedo{
                 return this._camera;
             }
 
-            //public tweens():Tweens{
-            //    return this._tweens;
-            //}
+            public isInViewPort():boolean{
+                return true;
+                //nothing
+            }
 
             addChild(child:DisplayObject){
                 if(child instanceof Stage)return;//todo:error log here;

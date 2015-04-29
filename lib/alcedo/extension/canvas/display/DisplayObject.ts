@@ -191,6 +191,33 @@ module alcedo {
             }
 
             /**
+             * OverRide position method
+             * 主要更新了可视包围盒，TODO:有Bug,待优化
+             */
+            protected _actualboundingbox:Rectangle = new Rectangle();
+            public actualBound():Rectangle{
+                //计算最大包围盒
+                var _pointlefttop = this.localToGlobal(0,0);
+                var _pointrighttop = this.localToGlobal(this._staticboundingbox.width,0);
+                var _pointrightbottom = this.localToGlobal(this._staticboundingbox.width
+                    ,this._staticboundingbox.height);
+                var _pointleftbottom = this.localToGlobal(0,this._staticboundingbox.height);
+
+                Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._actualboundingbox)
+
+                //trace(this._maxboundingbox);
+                return this._actualboundingbox;
+            }
+
+            public actualWidth():number{
+                return this._actualboundingbox.width;
+            }
+
+            public actualHeight():number{
+                return this._actualboundingbox.height;
+            }
+
+            /**
              * 将 point 对象从显示对象的（本地）坐标转换为舞台（全局）坐标。
              * 此方法允许您将任何给定的 x 和 y 坐标从相对于特定显示对象原点 (0,0) 的值（本地坐标）转换为相对于舞台原点的值（全局坐标）。
              * @method canvas.DisplayObject#localToGlobal
@@ -233,7 +260,7 @@ module alcedo {
             private static identityMatrixForGetConcatenated = new Matrix2D();
 
             protected _getConcatenatedMatrix():Matrix2D {
-                //todo:采用local_matrix模式下这里的逻辑需要修改
+                //todo:----------------------------
                 var matrix:Matrix2D = DisplayObject.identityMatrixForGetConcatenated.identity();
                 var o = this;
                 while (o != null && !(o instanceof Stage)) {
@@ -265,23 +292,21 @@ module alcedo {
                 this.removeFromParent();
                 this._parent = parent;
                 if(!this._parent){
-                    //trace("_setParent !this._parent");
                     this._root = null;
                     return;
                 }
-                if(!this._parent._root||
-                    (this._parent._root && this._root && this._parent._root.hashIndex != this._root.hashIndex)){
-                    var parent = this._parent;
-                    if(!parent)return;
-                    var _root = parent;
-                    if(_root._parent){
-                        while(_root._parent){
-                            _root = parent._parent;
-                        }
+                //trace(getClassName(this),"_setParent",this._parent._root, this._root);
+                var parent = this._parent;
+                var _root = parent;
+                while(_root._parent){
+                    if(_root._parent===_root){
+                        throw new Error("_root._parent===_root")
                     }
-                    this._root = _root;
-                    this._onAdd();
+                    _root = _root._parent;
+                    //trace(getClassName(this),_root,getClassName(_root))
                 }
+                this._root = _root;
+                this._onAdd();
             }
 
             protected _stage:Stage;

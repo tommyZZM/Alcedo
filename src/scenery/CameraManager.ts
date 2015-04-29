@@ -32,7 +32,7 @@ module game {
 
         /**更新镜头**/ //TODO:镜头缓动;
         private updateCamera(){
-            stage.camera().zoomTo(this._lookat.x,this._lookat.y,1,0.5);
+            stage.camera().zoomTo(this._lookat.x,this._lookat.y,1,0.3,0.5);
         }
 
         private limitTation(){

@@ -41,36 +41,9 @@ module alcedo{
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                var result = (<Stage>this._root).viewPort().hitRectangelTest(this.visualBound());
+                var result = (<Stage>this._root).viewPort().hitRectangelTest(this.actualBound());
 
                 return result;
-            }
-
-            /**
-             * OverRide position method
-             * 主要更新了可视包围盒，TODO:有Bug,待优化
-             */
-            protected _visualboundingbox:Rectangle = new Rectangle();
-            public visualBound():Rectangle{
-                //计算最大包围盒
-                var _pointlefttop = this.localToGlobal(0,0);
-                var _pointrighttop = this.localToGlobal(this._staticboundingbox.width,0);
-                var _pointrightbottom = this.localToGlobal(this._staticboundingbox.width
-                    ,this._staticboundingbox.height);
-                var _pointleftbottom = this.localToGlobal(0,this._staticboundingbox.height);
-
-                Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._visualboundingbox)
-
-                //trace(this._maxboundingbox);
-                return this._visualboundingbox;
-            }
-
-            public visualWidth():number{
-                return this._visualboundingbox.width;
-            }
-
-            public visualHeight():number{
-                return this._visualboundingbox.height;
             }
         }
     }

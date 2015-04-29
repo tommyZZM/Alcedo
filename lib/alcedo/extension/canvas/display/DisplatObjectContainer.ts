@@ -85,11 +85,6 @@ module alcedo{
                     child._onAdd();
                 })
             }
-
-            public isInViewPort():boolean{
-                return true;
-                //nothing
-            }
         }
 
         export interface IDisplatObjectContainer{

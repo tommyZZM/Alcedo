@@ -124,7 +124,7 @@ module game{
 
             var lastprop = this._props[this._props.length-1];
             if(lastprop){
-                prop.x = lastprop.x+lastprop.visualBound().width;
+                prop.x = lastprop.x+lastprop.actualBound().width;
                 //trace(prop.x,lastprop.visualBound(),lastprop._staticboundingbox);
             }else{
                 prop.x = stage.width();

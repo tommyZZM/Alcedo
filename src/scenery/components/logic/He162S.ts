@@ -8,6 +8,7 @@ module game{
         public constructor(skin:string){
             super();
             this._display = new alcedo.canvas.Sprite(TextureRepository().get(skin));
+            this.b.scaleALL(0.8)
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_ADD,this.onAdd,this);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_REMOVE,this.onRemove,this);
 

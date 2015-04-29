@@ -15,18 +15,31 @@ module game{
 
         private _currlevel:LevelObject;
 
+        public constructor(){
+            super();
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.checkLevels,this);
+        }
+
         public init(mainground:MainGround){
             this._mainground = mainground;
             this._leveltmp = new LevelObject(AsyncRES().find(/level_\w+/i)[0]);
         }
 
         public startLevel(positionx:number){
-            trace("startlevel",positionx);
 
             this._currlevel = this.selectOneLevel();
-            this._currlevel.x = positionx+stage.width()/2+200;
+            this._currlevel.x = positionx+stage.width()/2+600;
 
             this._mainground.addChildAt(this._currlevel,0);
+
+            trace("startlevel",positionx,this._currlevel.width(),this._currlevel.height());
+        }
+
+        private checkLevels(){
+            //检查当前场景是否已经从视图中离去;
+            if(this._currlevel){
+                trace(this._currlevel.isInViewPort(),this._currlevel.isAddtoStage());
+            }
         }
 
         public resetAllLevel(){
@@ -47,6 +60,8 @@ module game{
         public constructor(levelconfig){
             super();
             this._levelconfig = levelconfig;
+            this.width(levelconfig.pixelwidth);
+            this.height(levelconfig.pixelheight);
 
             this.debugArea(true);
         }
