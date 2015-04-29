@@ -36,7 +36,7 @@ module game{
 
         private onResize(){
             var i,ele,width,
-                centers = this._gameui.find(".center");
+                centers:any = this._gameui.find(".center");
             for(i=0;i<centers.length;i++){
                 ele = centers[i];
                 width = ele.node.style.width?ele.node.style.width:ele.abscss()["width"];

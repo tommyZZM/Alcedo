@@ -31,26 +31,14 @@ module game{
                 {display: "block",position:"relative",width:alcedo.dom.width()+"px",height:alcedo.dom.height()+"px",padding:0,border:0,margin:"0"});
             alcedo.d$.resize(this.onResize,this);
 
-            //加载资源
-            alcedo.proxy(AsyncAssetsLoader).addEventListener(AsyncRES.ASSETS_COMPLETE,this.onAssetLoaded,this);
+            //加载资源 //TODO:加载界面;
+            alcedo.proxy(AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud")
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","levels");
         }
 
-        private _background:BackGround;
-        private _mainground:MainGround;
-        private _fronttground:FrontGround;
         private onAssetLoaded(){
-            alcedo.proxy(GameUIManager).init();
-
-            this._background = new BackGround();
-            this.stage.addChild(this._background);
-
-            this._mainground = new MainGround();
-            this.stage.addChild(this._mainground);
-
-            this._fronttground = new FrontGround();
-            this.stage.addChild(this._fronttground);
+            alcedo.proxy(MainManager).init(this.stage);
         }
 
         private onResize(){
@@ -77,10 +65,14 @@ module game{
     }
 
     export var AsyncAssetsLoader:any = alcedo.net.AsyncAssetsLoader;
-    export var AsyncRES:any = alcedo.net.AsyncRES;
+    //export var AsyncRES:any = alcedo.net.AsyncRES;
 
     export function TextureRepository():alcedo.canvas.TextureRepository{
         return <any>alcedo.proxy(alcedo.canvas.TextureRepository);
+    }
+
+    export function AsyncRES():alcedo.net.AsyncRES{
+        return alcedo.proxy(alcedo.net.AsyncRES);
     }
 
 }

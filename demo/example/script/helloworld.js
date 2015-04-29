@@ -1,7 +1,3 @@
-
-
-
-
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -47,7 +43,7 @@ var demo;
                 border: 0,
                 margin: "0"
             });
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRES.ASSETS_COMPLETE, this.onAssetLoaded, this);
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE, this.onAssetLoaded, this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload");
         };
@@ -85,23 +81,27 @@ var demo;
             _super.apply(this, arguments);
         }
         HelloWorld.prototype.run = function () {
-            var sp = new alcedo.canvas.Sprite(demo.TextureRepository().get("paopaohappy"));
-            sp.x = demo.stage.width() / 2;
-            sp.y = demo.stage.height() / 2;
-            sp.pivotX(0.5);
-            sp.pivotY(0.5);
+            var sp = new alcedo.canvas.graphic.Rectangle(100, 100, 100, 100);
             demo.stage.addChild(sp);
-            sp.rotation = 180;
-            var splocaltoglobal = sp.localToGlobal(0, 0);
-            var cri = new alcedo.canvas.shape.Circle(splocaltoglobal.x, splocaltoglobal.y, 5, "#e74c3c");
-            demo.stage.addChild(cri);
-            return;
-            demo.stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10, function () {
-                sp.rotation++;
-                var splocaltoglobal = sp.localToGlobal(0, 0);
-                cri.x = splocaltoglobal.x;
-                cri.y = splocaltoglobal.y;
-            }, this);
+            //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
+            //sp.x = stage.width()/2;
+            //sp.y = stage.height()/2;
+            //sp.pivotX(0.5);sp.pivotY(0.5);
+            //stage.addChild(sp);
+            //sp.rotation = 180;
+            //var splocaltoglobal = sp.localToGlobal(0,0)
+            //
+            //var cri = new alcedo.canvas.shape.Circle(splocaltoglobal.x,splocaltoglobal.y,5,"#e74c3c")
+            //stage.addChild(cri);
+            //
+            //return;
+            //stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,()=>{
+            //    sp.rotation++;
+            //    var splocaltoglobal = sp.localToGlobal(0,0)
+            //
+            //    cri.x = splocaltoglobal.x;
+            //    cri.y = splocaltoglobal.y;
+            //},this)
         };
         return HelloWorld;
     })(demo.ExampleCycler);

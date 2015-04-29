@@ -1,12 +1,16 @@
 {
 	"groups":[
 	{
-		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao",
+		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao,paopaohappy",
 		"name":"preload"
 	},
 	{
 		"keys":"bgcloud01,bgcloud02,bgcloud03,bgcloud04,bgcloud05",
 		"name":"bgcloud"
+	},
+	{
+		"keys":"level_tmp",
+		"name":"levels"
 	}],
 	"resources":[
 	{
@@ -58,5 +62,15 @@
 		"name":"paopaotucao",
 		"type":"image",
 		"url":"paopaotucao.png"
+	},
+	{
+		"name":"paopaohappy",
+		"type":"image",
+		"url":"paopaohappy.png"
+	},
+	{
+		"name":"level_tmp",
+		"type":"json",
+		"url":"map/level_tmp.json"
 	}]
 }

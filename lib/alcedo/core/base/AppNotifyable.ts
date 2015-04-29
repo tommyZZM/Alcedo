@@ -16,6 +16,8 @@ module alcedo {
 
             var length = map.length;
             var insertIndex:number = -1;
+
+            if(priority===undefined)priority=0;
             for (var i:number = 0; i < length; i++) {
                 var bin:any = map[i];
                 if (bin && bin.callback === callback && bin.thisObject === thisObject) {
@@ -23,6 +25,10 @@ module alcedo {
                 }
                 if (bin && insertIndex == -1 && bin.priority < priority) {
                     insertIndex = i;
+                }
+
+                if(getClassName(thisObject)==="game.MainGround" && getClassName(bin.thisObject)==="game.CameraManager"){
+                    trace(getClassName(thisObject),bin.priority,priority,bin.priority < priority)
                 }
             }
 
@@ -32,6 +38,10 @@ module alcedo {
             }
             else {
                 map.push(bin);
+            }
+
+            if(name===alcedo.canvas.Stage.ENTER_MILLSECOND10){
+                trace(getClassName(thisObject),priority,map)
             }
 
             //console.log(name,map)

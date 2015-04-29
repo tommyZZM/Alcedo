@@ -189,7 +189,7 @@ module alcedo {
                         break;
                     }
                 }
-                if(flag)this.emit(AsyncRES.ASSETS_COMPLETE)
+                if(flag)this.emit(AsyncRESEvent.ASSETS_COMPLETE)
             }
         }
     }

@@ -3,11 +3,13 @@
  */
 module alcedo {
     export module net {
-        export class AsyncAssetsRepository extends AppProxyer {
-            private static instanceable:boolean = true;
-
+        export class AsyncRESEvent extends Event{
             public static ASSETS_COMPLETE:string = "AsyncAssetsEvent_LOAD_COMPLETE";
             public static ASSETS_PROGRESSING:string = "AsyncAssetsEvent_LOAD_ASSETS_PROGRESSING";
+        }
+
+        export class AsyncRES extends AppProxyer {
+            private static instanceable:boolean = true;
 
             private _repeatkey;
             private _assetspool:Dict;
@@ -43,6 +45,6 @@ module alcedo {
             }
 
         }
-        export var AsyncRES:any = AsyncAssetsRepository;
+        //export var AsyncRES:any = AsyncAssetsRepository;
     }
 }

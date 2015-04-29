@@ -21,12 +21,13 @@ module game {
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
 
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
-            alcedo.proxy(CameraManager).init(stage.camera());
+
             alcedo.proxy(CameraManager).lookAt(this._myplane.b);
-            stage.camera().focal = 1
+            stage.camera().focal = 1;
         }
 
         private onEachTime(e){
+            //trace("MainGround eachtime");
             var i;
             for(i=0;i<this._gameobjects.length;i++){
                 this._gameobjects[i].update(e);

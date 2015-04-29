@@ -39,7 +39,7 @@ module demo {
             });
 
             alcedo.proxy(alcedo.net.AsyncAssetsLoader)
-                .addEventListener(alcedo.net.AsyncRES.ASSETS_COMPLETE,this.onAssetLoaded,this);
+                .addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload")
         }
@@ -53,7 +53,7 @@ module demo {
         }
     }
 
-    export function AsyncRES():alcedo.net.AsyncAssetsRepository{
+    export function AsyncRES():alcedo.net.AsyncRES{
         return alcedo.proxy(alcedo.net.AsyncRES)
     }
 

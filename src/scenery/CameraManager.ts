@@ -14,9 +14,9 @@ module game {
 
         public init(camera:alcedo.canvas.Camera2D){
             this._camera = camera;
-            this._lookat = new alcedo.canvas.Point2D(stage.width()/2,stage.height()/2);
+            //this._lookat = new alcedo.canvas.Point2D(stage.width()/2,stage.height()/2);
 
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,Number.NEGATIVE_INFINITY)
         }
 
         public lookAt(target:alcedo.canvas.DisplayObject){
@@ -24,11 +24,13 @@ module game {
         }
 
         private onEachTime(){
-            this.updateCamera();
-            this.limitTation();
+            if(this._lookat){
+                this.updateCamera();
+                this.limitTation();
+            }
         }
 
-        /**更新镜头**/
+        /**更新镜头**/ //TODO:镜头缓动;
         private updateCamera(){
             stage.camera().zoomTo(this._lookat.x,this._lookat.y,1,0.5);
         }

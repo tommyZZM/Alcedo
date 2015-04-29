@@ -12,6 +12,7 @@ module game{
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_REMOVE,this.onRemove,this);
 
             this.bindParticleEmitterAt(-0.5,0);
+            this._maxspeed = 12.6;
         }
 
         private onAdd(e){

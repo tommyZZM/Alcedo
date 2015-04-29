@@ -137,9 +137,9 @@ module alcedo {
             /**
              * CSS style
              */
-            public hasClass(className) {
+            public hasClass(className):boolean {
                 var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-                return this._node.className.match(reg);
+                return !!this._node.className.match(reg);
             }
 
             public addClass(className) {
@@ -151,11 +151,12 @@ module alcedo {
             public removeClass(className) {
                 if (this.hasClass(className)) {
                     var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-                    this._node.className = this._node.className.replace(reg, ' ');
+                    this._node.className = this._node.className.replace(reg, '');
                 }
             }
             //public get style():any{return this._node.style}
             public get styleClass():string[]{
+                this._node.className = this._node.className.replace('  ', ' ');
                 var result = this.node.className.split(" ")
                 return result
             }

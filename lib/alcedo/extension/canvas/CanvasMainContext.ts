@@ -37,7 +37,7 @@ module alcedo {
                 this._canvas.node["height"] = this._designheight;
 
                 this._canvascontainer = d$.query("<div></div>")[0];
-                this._canvascontainer.id = this._canvas.id+"_container";
+                //this._canvascontainer.id = this._canvas.id+"_container";
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
 

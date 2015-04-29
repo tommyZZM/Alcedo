@@ -3,7 +3,7 @@
  */
 module alcedo{
     export module canvas{
-        export module shape{
+        export module graphic{
             export class EasyShape extends DisplayObject{
                 protected _fillcolour:string;
 
@@ -29,8 +29,8 @@ module alcedo{
                     this._radius = r;
                     this._graphicfn = (context:CanvasRenderingContext2D)=>{
                         context.beginPath();
-                        context.arc(0, 0, this._radius, 0, 2 * Math.PI, false);
                         context.fillStyle = this._fillcolour;
+                        context.arc(0, 0, this._radius, 0, 2 * Math.PI, false);
                         context.closePath();
                         context.fill();
                     }
@@ -38,9 +38,22 @@ module alcedo{
             }
 
             export class Rectangle extends EasyShape{
+                private _shapewidth:number;
+                private _shapeheight:number;
 
+                public constructor(x:number,y:number,width:number,height:number,coulour:string = "#000"){
+                    super();
+                    this._fillcolour = coulour;
+                    this.x = x;
+                    this.y = y;
+                    this._shapewidth = width;
+                    this._shapeheight = height;
+                    this._graphicfn = (context:CanvasRenderingContext2D)=>{
+                        context.fillStyle = this._fillcolour;
+                        context.fillRect(0, 0, this._shapewidth, this._shapeheight);
+                    }
+                }
             }
         }
-
     }
 }

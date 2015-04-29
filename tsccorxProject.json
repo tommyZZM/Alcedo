@@ -3,10 +3,11 @@
     "version": {
         "index": "0.01a",
         "subversion": "dev",
-        "build": 1357,
+        "build": 1404,
         "track": true
     },
-    "debugserver": {
+    "runopts": {
+        "type": "server",
         "path": "demo/test.html",
         "port": 2010
     },
@@ -22,14 +23,15 @@
             "out": "demo/script/app.js",
             "require": [
                 "lib/alcedo"
-            ]
+            ],
+            "ignore": false
         },
         {
             "name": "particle",
             "src": "src-example/particle",
             "out": "demo/example/script/particle.js",
             "require": "lib/alcedo",
-            "ignore": false
+            "ignore": true
         },
         {
             "name": "helloworld",

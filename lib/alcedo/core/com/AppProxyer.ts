@@ -9,8 +9,10 @@ module alcedo{
             super()
         }
 
+        protected _inted:boolean;
         public init(...anyarg){
             //as constructor for AppProxyer
+            this._inted =true;
         }
 
         protected dispatchDemand(event:string, courier?:any){

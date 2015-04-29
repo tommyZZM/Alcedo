@@ -10,6 +10,7 @@ module game{
         protected _mass:number = 1;
 
         protected _velocity:alcedo.canvas.Vector2D;//速度哦
+        protected _maxspeed:number;
 
         public acceleration:alcedo.canvas.Vector2D;//加速度哦
 
@@ -26,16 +27,21 @@ module game{
 
         public update(e:alcedo.canvas.ITickerEvent){
             if( this._velocity.length){
+                if(this._velocity.length>=this._maxspeed){
+                    this._velocity.length = this._maxspeed;
+                }
                 this.updateVelocity();
                 this._velocity.x+=this.acceleration.x*e.delay;
                 this._display.x += this._velocity.x*e.delay;
                 this._velocity.y+=this.acceleration.y*e.delay;
                 this._display.y+=this._velocity.y*e.delay;
+                //trace(this._velocity.length);
             }
 
             this.b.rotation = this.velocity.toDeg()
         }
 
+        //TODO:突变力和渐变力;
         public applyForce(vector:alcedo.canvas.Vector2D){
             this._velocity.add(vector.divide(alcedo.canvas.Vector2D.identity(this._mass,this._mass)));
             //trace(this._velocity.y,vector.y);
