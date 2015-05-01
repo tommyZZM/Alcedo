@@ -5,7 +5,7 @@ module game{
     //TODO: 20150422 物体的旋转角度和方向对应 done
     export class LogicObject extends alcedo.AppObject{
 
-        protected _display:alcedo.canvas.Sprite;
+        protected _display:alcedo.canvas.Sprite|alcedo.canvas.DisplayGraphic;
 
         protected _mass:number = 1;
 
@@ -82,8 +82,17 @@ module game{
             this._velocity.length = _s;
         }
 
-        public get b():alcedo.canvas.Sprite{
+        /**
+         * 物体显示与边界
+         * @returns {alcedo.canvas.Sprite}
+         */
+
+        public get b():alcedo.canvas.DisplayObject{
             return this._display;
+        }
+
+        public shape():any{
+            //返回形状 TODO:扩展shape模块
         }
 
     }

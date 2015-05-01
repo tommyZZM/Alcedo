@@ -121,6 +121,7 @@ module alcedo{
                 //trace(delay,this._particles.length,this._max);
                 if(delay<1 || this._particles.length>=this._max)return;
                 for(var i=0;i<delay;i++){
+                    //TODO:当i>1时说明错过了上次创建粒子的时机
                     this._createOneParticle()
                 }
             }

@@ -8,29 +8,29 @@ module game{
     export class LevelManager extends alcedo.AppProxyer {
         private static instanceable:boolean = true;
 
-        private _mainground:MainGround;
+        private _levellayer:alcedo.canvas.DisplatObjectContainer;
 
         private _levespool:Array<any>;
         private _leveltmp:any;//debuguse
 
-        private _currlevel:LevelObject;
+        private _currlevel:Level;
 
         public constructor(){
             super();
             stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.checkLevels,this);
         }
 
-        public init(mainground:MainGround){
-            this._mainground = mainground;
-            this._leveltmp = new LevelObject(AsyncRES().find(/level_\w+/i)[0]);
+        public init(mainground:PlayGround){
+            this._levellayer = mainground.levellayer;
+            this._leveltmp = new Level(AsyncRES().find(/level_\w+/i)[0]);
         }
 
         public startLevel(positionx:number){
 
             this._currlevel = this.selectOneLevel();
-            this._currlevel.x = positionx+stage.width()/2+600;
+            this._currlevel.x = positionx+stage.width()/2+100;
 
-            this._mainground.addChildAt(this._currlevel,0);
+            this._levellayer.addChildAt(this._currlevel,0);
 
             trace("startlevel",positionx,this._currlevel.width(),this._currlevel.height());
         }
@@ -47,14 +47,17 @@ module game{
             //重置关卡
         }
 
-        private selectOneLevel():LevelObject{
+        private selectOneLevel():Level{
             //创建关卡
             return this._leveltmp
         }
 
     }
 
-    class LevelObject extends alcedo.canvas.DisplatObjectContainer{
+    /**
+     * 描述关卡的类
+     */
+    class Level extends alcedo.canvas.DisplatObjectContainer{
 
         private _levelconfig:any;
 
@@ -65,6 +68,7 @@ module game{
             this.height(levelconfig.pixelheight);
 
             this.debugArea(true);
+            this.renderLevel();
         }
 
         private _debugdraw:alcedo.canvas.graphic.Rectangle;
@@ -78,9 +82,62 @@ module game{
             this.setChildIndex(this._debugdraw,0)
         }
 
+
+
+        /**
+         * 创建场景
+         */
+        private renderLevel(){
+            //TODO:按照地图数据渲染当前关卡
+
+            trace(this._levelconfig);
+
+            var i,objspool = this._levelconfig.objects;
+            if(!objspool){warn("no objectis found",this._levelconfig);return;}
+
+            for(var objs in objspool){
+                switch (objs){
+                    case "obstacle_darkcloud":{//绘制乌云
+                        if(Array.isArray(objspool[objs])&&objspool[objs].length>0){
+                            for(i=0;i<objspool[objs].length;i++){
+                                this._renderdartcloud(objspool[objs][i]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private _clouds:Array<any>;
+        private _renderdartcloud(cloudobj){
+            if(cloudobj.type!=LevelShapeType.Rect){return;}
+
+            trace("_renderdartcloud",cloudobj);
+            var cloud = new DarkCloud(cloudobj.width,cloudobj.height);
+            cloud.b.x = cloudobj.x,cloud.b.y = cloudobj.y;
+            cloud.b.alpha = 0.6;
+            this.addChild(cloud.b);
+        }
     }
 
-    class LevelDebugRectangle{
+    /**
+     *
+     */
+    export interface InLevel{
 
+    }
+
+    enum LevelObjectType{
+        DarkCloud=1,//乌云
+        WhiteCloud=2,//白色云彩
+        ClourPower=3,//彩色能量
+        RainBow=6//彩虹
+    }
+
+    enum LevelShapeType{
+        Rect=1,
+        Circle=2,
+        PointLine=3,
+        Uuknow=-1
     }
 }

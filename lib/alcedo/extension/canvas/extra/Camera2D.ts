@@ -46,7 +46,7 @@ module alcedo{
                 this._updateView();
             }
 
-            public get focal(){return this._focal}
+            public get focal(){return 1/this._focal}
             public set focal(focal:number){
                 this._focal = 1/focal;
                 this._updateView();

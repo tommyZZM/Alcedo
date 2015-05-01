@@ -5,10 +5,12 @@ module game{
     //He162 Capture By Alies and Refited into a ColourFul Plane happy fly in place sky
     export class He162S extends LogicObject{
 
+        private _plane:LogicObject;
+
         public constructor(skin:string){
             super();
             this._display = new alcedo.canvas.Sprite(TextureRepository().get(skin));
-            this.b.scaleALL(0.8)
+            this.b.scaleALL(0.6)
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_ADD,this.onAdd,this);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_REMOVE,this.onRemove,this);
 
@@ -39,7 +41,7 @@ module game{
 
             this._colourEmitter.initialdegree = this._velocity.toDeg()-180;
 
-            var visualsizerect = this.b.localToGlobal(this.b["_staticboundingbox"].width*this._colourEmitterPostion.x+this.b.pivotOffsetX()
+            var visualsizerect:any = this.b.localToGlobal(this.b["_staticboundingbox"].width*this._colourEmitterPostion.x+this.b.pivotOffsetX()
                 ,this.b["_staticboundingbox"].height*this._colourEmitterPostion.y+this.b.pivotOffsetY());//
             this._colourEmitter.x = visualsizerect.x;
             this._colourEmitter.y = visualsizerect.y;

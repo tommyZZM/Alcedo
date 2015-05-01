@@ -9,7 +9,7 @@
     "objects": {
         "clourpower": [
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 848.5,
@@ -30,7 +30,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 651,
@@ -43,7 +43,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 850,
@@ -56,7 +56,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 778,
@@ -73,7 +73,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 580,
@@ -86,7 +86,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 614,
@@ -99,7 +99,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 714.5,
@@ -116,7 +116,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 651.5,
@@ -129,7 +129,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 649,
@@ -146,7 +146,7 @@
                 ]
             },
             {
-                "type": "polyline",
+                "type": 3,
                 "points": [
                     {
                         "x": 581.5,
@@ -161,11 +161,25 @@
         ],
         "obstacle_darkcloud": [
             {
-                "type": "rectangle",
-                "x": 680.25,
-                "y": 224.25,
-                "width": 99.5,
-                "height": 63.5
+                "type": 1,
+                "x": 605.75,
+                "y": 180.75,
+                "width": 102.5,
+                "height": 64.5
+            },
+            {
+                "type": 1,
+                "x": 1069.75,
+                "y": -13.75,
+                "width": 86.5,
+                "height": 56.5
+            },
+            {
+                "type": 1,
+                "x": 1398.25,
+                "y": 195.25,
+                "width": 86.5,
+                "height": 56.5
             }
         ]
     }

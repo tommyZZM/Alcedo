@@ -2,14 +2,14 @@
  * Created by tommyZZM on 2015/4/29.
  */
 module game{
-    export class GroundManager extends alcedo.AppProxyer{
+    export class MainManager extends alcedo.AppProxyer{
 
         private static instanceable = true;
 
         private _stage:alcedo.canvas.Stage;
 
         public background:BackGround;
-        public mainground:MainGround;
+        public playground:PlayGround;
         public fronttground:FrontGround;
 
         public init(stage:alcedo.canvas.Stage){
@@ -25,13 +25,13 @@ module game{
             this.background = new BackGround();
             stage.addChild(this.background);
 
-            this.mainground = new MainGround();
-            stage.addChild(this.mainground);
+            this.playground = new PlayGround();
+            stage.addChild(this.playground);
 
             this.fronttground = new FrontGround();
             stage.addChild(this.fronttground);
 
-            alcedo.proxy(LevelManager).init(this.mainground);
+            alcedo.proxy(LevelManager).init(this.playground);
 
         }
     }

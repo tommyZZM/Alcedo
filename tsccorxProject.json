@@ -3,7 +3,7 @@
     "version": {
         "index": "0.01a",
         "subversion": "dev",
-        "build": 1456,
+        "build": 1489,
         "track": true
     },
     "runopts": {
@@ -31,14 +31,14 @@
             "src": "src-example/movieclip",
             "out": "demo/example/script/movieclip.js",
             "require": "lib/alcedo",
-            "ignore": false
+            "ignore": true
         },
         {
             "name": "particle",
             "src": "src-example/particle",
             "out": "demo/example/script/particle.js",
             "require": "lib/alcedo",
-            "ignore": false
+            "ignore": true
         },
         {
             "name": "helloworld",

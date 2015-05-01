@@ -18,7 +18,7 @@ module game{
             this.canvas = alcedo.d$.query("#aperturetest1")[0];
 
             this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0],480,320,{
-                background:"#16a085",
+                background:"#8edced",
                 orient:true,
                 profiler:true,
                 ui:"apertureui"
@@ -34,11 +34,11 @@ module game{
             //加载资源 //TODO:加载界面;
             alcedo.proxy(AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","levels");
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels");
         }
 
         private onAssetLoaded(){
-            alcedo.proxy(GroundManager).init(this.stage);
+            alcedo.proxy(MainManager).init(this.stage);
         }
 
         private onResize(){

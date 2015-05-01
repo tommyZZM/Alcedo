@@ -11,6 +11,10 @@
 	{
 		"keys":"level_tmp",
 		"name":"levels"
+	},
+	{
+		"keys":"fgcloud",
+		"name":"fgcloud"
 	}],
 	"resources":[
 	{
@@ -72,5 +76,10 @@
 		"name":"level_tmp",
 		"type":"json",
 		"url":"map/level_tmp.json"
+	},
+	{
+		"name":"fgcloud",
+		"type":"image",
+		"url":"game/fg/fgcloud.png"
 	}]
 }

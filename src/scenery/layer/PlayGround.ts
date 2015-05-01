@@ -2,25 +2,34 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game {
-    export class MainGround extends alcedo.canvas.DisplatObjectContainer {
+    export class PlayGround extends alcedo.canvas.DisplatObjectContainer {
         public constructor(){
             super();
             this.init();
         }
 
         private _myplane:LogicObject;
+
+        public playlayer:alcedo.canvas.DisplatObjectContainer;
+        public levellayer:alcedo.canvas.DisplatObjectContainer;
+
         public init(){
-            
+            speed.plane = speed.plane_lazy;
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
+
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
+
+            this.playlayer = new alcedo.canvas.DisplatObjectContainer();
+            this.levellayer = new alcedo.canvas.DisplatObjectContainer();
+            this.addChild(this.levellayer);
+            this.addChild(this.playlayer);
+
             this._myplane = new game.He162S("paopaotucao");
             this._myplane.b.x = 100;
             this._myplane.b.y = stage.height()/2;
             this._myplane.b.pivotX(0.5);this._myplane.b.pivotY(0.5);
-            this.addObject(this._myplane);
-
-            speed.plane = this._myplane.speed = speed.plane_lazy;
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
-
-            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
+            this._myplane.speed = speed.plane;
+            this.addPlayObject(this._myplane);
 
             alcedo.proxy(CameraManager).lookAt(this._myplane.b);
             stage.camera().focal = 1;
@@ -38,8 +47,8 @@ module game {
         }
 
         private _gameobjects = [];
-        public addObject(obj:LogicObject){
-            this.addChild(obj.b);
+        public addPlayObject(obj:LogicObject){
+            this.playlayer.addChild(obj.b);
             this._gameobjects.push(obj);
         }
 
