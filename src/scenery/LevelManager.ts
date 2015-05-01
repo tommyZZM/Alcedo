@@ -67,7 +67,7 @@ module game{
             this.width(levelconfig.pixelwidth);
             this.height(levelconfig.pixelheight);
 
-            this.debugArea(true);
+            //this.debugArea(true);
             this.renderLevel();
         }
 

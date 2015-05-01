@@ -45,6 +45,6 @@ module alcedo {
                 return result;
             }
         }
-        export var TextureRES:any = TextureRepository;
+        //export var TextureRES:any = TextureRepository;
     }
 }

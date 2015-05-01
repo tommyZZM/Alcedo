@@ -3,8 +3,31 @@
  */
 module game{
     export class FrontGround extends alcedo.canvas.DisplatObjectContainer{
+
         public constructor(){
             super();
+            this.init();
+        }
+
+        private _clouds:FrontGroundClouds;
+        public init(){
+            this._clouds = new FrontGroundClouds(0.1);
+            this.addChild(this._clouds);
+        }
+    }
+
+    class FrontGroundClouds extends ParallaxObject{
+
+        private _propstexture:alcedo.canvas.Texture;
+
+        protected preInitProps(){
+            this._propstexture = TextureRepository().get("fgcloud");
+        }
+
+        protected onCreateAProp(prop:alcedo.canvas.Sprite){
+            prop.texture = this._propstexture;
+            //trace(prop.texture)
+            prop.scaleToWidth(stage.width())
         }
     }
 }

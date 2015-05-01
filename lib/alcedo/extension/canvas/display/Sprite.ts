@@ -9,11 +9,11 @@ module alcedo{
 
             //protected _visualboundingbox:Rectangle;//可视包围盒
 
-            public constructor(texture:Texture){
+            public constructor(texture?:Texture){
                 super();
 
                 if(texture){
-                    this.texture(texture)
+                    this.texture = texture;
                 }
             }
 
@@ -31,11 +31,15 @@ module alcedo{
             }
 
 
-            public texture(texture:Texture){
+            public set texture(texture:Texture){
                 this._texture = texture;
                 this.width(this._texture._sourceWidth);
                 this.height(this._texture._sourceHeight);
                 //this._visualboundingbox = this._staticboundingbox.clone();
+            }
+
+            public get texture():Texture{
+                return this._texture;
             }
 
             public isInViewPort():boolean{
