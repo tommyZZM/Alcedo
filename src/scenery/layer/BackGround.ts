@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game{
-    export class BackGround extends alcedo.canvas.DisplatObjectContainer{
+    export class BackGround extends alcedo.canvas.DisplatObjectContainer implements ISceneryLayer{
         public constructor(){
             super();
             this.init();
@@ -27,6 +27,11 @@ module game{
 
         public constructor(depeth:number=0.5){
             super(depeth);
+        }
+
+        protected onEachTime(e){
+            super.onEachTime(e);
+            //trace("BackGroundClouds",this.x,speed.plane*this._propdepth*e.delay,this._propdepth*e.delay);
         }
 
         protected preInitProps(){
@@ -62,7 +67,12 @@ module game{
         protected onCreateAProp(prop:alcedo.canvas.Sprite){
             var prop:alcedo.canvas.Sprite,texture=this.selectAtexture();
             prop.texture = texture;
-            prop.scaleToWidth(stage.width()*1.6)
+            prop.scaleToWidth(stage.width()*1.6);
+        }
+
+        protected onPosAProp(prop){
+            prop.y = stage.height()-10;
+            prop.alpha = 0.9
         }
 
         private selectAtexture():alcedo.canvas.Texture{

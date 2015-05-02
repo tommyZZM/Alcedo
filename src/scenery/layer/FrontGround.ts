@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game{
-    export class FrontGround extends alcedo.canvas.DisplatObjectContainer{
+    export class FrontGround extends alcedo.canvas.DisplatObjectContainer implements ISceneryLayer{
 
         public constructor(){
             super();
@@ -20,7 +20,11 @@ module game{
 
         private _propstexture:alcedo.canvas.Texture;
 
+        protected _propmax:number = 6;
+
         protected preInitProps(){
+            //trace(this._propmax);
+            this._propmax = 6;
             this._propstexture = TextureRepository().get("fgcloud");
         }
 
@@ -28,6 +32,7 @@ module game{
             prop.texture = this._propstexture;
             //trace(prop.texture)
             prop.scaleToWidth(stage.width())
+            //prop.visible = false;
         }
     }
 }

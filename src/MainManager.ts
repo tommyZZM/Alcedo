@@ -35,4 +35,8 @@ module game{
 
         }
     }
+
+    export interface ISceneryLayer{
+
+    }
 }

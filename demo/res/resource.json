@@ -1,7 +1,7 @@
 {
 	"groups":[
 	{
-		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao,paopaohappy",
+		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao,paopaohappy,testbird02",
 		"name":"preload"
 	},
 	{
@@ -81,5 +81,10 @@
 		"name":"fgcloud",
 		"type":"image",
 		"url":"game/fg/fgcloud.png"
+	},
+	{
+		"name":"testbird02",
+		"type":"image",
+		"url":"test/testbird02.png"
 	}]
 }

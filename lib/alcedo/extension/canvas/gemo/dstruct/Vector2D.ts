@@ -78,18 +78,21 @@ module alcedo {
                 return this;
             }
 
-            public degTo(deg:number){
-
+            public set deg(deg:number){
+                var length =  this.length;
+                this.x = Constant.cos(deg*Constant.DEG_TO_RAD)* length;
+                this.y = Constant.sin(deg*Constant.DEG_TO_RAD)* length;
+                //trace(this.x,this.y);
             }
 
-            public toDeg():number{
+            public get deg():number{
                 //TODO:x,y更新时才需要重新计算 , PS 我也不知道什么要-270哦
                 return -(Math.atan2(this.x, this.y)* Constant.RAD_TO_DEG).toFixed(1)+90;
             }
 
             //法向量角
             public toNormalDeg(left:boolean):number{
-                return this.toDeg()-(left?90:(-90));
+                return this.deg-(left?90:(-90));
             }
 
             public toRad():number{

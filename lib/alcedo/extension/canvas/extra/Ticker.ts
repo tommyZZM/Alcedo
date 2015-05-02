@@ -54,6 +54,7 @@ module alcedo{
                     this._total10microsecond+=_counter;
                     this._stage.emit(Stage.ENTER_MILLSECOND10,{fps:this.fps()
                         ,count:this._total10microsecond,dt:dt,delay:_counter});
+                    //trace("10microsecode",_counter)
                     this._countmicrosecond = 0;
                 }
 

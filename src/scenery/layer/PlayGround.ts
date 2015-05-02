@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game {
-    export class PlayGround extends alcedo.canvas.DisplatObjectContainer {
+    export class PlayGround extends alcedo.canvas.DisplatObjectContainer implements ISceneryLayer{
         public constructor(){
             super();
             this.init();
@@ -31,6 +31,8 @@ module game {
             this._myplane.speed = speed.plane;
             this.addPlayObject(this._myplane);
 
+            ParallaxObject.referenceObject = this._myplane;
+
             alcedo.proxy(CameraManager).lookAt(this._myplane.b);
             stage.camera().focal = 1;
         }
@@ -40,9 +42,6 @@ module game {
             var i;
             for(i=0;i<this._gameobjects.length;i++){
                 this._gameobjects[i].update(e);
-            }
-            if(this._myplane.b.y>=260){
-                this._myplane.applyForce(new alcedo.canvas.Vector2D(0,-2));
             }
         }
 
@@ -67,16 +66,10 @@ module game {
             //trace(this._fuckobj.isInViewPort());
             speed.plane = speed.plane_active;
             this._myplane.speed = speed.plane;
-            this._myplane.velocity.y-=3;
-            this._myplane.acceleration.y = 0.1;
+            //this._myplane.velocity.y-=3;
 
             alcedo.proxy(LevelManager).startLevel(this._myplane.b.x);
         }
-
-
-
-
-
 
         /**重置位置**/
         public resReturnPos(){

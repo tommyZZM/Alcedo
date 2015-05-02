@@ -10,10 +10,15 @@ module game{
         protected _props:Array<any>;
         protected _propspool:Array<any>;
 
-        public constructor(depth:number=0.5){
+        protected _opts:any;
+
+        public static referenceObject:LogicObject;
+
+        public constructor(depth:number=0.5,opts:any={}){
 
             super();
 
+            this._opts = opts;
 
             this._propdepth = depth;
             if(this._propdepth>0.99)this._propdepth=0.99;
@@ -29,11 +34,19 @@ module game{
 
         protected onEachTime(e){
             //trace(this._propdepth)
-            this.x+=speed.plane*this._propdepth*e.delay;
+            if(ParallaxObject.referenceObject) {
+                this.x += (ParallaxObject.referenceObject.velocity.x * this._propdepth * e.delay);
+            }
         }
 
         protected onSecond(e){
-            for(var i=0;i<this._props.length;i++){
+            var i;
+            if(this._props.length<this._propmax){
+                for(i = 0;i<(this._propmax-this._props.length);i++){
+                    this.addChild(this.createAProp());
+                }
+            }
+            for(i=0;i<this._props.length;i++){
                 var prop = this._props[i];
 
                 if((!prop.isInViewPort())&&(prop.x<stage.viewPort().x)){
@@ -70,12 +83,12 @@ module game{
             if(lastprop){
                 prop.x = lastprop.x+lastprop.actualBound().width;
             }else{
-                prop.x = stage.width();
+                prop.x = this._opts.startpos || stage.viewPort().x;//TODO:第一个物体起始点
             }
             //TODO:DisplayObject xy和锚点设置有问题哦
             prop.y = stage.height();
             prop.pivotX(0);prop.pivotY(1);
-            //trace(prop.y,prop.pivotY())
+            this.onPosAProp(prop);
 
             this._props.push(prop);
 
@@ -86,6 +99,10 @@ module game{
             //overrideable
             if(!prop || !prop.texture)return;
             prop.scaleToWidth(stage.width())
+        }
+
+        protected onPosAProp(prop:alcedo.canvas.Sprite){
+
         }
 
         private destoryAProp(prop){

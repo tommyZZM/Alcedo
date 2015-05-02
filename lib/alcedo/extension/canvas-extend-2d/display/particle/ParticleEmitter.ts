@@ -90,7 +90,7 @@ module alcedo{
                 this._currinitial.resetAs(this._initial);
                 if(this._spread){//计算散射角
                     var _randeg = Math.randomFrom(-1,1)*this._spread/2;
-                    var _curdeg = _randeg+this._initial.toDeg();
+                    var _curdeg = _randeg+this._initial.deg;
                     this._currinitial.resetToDeg(_curdeg);
                 }
                 paricle.applyForce(this._currinitial);

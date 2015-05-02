@@ -13,6 +13,7 @@ module game{
         protected _maxspeed:number;
 
         public acceleration:alcedo.canvas.Vector2D;//加速度哦
+        public acceleration_degree:number=0;
 
         public constructor(displayobject?:alcedo.canvas.Sprite){
             super();
@@ -30,15 +31,16 @@ module game{
                 if(this._velocity.length>=this._maxspeed){
                     this._velocity.length = this._maxspeed;
                 }
-                this.updateVelocity();
+                //this.updateVelocity();
                 this._velocity.x+=this.acceleration.x*e.delay;
                 this._display.x += this._velocity.x*e.delay;
                 this._velocity.y+=this.acceleration.y*e.delay;
                 this._display.y+=this._velocity.y*e.delay;
-                //trace(this._velocity.length);
             }
 
-            this.b.rotation = this.velocity.toDeg()
+            this.velocity.deg+=this.acceleration_degree;
+
+            this.b.rotation = this.velocity.deg
         }
 
         //TODO:突变力和渐变力;
