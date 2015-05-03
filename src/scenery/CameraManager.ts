@@ -12,6 +12,9 @@ module game {
 
         private _lookat:alcedo.canvas.Ixy;
 
+        public yawX:number = 0.5;
+        public yawY:number = 0.5;
+
         public init(camera:alcedo.canvas.Camera2D){
             this._camera = camera;
             //this._lookat = new alcedo.canvas.Point2D(stage.width()/2,stage.height()/2);
@@ -32,10 +35,11 @@ module game {
 
         /**更新镜头**/ //TODO:镜头缓动;
         private updateCamera(){
-            stage.camera().zoomTo(this._lookat.x,this._lookat.y,1,0.3,0.5);
+            stage.camera().zoomTo(this._lookat.x,this._lookat.y,1,this.yawX,this.yawY);
         }
 
         private limitTation(){
+            //镜头范围限制
             var viewfinder = this._camera.viewfinder();
             if(this._camera.viewfinder().height>stage.height()){
                 this._camera.focal = 1;
@@ -48,6 +52,12 @@ module game {
                 if(this._camera.focal>2.3)this._camera.focal=2.3;
                 //this._camera.y = viewfinder.height*this._camera.yawY
                 //trace(this._camera.y,this._camera.yawY)
+            }
+
+            viewfinder = this._camera.viewfinder();
+            if(viewfinder.x<0){
+                this._camera.x = viewfinder.width/2;
+                //trace(viewfinder.width,this._camera.yawX,viewfinder.width*(this._camera.yawX),this._camera.viewfinder().x)
             }
         }
     }

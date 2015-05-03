@@ -2,17 +2,19 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game{
-    export class FrontGround extends alcedo.canvas.DisplatObjectContainer implements ISceneryLayer{
-
-        public constructor(){
-            super();
-            this.init();
-        }
+    export class FrontGround extends SceneryGround implements ISceneryLayer{
 
         private _clouds:FrontGroundClouds;
-        public init(){
+        protected init(){
             this._clouds = new FrontGroundClouds(0.1);
             this.addChild(this._clouds);
+        }
+
+        protected resReturnPos(e:any){
+            //TODO:
+            this._clouds.eachChilder((child)=>{
+                child.x-=e.x;
+            })
         }
     }
 

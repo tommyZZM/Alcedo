@@ -11,6 +11,9 @@ module game{
         protected _propspool:Array<any>;
 
         protected _opts:any;
+        public get opts():any{
+            return this._opts;
+        }
 
         public static referenceObject:LogicObject;
 

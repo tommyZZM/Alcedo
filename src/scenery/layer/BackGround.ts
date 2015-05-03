@@ -2,20 +2,20 @@
  * Created by tommyZZM on 2015/4/17.
  */
 module game{
-    export class BackGround extends alcedo.canvas.DisplatObjectContainer implements ISceneryLayer{
-        public constructor(){
-            super();
-            this.init();
-        }
+    export class BackGround extends SceneryGround implements ISceneryLayer{
 
         private _clouds:BackGroundClouds;
-        public init(){
+        protected init(){
             this._clouds = new BackGroundClouds(0.8);
             this.addChild(this._clouds);
         }
 
-        public resReturnPos(){
+        protected resReturnPos(e:any){
             //TODO:
+            this._clouds.eachChilder((child)=>{
+                child.x-=e.x;
+                //child.x+= this._clouds.opts.startpos;
+            })
         }
     }
 
@@ -26,7 +26,7 @@ module game{
         private _ramdomarray:Array<number>;
 
         public constructor(depeth:number=0.5){
-            super(depeth);
+            super(depeth,{startpos:stage.viewPort().width+100});
         }
 
         protected onEachTime(e){

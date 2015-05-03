@@ -13,6 +13,7 @@ module game{
 
         public active(){
             trace("Playing...");
+
             alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_START_PLAYING)
         }
     }

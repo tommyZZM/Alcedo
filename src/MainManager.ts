@@ -21,7 +21,12 @@ module game{
             alcedo.proxy(GameUIManager).init();
             alcedo.proxy(CameraManager).init(stage.camera());
 
-            //加载游戏布景
+            alcedo.proxy(AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels");
+        }
+
+        private onAssetLoaded(){
             this.background = new BackGround();
             stage.addChild(this.background);
 
@@ -33,6 +38,14 @@ module game{
 
             alcedo.proxy(LevelManager).init(this.playground);
 
+            alcedo.proxy(GameUIManager).ready();
+
+            alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_PRE_PLAY);
+            alcedo.d$.query("#curtain")[0].then(()=>{
+                //trace("curtain....then");
+                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
+            });
+            alcedo.d$.query("#curtain")[0].addClass("disactive");
         }
     }
 

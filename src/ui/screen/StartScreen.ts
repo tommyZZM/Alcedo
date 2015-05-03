@@ -31,6 +31,7 @@ module game{
 
         public active(){
             super.active();
+            trace(this.className,"active")
 
             this.screen.show();
             //TODO:why?where? why need then
@@ -45,7 +46,7 @@ module game{
                                 });
                             this._aboutbtn.e.show().to({top:0},320)
                         });
-                })
+                });
         }
 
         public disactive(callback:Function,thisObject?:any){
@@ -73,7 +74,7 @@ module game{
         private toStart(){
             this._startbtn.e.then(()=>{
                 trace("toStart");
-                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
+                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["prepare"]);
             })
         }
 

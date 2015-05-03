@@ -10,11 +10,12 @@ module game{
 
         public constructor(){
             super();
-            this.addCmdHandler(CmdCatalog.STATE_START_PLAYING,this.cmdStartPlaying);
+            this.addCmdHandler(CmdCatalog.RESET_SCENERY,this.cmdResetScenery);
         }
 
-        private cmdStartPlaying(sceenname){
-            this.dispatchDemand(CmdCatalog.STATE_START_PLAYING,sceenname);
+        private cmdResetScenery(x){
+            //trace(x);
+            this.dispatchDemand(CmdCatalog.RESET_SCENERY,{x:x});
         }
     }
 }

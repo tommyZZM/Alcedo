@@ -46,7 +46,7 @@ module game{
             this._colourEmitter.y = visualsizerect.y;
 
             //trace();
-            this.applyForce(new alcedo.canvas.Vector2D(0,0.1));
+            //this.applyForce(new alcedo.canvas.Vector2D(0,0.1));
             this.acceleration_degree=0;
 
             this.debugRobot()
@@ -57,11 +57,14 @@ module game{
             this.speed+=0.01;
         }
 
+        public autocontrol:boolean = false;
         private _debugautocontrol:boolean;
         private debugRobot(){
             /**
              * debug状态下小灰机处于最高速度。
              */
+            if(!this.autocontrol)return;
+            this.speed = this._maxspeed;
 
             if(this.b.y>stage.height()*0.6 && ! this._debugautocontrol){
                 this._debugautocontrol = true;

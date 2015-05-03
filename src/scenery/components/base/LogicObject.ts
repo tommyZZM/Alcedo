@@ -21,12 +21,22 @@ module game{
             //this._direction = new alcedo.canvas.Vector2D(1,0);
             this._velocity = new alcedo.canvas.Vector2D();
             this.acceleration = new alcedo.canvas.Vector2D(0,0);
+
+            this._forcemoment = new alcedo.canvas.Vector2D();
+            this._force = new alcedo.canvas.Vector2D();
             //this._isobjactive = true;
 
             //stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onCheckTime,this);
         }
 
         public update(e:alcedo.canvas.ITickerEvent){
+            this._applyForce(this._force);
+
+            if(this._forcemoment.length>0){
+                this._applyForce(this._forcemoment);
+                this._forcemoment.reset();
+            }
+
             if( this._velocity.length){
                 if(this._velocity.length>=this._maxspeed){
                     this._velocity.length = this._maxspeed;
@@ -44,9 +54,23 @@ module game{
         }
 
         //TODO:突变力和渐变力;
-        public applyForce(vector:alcedo.canvas.Vector2D){
+        private _force:alcedo.canvas.Vector2D;
+        private _forcemoment:alcedo.canvas.Vector2D;
+        public applyForce(force:alcedo.canvas.Vector2D,continute:boolean = true){
+            if(continute){
+                this._force.add(force);
+            }else{
+                this._forcemoment.add(force);
+            }
+        }
+
+        public clearForce(){
+            this._force.reset();
+            this._forcemoment.reset();
+        }
+
+        private _applyForce(vector:alcedo.canvas.Vector2D){
             this._velocity.add(vector.divide(alcedo.canvas.Vector2D.identity(this._mass,this._mass)));
-            //trace(this._velocity.y,vector.y);
         }
 
         public resetObjct(){
@@ -67,6 +91,10 @@ module game{
 
         public set speed(value:number){
             this._velocity.length =value;
+        }
+
+        public set maxspeed(value:number){
+            this._maxspeed = value;
         }
 
         public set direction(degree:number){

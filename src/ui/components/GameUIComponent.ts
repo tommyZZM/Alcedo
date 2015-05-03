@@ -6,13 +6,12 @@ module game{
         protected _com:alcedo.dom.DomElement;
         protected _texture:alcedo.canvas.Texture;
 
-        public constructor(ele:alcedo.dom.DomElement, texture:alcedo.canvas.Texture) {
+        public constructor(ele:alcedo.dom.DomElement, texture?:alcedo.canvas.Texture) {
             this._com = ele;
             this._texture = texture;
             if(!this._texture){
                 return;
             }
-
             this._com.css({
                 background: "url("+this._texture.sourceUrl+")",
                 "background-size": "cover",

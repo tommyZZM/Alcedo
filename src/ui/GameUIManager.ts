@@ -21,8 +21,7 @@ module game{
             if(!this._gameui)return;
             this.gamescreens = new Dict();
 
-            this.bindScreen("start",StartScreen);
-            this.bindScreen("playing",PlayingScreen)
+            this.bindScreen("loading",LoadingScreen);
 
             //alcedo.d$.resize(this.onResize,this);
             this.onResize();
@@ -31,7 +30,14 @@ module game{
 
             alcedo.addDemandListener(ScreenControl,CmdCatalog.TO_SCREEN,this.resToggleScreen,this);
 
-            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["loading"]);
+        }
+
+        public ready(){
+            //:加载完资源后执行此方法;
+            this.bindScreen("start",StartScreen);
+            this.bindScreen("playing",PlayingScreen);
+            this.bindScreen("prepare",PrepareScreen);
         }
 
         private onResize(){
@@ -40,6 +46,7 @@ module game{
             for(i=0;i<centers.length;i++){
                 ele = centers[i];
                 width = ele.node.style.width?ele.node.style.width:ele.abscss()["width"];
+                if(width==="auto")width = 0;
                 width = alcedo.toValue(width);
                 //trace("onResize",alcedo.toValue(width));
                 ele.transition = 0;
@@ -63,7 +70,9 @@ module game{
             if(!screen)return;
             if(this._currscreen){
                 if(this._currscreen.hashIndex == screen.hashIndex){return;}
+                //alcedo.d$.query("#curtain")[0].removeClass("disactive");
                 this._currscreen.disactive(()=>{
+                    //alcedo.d$.query("#curtain")[0].addClass("disactive");
                     screen.active();
                 });
             }else{

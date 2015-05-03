@@ -112,7 +112,7 @@ module game{
         private _renderdartcloud(cloudobj){
             if(cloudobj.type!=LevelShapeType.Rect){return;}
 
-            trace("_renderdartcloud",cloudobj);
+            //trace("_renderdartcloud",cloudobj);
             var cloud = new DarkCloud(cloudobj.width,cloudobj.height);
             cloud.b.x = cloudobj.x,cloud.b.y = cloudobj.y;
             cloud.b.alpha = 0.6;

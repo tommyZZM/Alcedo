@@ -220,7 +220,7 @@ module alcedo {
             //CSS3动画效果
             public to(cssprops:any, transition:number = 660):DomElement {
                 //this.index();
-                this.index(999);
+                this.index(0);
                 this.transition = transition;
                 this.css(cssprops);
                 return this;
@@ -268,6 +268,8 @@ module alcedo {
             public then(fn:(_this?:DomElement)=>void,waittime_ms:number = 0):void{
                 this.addEventListener(StyleEvent.TRAN_SITION_END,()=>{
                     this.removeEventListener(StyleEvent.TRAN_SITION_END, <any>arguments.callee,this);
+                    //trace("lastindex",this._lastindex)
+                    //this.index(this._lastindex);
                     if(waittime_ms>100){
                         setTimeout(fn,waittime_ms,this);
                     }else{

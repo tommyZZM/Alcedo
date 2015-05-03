@@ -11,10 +11,22 @@ module game{
         public constructor(){
             super();
             this.addCmdHandler(CmdCatalog.STATE_START_PLAYING,this.cmdStartPlaying);
+            this.addCmdHandler(CmdCatalog.STATE_PRE_PLAY,this.cmdPrePlay);
+            this.addCmdHandler(CmdCatalog.STATE_PREPARE_PLAY,this.cmdPreparePlay);
         }
 
-        private cmdStartPlaying(sceenname){
-            this.dispatchDemand(CmdCatalog.STATE_START_PLAYING,sceenname);
+        private cmdPrePlay(){
+            this.dispatchDemand(CmdCatalog.STATE_PRE_PLAY);
+
+        }
+
+        private cmdPreparePlay(){
+            this.dispatchDemand(CmdCatalog.STATE_PREPARE_PLAY);
+
+        }
+
+        private cmdStartPlaying(){
+            this.dispatchDemand(CmdCatalog.STATE_START_PLAYING);
         }
     }
 }

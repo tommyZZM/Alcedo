@@ -4,12 +4,14 @@
 module game{
     export class CmdCatalog{
         //Scenery
-        public static CLEAR_USELESS_POSITION = "SceneryControl_CLEAR_USELESS_POSITION"//清除过大的数值
+        public static RESET_SCENERY = "SceneryControl_RESET_SCENERY";//重置场景
 
         //Screen
         public static TO_SCREEN:string = "ScreenControl_TO_SCREEN";
 
         //GameState
+        public static STATE_PRE_PLAY:string = "GameStateControl_STATE_PRE_PLAY";//还没开始游戏;
+        public static STATE_PREPARE_PLAY:string = "GameStateControl_STATE_READY_PLAY";//准备开始游戏,重置游戏场景等;
         public static STATE_START_PLAYING:string = "GameStateControl_START_PLAYING";
 
     }
