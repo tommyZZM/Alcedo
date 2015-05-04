@@ -21,7 +21,7 @@ module alcedo{
                 this._querypool = new Dict();
 
                 this._domtask = new Dict();
-                this._domtask.set(_DomEvent.ready,[]);
+                this._domtask.set(DomEventType.ready,[]);
 
                 this.usefulDomEvent();
                 this.windowConfigure()
@@ -76,8 +76,8 @@ module alcedo{
             private _readychekced:boolean;
             private onready(){
                 this._readychekced = true;
-                this.notify(this._domtask,_DomEvent.ready);
-                this._domtask.set(_DomEvent.ready,[]);
+                this.notify(this._domtask,DomEventType.ready);
+                this._domtask.set(DomEventType.ready,[]);
             }
             private checkready(){
                 if ( document.readyState === "complete" || this._readychekced) {
@@ -99,7 +99,7 @@ module alcedo{
                 if(this._readychekced){
                     callback.apply(thisObject,param);
                 }else{
-                    this.registNotify(this._domtask,_DomEvent.ready,callback,thisObject,param)
+                    this.registNotify(this._domtask,DomEventType.ready,callback,thisObject,param)
                     this.checkready();
                 }
 
@@ -110,11 +110,11 @@ module alcedo{
              * resized
              */
             private onresize(){
-                this.notify(this._domtask,_DomEvent.resize);
+                this.notify(this._domtask,DomEventType.resize);
             }
             public resize(callback:Function,thisObject?:any,...param){
                 callback.apply(thisObject,param);//注册的时候先执行一次
-                this.registNotify(this._domtask,_DomEvent.resize,callback,thisObject,param)
+                this.registNotify(this._domtask,DomEventType.resize,callback,thisObject,param)
             }
 
             /**
@@ -217,7 +217,7 @@ module alcedo{
             DOCUMENT = 9
         }
 
-        var _DomEvent = {
+        var DomEventType = {
             "ready":"ready",
             "resize":"resize"
         };

@@ -3,6 +3,8 @@
  */
 module alcedo {
     export module dom {
+        var _rcssprop:RegExp = /^(\d+\.?\d+)(\w+)$/i;
+
         export class DomElement extends EventDispatcher{
 
             private _node:HTMLElement;
@@ -57,20 +59,25 @@ module alcedo {
             /**
              * Touch事件
              **/
-            private _touchObserver:any;
+            private emitTouchEvent(e:any,event:string){
+                if(e.changedTouches){
+                    var l = e.changedTouches.length;
+                    for (var i:number = 0; i < l; i++) {
+                        var touchtarget= e.changedTouches[i];
+                        touchtarget.type = event;
+                        this.emit(event,e.changedTouches[i]);
+                    }
+                }
+            }
+
+            //private _touchObserver:any;
             private ontouchbegin(e){
-                this._touchObserver = {
-                    startx:e.touches[0].clientX,
-                    starty:e.touches[0].clientY,
-                    ctrlKey:e.ctrlKey,
-                    altKey:e.altKey,
-                    shiftKey:e.shiftKey,
-                    touchDown:true
-                };
-                this.emit(TouchEvent.TOUCH_BEGIN);
+                this.emitTouchEvent(e,TouchEvent.TOUCH_BEGIN)
             }
 
             private ontouchmove(e){
+                //this.emit(TouchEvent.TOUCH_MOVE)
+
                 //if (Math.abs(e.touches[0].clientX - this._touchObserver.startx) > 20
                 //    || Math.abs(e.touches[0].clientY - this._touchObserver.starty) > 20) {
                 //    this._touchObserver.moved = true;
@@ -80,37 +87,35 @@ module alcedo {
             }
 
             private ontouchend(e){
-                this._touchObserver.touchDown = false;
+                this.emitTouchEvent(e,TouchEvent.TOUCH_END);
 
-                var lasttouch = e.changedTouches[0];
-                this._touchObserver.moved =
-                    !d$.compare(this._node,document.elementFromPoint(lasttouch.clientX,lasttouch.clientY));
-                //trace(document.elementFromPoint(lasttouch.clientX,lasttouch.clientY))
+                var lasttouch,l = e.changedTouches.length;
+                for (var i:number = 0; i < l; i++) {
+                    lasttouch = e.changedTouches[i];
+                    if(d$.compare(this._node,document.elementFromPoint(lasttouch.clientX,lasttouch.clientY))){
+                        var evt;
+                        if (window["CustomEvent"]) {
+                            evt = new window["CustomEvent"]('tap', {
+                                bubbles: true,
+                                cancelable: true
+                            });
+                        } else {
+                            evt = document.createEvent('Event');
+                            evt.initEvent('tap', true, true);
+                        }
+                        evt.touchTarget = lasttouch;
+                        evt.touchTarget.type = TouchEvent.TOUCH_TAP;
 
-                this.emit(TouchEvent.TOUCH_END);
-
-                if (!this._touchObserver.moved) {
-                    //create custom event
-                    var evt;
-                    if (window["CustomEvent"]) {
-                        evt = new window["CustomEvent"]('tap', {
-                            bubbles: true,
-                            cancelable: true
-                        });
-                    } else {
-                        evt = document.createEvent('Event');
-                        evt.initEvent('tap', true, true);
-                    }
-
-                    //e.stopPropagation();
-                    if (!e.target.dispatchEvent(evt)) {
-                        e.preventDefault();
+                        //e.stopPropagation();
+                        if (!e.target.dispatchEvent(evt)) {
+                            e.preventDefault();
+                        }
                     }
                 }
             }
 
             private ontouchtap(e){
-                this.emit(TouchEvent.TOUCH_TAP);
+                this.emit(TouchEvent.TOUCH_TAP,e.touchTarget);
             }
 
             private _onmouse(e){
@@ -127,7 +132,7 @@ module alcedo {
                     this._csstransitionSleep = true;
                     this.emit(StyleEvent.TRAN_SITION_END);
                     //trace(this.apid,this._lastindex,this.index());
-                    this.index(0);
+                    this.index = this._lastindex;
                 }
                 setTimeout(()=>{
                     this._csstransitionSleep = false; //防止重复出发transitionend事件,在下个时间点再允许事件触发
@@ -170,9 +175,13 @@ module alcedo {
                 }
                 return this;
             }
-            //public onStyleChanged(callback:Function,thisArg?,param?:Array<any>){
-            //    this.registNotify(this._domEventnotify,"onstylechanged",callback,thisArg,param);
-            //}
+
+            private getcsspropvalue(name:string):any{
+                //var result:any = this.css()[name];
+                var result:any = this.node.style[name];
+                if(!result||result=="auto")result = this.abscss()[name];
+                return result
+            }
 
             public abscss():any{
                 var result;
@@ -182,6 +191,14 @@ module alcedo {
                     result = this._node.style
                 }
                 return result;
+            }
+
+            public width():number{
+                return this.getcsspropvalue("width")
+            }
+
+            public height():number{
+                return this.getcsspropvalue("height")
             }
 
             //显示和隐藏
@@ -205,22 +222,23 @@ module alcedo {
             }
 
             private _lastindex:string|number;
-            public index(index?:string|number):string|number{
-                var result = this.abscss()["z-index"];
-                if(!index && index!==0){
-                    if(!Number(result))return 0;
-                    return +result;
-                }
 
+            public get index():string|number{
+                var result = this.node.style["z-index"];
+                if(!result)result = this.abscss()["z-index"];
+
+                return <any>result;
+            }
+
+            public set index(index:string|number){
                 this.css({"z-index":index});
-                return index;
             }
 
 
             //CSS3动画效果
             public to(cssprops:any, transition:number = 660):DomElement {
-                //this.index();
-                this.index(0);
+                if(this._lastindex!=this.index)this._lastindex = this.index;
+
                 this.transition = transition;
                 this.css(cssprops);
                 return this;

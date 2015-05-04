@@ -17,6 +17,7 @@ module alcedo{
             public _stageHeight:number;
 
             private _maincontext:CanvasMainContext;
+            private _touchcontext:TouchContext;
 
             public _options:any;
             private _orientchanged:boolean;
@@ -28,12 +29,14 @@ module alcedo{
 
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
-                //this._canvas = canvas;
+
                 this.setWidth(width);
                 this.setHeight(height);
                 this._options = opts;
                 this.initcomponent();
+
                 this._maincontext = new CanvasMainContext(this,canvas);
+                this.initcontext();
             }
 
             public width():any{
@@ -58,6 +61,10 @@ module alcedo{
                 //this._tweens = (new Tweens()).init(this);
 
                 this._startTime = Date.now();
+            }
+
+            private initcontext(){
+                this._touchcontext = new TouchContext(this);
             }
 
             public render(renderer:CanvasRenderer){
@@ -95,6 +102,15 @@ module alcedo{
             public get canvas():dom.DomElement{
                 return this._maincontext.canvas;
             }
+
+            public get gasket():dom.DomElement{
+                return this._maincontext.gasket;
+            }
+
+            public get canvasui():dom.DomElement{
+                return this._maincontext.canvasui;
+            }
+
 
             public get options():any{
                 return this._options;

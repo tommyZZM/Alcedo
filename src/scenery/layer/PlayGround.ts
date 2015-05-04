@@ -75,7 +75,7 @@ module game {
             this._myplane.b.y = stage.height()-100;
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0.1,-0.1),false);
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0,0.1));
-            this._myplane.autocontrol =true;
+            this._myplane.autofly();
             this._myplane.maxspeed = 6;
 
             trace("resPrePlay")
@@ -101,7 +101,7 @@ module game {
 
             this._myplane.clearForce();
             this._myplane.speed = 0;
-            this._myplane.autocontrol = false;
+            this._myplane.readyfly();
 
             alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
             //trace(this._myplane.b.x);

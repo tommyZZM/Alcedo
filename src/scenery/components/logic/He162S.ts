@@ -10,12 +10,15 @@ module game{
         public constructor(skin:string){
             super();
             this._display = new alcedo.canvas.Sprite(TextureRepository().get("testbird02"));
-            this.b.scaleALL(0.6)
+            this.b.scaleALL(0.6);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_ADD,this.onAdd,this);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_REMOVE,this.onRemove,this);
 
             this.bindParticleEmitterAt(-0.5,0);
             this._maxspeed = 10.20;
+
+            alcedo.addDemandListener(GameControl,CmdCatalog.CTR_FLY_BEGIN,this.beginfly,this);
+            alcedo.addDemandListener(GameControl,CmdCatalog.CTR_FLY_RELEASE,this.endfly,this);
         }
 
         private onAdd(e){
@@ -45,19 +48,46 @@ module game{
             this._colourEmitter.x = visualsizerect.x;
             this._colourEmitter.y = visualsizerect.y;
 
-            //trace();
             //this.applyForce(new alcedo.canvas.Vector2D(0,0.1));
-            this.acceleration_degree=0;
+            //this.acceleration_degree=0;
 
-            this.debugRobot()
+            if(this.autocontrol)this.debugRobot();
+
+            if(this._flystate){
+                this.flyup();
+            }else{
+                this.acceleration_degree = 0;
+            }
         }
 
-        public flyup(){
-            this.acceleration_degree=-2;
+        private _flystate:boolean;
+        private beginfly(){
+            this._flystate = true;
+            //小灰机刚刚开始往上飞..
+            //todo:动画,特效
+        }
+
+        private endfly(){
+            this._flystate = false;
+        }
+
+        private flyup(){
+            this.acceleration_degree=-3;
             this.speed+=0.01;
         }
 
-        public autocontrol:boolean = false;
+        public readyfly(){
+            this.autocontrol = false;
+            this._flystate = false;
+        }
+
+        public autofly(){
+            this.autocontrol = true;
+        }
+
+
+        //自动驾驶,用于开始界面和debug
+        private autocontrol:boolean = false;
         private _debugautocontrol:boolean;
         private debugRobot(){
             /**
@@ -72,12 +102,12 @@ module game{
             }
 
             if(this.velocity.deg>-30 && this._debugautocontrol ){
-                this.flyup()
+                this._flystate =true;
             }else{
                 this._debugautocontrol = false;
+                this._flystate =false;
             }
         }
-
 
     }
 }

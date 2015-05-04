@@ -97,6 +97,8 @@ module game{
             this._screen.data("name",name);
             alcedo.proxy(GameUIManager).gamescreens.set(name,this);
             this._root = root;
+            screen.index = 10
+            //trace("aaa")
             this.init();
         }
 

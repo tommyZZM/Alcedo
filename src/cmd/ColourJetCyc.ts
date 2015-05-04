@@ -58,6 +58,9 @@ module game{
                 this.canvas.parent().css({top:"0px",left:"0px"});
                 this.canvas.parent().rotate(0)
             }
+
+            this.stage.gasket.css({width:this.canvas.width(),height:this.canvas.height()});
+
         }
     }
 

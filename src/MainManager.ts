@@ -41,11 +41,10 @@ module game{
             alcedo.proxy(GameUIManager).ready();
 
             alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_PRE_PLAY);
-            alcedo.d$.query("#curtain")[0].then(()=>{
+            Curtain.instance.hide(()=>{
                 //trace("curtain....then");
                 alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
             });
-            alcedo.d$.query("#curtain")[0].addClass("disactive");
         }
     }
 

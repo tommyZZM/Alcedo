@@ -31,22 +31,23 @@ module game{
 
         public active(){
             super.active();
-            trace(this.className,"active")
 
             this.screen.show();
             //TODO:why?where? why need then
-            this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360).then(()=>{
-                trace("transionend");
-                    this._startbtn.e.show().to({"margin-top":alcedo.px(-10),top:0},360)
-                        .then(()=>{
-                            this._startbtn.e.to({"margin-top":alcedo.px(10),top:0},320)
-                                .then(()=>{
-                                    this._startbtn.e.to({"margin-top":0,top:0},300);
-                                    this.enableTouch();
-                                });
-                            this._aboutbtn.e.show().to({top:0},320)
-                        });
-                });
+            this._title.e.to({"margin-top": alcedo.px(stageSize().height * 0.08)}, 360).then(()=> {//TODO:screen index????
+                //trace("transionend",this.screen.index(),this._startbtn.e);
+                this._startbtn.e.show().to({"margin-top": alcedo.px(-10), top: 0}, 360)
+                    .then(()=> {
+                        //trace("transionend", this.screen.index());
+                        this._startbtn.e.to({"margin-top": alcedo.px(10), top: 0}, 320)
+                            .then(()=> {
+                                this._startbtn.e.to({"margin-top": 0, top: 0}, 300);
+                                this.enableTouch();
+                                //trace(this.className, "actived", this.screen.index())
+                            });
+                        this._aboutbtn.e.show().to({top: 0}, 320)
+                    });
+            });
         }
 
         public disactive(callback:Function,thisObject?:any){
@@ -100,6 +101,9 @@ module game{
             }
 
             this._startbtnpos = stageSize().height*0.29;
+
+
+
             //this._startbtn.e.to({"margin-top":alcedo.px(this._startbtnpos),top:0},100)
         }
     }
