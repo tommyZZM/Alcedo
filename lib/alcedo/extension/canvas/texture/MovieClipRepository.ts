@@ -88,12 +88,15 @@ module alcedo {
             constructor(name:string){
                 super();
                 this._name = name;
+                this._bound = new alcedo.canvas.Rectangle();
             }
 
             public _importFrames(frames:Array<Texture>,frameRate:number){
                 this._frames = frames;
                 this._framerate = frameRate;
                 this._framescount = frames.length;
+
+                this._bound = MovieClipData.getBoundFromFrames(frames);
             }
 
             public getFrames():Array<Texture>{
@@ -108,7 +111,44 @@ module alcedo {
                 return this._framerate
             }
 
+            /**
+             * Size
+             */
+            private _bound:Rectangle;
+            public get left(){
+                return this._bound.x
+            }
+            public get top(){
+                return this._bound.y
+            }
+            public get width(){
+                return this._bound.width
+            }
+            public get height(){
+                return this._bound.height
+            }
 
+            private static getBoundFromFrames(frames){
+                var lefts = [];
+                var rights = [];
+                var tops = [];
+                var bottoms = [];
+
+                for(var i=0;i<frames.length;i++){
+                    var frame = frames[i];
+                    lefts.push(frame._offsetX);
+                    rights.push(frame._sourceWidth);
+                    tops.push(frame._offsetY);
+                    bottoms.push(frame._sourceHeight);
+                }
+
+                var minleft = Math.min.apply(Math,lefts);
+                var mintop = Math.min.apply(Math,tops);
+                var maxright = Math.max.apply(Math,rights);
+                var maxbottom = Math.max.apply(Math,bottoms);
+
+                return new Rectangle(minleft,mintop,maxright,maxbottom);
+            }
         }
     }
 }

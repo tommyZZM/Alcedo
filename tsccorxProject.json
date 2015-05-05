@@ -3,7 +3,7 @@
     "version": {
         "index": "0.01a",
         "subversion": "dev",
-        "build": 1822,
+        "build": 1893,
         "track": true
     },
     "runopts": {
@@ -31,7 +31,7 @@
             "src": "src-example/movieclip",
             "out": "demo/example/script/movieclip.js",
             "require": "lib/alcedo",
-            "ignore": true
+            "ignore": false
         },
         {
             "name": "particle",

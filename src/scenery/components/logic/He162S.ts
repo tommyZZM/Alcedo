@@ -9,8 +9,14 @@ module game{
 
         public constructor(skin:string){
             super();
-            this._display = new alcedo.canvas.Sprite(TextureRepository().get("testbird02"));
-            this.b.scaleALL(0.6);
+
+            MovieClipRepository()
+                .praseMovieClipData(AsyncRES().get("smallalcedo_json")
+                ,TextureRepository().get("smallalcedo_png"));
+
+            this._display = new alcedo.canvas.MovieClip(MovieClipRepository().get("smallalcedo"));
+
+            this.b.scaleALL(0.3);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_ADD,this.onAdd,this);
             this.b.addEventListener(alcedo.canvas.DisplayObjectEvent.ON_REMOVE,this.onRemove,this);
 
@@ -62,13 +68,19 @@ module game{
 
         private _flystate:boolean;
         private beginfly(){
+            if(this._flystate)return;
             this._flystate = true;
+            trace("fly");
+            (<alcedo.canvas.MovieClip>this._display).play(6);
             //小灰机刚刚开始往上飞..
             //todo:动画,特效
         }
 
         private endfly(){
+            if(!this._flystate)return;
             this._flystate = false;
+            (<alcedo.canvas.MovieClip>this._display).playToAndStop(1)
+            //(<alcedo.canvas.MovieClip>this._display).stopAt(1)
         }
 
         private flyup(){
@@ -102,10 +114,10 @@ module game{
             }
 
             if(this.velocity.deg>-30 && this._debugautocontrol ){
-                this._flystate =true;
+                this.beginfly()
             }else{
                 this._debugautocontrol = false;
-                this._flystate =false;
+               this.endfly()
             }
         }
 

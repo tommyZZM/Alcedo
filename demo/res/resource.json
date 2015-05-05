@@ -15,6 +15,10 @@
 	{
 		"keys":"fgcloud",
 		"name":"fgcloud"
+	},
+	{
+		"keys":"smallalcedo_png,smallalcedo_json",
+		"name":"character"
 	}],
 	"resources":[
 	{
@@ -86,5 +90,15 @@
 		"name":"testbird02",
 		"type":"image",
 		"url":"test/testbird02.png"
+	},
+	{
+		"name":"smallalcedo_png",
+		"type":"image",
+		"url":"test/smallalcedo.png"
+	},
+	{
+		"name":"smallalcedo_json",
+		"type":"json",
+		"url":"test/smallalcedo.json"
 	}]
 }

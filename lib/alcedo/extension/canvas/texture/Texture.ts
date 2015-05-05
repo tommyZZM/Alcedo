@@ -35,6 +35,8 @@ module alcedo{
 
             public _bitmapData:any = null;
 
+            private _bound:Rectangle;
+
             /**
              * 纹理对象中得位图数据
              * @member {ImageData} canvas.Texture#bitmapData
@@ -55,6 +57,7 @@ module alcedo{
                 this._sourceWidth = value.width;
                 this._sourceHeight = value.height;
                 this._sourceW2H = this._sourceWidth/this._sourceHeight;
+                this._bound = new alcedo.canvas.Rectangle();
             }
 
             public clone():Texture {

@@ -1,0 +1,37 @@
+﻿{
+"mc": {
+	"smallalcedo": {
+		"frameRate":24,
+		"labels": [
+		],
+		"frames": [
+			{"res":"smallalcedo01.png0000","x":-102.3,"y":-64.5},
+			{"res":"smallalcedo01.png0001","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0002","x":-95.3,"y":-66.5},
+			{"res":"smallalcedo01.png0003","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0004","x":-99.3,"y":-64.5},
+			{"res":"smallalcedo01.png0005","x":-101.3,"y":-64.5},
+			{"res":"smallalcedo01.png0006","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0007","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0008","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0009","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0010","x":-95.3,"y":-64.5},
+			{"res":"smallalcedo01.png0011","x":-95.3,"y":-64.5}
+		]
+	}
+},
+"res": {
+	"smallalcedo01.png0000":{"x":1,"y":1,"w":198,"h":129},
+	"smallalcedo01.png0001":{"x":200,"y":1,"w":191,"h":129},
+	"smallalcedo01.png0002":{"x":1,"y":131,"w":191,"h":131},
+	"smallalcedo01.png0003":{"x":193,"y":131,"w":191,"h":129},
+	"smallalcedo01.png0004":{"x":1,"y":263,"w":195,"h":129},
+	"smallalcedo01.png0005":{"x":197,"y":263,"w":197,"h":129},
+	"smallalcedo01.png0006":{"x":1,"y":393,"w":191,"h":134},
+	"smallalcedo01.png0007":{"x":193,"y":393,"w":191,"h":142},
+	"smallalcedo01.png0008":{"x":1,"y":536,"w":191,"h":142},
+	"smallalcedo01.png0009":{"x":193,"y":536,"w":191,"h":137},
+	"smallalcedo01.png0010":{"x":1,"y":679,"w":191,"h":129},
+	"smallalcedo01.png0011":{"x":193,"y":679,"w":191,"h":129}
+}
+}

@@ -81,13 +81,20 @@ var demo;
             _super.apply(this, arguments);
         }
         MovieClipExample.prototype.run = function () {
-            demo.MovieClipRepository().praseMovieClipData(demo.AsyncRES().get("smallstarling_json"), demo.TextureRepository().get("smallstarling_png"));
-            var mc = new alcedo.canvas.MovieClip(demo.MovieClipRepository().get("smallstarling"));
+            demo.MovieClipRepository().praseMovieClipData(demo.AsyncRES().get("smallalcedo_json"), demo.TextureRepository().get("smallalcedo_png"));
+            var mc = new alcedo.canvas.MovieClip(demo.MovieClipRepository().get("smallalcedo"));
             mc.play();
+            //mc.playToAndStop(1,1);
             mc.x = demo.stage.width() / 2;
             mc.y = demo.stage.height() / 2;
-            mc.scaleALL(0.5);
+            mc.pivotX(0.5);
+            mc.pivotY(0.5);
+            //mc.scaleALL(0.5);
             demo.stage.addChild(mc);
+            demo.stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10, function () {
+                mc.rotation++;
+            }, this);
+            trace(mc);
         };
         return MovieClipExample;
     })(demo.ExampleCycler);

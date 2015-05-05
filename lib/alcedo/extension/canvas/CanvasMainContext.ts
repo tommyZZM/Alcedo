@@ -66,9 +66,10 @@ module alcedo {
                 if(typeof this._stage.options.ui == "string"){
                     this._canvasui = d$.query("#"+this._stage.options.ui)[0];
                     id = this._stage.options.ui;
-                    if(!this._canvasui){
-                        this._canvasui = d$.query("<div></div>")[0];
-                    }
+                }
+
+                if(!this._canvasui){
+                    this._canvasui = d$.query("<div></div>")[0];
                 }
 
                 if(this._canvasui){
@@ -138,7 +139,9 @@ module alcedo {
                 this._canvas.node["width"] = this._stage.width();
                 this._canvas.node["height"] = this._stage.height();
 
-                this._canvasgasket.css({width:this._canvas.width(),height:this._canvas.height()});
+                if(this._canvasgasket) {
+                    this._canvasgasket.css({width: this._canvas.width(), height: this._canvas.height()});
+                }
                 //console.log("resized");
             }
 

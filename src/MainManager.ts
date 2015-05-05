@@ -23,7 +23,7 @@ module game{
 
             alcedo.proxy(AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
-            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels");
+            alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels","character");
         }
 
         private onAssetLoaded(){
@@ -50,5 +50,9 @@ module game{
 
     export interface ISceneryLayer{
 
+    }
+
+    export function MovieClipRepository():alcedo.canvas.MovieClipRepository{
+        return alcedo.proxy(alcedo.canvas.MovieClipRepository);
     }
 }

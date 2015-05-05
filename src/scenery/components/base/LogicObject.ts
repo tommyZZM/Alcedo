@@ -5,7 +5,7 @@ module game{
     //TODO: 20150422 物体的旋转角度和方向对应 done
     export class LogicObject extends alcedo.AppObject{
 
-        protected _display:alcedo.canvas.Sprite|alcedo.canvas.DisplayGraphic;
+        protected _display:alcedo.canvas.DisplayObject;
 
         protected _mass:number = 1;
 

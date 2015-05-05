@@ -19,7 +19,7 @@ module game {
             this._camera = camera;
             //this._lookat = new alcedo.canvas.Point2D(stage.width()/2,stage.height()/2);
 
-            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,Number.NEGATIVE_INFINITY)
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,-10)
         }
 
         public lookAt(target:alcedo.canvas.DisplayObject){
