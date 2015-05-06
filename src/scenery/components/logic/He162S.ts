@@ -70,7 +70,7 @@ module game{
         private beginfly(){
             if(this._flystate)return;
             this._flystate = true;
-            trace("fly");
+            //trace("fly");
             (<alcedo.canvas.MovieClip>this._display).play(6);
             //小灰机刚刚开始往上飞..
             //todo:动画,特效

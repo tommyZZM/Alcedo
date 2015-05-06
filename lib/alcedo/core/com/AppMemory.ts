@@ -9,7 +9,9 @@ module alcedo{
             this._memorypool = new Dict();
         }
 
-        public active(memory:MBase){
+        public active(memory:any){
+            if(!isOfClass(memory,AppMemoryUnit))return;
+
             if(!this._memorypool.has(getClassName(memory))){
                 this._memorypool.set(getClassName(memory),memory)
             }else{
@@ -26,7 +28,7 @@ module alcedo{
         }
 
         public reset(memory:any):any{
-            var m:MBase = this._memorypool.get(getClassName(memory));
+            var m:AppMemoryUnit = this._memorypool.get(getClassName(memory));
             m.reset();
         }
 
@@ -39,7 +41,7 @@ module alcedo{
         }
     }
 
-    export class MBase {
+    export class AppMemoryUnit {
         init(...arg){}
         reset(){}
     }

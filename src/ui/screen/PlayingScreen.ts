@@ -28,13 +28,13 @@ module game{
         private onCanvasTouchBegin(){
             if(!this._canvastouchable)return;
             alcedo.dispatchCmd(GameControl,CmdCatalog.CTR_FLY_BEGIN);
-            trace("hi")
+            //trace("hi")
         }
 
         private onCanvasTouchEnd(){
             if(!this._canvastouchable)return;
             alcedo.dispatchCmd(GameControl,CmdCatalog.CTR_FLY_RELEASE);
-            trace("bye")
+            //trace("bye")
 
         }
 

@@ -25,6 +25,7 @@ module game{
                 TextureRepository().get("aboutbtn"));
             this._startbtn.e.css({top:alcedo.px(stageSize().height)}).hide();
             this._aboutbtn.e.css({top:alcedo.px(stageSize().height)}).hide();
+            this.screen.show();
 
             this.resize();
         }
@@ -32,20 +33,19 @@ module game{
         public active(){
             super.active();
 
-            this.screen.show();
             //TODO:why?where? why need then
             this._title.e.to({"margin-top": alcedo.px(stageSize().height * 0.08)}, 360).then(()=> {//TODO:screen index????
                 //trace("transionend",this.screen.index(),this._startbtn.e);
-                this._startbtn.e.show().to({"margin-top": alcedo.px(-10), top: 0}, 360)
+                this._startbtn.e.show().to({top: alcedo.percent(48)}, 360)
                     .then(()=> {
                         //trace("transionend", this.screen.index());
-                        this._startbtn.e.to({"margin-top": alcedo.px(10), top: 0}, 320)
+                        this._startbtn.e.to({top: alcedo.percent(52)}, 320)
                             .then(()=> {
-                                this._startbtn.e.to({"margin-top": 0, top: 0}, 300);
+                                this._startbtn.e.to({top: alcedo.percent(50)}, 300);
                                 this.enableTouch();
                                 //trace(this.className, "actived", this.screen.index())
                             });
-                        this._aboutbtn.e.show().to({top: 0}, 320)
+                        this._aboutbtn.e.show().to({top: alcedo.percent(78)}, 320)
                     });
             });
         }
@@ -55,9 +55,9 @@ module game{
             this.enableTouch(false);
 
             this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
-            this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
-            this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260).then(()=>{
-                this.screen.hide();
+            this._startbtn.e.to({top:alcedo.px(stageSize().height+100)},260);
+            this._aboutbtn.e.to({top:alcedo.px(stageSize().height+100)},260).then(()=>{
+                //this.screen.hide();
                 callback.apply(thisObject);
             });
         }
@@ -75,7 +75,7 @@ module game{
         private toStart(){
             this._startbtn.e.then(()=>{
                 trace("toStart");
-                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["prepare"]);
+                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["preto",{stateto:CmdCatalog.STATE_PREPARE_PLAY}]);
             })
         }
 
@@ -89,22 +89,12 @@ module game{
 
         public resize(){
             this._title.width = stageSize().height*0.9;
-            this._startbtn.width = stageSize().height*0.5;
-            this._aboutbtn.width = stageSize().height*0.3;
 
             if(this._isactive){
                 this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360)
             }else{
                 this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
-                this._startbtn.e.to({top:alcedo.px(stageSize().height)},260);
-                this._aboutbtn.e.to({top:alcedo.px(stageSize().height)},260);
             }
-
-            this._startbtnpos = stageSize().height*0.29;
-
-
-
-            //this._startbtn.e.to({"margin-top":alcedo.px(this._startbtnpos),top:0},100)
         }
     }
 }

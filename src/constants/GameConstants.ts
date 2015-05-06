@@ -7,10 +7,10 @@ module game{
         size:alcedo.canvas.Rectangle
     }
 
-    export var speed = {
-        plane:0,//灰机当前的速度
-
-        plane_active:3,
-        plane_lazy:2
-    }
+    //export var speed = {
+    //    plane:0,//灰机当前的速度
+    //
+    //    plane_active:3,
+    //    plane_lazy:2
+    //}
 }

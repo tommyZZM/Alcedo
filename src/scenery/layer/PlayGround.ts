@@ -15,15 +15,18 @@ module game {
         public playlayer:alcedo.canvas.DisplatObjectContainer;
         public levellayer:alcedo.canvas.DisplatObjectContainer;
 
+        private _gamestate:GameState;
+
         protected init(){
             this._gameobjects = [];
 
-            speed.plane = speed.plane_lazy;
+            //speed.plane = speed.plane_lazy;
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
 
-            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_PRE_PLAY,this.resPrePlay,this);
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_HELLO,this.resHello,this);
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_PREPARE_PLAY,this.resPreparePlay,this)
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_OVER_PLAY,this.resOverPlay,this);
 
             this.playlayer = new alcedo.canvas.DisplatObjectContainer();
             this.levellayer = new alcedo.canvas.DisplatObjectContainer();
@@ -51,6 +54,13 @@ module game {
             for(i=0;i<this._gameobjects.length;i++){
                 this._gameobjects[i].update(e);
             }
+
+            if(this._gamestate == GameState.PLAYING){
+                if(this._myplane.b.y>stage.height() && this._myplane.velocity.y>0){
+                    //TODO：掉落云雾的特效
+                    alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_OVER_PLAY);
+                }
+            }
         }
 
         public addPlayObject(obj:LogicObject){
@@ -69,8 +79,12 @@ module game {
          */
 
         /**还没开始游戏的状态**/
-        private resPrePlay(){
+        private resHello(){
+            this._gamestate = GameState.PRE;
+
             alcedo.proxy(CameraManager).yawX = 0.23;
+            this._myplane.clearForce();
+
             this._myplane.b.x = 0;
             this._myplane.b.y = stage.height()-100;
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0.1,-0.1),false);
@@ -78,23 +92,37 @@ module game {
             this._myplane.autofly();
             this._myplane.maxspeed = 6;
 
-            trace("resPrePlay")
+            trace("resHello")
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
         }
 
         private resPreparePlay(){
+            this._gamestate = GameState.PREPARE;
+
             alcedo.dispatchCmd(GameSceneryControl,CmdCatalog.RESET_SCENERY,[this._myplane.b.x]);
         }
 
         /**开始游戏**/
         private resStartPlaying(){
+            this._gamestate = GameState.PLAYING;
+
             this._myplane.applyForce(new alcedo.canvas.Vector2D(5.6,-5.6),false);
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0,0.1));
 
             alcedo.proxy(LevelManager).startLevel(this._myplane.b.x);
         }
 
+        /**游戏结束游戏**/
+        private resOverPlay(){
+            trace("over");
+            this._gamestate = GameState.OVER;
+            this._myplane.clearForce();
+
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["over"]);
+        }
+
         /**重置位置**/
-        protected resReturnPos(e:any){
+        protected resResetScenery(e:any){
             //TODO:
             this._myplane.b.x = 100;
             this._myplane.b.y = stage.height()-100;

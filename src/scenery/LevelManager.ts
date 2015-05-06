@@ -15,6 +15,8 @@ module game{
 
         private _currlevel:Level;
 
+        private _off:boolean;
+
         public constructor(){
             super();
             stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.checkLevels,this);
@@ -27,6 +29,8 @@ module game{
 
         public startLevel(positionx:number){
 
+            this._off = false;
+
             this._currlevel = this.selectOneLevel();
             this._currlevel.x = positionx+stage.width()/2+100;
 
@@ -37,7 +41,7 @@ module game{
 
         private checkLevels(){
             //检查当前场景是否已经从视图中离去;
-            if(this._currlevel){
+            if(this._currlevel && !this._off){
                 if(!this._currlevel.isInViewPort()&&this._currlevel.x<stage.viewPort().x)
                 this._currlevel.x = stage.viewPort().right+600
             }
@@ -45,6 +49,8 @@ module game{
 
         public resetAllLevel(){
             //重置关卡
+            this._off = true;
+            this._levellayer.removeChildren();
         }
 
         private selectOneLevel():Level{

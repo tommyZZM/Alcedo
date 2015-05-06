@@ -6,14 +6,14 @@ module game {
         public constructor(){
             super();
             this.init();
-            alcedo.addDemandListener(GameSceneryControl,CmdCatalog.RESET_SCENERY,this.resReturnPos,this)
+            alcedo.addDemandListener(GameSceneryControl,CmdCatalog.RESET_SCENERY,this.resResetScenery,this)
         }
 
         protected init(){
 
         }
 
-        protected resReturnPos(e:any){
+        protected resResetScenery(e:any){
 
         }
     }

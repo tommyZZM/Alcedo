@@ -9,8 +9,10 @@ module game{
             this.addCmdHandler(CmdCatalog.TO_SCREEN,this.cmdToScreen);
         }
 
-        private cmdToScreen(sceenname){
-            this.dispatchDemand(CmdCatalog.TO_SCREEN,sceenname);
+        private cmdToScreen(sceenname,data){
+            if(!data)data = {};
+            data.screenname = sceenname;
+            this.dispatchDemand(CmdCatalog.TO_SCREEN,data);
         }
     }
 }

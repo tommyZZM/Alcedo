@@ -14,11 +14,11 @@ module game{
             }
             this._com.css({
                 background: "url("+this._texture.sourceUrl+")",
-                "background-size": "cover",
-                "-webkit-background-size": "cover"
+                "background-size": "100% 100%",
+                "-webkit-background-size": "100% 100%"
             });
 
-            this.width = texture._sourceWidth;
+            //this.width = texture._sourceWidth;
         }
 
         public fitsize:boolean = true;

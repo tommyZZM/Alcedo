@@ -10,7 +10,7 @@ module game{
             this.addChild(this._clouds);
         }
 
-        protected resReturnPos(e:any){
+        protected resResetScenery(e:any){
             //TODO:
             this._clouds.eachChilder((child)=>{
                 child.x-=e.x;

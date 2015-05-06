@@ -7,7 +7,7 @@ module game {
 
             super(ele,texture);
 
-            this.width = texture._sourceWidth;
+            //this.width = texture._sourceWidth;
 
             this._com.addEventListener(alcedo.dom.TouchEvent.TOUCH_BEGIN, ()=> {
                 this._com.scale(0.8, 200);

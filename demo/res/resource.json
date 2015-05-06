@@ -1,7 +1,7 @@
 {
 	"groups":[
 	{
-		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao,paopaohappy,testbird02",
+		"keys":"title,paopaoxieyanxiao,startbtn,aboutbtn,paopaotucao,paopaohappy,testbird02,homebtn,restartbtn",
 		"name":"preload"
 	},
 	{
@@ -100,5 +100,15 @@
 		"name":"smallalcedo_json",
 		"type":"json",
 		"url":"test/smallalcedo.json"
+	},
+	{
+		"name":"homebtn",
+		"type":"image",
+		"url":"game/ui/homebtn.png"
+	},
+	{
+		"name":"restartbtn",
+		"type":"image",
+		"url":"game/ui/restartbtn.png"
 	}]
 }

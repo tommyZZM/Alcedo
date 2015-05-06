@@ -37,7 +37,8 @@ module game{
             //:加载完资源后执行此方法;
             this.bindScreen("start",StartScreen);
             this.bindScreen("playing",PlayingScreen);
-            this.bindScreen("prepare",PrepareScreen);
+            this.bindScreen("preto",PretoScreen);
+            this.bindScreen("over",OverScreen);
         }
 
         private onResize(){
@@ -61,22 +62,30 @@ module game{
 
         private bindScreen(classname:string,screenClass:any){
             var screen = alcedo.d$.query("#apertureui")[0].find(".screen."+classname)[0];
-            new screenClass(screen,this._gameui,screen.styleClass[1]);
+            if(screen) {
+                new screenClass(screen, this._gameui, screen.styleClass[1]);
+            }else{
+                warn("bindScreen fail",screenClass)
+            }
         }
 
         private _currscreen:GameScreen;
-        private resToggleScreen(screenname:string,callback?:Function){
+        private resToggleScreen(data:any){
+            var screenname = data.screenname;
             var screen = this.gamescreens.get(screenname);
-            if(!screen)return;
+            if(!screen){
+                warn("no such screen",screenname)
+                return;
+            }
             if(this._currscreen){
                 if(this._currscreen.hashIndex == screen.hashIndex){return;}
                 //alcedo.d$.query("#curtain")[0].removeClass("disactive");
                 this._currscreen.disactive(()=>{
                     //alcedo.d$.query("#curtain")[0].addClass("disactive");
-                    screen.active();
+                    screen.active(data);
                 });
             }else{
-                screen.active();
+                screen.active(data);
             }
             this._currscreen = screen;
         }
@@ -114,7 +123,7 @@ module game{
 
         }
 
-        public active(callback?:Function,thisObject?:any){
+        public active(data?:any){
             this._isactive = true;
             this.emit(GameScreen.ACTIVE,this.screen.data(name));
             //overridren

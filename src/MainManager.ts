@@ -21,6 +21,8 @@ module game{
             alcedo.proxy(GameUIManager).init();
             alcedo.proxy(CameraManager).init(stage.camera());
 
+            //me
+
             alcedo.proxy(AsyncAssetsLoader).addEventListener(alcedo.net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).addConfig("res/resource.json");
             alcedo.proxy(alcedo.net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels","character");
@@ -40,10 +42,9 @@ module game{
 
             alcedo.proxy(GameUIManager).ready();
 
-            alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_PRE_PLAY);
             Curtain.instance.hide(()=>{
                 //trace("curtain....then");
-                alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
+                alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_HELLO);
             });
         }
     }
