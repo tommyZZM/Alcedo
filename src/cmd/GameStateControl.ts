@@ -21,6 +21,7 @@ module game{
             this.addCmdHandler(CmdCatalog.STATE_HELLO,this.cmdHello);
             this.addCmdHandler(CmdCatalog.STATE_PREPARE_PLAY,this.cmdPreparePlay);
             this.addCmdHandler(CmdCatalog.STATE_OVER_PLAY,this.cmdGameOver);
+            this.addCmdHandler(CmdCatalog.STATE_RESET_TO_HELLO,this.cmdResetToHello)
 
         }
 
@@ -40,6 +41,10 @@ module game{
 
         private cmdGameOver(){
             this.dispatchDemand(CmdCatalog.STATE_OVER_PLAY);
+        }
+
+        private cmdResetToHello(){
+            this.dispatchDemand(CmdCatalog.STATE_RESET_TO_HELLO);
         }
     }
 }

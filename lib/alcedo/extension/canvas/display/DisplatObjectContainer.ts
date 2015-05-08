@@ -11,6 +11,10 @@ module alcedo{
                 this._children = [];
             }
 
+            public get children(){
+                return this._children
+            }
+
             public _transform(){
                 super._transform();
                 this.eachChilder((child)=>{
@@ -69,6 +73,9 @@ module alcedo{
             }
 
             public removeChildren(){
+                this.eachChilder((child)=>{
+                    child._setParent(null);
+                });
                 this._children = [];
             }
 

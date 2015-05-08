@@ -14,6 +14,7 @@ module game{
         public static STATE_PREPARE_PLAY:string = "GameStateControl_STATE_READY_PLAY";//准备开始游戏,重置游戏场景等;
         public static STATE_START_PLAYING:string = "GameStateControl_START_PLAYING";
         public static STATE_OVER_PLAY:string = "GameStateControl_STATE_OVER_PLAY";
+        public static STATE_RESET_TO_HELLO:string = "STATE_RESET_TO_HELLO...";
 
 
         //GameControl

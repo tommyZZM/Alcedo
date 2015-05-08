@@ -28,6 +28,7 @@ module game{
         }
 
         public startLevel(positionx:number){
+            this._levellayer.removeChildren();
 
             this._off = false;
 
@@ -36,7 +37,7 @@ module game{
 
             this._levellayer.addChildAt(this._currlevel,0);
 
-            trace("startlevel",positionx,this._currlevel.width(),this._currlevel.height());
+            trace("startlevel",positionx,this._levellayer.children);
         }
 
         private checkLevels(){
@@ -47,10 +48,9 @@ module game{
             }
         }
 
-        public resetAllLevel(){
+        public turnOffLevel(){
             //重置关卡
             this._off = true;
-            this._levellayer.removeChildren();
         }
 
         private selectOneLevel():Level{

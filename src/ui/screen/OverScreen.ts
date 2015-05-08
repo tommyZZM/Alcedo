@@ -71,6 +71,7 @@ module game {
         }
 
         private toHome(){
+            alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_RESET_TO_HELLO);
             alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["preto",{stateto:CmdCatalog.STATE_HELLO}]);
             //this._restartbtn.e.then(()=>{
             //    //todo:alcedo.dispatchCmd(RESTART)

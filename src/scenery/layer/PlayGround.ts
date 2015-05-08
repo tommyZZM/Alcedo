@@ -27,6 +27,7 @@ module game {
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_PREPARE_PLAY,this.resPreparePlay,this)
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_OVER_PLAY,this.resOverPlay,this);
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_RESET_TO_HELLO,this.resResetToHello,this)
 
             this.playlayer = new alcedo.canvas.DisplatObjectContainer();
             this.levellayer = new alcedo.canvas.DisplatObjectContainer();
@@ -80,10 +81,13 @@ module game {
 
         /**还没开始游戏的状态**/
         private resHello(){
+            this.levellayer.removeChildren();
             this._gamestate = GameState.PRE;
 
             alcedo.proxy(CameraManager).yawX = 0.23;
             this._myplane.clearForce();
+
+            var lastplanex = this._myplane.b.x;
 
             this._myplane.b.x = 0;
             this._myplane.b.y = stage.height()-100;
@@ -92,14 +96,26 @@ module game {
             this._myplane.autofly();
             this._myplane.maxspeed = 6;
 
-            trace("resHello")
+            trace("resHello");
+            alcedo.dispatchCmd(GameSceneryControl,CmdCatalog.RESET_SCENERY,[lastplanex-this._myplane.b.x]);
+
             alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["start"]);
         }
 
         private resPreparePlay(){
             this._gamestate = GameState.PREPARE;
+            var lastplanex = this._myplane.b.x;
 
-            alcedo.dispatchCmd(GameSceneryControl,CmdCatalog.RESET_SCENERY,[this._myplane.b.x]);
+            this._myplane.b.x = 100;
+            this._myplane.b.y = stage.height()-100;
+
+            this._myplane.clearForce();
+            this._myplane.speed = 0;
+            this._myplane.readyfly();
+
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
+
+            alcedo.dispatchCmd(GameSceneryControl,CmdCatalog.RESET_SCENERY,[lastplanex-this._myplane.b.x]);
         }
 
         /**开始游戏**/
@@ -110,6 +126,7 @@ module game {
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0,0.1));
 
             alcedo.proxy(LevelManager).startLevel(this._myplane.b.x);
+
         }
 
         /**游戏结束游戏**/
@@ -121,17 +138,14 @@ module game {
             alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["over"]);
         }
 
+        private resResetToHello(){
+
+            alcedo.proxy(LevelManager).turnOffLevel();
+        }
+
         /**重置位置**/
         protected resResetScenery(e:any){
             //TODO:
-            this._myplane.b.x = 100;
-            this._myplane.b.y = stage.height()-100;
-
-            this._myplane.clearForce();
-            this._myplane.speed = 0;
-            this._myplane.readyfly();
-
-            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["playing"]);
             //trace(this._myplane.b.x);
         }
     }
