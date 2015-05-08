@@ -86,7 +86,7 @@ module game{
                 this._currscreen.disactive(()=>{
                     //alcedo.d$.query("#curtain")[0].addClass("disactive");
                     this._currscreen = screen;
-                    trace("this._currscreen.disactive",this._currscreen,screen);
+                    //trace("this._currscreen.disactive",this._currscreen,screen);
                     screen.active(data);
                 });
             }else{

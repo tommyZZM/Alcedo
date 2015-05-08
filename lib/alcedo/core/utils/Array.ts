@@ -13,6 +13,13 @@ Object.defineProperty(Array.prototype, 'fastRemove', {
     },enumerable: false
 });
 
+Object.defineProperty(Array.prototype, 'last', {
+    get : function () {
+        return this[this.length-1];
+    },
+    enumerable: false
+});
+
 interface Array<T>{
     prototype;
 
@@ -21,4 +28,6 @@ interface Array<T>{
      * @param index
      */
     fastRemove(index:number);
+
+    last:any
 }

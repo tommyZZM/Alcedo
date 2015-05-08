@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/26.
  */
 module game{
-    //He162 Capture By Alies and Refited into a ColourFul Plane happy fly in place sky
+    //bala
     export class He162S extends LogicObject{
 
         private _plane:LogicObject;
@@ -106,7 +106,7 @@ module game{
              * debug状态下小灰机处于最高速度。
              */
             if(!this.autocontrol)return;
-            this.speed = this._maxspeed;
+            this.speed = 5;
 
             if(this.b.y>stage.height()*0.6 && ! this._debugautocontrol){
                 this._debugautocontrol = true;

@@ -15,20 +15,19 @@ module alcedo {
 
             public static identity:Segment2D = new Segment2D(Point2D.identity(),Point2D.identity());
             public constructor(begin:Point2D,end:Point2D){
-                this.begin = begin;
-                this.end   = end;
+                this.begin = new Point2D(begin.x, begin.y);
+                this.end   = new Point2D(end.x, end.y);
             }
 
             /**
              * 转换成二维向量
              */
-
-            private get _vector(){
+            public get vector(){
                 return Vector2D.createFromPoint(this.begin,this.end)
             }
 
-            private get _length(){
-                return this._vector.length;
+            public get length(){
+                return this.vector.length;
             }
         }
     }

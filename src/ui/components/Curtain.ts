@@ -13,14 +13,14 @@ module game{
             this._ele = alcedo.d$.query("#curtain")[0];
             this.lastwidth =this._ele.width();
             this.lastheight =this._ele.height();
-            trace(this.lastwidth,this._ele.width())
+            //trace(this.lastwidth,this._ele.width())
             this._ele.css({width:0,height:0});
         }
 
         public show(callback?:Function,thisObject?:any,param?:Array<any>){
             this._ele.css({width:this.lastwidth ,height:this.lastheight });
 
-            trace("Curtain show",this.lastwidth,this.lastheight);
+            //trace("Curtain show",this.lastwidth,this.lastheight);
 
             if(!this._ele.hasClass("disactive")){
                 if(callback)callback.apply(thisObject,param)
@@ -39,7 +39,7 @@ module game{
 
         public hide(callback?:Function,thisObject?:any,param?:Array<any>){
             //this._ele.show();
-            trace("Curtain hided");
+            //trace("Curtain hided");
 
             this._ele.addClass("disactive");
 

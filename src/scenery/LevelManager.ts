@@ -109,20 +109,48 @@ module game{
                                 this._renderdartcloud(objspool[objs][i]);
                             }
                         }
+                        break;
+                    }
+                    case "clourpower":{
+                        if(Array.isArray(objspool[objs])&&objspool[objs].length>0){
+                            for(i=0;i<objspool[objs].length;i++){
+                                this._rendercolourpower(objspool[objs][i]);
+                            }
+                        }
+                        break;
+                    }
+                    default :{
+                        break;
                     }
                 }
             }
         }
 
         private _clouds:Array<any>;
-        private _renderdartcloud(cloudobj){
-            if(cloudobj.type!=LevelShapeType.Rect){return;}
+        private _renderdartcloud(obj){
+            if(obj.type!=LevelShapeType.Rect){return;}
 
             //trace("_renderdartcloud",cloudobj);
-            var cloud = new DarkCloud(cloudobj.width,cloudobj.height);
-            cloud.b.x = cloudobj.x,cloud.b.y = cloudobj.y;
+            var cloud = new DarkCloud(obj.width,obj.height);
+            cloud.b.x = obj.x,cloud.b.y = obj.y;
             cloud.b.alpha = 0.6;
+            trace("_renderdartcloud",cloud.b.y)
+
             this.addChild(cloud.b);
+        }
+
+        private _rendercolourpower(obj){
+            if(obj.type!=LevelShapeType.PointLine){return;}
+
+            switch (obj.type){
+                case LevelShapeType.PointLine:{
+                    var powers = new ColourPower(obj.points);
+                    powers.eachPower((power)=>{
+                        this.addChild(power.b);
+                        trace("_rendercolourpower",power.b.y)
+                    })
+                }
+            }
         }
     }
 

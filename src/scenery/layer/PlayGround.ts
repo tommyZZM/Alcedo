@@ -91,7 +91,7 @@ module game {
 
             this._myplane.b.x = 0;
             this._myplane.b.y = stage.height()-100;
-            this._myplane.applyForce(new alcedo.canvas.Vector2D(0.1,-0.1),false);
+            this._myplane.applyForce(new alcedo.canvas.Vector2D(2,-2),false);
             this._myplane.applyForce(new alcedo.canvas.Vector2D(0,0.1));
             this._myplane.autofly();
             this._myplane.maxspeed = 6;
