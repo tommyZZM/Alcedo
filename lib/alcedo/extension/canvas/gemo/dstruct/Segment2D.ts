@@ -22,8 +22,13 @@ module alcedo {
             /**
              * 转换成二维向量
              */
-            public toVector2D(){
 
+            private get _vector(){
+                return Vector2D.createFromPoint(this.begin,this.end)
+            }
+
+            private get _length(){
+                return this._vector.length;
             }
         }
     }

@@ -23,11 +23,11 @@ module game {
             //speed.plane = speed.plane_lazy;
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
 
+            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_RESET_TO_HELLO,this.resResetToHello,this)
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_HELLO,this.resHello,this);
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_PREPARE_PLAY,this.resPreparePlay,this)
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_START_PLAYING,this.resStartPlaying,this);
             alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_OVER_PLAY,this.resOverPlay,this);
-            alcedo.addDemandListener(GameStateControl,CmdCatalog.STATE_RESET_TO_HELLO,this.resResetToHello,this)
 
             this.playlayer = new alcedo.canvas.DisplatObjectContainer();
             this.levellayer = new alcedo.canvas.DisplatObjectContainer();

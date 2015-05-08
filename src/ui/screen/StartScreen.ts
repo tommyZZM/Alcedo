@@ -15,8 +15,8 @@ module game{
         protected init() {
             this.screen.hide();
             this._title = new GameUIComponent(this.screen.find(".title")[0],TextureRepository().get("title"));
-            this._title.e.css({"margin-top":alcedo.px(-this._title.height)});
-            this._title.e.show();
+            this._title.e.css({"margin-top":alcedo.px(-100)});
+            this._title.width = stageSize().height*0.9;
 
             this._startbtn = new GameButton(this.screen.find(".btn.startgame")[0],
                 TextureRepository().get("startbtn"));
@@ -32,9 +32,10 @@ module game{
 
         public active(){
             super.active();
+            //trace("start active");
 
             //TODO:why?where? why need then
-            this._title.e.to({"margin-top": alcedo.px(stageSize().height * 0.08)}, 360).then(()=> {//TODO:screen index????
+            this._title.e.show().to({"margin-top": alcedo.px(stageSize().height * 0.08)}, 360).then(()=> {//TODO:screen index????
                 //trace("transionend",this.screen.index(),this._startbtn.e);
                 this._startbtn.e.show().to({top: alcedo.percent(48)}, 360)
                     .then(()=> {
@@ -54,9 +55,9 @@ module game{
             super.disactive(callback,thisObject);
             this.enableTouch(false);
 
-            this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
-            this._startbtn.e.to({top:alcedo.px(stageSize().height+100)},260);
-            this._aboutbtn.e.to({top:alcedo.px(stageSize().height+100)},260).then(()=>{
+            this._title.e.to({"margin-top":alcedo.px(-this._title.height)},320);
+            this._startbtn.e.to({top:alcedo.px(stageSize().height+50)},320);
+            this._aboutbtn.e.to({top:alcedo.px(stageSize().height+50)},300).then(()=>{
                 //this.screen.hide();
                 callback.apply(thisObject);
             });
@@ -88,13 +89,13 @@ module game{
 
 
         public resize(){
-            this._title.width = stageSize().height*0.9;
+            //this._title.width = stageSize().height*0.9;
 
-            if(this._isactive){
-                this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360)
-            }else{
-                this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
-            }
+            //if(this._isactive){
+            //    this._title.e.to({"margin-top":alcedo.px(stageSize().height*0.08)},360)
+            //}else{
+            //    this._title.e.to({"margin-top":alcedo.px(-this._title.height)},260);
+            //}
         }
     }
 }

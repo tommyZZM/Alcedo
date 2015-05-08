@@ -42,10 +42,10 @@ module game{
 
             alcedo.proxy(GameUIManager).ready();
 
-            Curtain.instance.hide(()=>{
-                //trace("curtain....then");
-                alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_HELLO);
-            });
+            alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["preto",{stateto:CmdCatalog.STATE_HELLO}])
+            //Curtain.instance.hide(()=>{
+            //    alcedo.dispatchCmd(GameStateControl,CmdCatalog.STATE_HELLO);
+            //});
         }
     }
 

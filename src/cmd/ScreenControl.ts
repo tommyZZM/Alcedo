@@ -10,8 +10,9 @@ module game{
         }
 
         private cmdToScreen(sceenname,data){
-            if(!data)data = {};
+            if(!data || !data.stateto)data = {};
             data.screenname = sceenname;
+            trace("toScreen",data);
             this.dispatchDemand(CmdCatalog.TO_SCREEN,data);
         }
     }

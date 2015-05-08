@@ -13,8 +13,8 @@ module game {
 
         public active(data?:any){
             super.active(data);
+            trace("PretoScreen active");
             Curtain.instance.show(()=>{
-                trace("hrere",data.stateto)
                 if(data.stateto) {
                     alcedo.dispatchCmd(GameStateControl, data.stateto);
                 }

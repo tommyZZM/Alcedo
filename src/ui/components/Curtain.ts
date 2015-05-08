@@ -11,26 +11,40 @@ module game{
                 return;
             }
             this._ele = alcedo.d$.query("#curtain")[0];
+            this.lastwidth =this._ele.width();
+            this.lastheight =this._ele.height();
+            trace(this.lastwidth,this._ele.width())
+            this._ele.css({width:0,height:0});
         }
 
         public show(callback?:Function,thisObject?:any,param?:Array<any>){
             this._ele.css({width:this.lastwidth ,height:this.lastheight });
-            this._ele.then(()=>{
-                this._ele.removeClass("disactive");
+
+            trace("Curtain show",this.lastwidth,this.lastheight);
+
+            if(!this._ele.hasClass("disactive")){
+                if(callback)callback.apply(thisObject,param)
+            }else{
                 this._ele.then(()=>{
-                    if(callback)callback.apply(thisObject,param)
-                });
-            })
+                    this._ele.removeClass("disactive");
+                    this._ele.then(()=>{
+                        if(callback)callback.apply(thisObject,param)
+                    });
+                })
+            }
         }
 
-        private lastwidth:number;
-        private lastheight:number;
+        private lastwidth:string;
+        private lastheight:string;
 
         public hide(callback?:Function,thisObject?:any,param?:Array<any>){
             //this._ele.show();
+            trace("Curtain hided");
+
             this._ele.addClass("disactive");
+
             this._ele.then(()=>{
-                if(this._ele.width()!=0){
+                if(this._ele.width()!=="0px"&&this._ele.width()!=="auto"&&this._ele.width()!=="0"){
                     this.lastwidth =this._ele.width();
                     this.lastheight =this._ele.height();
                 }

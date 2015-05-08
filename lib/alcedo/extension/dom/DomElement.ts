@@ -193,11 +193,11 @@ module alcedo {
                 return result;
             }
 
-            public width():number{
+            public width():string{
                 return this.getcsspropvalue("width")
             }
 
-            public height():number{
+            public height():string{
                 return this.getcsspropvalue("height")
             }
 

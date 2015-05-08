@@ -73,21 +73,26 @@ module game{
         private resToggleScreen(data:any){
             var screenname = data.screenname;
             var screen = this.gamescreens.get(screenname);
+            //trace("resToggleScreen",data,screen,this._currscreen == screen.hashIndex)
+
             if(!screen){
-                warn("no such screen",screenname)
+                warn("no such screen",data,screenname)
                 return;
             }
             if(this._currscreen){
+
                 if(this._currscreen.hashIndex == screen.hashIndex){return;}
                 //alcedo.d$.query("#curtain")[0].removeClass("disactive");
                 this._currscreen.disactive(()=>{
                     //alcedo.d$.query("#curtain")[0].addClass("disactive");
+                    this._currscreen = screen;
+                    trace("this._currscreen.disactive",this._currscreen,screen);
                     screen.active(data);
                 });
             }else{
                 screen.active(data);
+                this._currscreen = screen;
             }
-            this._currscreen = screen;
         }
     }
 
