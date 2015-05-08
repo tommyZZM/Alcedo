@@ -6,10 +6,23 @@ module demo {
     export class HelloWorld extends ExampleCycler {
         protected run(){
 
-            var sp = new alcedo.canvas.graphic.Rectangle(100,100,100,100);
-            stage.addChild(sp);
-            sp.alpha = 0.5
-            trace(sp);
+            var points = [
+                new alcedo.canvas.Point2D(100,100),
+                new alcedo.canvas.Point2D(stage.width()/2-80,stage.height()/2-20),
+                new alcedo.canvas.Point2D(stage.width()/2+80,stage.height()/2+20),
+                new alcedo.canvas.Point2D(stage.width()-100,stage.height()-100)
+            ]
+            var bz = new alcedo.canvas.Bezier2D(points,20);
+
+            bz.eachPointsOnCurve((point)=>{
+                var sp = new alcedo.canvas.graphic.Circle(point.x,point.y,5,"#3498db");
+                stage.addChild(sp);
+            });
+
+            points.forEach((point)=>{
+                var sp = new alcedo.canvas.graphic.Circle(point.x,point.y,5,"#e67e22");
+                stage.addChild(sp);
+            })
 
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;

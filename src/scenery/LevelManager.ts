@@ -34,6 +34,7 @@ module game{
 
             this._currlevel = this.selectOneLevel();
             this._currlevel.x = positionx+stage.width()/2+100;
+            this._currlevel.y = -50
 
             this._levellayer.addChildAt(this._currlevel,0);
 

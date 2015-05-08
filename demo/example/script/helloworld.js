@@ -81,10 +81,21 @@ var demo;
             _super.apply(this, arguments);
         }
         HelloWorld.prototype.run = function () {
-            var sp = new alcedo.canvas.graphic.Rectangle(100, 100, 100, 100);
-            demo.stage.addChild(sp);
-            sp.alpha = 0.5;
-            trace(sp);
+            var points = [
+                new alcedo.canvas.Point2D(100, 100),
+                new alcedo.canvas.Point2D(demo.stage.width() / 2 - 80, demo.stage.height() / 2 - 20),
+                new alcedo.canvas.Point2D(demo.stage.width() / 2 + 80, demo.stage.height() / 2 + 20),
+                new alcedo.canvas.Point2D(demo.stage.width() - 100, demo.stage.height() - 100)
+            ];
+            var bz = new alcedo.canvas.Bezier2D(points, 20);
+            bz.eachPointsOnCurve(function (point) {
+                var sp = new alcedo.canvas.graphic.Circle(point.x, point.y, 5, "#3498db");
+                demo.stage.addChild(sp);
+            });
+            points.forEach(function (point) {
+                var sp = new alcedo.canvas.graphic.Circle(point.x, point.y, 5, "#e67e22");
+                demo.stage.addChild(sp);
+            });
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
             //sp.y = stage.height()/2;
