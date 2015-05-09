@@ -65,9 +65,11 @@ module game{
         }
 
         protected onCreateAProp(prop:alcedo.canvas.Sprite){
-            var prop:alcedo.canvas.Sprite,texture=this.selectAtexture();
-            prop.texture = texture;
+            var prop:alcedo.canvas.Sprite;
+            prop.texture = this.selectAtexture();
             prop.scaleToWidth(stage.width()*1.6);
+            //trace(this.selectAtexture(),prop.scale.x, prop.scale.y);
+
         }
 
         protected onPosAProp(prop){

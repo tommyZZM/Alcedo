@@ -135,7 +135,7 @@ module game{
             var cloud = new DarkCloud(obj.width,obj.height);
             cloud.b.x = obj.x,cloud.b.y = obj.y;
             cloud.b.alpha = 0.6;
-            trace("_renderdartcloud",cloud.b.y)
+            //trace("_renderdartcloud",cloud.b.y)
 
             this.addChild(cloud.b);
         }
@@ -148,7 +148,7 @@ module game{
                     var powers = new ColourPower(obj.points);
                     powers.eachPower((power)=>{
                         this.addChild(power.b);
-                        trace("_rendercolourpower",power.b.y)
+                        //trace("_rendercolourpower",power.b.y)
                     })
                 }
             }

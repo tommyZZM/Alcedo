@@ -30,7 +30,7 @@ module game{
             }
 
             this._bzcurve = new alcedo.canvas.Bezier2D(this._sourcepointsdata,
-                +(Math.randomFrom(this._sourcepointsdata.length*3-2,this._sourcepointsdata.length*3+2).toFixed(0)));
+                +(Math.randomFrom(this._sourcepointsdata.length,this._sourcepointsdata.length+2).toFixed(0)));
 
             this._bzcurve.eachPointsOnCurve((point)=>{
                 var power = new LittlePower();

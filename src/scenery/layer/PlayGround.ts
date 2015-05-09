@@ -134,6 +134,7 @@ module game {
             trace("over");
             this._gamestate = GameState.OVER;
             this._myplane.clearForce();
+            this._myplane.endfly();
 
             alcedo.dispatchCmd(ScreenControl,CmdCatalog.TO_SCREEN,["over"]);
         }

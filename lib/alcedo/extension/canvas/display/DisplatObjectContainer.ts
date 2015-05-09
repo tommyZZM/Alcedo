@@ -30,7 +30,10 @@ module alcedo{
 
             public addChild(child:DisplayObject){
                 var success = this._addChild(child);
-                if(!success)return;
+                if(!success){
+                    //warn("addChild fail");
+                    return;
+                }
                 child.emit(DisplayObjectEvent.ON_ADD,{parent:this,index:this._children.length-1});
             }
             private _addChild(child):boolean{

@@ -12,6 +12,7 @@ module game{
 
         protected resResetScenery(e:any){
             //TODO:
+            if(!this._clouds)return;
             this._clouds.eachChilder((child)=>{
                 child.x-=e.x;
             })
@@ -22,11 +23,11 @@ module game{
 
         private _propstexture:alcedo.canvas.Texture;
 
-        protected _propmax:number = 6;
+        protected _propmax:number = 5;
 
         protected preInitProps(){
             //trace(this._propmax);
-            this._propmax = 6;
+            this._propmax = 5;
             this._propstexture = TextureRepository().get("fgcloud");
         }
 
@@ -34,6 +35,8 @@ module game{
             prop.texture = this._propstexture;
             //trace(prop.texture)
             prop.scaleToWidth(stage.width())
+
+            //trace(prop.scale.x);
             //prop.visible = false;
         }
     }

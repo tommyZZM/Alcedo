@@ -50,7 +50,7 @@
 .btn.tohome{
     width: 100px;
     height: 100px;
-    left: 130px;
+    left: 23%;
     top: 50%;
     margin-top: -50px;
 }
@@ -61,7 +61,7 @@
 .btn.restart{
     width: 100px;
     height: 100px;
-    right: 130px;
+    right: 23%;
     top: 50%;
     margin-top: -50px;
 }

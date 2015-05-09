@@ -87,11 +87,11 @@ module alcedo{
                 this._viewfinder.y = this._position.y-this._viewfinder.height/2;
 
                 var buffer = this._buffer;
-                this._viewsafe.width = this._viewfinder.width*buffer;
-                this._viewsafe.height = this._viewfinder.height*buffer;
+                this._viewsafe.width = this._viewfinder.width//*buffer;
+                this._viewsafe.height = this._viewfinder.height//*buffer;
 
-                this._viewsafe.x = this._viewfinder.x-(this._viewfinder.width*(buffer-1))/2;
-                this._viewsafe.y = this._viewfinder.y-(this._viewfinder.width*(buffer-1))/2;
+                this._viewsafe.x = this._viewfinder.x//-(this._viewfinder.width*(buffer-1))/2;
+                this._viewsafe.y = this._viewfinder.y//-(this._viewfinder.width*(buffer-1))/2;
 
                 //trace(this._stage.x,this._stage.y,this._stage.width(),this._stage.height(),this._stage["_staticboundingbox"]);
             }

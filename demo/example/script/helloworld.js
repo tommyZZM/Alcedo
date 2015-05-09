@@ -96,6 +96,8 @@ var demo;
                 var sp = new alcedo.canvas.graphic.Circle(point.x, point.y, 5, "#e67e22");
                 demo.stage.addChild(sp);
             });
+            demo.stage.camera().zoomTo(demo.stage.width() / 2 + 10, demo.stage.height() / 2, 1);
+            trace(demo.stage.viewPort().x);
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
             //sp.y = stage.height()/2;

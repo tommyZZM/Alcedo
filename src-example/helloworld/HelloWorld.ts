@@ -24,6 +24,9 @@ module demo {
                 stage.addChild(sp);
             })
 
+            stage.camera().zoomTo(stage.width()/2+10, stage.height()/2,1)
+            trace(stage.viewPort().x);
+
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
             //sp.y = stage.height()/2;

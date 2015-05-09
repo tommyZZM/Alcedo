@@ -67,7 +67,7 @@ module game{
         }
 
         private _flystate:boolean;
-        private beginfly(){
+        public beginfly(){
             if(this._flystate)return;
             this._flystate = true;
             //trace("fly");
@@ -76,7 +76,7 @@ module game{
             //todo:动画,特效
         }
 
-        private endfly(){
+        public endfly(){
             if(!this._flystate)return;
             this._flystate = false;
             (<alcedo.canvas.MovieClip>this._display).playToAndStop(1)

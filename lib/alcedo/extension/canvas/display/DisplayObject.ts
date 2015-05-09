@@ -74,6 +74,7 @@ module alcedo {
             public constructor(){
                 super();
                 this._position = new Point2D(0,0);
+                this._globalposition = new Point2D();
                 this._pivot = new Vector2D(0,0);
                 this._scale = new Vector2D(1,1);
                 this._worldscale = this._scale.clone();
@@ -92,6 +93,24 @@ module alcedo {
                 this._position.y = y;
                 this._staticboundingbox.y =y-this.pivotOffsetY();
                 this.updateBound(null,y);
+            }
+
+            //待测试.可能有BUg
+            private _globalposition:Point2D;
+            public get globalx():number{
+                this._updateGlobalPosition();
+                return this._globalposition.x;
+            }
+            public get globaly():number{
+                this._updateGlobalPosition();
+                return this._globalposition.y;
+            }
+            private _updateGlobalPosition(){
+                if(this._parent){
+                    this._parent.localToGlobal(this._position.x, this._position.y, this._globalposition);
+                }else{
+                    this._globalposition.reset(this._position.x, this._position.y)
+                }
             }
 
             public width(width?:number):any{
@@ -113,7 +132,6 @@ module alcedo {
                 if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY();
                 if(typeof width == "number")this._staticboundingbox.width =width;
                 if(typeof height =="number")this._staticboundingbox.height =height;
-
                 //this.emit(DisplayObject.ON_UPDATE_BOUND,{x:x,y:y,width:width,height:height});
             }
 

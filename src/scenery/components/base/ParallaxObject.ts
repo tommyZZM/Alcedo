@@ -6,6 +6,7 @@ module game{
         protected _propdepth:number = 0.5;
 
         protected _propmax:number = 3;
+        protected _propmin:number = 3;
 
         protected _props:Array<any>;
         protected _propspool:Array<any>;
@@ -33,6 +34,9 @@ module game{
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_SECOND,this.onSecond,this);
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this)
+            for (var i = 0; i < this._propmin; i++) {
+                this.addChild(this.createAProp());
+            }
         }
 
         protected onEachTime(e){
@@ -44,16 +48,21 @@ module game{
 
         protected onSecond(e){
             var i;
-            if(this._props.length<this._propmax){
-                for(i = 0;i<(this._propmax-this._props.length);i++){
-                    this.addChild(this.createAProp());
-                }
-            }
             for(i=0;i<this._props.length;i++){
                 var prop = this._props[i];
 
-                if((!prop.isInViewPort())&&(prop.x<stage.viewPort().x)){
+                //tag:(prop.x-this.x)实际上就是获得prop的全局坐标
+                if((!prop.isInViewPort())&&((this.x+prop.x)<stage.viewPort().x)){
                     this.destoryAProp(prop);
+                    //trace("destoried",(this.x+prop.x),stage.viewPort().x,i);
+                }
+            }
+
+            if(this._props.length<this._propmax){
+                this.addChild(this.createAProp());
+            }
+            if(this._props.length<this._propmin){
+                for(i = 0;i<(this._propmin-this._props.length);i++){
                     this.addChild(this.createAProp());
                 }
             }
@@ -65,28 +74,30 @@ module game{
 
         protected initProps(){
             this.preInitProps();
-            for(var i=0;i<this._propmax;i++){
-                this.addChild(this.createAProp());
-            }
+            //for(var i=0;i<this._propmax;i++){
+            //    this.addChild(this.createAProp());
+            //}
         }
 
         private createAProp():alcedo.canvas.Sprite{
             var prop:alcedo.canvas.Sprite;
-            if(this._props.length<this._propmax){
+            if(!this._propspool || this._propspool.length==0){
                 prop = new alcedo.canvas.Sprite();
-            }else if(this._propspool && this._propspool.length>0){
+            }else{
                 prop = this._propspool.pop();
-            }else {
-                prop = this._props.shift();
             }
+            //trace("here")
+            //prop = new alcedo.canvas.Sprite();
 
             this.onCreateAProp(prop);
 
             var lastprop = this._props[this._props.length-1];
             if(lastprop){
+                //trace(this._propspool,this._props.last.x);
                 prop.x = lastprop.x+lastprop.actualBound().width;
             }else{
                 prop.x = this._opts.startpos || stage.viewPort().x;//TODO:第一个物体起始点
+                //trace("first",prop.x,this.onCreateAProp)
             }
             //TODO:DisplayObject xy和锚点设置有问题哦
             prop.y = stage.height();
@@ -94,6 +105,8 @@ module game{
             this.onPosAProp(prop);
 
             this._props.push(prop);
+
+            //trace(prop.x,prop.y);
 
             return prop;
         }
@@ -112,7 +125,6 @@ module game{
             var index = this._props.indexOf(prop);
             this._props.splice(index,1);
             this._propspool.push(prop);
-            //trace("destoried",prop.x,stage.viewPort().x,prop.isInViewPort(), this._propspool.length);
         }
     }
 }
