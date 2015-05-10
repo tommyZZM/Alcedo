@@ -20,6 +20,13 @@ Object.defineProperty(Array.prototype, 'last', {
     enumerable: false
 });
 
+Object.defineProperty(Array.prototype, 'randomselect', {
+    value: function () {
+        var i = Math.randomFrom(0,this.length)^0;
+        return this[i];
+    },enumerable: false
+});
+
 interface Array<T>{
     prototype;
 
@@ -29,5 +36,9 @@ interface Array<T>{
      */
     fastRemove(index:number);
 
+    //最后一个元素
     last:any
+
+    //随机选取一个元素
+    randomselect();
 }

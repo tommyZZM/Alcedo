@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="600" height="80" tilewidth="5" tileheight="5" nextobjectid="51">
+ <objectgroup color="#2980b9" name="clourpower">
+  <object id="50" x="732" y="277">
+   <polyline points="-57,15 235,-280 553,29 802,-85"/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#e67e22" name="obstacle_darkcloud">
+  <object id="46" x="559.75" y="65.25" width="100.5" height="59.5"/>
+  <object id="47" x="1354.75" y="19.25" width="131.5" height="75.5"/>
+  <object id="48" x="944.75" y="250.25" width="158.5" height="95.5"/>
+ </objectgroup>
+</map>

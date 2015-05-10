@@ -98,6 +98,9 @@ var demo;
             });
             demo.stage.camera().zoomTo(demo.stage.width() / 2 + 10, demo.stage.height() / 2, 1);
             trace(demo.stage.viewPort().x);
+            demo.stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10, function () {
+                //trace(Math.randomFrom(0,2.499).toFixed(0));
+            }, this);
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
             //sp.y = stage.height()/2;

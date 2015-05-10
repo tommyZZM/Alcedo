@@ -16,8 +16,6 @@ module game{
             return this._opts;
         }
 
-        public static referenceObject:LogicObject;
-
         public constructor(depth:number=0.5,opts:any={}){
 
             super();
@@ -41,8 +39,8 @@ module game{
 
         protected onEachTime(e){
             //trace(this._propdepth)
-            if(ParallaxObject.referenceObject) {
-                this.x += (ParallaxObject.referenceObject.velocity.x * this._propdepth * e.delay);
+            if(He162S.reference) {
+                this.x += (He162S.reference.velocity.x * this._propdepth * e.delay);
             }
         }
 
@@ -59,10 +57,7 @@ module game{
             }
 
             if(this._props.length<this._propmax){
-                this.addChild(this.createAProp());
-            }
-            if(this._props.length<this._propmin){
-                for(i = 0;i<(this._propmin-this._props.length);i++){
+                for(i = 0;i<(this._propmax-this._props.length);i++){
                     this.addChild(this.createAProp());
                 }
             }

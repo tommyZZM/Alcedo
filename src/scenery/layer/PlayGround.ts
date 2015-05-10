@@ -41,8 +41,6 @@ module game {
             //this._myplane.speed = 0;
             this.addPlayObject(this._myplane);
 
-            ParallaxObject.referenceObject = this._myplane;
-
             alcedo.proxy(CameraManager).lookAt(this._myplane.b);
             stage.camera().focal = 1;
 
@@ -141,7 +139,7 @@ module game {
 
         private resResetToHello(){
 
-            alcedo.proxy(LevelManager).turnOffLevel();
+            alcedo.proxy(LevelManager).turnOffAllLevels();
         }
 
         /**重置位置**/

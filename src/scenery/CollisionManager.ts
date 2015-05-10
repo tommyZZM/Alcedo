@@ -1,12 +1,9 @@
 /**
- * Created by tommyZZM on 2015/4/30.
+ * Created by tommyZZM on 2015/5/10.
  */
-module game {
-    /**
-     * 碰撞模块
-     * 只有在小灰机附近的LogicObject才会参与碰撞
-     */
-    export class CollisionManager extends alcedo.AppProxyer {
+module game{
+    export class CollisionManager extends alcedo.AppProxyer{
+        private static instanceable:boolean = true;
 
     }
 }

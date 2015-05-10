@@ -5,10 +5,13 @@ module game{
     //bala
     export class He162S extends LogicObject{
 
+        public static reference:He162S;
+
         private _plane:LogicObject;
 
         public constructor(skin:string){
             super();
+            if(!!He162S.reference)return;
 
             MovieClipRepository()
                 .praseMovieClipData(AsyncRES().get("smallalcedo_json")
@@ -25,6 +28,8 @@ module game{
 
             alcedo.addDemandListener(GameControl,CmdCatalog.CTR_FLY_BEGIN,this.beginfly,this);
             alcedo.addDemandListener(GameControl,CmdCatalog.CTR_FLY_RELEASE,this.endfly,this);
+
+            He162S.reference = this;
         }
 
         private onAdd(e){

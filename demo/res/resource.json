@@ -9,7 +9,7 @@
 		"name":"bgcloud"
 	},
 	{
-		"keys":"level_tmp",
+		"keys":"level_tmp,level_tmp_2,level_tmp_3",
 		"name":"levels"
 	},
 	{
@@ -110,5 +110,15 @@
 		"name":"restartbtn",
 		"type":"image",
 		"url":"game/ui/restartbtn.png"
+	},
+	{
+		"name":"level_tmp_2",
+		"type":"json",
+		"url":"map/level_tmp_2.json"
+	},
+	{
+		"name":"level_tmp_3",
+		"type":"json",
+		"url":"map/level_tmp_3.json"
 	}]
 }

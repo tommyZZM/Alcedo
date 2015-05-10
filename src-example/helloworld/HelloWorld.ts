@@ -6,6 +6,7 @@ module demo {
     export class HelloWorld extends ExampleCycler {
         protected run(){
 
+
             var points = [
                 new alcedo.canvas.Point2D(100,100),
                 new alcedo.canvas.Point2D(stage.width()/2-80,stage.height()/2-20),
@@ -26,6 +27,10 @@ module demo {
 
             stage.camera().zoomTo(stage.width()/2+10, stage.height()/2,1)
             trace(stage.viewPort().x);
+
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,()=>{
+                //trace(Math.randomFrom(0,2.499).toFixed(0));
+            },this)
 
             //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
             //sp.x = stage.width()/2;
