@@ -50,7 +50,7 @@ module game{
                 var prop = this._props[i];
 
                 //tag:(prop.x-this.x)实际上就是获得prop的全局坐标
-                if((!prop.isInViewPort())&&((this.x+prop.x)<stage.viewPort().x)){
+                if((!prop.isInViewPort())&&((this.x+prop.x)<(stage.viewPort().x-120))){
                     this.destoryAProp(prop);
                     //trace("destoried",(this.x+prop.x),stage.viewPort().x,i);
                 }

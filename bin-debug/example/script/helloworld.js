@@ -75,23 +75,54 @@ var demo;
 ///<reference path="../ExampleCycler.ts"/>
 var demo;
 (function (demo) {
-    var ParticleExample = (function (_super) {
-        __extends(ParticleExample, _super);
-        function ParticleExample() {
+    var HelloWorld = (function (_super) {
+        __extends(HelloWorld, _super);
+        function HelloWorld() {
             _super.apply(this, arguments);
         }
-        ParticleExample.prototype.run = function () {
-            var v = new alcedo.canvas.Vector2D(0, -5);
-            var pe = new alcedo.canvas.ParticleEmitter({ initial: v, spread: 20, max: 30, rate: 16 });
-            pe.x = demo.stage.width() / 2;
-            pe.y = demo.stage.height() / 2;
-            demo.stage.addChild(pe);
-            pe.play();
-            pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
-            trace(v.toDeg());
+        HelloWorld.prototype.run = function () {
+            var points = [
+                new alcedo.canvas.Point2D(100, 100),
+                new alcedo.canvas.Point2D(demo.stage.width() / 2 - 80, demo.stage.height() / 2 - 20),
+                new alcedo.canvas.Point2D(demo.stage.width() / 2 + 80, demo.stage.height() / 2 + 20),
+                new alcedo.canvas.Point2D(demo.stage.width() - 100, demo.stage.height() - 100)
+            ];
+            var bz = new alcedo.canvas.Bezier2D(points, 20);
+            bz.eachPointsOnCurve(function (point) {
+                var sp = new alcedo.canvas.graphic.Circle(point.x, point.y, 5, "#3498db");
+                demo.stage.addChild(sp);
+            });
+            points.forEach(function (point) {
+                var sp = new alcedo.canvas.graphic.Circle(point.x, point.y, 5, "#e67e22");
+                demo.stage.addChild(sp);
+            });
+            demo.stage.camera().zoomTo(demo.stage.width() / 2 + 10, demo.stage.height() / 2, 1);
+            trace(demo.stage.viewPort().x);
+            demo.stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10, function () {
+                //trace(Math.randomFrom(0,2.499).toFixed(0));
+            }, this);
+            //var sp = new alcedo.canvas.Sprite(TextureRepository().get("paopaohappy"))
+            //sp.x = stage.width()/2;
+            //sp.y = stage.height()/2;
+            //sp.pivotX(0.5);sp.pivotY(0.5);
+            //stage.addChild(sp);
+            //sp.rotation = 180;
+            //var splocaltoglobal = sp.localToGlobal(0,0)
+            //
+            //var cri = new alcedo.canvas.shape.Circle(splocaltoglobal.x,splocaltoglobal.y,5,"#e74c3c")
+            //stage.addChild(cri);
+            //
+            //return;
+            //stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,()=>{
+            //    sp.rotation++;
+            //    var splocaltoglobal = sp.localToGlobal(0,0)
+            //
+            //    cri.x = splocaltoglobal.x;
+            //    cri.y = splocaltoglobal.y;
+            //},this)
         };
-        return ParticleExample;
+        return HelloWorld;
     })(demo.ExampleCycler);
-    demo.ParticleExample = ParticleExample;
-    ParticleExample.prototype.__class__ = "demo.ParticleExample";
+    demo.HelloWorld = HelloWorld;
+    HelloWorld.prototype.__class__ = "demo.HelloWorld";
 })(demo || (demo = {}));

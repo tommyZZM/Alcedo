@@ -71,6 +71,7 @@ module game{
                     this._currlevel.disactive();
                     this._lastlevel = this._currlevel;
                     this._currlevel = this._nexlevel;
+                    this._currlevel.active();
                     this.createNextLevel();
                 }
 

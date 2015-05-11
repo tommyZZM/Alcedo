@@ -1,10 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
-demo/lib
-demo/script
+bin-debug/lib
+bin-debug/script
 ref
 #demo/res
-demo/test.html
+bin-debug/test.html
 lib/alcedo/alcedo.d.ts
 tsccorxProject_ori.json
 tsccorxProject_demo.json

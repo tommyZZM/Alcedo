@@ -91,6 +91,7 @@ module game{
         private flyup(){
             this.acceleration_degree=-3;
             this.speed+=0.01;
+            this.velocity.y-=0.01;
         }
 
         public readyfly(){
