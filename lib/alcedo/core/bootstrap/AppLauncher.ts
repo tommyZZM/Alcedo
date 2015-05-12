@@ -4,7 +4,6 @@
 //var ap:any = aperture;
 module alcedo{
     export var a$:AppFacade;
-    export var m$:AppMemory;
 
     export class AppLauncher{
         public static START_UP:string = "AppLauncher.START_UP"
@@ -15,7 +14,7 @@ module alcedo{
         public constructor(debug:boolean){
 
             if (AppLauncher._instance) {
-                console.error(core.log_code(1002))
+                //console.error(core.log_code(1002))
             }
 
             isdebug = debug;
@@ -26,7 +25,6 @@ module alcedo{
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
             "Welcome! And remember: Testing is the future, and the future starts with you.");
             a$ =  AppFacade.instance;
-            m$ =  AppMemory.instance;
         }
 
         public launch(courier?){

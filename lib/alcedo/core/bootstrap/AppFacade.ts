@@ -35,7 +35,7 @@ module alcedo{
         public constructor() {
             super();
             if (AppFacade._instance != null) {
-                console.error(core.log_code(1001))
+                //console.error(core.log_code(1001))
             }
 
             this._cmdpool = new Dict();
