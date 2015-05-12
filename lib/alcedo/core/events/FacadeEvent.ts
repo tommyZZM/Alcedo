@@ -15,7 +15,7 @@ module alcedo {
         }
 
         public setNotify(com:any,notify:string, courier?:any){
-            this._com = getClassName(com);
+            this._com = AppFacade.getCommandId(com);
             this._notify = notify;
             this._courier = courier;
         }

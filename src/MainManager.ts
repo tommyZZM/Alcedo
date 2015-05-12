@@ -30,13 +30,13 @@ module game{
 
         private onAssetLoaded(){
             this.background = new BackGround();
-            stage.addChild(this.background);
+            stage.addChild(<any>this.background);
 
             this.playground = new PlayGround();
-            stage.addChild(this.playground);
+            stage.addChild(<any>this.playground);
 
             this.fronttground = new FrontGround();
-            stage.addChild(this.fronttground);
+            stage.addChild(<any>this.fronttground);
 
             alcedo.proxy(LevelManager).init(this.playground);
 

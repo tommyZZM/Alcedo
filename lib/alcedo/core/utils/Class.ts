@@ -1,19 +1,19 @@
 //Ecmascript Multiplexing OO expand
-function getClassName(obj:any):string{
-    //class?
-    if (obj.prototype) {
-        if (obj.prototype.__class__ && obj.prototype.constructor){
-            return obj.prototype.__class__;
-        }
-    }else if(obj.__proto__){
-        if (obj.__proto__.__class__ && obj.__proto__.constructor){
-            return obj.__proto__.__class__;
-        }
-    }else{
-        //console.warn(obj,'is not a class!');
-        return undefined;
-    }
-}
+//function getClassName(obj:any):string{
+//    //class?
+//    if (obj.prototype) {
+//        if (obj.prototype.__class__ && obj.prototype.constructor){
+//            return obj.prototype.__class__;
+//        }
+//    }else if(obj.__proto__){
+//        if (obj.__proto__.__class__ && obj.__proto__.constructor){
+//            return obj.__proto__.__class__;
+//        }
+//    }else{
+//        //console.warn(obj,'is not a class!');
+//        return undefined;
+//    }
+//}
 
 //对未提供bind的浏览器实现bind机制
 if (!Function.prototype.bind) {
@@ -40,6 +40,26 @@ if (!Function.prototype.bind) {
         return fBound;
     };
 }
+
+/**
+ * 获取类名,不包括命名空间
+ * @param obj
+ * @returns {string}
+ */
+function getClassName(obj:any):string{
+    //class?
+    if(obj.prototype && obj.prototype.constructor){
+        return obj.prototype.constructor["name"];
+    }else if (obj.__proto__ && obj.__proto__.constructor) {
+        return obj.__proto__.constructor["name"];
+    }else if(obj instanceof Object){
+        return "Object";
+    }else{
+        //console.warn(obj,'is not a class!');
+        return undefined;
+    }
+}
+
 
 /**
  * 判断类型是否继承?类型

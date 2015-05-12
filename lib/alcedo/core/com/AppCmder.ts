@@ -9,10 +9,10 @@ module alcedo{
         }
 
         protected addCmdHandler(notify: string, callback: Function):void{
-            if(!AppFacade.instance.postals.has(this.className)){
-                AppFacade.instance.postals.set(this.className,new Dict())
+            if(!AppFacade.instance.postals.has(AppFacade.getCommandId(this))){
+                AppFacade.instance.postals.set(AppFacade.getCommandId(this),new Dict())
             }
-            AppFacade.instance.postals.get(this.className).set(notify,{thisobj:this, callback: callback});
+            AppFacade.instance.postals.get(AppFacade.getCommandId(this)).set(notify,{thisobj:this, callback: callback});
         }
 
         protected dispatchDemand(event:string, courier?:any){

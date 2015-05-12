@@ -75,24 +75,33 @@ module alcedo{
             if(ant && ant.callback && ant.thisobj){ant.callback.apply(ant.thisobj,e.courier);}
         }
 
+        private static _proxycound:number = 0;
         public proxy(proxy:any,proxyid?:string):AppProxyer|any {
             if (isOfClass(proxy, AppProxyer)){
-                if (proxy.instanceable === true) {
-                    if (!this._proxypool.has(getClassName(proxy))) {
-                        this._proxypool.set(getClassName(proxy), new proxy())
+                if(!proxy.prototype.alproxyid){
+                    AppFacade._proxycound++;
+                    proxy.prototype.alproxyid = AppFacade._proxycound;
+                }
+
+                var proxyname = getClassName(proxy)+"_"+proxy.prototype.alproxyid;
+                var result = this._proxypool.get(proxyname);
+                if (proxy.instanceable === true){
+                    if(!result){
+                        this._proxypool.set(proxyname,new proxy());
                     }
-                    return this._proxypool.get(getClassName(proxy))
+                    return this._proxypool.get(proxyname);
+                }else if(proxyid){
+                    var proxydict = this._proxypool.get(proxyname);
+                    if (!proxydict || !(proxydict instanceof Dict)) {
+                        this._proxypool.set(proxyname, new Dict())
+                    }
+                    if(!this._proxypool.get(proxyname).has(proxyid)){
+                        this._proxypool.get(proxyname).set(proxyid, new proxy());
+                    }
+                    return this._proxypool.get(proxyname).get(proxyid);
                 }else{
-                    if(proxyid){
-                        if (!this._proxypool.has(getClassName(proxy))) {
-                            this._proxypool.set(getClassName(proxy), new Dict())
-                        }
-                        if(!this._proxypool.get(getClassName(proxy)).has(proxyid)){
-                            this._proxypool.get(getClassName(proxy)).set(proxyid, new proxy());
-                        }
-                        return this._proxypool.get(getClassName(proxy)).get(proxyid);
-                    }
-                    error("Are you want a instanceable proxy? proxy.instanceable==undefined");return null;
+                    error("Are you want a instanceable proxy? proxy.instanceable==undefined");
+                    return null;
                 }
             }else{
                 error(proxyid,"select fail!");return null;
@@ -100,22 +109,46 @@ module alcedo{
             //return this._proxypool.get(<string>proxyid)
         }
 
-        private command(command:any):any{
-            if(getClassName(command)==getClassName(AppCmder)){return;}
-            var key = command.prototype['__class__'];
-            if(!this._cmdpool.get(key)){
-                if(isOfClass(command,AppCmder)){//c instanceof instance
-                    var c = new command();
-                    this._cmdpool.set(key,c);
-                }else{
-                    console.error(getClassName(command),"is not of",getClassName(AppCmder))
+        private static _commandcound:number = 0;
+        public static getCommandId(command) {
+            var idc;
+            if(isOfClass(command,AppCmder)){
+                if (!command.prototype.alcmdid) {
+                    AppFacade._commandcound++;
+                    command.prototype.alcmdid = AppFacade._commandcound;
                 }
+                idc = command.prototype.alcmdid;
+            }else if(command instanceof AppCmder){
+                if (!command["__proto__"].alcmdid) {
+                    AppFacade._commandcound++;
+                    command["__proto__"].alcmdid = AppFacade._commandcound;
+                }
+                idc = command["__proto__"].alcmdid
+            }else{
+                return undefined;
             }
-            return this._cmdpool.get(key);
+
+            return getClassName(command)+"_"+idc;
+        }
+        private command(command:any):any{
+            if(command instanceof AppCmder){return command}
+            var commandname = AppFacade.getCommandId(command);
+            if(isOfClass(command,AppCmder)) {//c instanceof instance
+                if(commandname==AppFacade.getCommandId(AppCmder)){return;}
+                if(!this._cmdpool.get(commandname)){
+                    if(isOfClass(command,AppCmder)){//c instanceof instance
+                        var c = new command();
+                        this._cmdpool.set(commandname,c);
+                    }else{
+                        console.error(command,"is not of",getClassName(AppCmder))
+                    }
+                }
+                return this._cmdpool.get(commandname);
+            }
         }
 
         public dispatchCmd(command:any,cmd:string, courier:Array<any> = []){
-            if(getClassName(command)==getClassName(AppCmder)){return;}
+            if(AppFacade.getCommandId(command)==AppFacade.getCommandId(AppCmder)){return;}
             if(!(command instanceof AppCmder))this.command(command);
             this._postman.setNotify(command,cmd,courier);
             this.dispatchEvent(this._postman);
