@@ -55,7 +55,6 @@ var demo;
         return ExampleCycler;
     })(alcedo.AppCycler);
     demo.ExampleCycler = ExampleCycler;
-    ExampleCycler.prototype.__class__ = "demo.ExampleCycler";
     function AsyncRES() {
         return alcedo.proxy(alcedo.net.AsyncRES);
     }
@@ -99,5 +98,4 @@ var demo;
         return MovieClipExample;
     })(demo.ExampleCycler);
     demo.MovieClipExample = MovieClipExample;
-    MovieClipExample.prototype.__class__ = "demo.MovieClipExample";
 })(demo || (demo = {}));

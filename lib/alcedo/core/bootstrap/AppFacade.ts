@@ -104,11 +104,16 @@ module alcedo{
                     return null;
                 }
             }else{
-                error(proxyid,"select fail!");return null;
+                error(proxy,proxyid,"select fail!");return null;
             }
             //return this._proxypool.get(<string>proxyid)
         }
 
+        /**
+         * 获得command的唯一id
+         * @type {number}
+         * @private
+         */
         private static _commandcound:number = 0;
         public static getCommandId(command) {
             var idc;

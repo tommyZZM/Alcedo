@@ -63,43 +63,51 @@ function getClassName(obj:any):string{
 
 /**
  * 判断类型是否继承?类型
- * @param target
- * @param test
  * @returns {boolean}
+ * @param targetClass
+ * @param testClass
  */
-function isOfClass(target,test):boolean{
-    if(!target||!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
+function isOfClass(targetClass,testClass):boolean{
+    if(!targetClass.prototype||!targetClass.prototype.constructor){
         //console.warn("not typescript class");
         return false;
     }
 
-    if(target.prototype['__class__']==test.prototype['__class__']){
-        return true;
-    }else{
-        var flag:number = 0;
-        var protoTest = (target,test)=>{
-            //console.log(target.__class__,test.prototype['__class__'])
-            if(target){
-                if(target.__class__){
-                    if(target.__class__ == test.prototype['__class__']){
-                        return 1;
-                    }else{
-                        return 0;
-                    }
-                }
-                return -1
-            }
-            return -1
-        };
-
-        target = target.prototype.__proto__;
-        while(flag==0){
-            flag = protoTest(target,test);
-            target = target.__proto__;
-        }
-        return flag == 1;
-    }
+    return (targetClass.prototype.constructor.prototype instanceof testClass)
 }
+//function isOfClass(target,test):boolean{
+//    if(!target||!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
+//        console.warn(target,"not typescript class");
+//        return false;
+//    }
+//
+//    if(target.prototype['__class__']==test.prototype['__class__']){
+//        return true;
+//    }else{
+//        var flag:number = 0;
+//        var protoTest = (target,test)=>{
+//            //console.log(target.__class__,test.prototype['__class__'])
+//            if(target){
+//                if(target.__class__){
+//                    if(target.__class__ == test.prototype['__class__']){
+//                        return 1;
+//                    }else{
+//                        return 0;
+//                    }
+//                }
+//                return -1
+//            }
+//            return -1
+//        };
+//
+//        target = target.prototype.__proto__;
+//        while(flag==0){
+//            flag = protoTest(target,test);
+//            target = target.__proto__;
+//        }
+//        return flag == 1;
+//    }
+//}
 
 
 function expandMethod(method:string|Function,target:Function,thisArg?:any):Function{

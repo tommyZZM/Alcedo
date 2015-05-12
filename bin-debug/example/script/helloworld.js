@@ -55,7 +55,6 @@ var demo;
         return ExampleCycler;
     })(alcedo.AppCycler);
     demo.ExampleCycler = ExampleCycler;
-    ExampleCycler.prototype.__class__ = "demo.ExampleCycler";
     function AsyncRES() {
         return alcedo.proxy(alcedo.net.AsyncRES);
     }
@@ -124,5 +123,4 @@ var demo;
         return HelloWorld;
     })(demo.ExampleCycler);
     demo.HelloWorld = HelloWorld;
-    HelloWorld.prototype.__class__ = "demo.HelloWorld";
 })(demo || (demo = {}));
