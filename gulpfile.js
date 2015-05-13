@@ -20,10 +20,9 @@ var srcconfig = {
     "out":"./out",
     "outfile":"alcedo.js",
 
-    "alcedolib_dts":"./require/**/*.d.ts",
-    alcedolib_js:"./require/**/*.js",
+    require_js:"./require/**/*.js",
+    "require_dts":"./require/**/*.d.ts",
 
-    "require_dts":"",
     "dts":true,
 
     colorjet:"./src-example/colorjet/**/*.ts"
@@ -49,7 +48,7 @@ gulp.task('src-sort', function() {
 //alcedo源码编译
 gulp.task('src-compile',['src-sort'], function() {
     var alcedoTsFiles = JSON.parse(file.readFileSync("./tmp/alcedo-src-filelist.json"));
-    var sourceTsFiles = [srcconfig.alcedolib_dts,srcconfig.require_dts]
+    var sourceTsFiles = Array.isArray(srcconfig.require_dts)?srcconfig.require_dts:[srcconfig.require_dts];
     sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles)
 
     var tsResult = gulp.src(sourceTsFiles)
@@ -61,11 +60,17 @@ gulp.task('src-compile',['src-sort'], function() {
 
 //alcedo编译后与lib里的js合并
 gulp.task('src-build',["src-compile"],function(){
-    if(srcconfig.src === './src/**/*.ts'){
-        gulp.src([srcconfig.alcedolib_js,srcconfig.out+"/"+alcedosrcpoj.input.options.out])
-            .pipe(concat(alcedosrcpoj.input.options.out))
-            .pipe(gulp.dest(srcconfig.out));
+
+    var buildfiles = [srcconfig.out+"/"+alcedosrcpoj.input.options.out];
+    if(Array.isArray(srcconfig.require_js)){
+        buildfiles = srcconfig.require_js.concat(buildfiles);
+    }else{
+        buildfiles = [srcconfig.require_js,buildfiles[0]]
     }
+
+    gulp.src(buildfiles)
+        .pipe(concat(alcedosrcpoj.input.options.out))
+        .pipe(gulp.dest(srcconfig.out));
     del("./tmp");
     console.log("success")
 });
@@ -86,7 +91,8 @@ gulp.task('colorjet', function(){
     srcconfig.src = './src-demo/**/*.ts';
     srcconfig.out = "./demo/script/";
     srcconfig.outfile = "colorjet.js";
-    srcconfig.require_dts = "./out/alcedo.d.ts";
+    srcconfig.require_dts = ["./out/alcedo.d.ts","./demo/require/**/*.d.ts"];
+    srcconfig.require_js = "./demo/require/**/*.js";
 
     alcedosrcpoj = ts.createProject({
         target: 'ES5',
