@@ -20,8 +20,8 @@ var srcconfig = {
     "out":"./out",
     "outfile":"alcedo.js",
 
-    "alcedolib_dts":"./lib/**/*.d.ts",
-    alcedolib_js:"./lib/**/*.js",
+    "alcedolib_dts":"./require/**/*.d.ts",
+    alcedolib_js:"./require/**/*.js",
 
     "require_dts":"",
     "dts":true,
