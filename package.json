@@ -1,0 +1,32 @@
+{
+  "name": "Alcedo",
+  "version": "0.0.1",
+  "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tommyZZM/Alcedo"
+  },
+  "keywords": [
+    "TypeScript",
+    "Game",
+    "HTML5"
+  ],
+  "author": "tommyZZM",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tommyZZM/Alcedo/issues"
+  },
+  "homepage": "https://github.com/tommyZZM/Alcedo",
+  "devDependencies": {
+    "del": "latest",
+    "gulp": ">=3.8.11",
+    "gulp-concat": "latest",
+    "gulp-filelist": "latest",
+    "gulp-typescript": "latest",
+    "gulp-typescript-easysort": "latest"
+  }
+}

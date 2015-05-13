@@ -1,0 +1,74 @@
+.curtain{
+    width: 100%;
+    height: 100%;
+    background: #000;
+    position: relative;
+    top:0;
+    left: 0;
+    z-index: 10;
+    -webkit-transition: 600ms;
+    opacity: 1;
+}
+
+.curtain.disactive{
+    opacity: 0;
+}
+
+.screen{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+}
+
+.screen *{
+    position: relative;
+}
+
+.screen .btn{
+    display: inline-block;
+    position: fixed;
+}
+
+.btn.startgame{
+    height: 112px;
+    width: 156px;
+    top: 50%;
+    margin-top: -56px;
+    left: 50%;
+    margin-left: -78px;
+}
+
+
+.btn.about{
+    height: 76px;
+    width: 106px;
+    top: 78%;
+    margin-top: -38px;
+    left: 50%;
+    margin-left: -53px;
+}
+
+
+
+.btn.tohome{
+    width: 100px;
+    height: 100px;
+    left: 23%;
+    top: 50%;
+    margin-top: -50px;
+}
+.btn.tohome.disactive{
+    top: 120%;
+}
+
+.btn.restart{
+    width: 100px;
+    height: 100px;
+    right: 23%;
+    top: 50%;
+    margin-top: -50px;
+}
+.btn.restart.disactive{
+    top: 120%;
+}

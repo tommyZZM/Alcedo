@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea
+.idea/
 bin-debug/lib
 bin-debug/script
 ref
@@ -10,3 +10,4 @@ tsccorxProject_ori.json
 tsccorxProject_demo.json
 workshop/
 resource/
+node_modules/

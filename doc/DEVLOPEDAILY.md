@@ -1,1 +1,0 @@
-# Devlope Daily for Alcedo
