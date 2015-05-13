@@ -11,3 +11,5 @@ tsccorxProject_demo.json
 workshop/
 resource/
 node_modules/
+out/
+demo/script/
