@@ -25,7 +25,7 @@
     "del": "latest",
     "gulp": ">=3.8.11",
     "gulp-concat": "latest",
-    "gulp-filelist": "latest",
+    "through": "latest",
     "gulp-typescript": "latest",
     "gulp-typescript-easysort": "latest"
   }

@@ -12,6 +12,7 @@ module example{
         //    width:480,
         //    height:320
         //};
+        //
 
         protected run(){
             this.world = new p2.World();

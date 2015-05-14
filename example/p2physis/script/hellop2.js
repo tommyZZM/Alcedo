@@ -67,6 +67,7 @@ var example;
         //    width:480,
         //    height:320
         //};
+        //
         HelloP2.prototype.run = function () {
             var _this = this;
             this.world = new p2.World();

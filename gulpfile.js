@@ -3,14 +3,14 @@ var gulp = require('gulp');
 
 var ts   = require('gulp-typescript');
 var tssort = require('gulp-typescript-easysort');
-
-var filelist = require('gulp-filelist');
 var concat   = require('gulp-concat');
-//var merge = require('merge2');
+
+var through = require('through');
 var del = require('del');
 
 var srcconfig = {
     "src":'./src/**/*.ts',
+    "srcfiles":[],
     "out":"./out",
     "outfile":"alcedo.js",
 
@@ -19,7 +19,9 @@ var srcconfig = {
 
     "dts":true,
 
-    colorjet:"./src-example/colorjet/**/*.ts"
+    colorjet:"./src-example/colorjet/**/*.ts",
+
+    id:"src"
 };
 
 var alcedosrcpoj = ts.createProject({
@@ -32,18 +34,30 @@ var alcedosrcpoj = ts.createProject({
 });
 
 //alcedo源码排序
+var getfilelist = function() {
+    //获取文件并放进数组
+    srcconfig.srcfiles = [];
+    var onFile = function(file) {
+        srcconfig.srcfiles.push(file.path)
+    };
+
+    var onEnd = function() {
+        this.emit('end');
+    };
+
+    return through(onFile, onEnd);
+};
 gulp.task('src-sort', function() {
     return gulp.src(srcconfig.src)
         .pipe(tssort())
-        .pipe(filelist('alcedo-src-filelist.json'))
-        .pipe(gulp.dest("tmp/"));
+        .pipe(getfilelist())
 });
 
-//alcedo源码编译
+//源码编译
 gulp.task('src-compile',['src-sort'], function() {
-    var alcedoTsFiles = JSON.parse(file.readFileSync("./tmp/alcedo-src-filelist.json"));
+    var alcedoTsFiles = srcconfig.srcfiles;
     var sourceTsFiles = Array.isArray(srcconfig.require_dts)?srcconfig.require_dts:[srcconfig.require_dts];
-    sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles)
+    sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles);
 
     var tsResult = gulp.src(sourceTsFiles)
                        .pipe(ts(alcedosrcpoj));
@@ -52,7 +66,7 @@ gulp.task('src-compile',['src-sort'], function() {
     return tsResult.js.pipe(gulp.dest(srcconfig.out));
 });
 
-//alcedo编译后与lib里的js合并
+//编译后与lib里的js合并
 gulp.task('src-build',["src-compile"],function(){
 
     var buildfiles = [srcconfig.out+"/"+alcedosrcpoj.input.options.out];
@@ -87,6 +101,8 @@ gulp.task('colorjet', function(){
     srcconfig.outfile = "colorjet.js";
     srcconfig.require_dts = ["./out/alcedo.d.ts","./demo/require/**/*.d.ts"];
     srcconfig.require_js = "./demo/require/**/*.js";
+
+    srcconfig.id = "colorjet";
 
     alcedosrcpoj = ts.createProject({
         target: 'ES5',
@@ -141,7 +157,7 @@ try{
    var server = require('gulp-easy-server');
 }catch (e){
 }
-gulp.task('colorjetrun', function() {
+gulp.task('startserver', function() {
    if(server){
       gulp.src('./')
           .pipe(server({port:2099,index:"demo/test.html",bowser:"chrome"}));
