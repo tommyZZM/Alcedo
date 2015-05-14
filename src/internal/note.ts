@@ -5,5 +5,5 @@
 // 加入要打包成原生应用，首选考虑工具CocoonJS
 // Dom元素操作尽量通过add Class操作
 //
-//a
-//fuckgulpa
+//
+//

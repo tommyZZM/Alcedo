@@ -9,12 +9,6 @@ var concat   = require('gulp-concat');
 //var merge = require('merge2');
 var del = require('del');
 
-gulp.task('default', function(){
-    console.log("gulp alcedo (build alcedo source code)");
-    console.log("gulp colorjet (build [demo]colorjet source code)");
-
-});
-
 var srcconfig = {
     "src":'./src/**/*.ts',
     "out":"./out",
@@ -106,20 +100,53 @@ gulp.task('colorjet', function(){
     gulp.start(['src-watch'])
 });
 
-//debug
-try{
-    var server = require('gulp-server-livereload');
+//example
+gulp.task('example-p2', function(){
+    var example = (function(){
+        var arr = process.argv.slice(2);
+        var i = 0, li = arr.length;
+        for (; i < li; i++) {
+            var itemi = arr[i];
+            var test = (/^-{1}(\w+)/.exec(itemi))
+            if(test){
+                return test[1];
+            }
+        }
+    })();
+    if(!example){
+        return;
+    }
+    console.log("watching example",example);
+    srcconfig.src = ['./src-example/ExampleCycler.ts','./src-example/p2physis/'+example+'/**/*.ts'];
+    srcconfig.out = './example/p2physis/script/';
+    srcconfig.outfile = example+".js";
+    srcconfig.require_dts = ["./out/alcedo.d.ts","./example/p2physis/require/**/*.d.ts"];
+    srcconfig.require_js = [];
 
-    gulp.task('colorjetrun', function() {
-        gulp.src('./')
-            .pipe(server({
-                port:2010,
-                defaultFile: 'demo/index.html',
-                open:true
-            }));
+    alcedosrcpoj = ts.createProject({
+        target: 'ES5',
+        declarationFiles: false,
+        noExternalResolve: true,
+        noEmitOnError :false,
+        sortOutput :true,
+        out :srcconfig.outfile
     });
 
-}catch (e){}
+    gulp.start(['src-watch'])
+});
 
 
+//debug
+try{
+   var server = require('gulp-easy-server');
+}catch (e){
+}
+gulp.task('colorjetrun', function() {
+   if(server){
+      gulp.src('./')
+          .pipe(server({port:2099,index:"demo/test.html",bowser:"chrome"}));
+   }
+});
 
+//devlope
+gulp.task('default', ["alcedo"]);

@@ -13,3 +13,8 @@ resource/
 node_modules/
 out/
 demo/script/
+__tmpup/
+
+#tsconfig.json
+
+example/p2physis/test.html
