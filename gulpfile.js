@@ -24,14 +24,9 @@ var srcconfig = {
     id:"src"
 };
 
-var alcedosrcpoj = ts.createProject({
-  target: 'ES5',
-  declarationFiles: true,
-  noExternalResolve: true,
-  noEmitOnError :false,
-  sortOutput :true,
-  out :srcconfig.outfile
-});
+var tscconfig = {
+    dts:false
+};
 
 //alcedo源码排序
 var getfilelist = function() {
@@ -54,10 +49,20 @@ gulp.task('src-sort', function() {
 });
 
 //源码编译
+var alcedosrcpoj;
 gulp.task('src-compile',['src-sort'], function() {
     var alcedoTsFiles = srcconfig.srcfiles;
     var sourceTsFiles = Array.isArray(srcconfig.require_dts)?srcconfig.require_dts:[srcconfig.require_dts];
     sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles);
+
+    alcedosrcpoj = ts.createProject({
+        target: 'ES5',
+        declarationFiles: tscconfig.dts,
+        noExternalResolve: true,
+        noEmitOnError :false,
+        sortOutput :true,
+        out :srcconfig.outfile
+    });
 
     var tsResult = gulp.src(sourceTsFiles)
                        .pipe(ts(alcedosrcpoj));
@@ -89,13 +94,14 @@ gulp.task('src-watch', ['src-build'], function() {
 
 //var srcpath = './src/**/*.ts';
 //对于alcedo的编译任务
-gulp.task('alcedo', function(){
+gulp.task('watchalcedo', function(){
+    tscconfig.dts = true;
     srcconfig.src = './src/**/*.ts';
     gulp.start(['src-watch'])
 });
 
 //对于小灰机的编译任务
-gulp.task('colorjet', function(){
+gulp.task('watchcolorjet', function(){
     srcconfig.src = './src-demo/**/*.ts';
     srcconfig.out = "./demo/script/";
     srcconfig.outfile = "colorjet.js";
@@ -104,20 +110,11 @@ gulp.task('colorjet', function(){
 
     srcconfig.id = "colorjet";
 
-    alcedosrcpoj = ts.createProject({
-        target: 'ES5',
-        declarationFiles: false,
-        noExternalResolve: true,
-        noEmitOnError :false,
-        sortOutput :true,
-        out :srcconfig.outfile
-    });
-
     gulp.start(['src-watch'])
 });
 
 //example
-gulp.task('example-p2', function(){
+gulp.task('watchp2', function(){
     var example = (function(){
         var arr = process.argv.slice(2);
         var i = 0, li = arr.length;
@@ -139,17 +136,10 @@ gulp.task('example-p2', function(){
     srcconfig.require_dts = ["./out/alcedo.d.ts","./example/p2physis/require/**/*.d.ts"];
     srcconfig.require_js = [];
 
-    alcedosrcpoj = ts.createProject({
-        target: 'ES5',
-        declarationFiles: false,
-        noExternalResolve: true,
-        noEmitOnError :false,
-        sortOutput :true,
-        out :srcconfig.outfile
-    });
-
     gulp.start(['src-watch'])
 });
+
+
 
 
 //debug
@@ -162,6 +152,17 @@ gulp.task('startserver', function() {
       gulp.src('./')
           .pipe(server({port:2099,index:"demo/test.html",bowser:"chrome"}));
    }
+});
+
+//example
+gulp.task('watchhello', function(){
+    srcconfig.src = ['./src-example/ExampleCycler.ts','./src-example/test/HelloWorld.ts'];
+    srcconfig.out = './example/test/';
+    srcconfig.outfile = "helloworld.js";
+    srcconfig.require_dts = ["./out/alcedo.d.ts"];
+    srcconfig.require_js = [];
+
+    gulp.start(['src-watch']);
 });
 
 //devlope

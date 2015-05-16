@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/3.
  */
 module alcedo{
-    export class EventDispatcher extends AppNotifyable{
+    export class EventDispatcher extends AppObject{
 
         protected _eventTarget:any;
 
@@ -15,7 +15,7 @@ module alcedo{
         }
 
         public addEventListener(event:string, listener:Function, thisObject:any,priority?:number):void{
-            this.registNotify(this._eventsMap,event,listener,thisObject,null,priority);
+            AppNotifyable.registNotify(this._eventsMap,event,listener,thisObject,null,priority);
         }
 
         public clearEventListener(event:string){
@@ -23,15 +23,15 @@ module alcedo{
         }
 
         public removeEventListener(event:string, listener:Function, thisObject:any):void{
-            this.unregistNotify(this._eventsMap,event,listener,thisObject);
+            AppNotifyable.unregistNotify(this._eventsMap,event,listener,thisObject);
         }
 
         public dispatchEvent(event:Event):any{
-            this.notify(this._eventsMap,event.type,[event])
+            AppNotifyable.notify(this._eventsMap,event.type,[event])
         }
 
         public emit(event:string, data:any=undefined):any{
-            this.notify(this._eventsMap,event,[data])
+            AppNotifyable.notify(this._eventsMap,event,[data])
         }
     }
 }

@@ -7,15 +7,15 @@ module alcedo{
         export function ajax(url:string,
                              args:{async?:boolean;success:Function;error?:Function;method?:string;data?:any;user?:string;password?:string;responseType?:string;courier?:any}, thisArg?:any):void {
             if(args.async==undefined){args.async = true}
-            (<AsyncProxy>a$.proxy(AsyncProxy)).ajax(url,<any>args,thisArg);
+            (<AsyncProxy>a$.core(AsyncProxy)).ajax(url,<any>args,thisArg);
         }
 
         /**异步载入图片**/
         export function asyncImage(url,args:{success:Function;error?:Function;courier?:any},thisArg?:any){
-            (<AsyncProxy>a$.proxy(AsyncProxy)).asyncImage(url,args,thisArg);
+            (<AsyncProxy>a$.core(AsyncProxy)).asyncImage(url,args,thisArg);
         }
 
-        export class AsyncProxy extends AppProxyer{
+        export class AsyncProxy extends AppSubCore{
             public static instanceable:boolean = true;
 
             public constructor(){

@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module net {
-        export class AsyncAssetsLoader extends AppProxyer{
+        export class AsyncAssetsLoader extends AppSubCore{
             private static instanceable:boolean = true;
 
             private _basedir:string;
@@ -102,7 +102,7 @@ module alcedo {
                     for(var i=0;i<assets.length;i++){
                         var asset = assets[i];
                         var name:string = asset.name;
-                        if(proxy(AsyncRES).get(name)){
+                        if(core(AsyncRES).get(name)){
                             continue;
                         }
                         this.loadAsset(asset,groupname,basedir);
@@ -122,7 +122,7 @@ module alcedo {
                     case DataType.IMAGE:{
                         asyncImage(basedir+"/"+asset.url,{
                             success:(image,courier)=>{
-                                proxy(AsyncRES).set(courier.name,image);//{type:asset.type,res:image}
+                                core(AsyncRES).set(courier.name,image);//{type:asset.type,res:image}
                                 this._oneAsssetComplete(groupname);
                             },
                             error:()=>{
@@ -144,7 +144,7 @@ module alcedo {
                                     this._oneAsssetComplete(groupname);
                                     return;
                                 }
-                                proxy(AsyncRES).set(courier.name,_jsonobj);//{type:asset.type,res:image}
+                                core(AsyncRES).set(courier.name,_jsonobj);//{type:asset.type,res:image}
                                 this._oneAsssetComplete(groupname);
                             },
                             error:()=>{

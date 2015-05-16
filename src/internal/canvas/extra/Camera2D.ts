@@ -3,7 +3,7 @@
  */
 module alcedo{
     export module canvas{
-        export class Camera2D extends AppProxyer{
+        export class Camera2D extends AppSubCore{
 
             private _stage:Stage;
 

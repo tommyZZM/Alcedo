@@ -1,10 +1,11 @@
 /**
  * Created by tommyZZM on 2015/4/9.
  */
+/*
 module alcedo{
-    /**
+    /!**
      * 异步流程控制,beta版
-     */
+     *!/
     export class AsyncQuener extends AppObject implements ICycable{
 
         private _querycount:Array<number>;
@@ -84,4 +85,4 @@ module alcedo{
             this._querycount = [];
         }
     }
-}
+}*/

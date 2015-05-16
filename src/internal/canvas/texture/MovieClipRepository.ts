@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module canvas {
-        export class MovieClipRepository extends AppProxyer {
+        export class MovieClipRepository extends AppSubCore {
             private static instanceable:boolean = true;
 
             private _movieclipdataspool:Dict;

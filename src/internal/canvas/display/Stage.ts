@@ -27,8 +27,11 @@ module alcedo{
             private _camera:Camera2D;
             //private _tweens:Tweens;
 
+            private _enterframemap:Dict;
+
             public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}){
                 super();
+                this._enterframemap = new Dict();
 
                 this.setWidth(width);
                 this.setHeight(height);
@@ -91,12 +94,12 @@ module alcedo{
                 var nowTime:number = this._nowTime();
                 var dt = nowTime-this._lastTime;
                 //TODO:广播EnterFrame;
-                this.notify(this._notifymap,Stage.ENTER_FRAME,[{dt:dt,renderer:renderer}]);
+                AppNotifyable.notify(this._enterframemap,Stage.ENTER_FRAME,[{dt:dt,renderer:renderer}]);
                 this.emit(Stage.ENTER_FRAME,{dt:dt});
                 this._lastTime = nowTime;
             }
             public enterframe(callback,thisOBject){
-                this.registNotify(this._notifymap,Stage.ENTER_FRAME,callback,thisOBject)
+                AppNotifyable.registNotify(this._enterframemap,Stage.ENTER_FRAME,callback,thisOBject)
             }
 
             public get canvas():dom.DomElement{

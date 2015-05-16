@@ -8,7 +8,7 @@ module alcedo {
             public static ASSETS_PROGRESSING:string = "AsyncAssetsEvent_LOAD_ASSETS_PROGRESSING";
         }
 
-        export class AsyncRES extends AppProxyer {
+        export class AsyncRES extends AppSubCore {
             private static instanceable:boolean = true;
 
             private _repeatkey;

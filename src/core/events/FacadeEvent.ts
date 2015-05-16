@@ -6,7 +6,7 @@ module alcedo {
 
         public static UNIQUE:string = 'facadeEvent0811';
 
-        private _com:string;
+        private _core:string;
         private _notify:any;
 
         public constructor() {
@@ -14,14 +14,14 @@ module alcedo {
             super(FacadeEvent.UNIQUE);
         }
 
-        public setNotify(com:any,notify:string, courier?:any){
-            this._com = AppFacade.getCommandId(com);
+        public setNotify(core:any,notify:string, courier?:any){
+            this._core = _AppOverCore.getCoreFullName(core);
             this._notify = notify;
             this._courier = courier;
         }
 
-        public get com():string{
-            return this._com
+        public get core():string{
+            return this._core
         }
 
         public get notify():string {

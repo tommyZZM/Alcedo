@@ -3,7 +3,7 @@
  */
 module alcedo {
     export module canvas {
-        export class TextureRepository extends AppProxyer {
+        export class TextureRepository extends AppSubCore {
             private static instanceable:boolean = true;
 
             public static ASSETS_COMPLETE:string = "TextureRepository_LOAD_COMPLETE";
@@ -25,8 +25,8 @@ module alcedo {
             get(key:string): Texture{
                 //trace(a$.proxy(net.AsyncRES))
                 if(!this._texurespool.has(key)){
-                    if(proxy(net.AsyncRES).get(key) && proxy(net.AsyncRES).get(key)[0] instanceof HTMLImageElement){
-                        var img = proxy(net.AsyncRES).get(key)[0];
+                    if(core(net.AsyncRES).get(key) && core(net.AsyncRES).get(key)[0] instanceof HTMLImageElement){
+                        var img = core(net.AsyncRES).get(key)[0];
                         var texture = new Texture(img);
                         this._texurespool.set(key,texture);
                     }
@@ -35,7 +35,7 @@ module alcedo {
             }
 
             find(reg:RegExp):Array<any>{
-                var i,keys = proxy(net.AsyncRES).keys,
+                var i,keys = core(net.AsyncRES).keys,
                     result = [];
                 for(i=0;i<keys.length;i++){
                     if(reg.test(keys[i])){

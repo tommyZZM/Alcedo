@@ -3,7 +3,7 @@
  */
 module alcedo{
     export module canvas{
-        export class Ticker extends AppProxyer{
+        export class Ticker extends AppSubCore{
             private _stage:Stage;
 
             private _fps:number = 0;

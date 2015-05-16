@@ -3,39 +3,33 @@
  */
 //var ap:any = aperture;
 module alcedo{
-    export var a$:AppFacade;
+    export var a$:_AppOverCore;
 
     export class AppLauncher{
-        public static START_UP:string = "AppLauncher.START_UP"
+        public static START_UP:string = "AppLauncher.START_UP";
 
-        private _facade:AppFacade;
         private _launched:boolean;
 
         public constructor(debug:boolean){
 
             if (AppLauncher._instance) {
-                //console.error(core.log_code(1002))
+                return;
             }
 
             isdebug = debug;
             debuginit();
             info("%cAlcedo","color:#1ac2ff;font-weight:bold;",
-                "A Simple TypeScript HTML5 App/Game FrameWork!");
+                "A Simple TypeScript HTML5 Game FrameWork!");
             info("gitHub:",'https://github.com/tommyZZM/Alcedo');
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
             "Welcome! And remember: Testing is the future, and the future starts with you.");
-            a$ =  AppFacade.instance;
+            a$ =  _AppOverCore.instance;
         }
 
-        public launch(courier?){
-            if(!this._launched){
-                if(a$.app){
-                    this._launched = true;
-                    a$.dispatchCmd(a$.app,AppLauncher.START_UP,courier)
-                }else{
-                    console.warn("create a app cycler first!");
-                }
-            }
+        public launch(app:AppCycler,courier?){
+            if(this._launched)return;
+            this._launched = true;
+            a$.dispatchCmd(app,AppLauncher.START_UP,courier)
         }
 
         //instance mode
@@ -49,8 +43,8 @@ module alcedo{
         }
     }
 
-    export function launch(debug?:boolean,courier?){
-        AppLauncher.instance(debug).launch(courier)
+    export function launch(app:AppCycler,debug?:boolean,courier?){
+        AppLauncher.instance(debug).launch(app,courier)
     }
 }
 

@@ -3,7 +3,7 @@
  */
 module alcedo{
     export module canvas{
-        export class CanvasRenderer extends AppProxyer{
+        export class CanvasRenderer extends AppSubCore{
             public static MainLoop:string = "CanvasRenderer_MainLoop";
 
             protected _stage:Stage;
@@ -33,11 +33,11 @@ module alcedo{
             }
 
             public registMainLoopTask(task:Function, thisObject:any,priority?:number){
-                this.registNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject,null,priority);
+                AppNotifyable.registNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject,null,priority);
             }
 
             public unregistMainLoopTask(task:Function, thisObject:any){
-                this.unregistNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject);
+                AppNotifyable.unregistNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject);
             }
 
             public setTransform(matrix:Matrix2D){

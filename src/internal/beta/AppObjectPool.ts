@@ -1,10 +1,11 @@
 /**
  * Created by tommyZZM on 2015/4/9.
  */
+/*
 module alcedo{
-    /**
+    /!**
      * objectpool => class [name] if(cyclable) =>{active:[],disactive:[]}
-     */
+     *!/
     export class AppObjectPool extends AppProxyer{
         private static instanceable = true;
 
@@ -58,4 +59,4 @@ module alcedo{
             }
         }
     }
-}
+}*/

@@ -76,7 +76,7 @@ module alcedo{
             private _readychekced:boolean;
             private onready(){
                 this._readychekced = true;
-                this.notify(this._domtask,DomEventType.ready);
+                AppNotifyable.notify(this._domtask,DomEventType.ready);
                 this._domtask.set(DomEventType.ready,[]);
             }
             private checkready(){
@@ -99,7 +99,7 @@ module alcedo{
                 if(this._readychekced){
                     callback.apply(thisObject,param);
                 }else{
-                    this.registNotify(this._domtask,DomEventType.ready,callback,thisObject,param)
+                    AppNotifyable.registNotify(this._domtask,DomEventType.ready,callback,thisObject,param)
                     this.checkready();
                 }
 
@@ -110,11 +110,11 @@ module alcedo{
              * resized
              */
             private onresize(){
-                this.notify(this._domtask,DomEventType.resize);
+                AppNotifyable.notify(this._domtask,DomEventType.resize);
             }
             public resize(callback:Function,thisObject?:any,...param){
                 callback.apply(thisObject,param);//注册的时候先执行一次
-                this.registNotify(this._domtask,DomEventType.resize,callback,thisObject,param)
+                AppNotifyable.registNotify(this._domtask,DomEventType.resize,callback,thisObject,param)
             }
 
             /**

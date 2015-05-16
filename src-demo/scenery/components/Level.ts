@@ -38,9 +38,9 @@ module game{
         public active(){
             this._activestate = true;
 
-            for(var i=0;i<this._powers.length;i++){
-                this._powers[i].createPowers(this);
-            }
+            //for(var i=0;i<this._powers.length;i++){
+            //    this._powers[i].createPowers(this);
+            //}
 
             alcedo.proxy(CollisionManager).initClouds(this._clouds);
 

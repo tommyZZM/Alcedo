@@ -53,7 +53,7 @@ module game{
             if(!this._nexlevel)return;
             this._nexlevel.x = this._currlevel.x+this._currlevel.width()+10;
             this._nexlevel.y = Math.randomFrom(-20,-30);
-            //this._nexlevel.active();
+            this._nexlevel.active();
             this._levellayer.addChild(this._nexlevel);
             trace("createNextLevel",this._levelspool);
         }
@@ -72,7 +72,6 @@ module game{
                     this._currlevel.disactive();
                     this._lastlevel = this._currlevel;
                     this._currlevel = this._nexlevel;
-                    this._currlevel.active();
                     this.createNextLevel();
                 }
 

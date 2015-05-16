@@ -27,6 +27,7 @@
     "gulp-concat": "latest",
     "through": "latest",
     "gulp-typescript": "latest",
-    "gulp-typescript-easysort": "latest"
+    "gulp-typescript-easysort": "latest",
+    "gulp-easy-server":"latest"
   }
 }

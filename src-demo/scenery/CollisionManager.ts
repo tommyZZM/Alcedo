@@ -12,14 +12,14 @@ module game{
         private _collisioncloud:Array<any>;
         public initClouds(clouds:Array<any>){
             this._collisioncloud = clouds;
-            trace("initClouds",this._collisioncloud);
+            //trace("initClouds",this._collisioncloud);
         }
 
         private _powers:Array<LittlePower> = [];
         public registPower(power:LittlePower){
             if(this._powers.indexOf(power)<0){
                 this._powers.push(power);
-                trace("registPower",this._powers);
+                //trace("registPower",this._powers);
             }
         }
         public unregistPower(power:LittlePower){

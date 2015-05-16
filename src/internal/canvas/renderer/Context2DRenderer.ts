@@ -26,7 +26,7 @@ module alcedo{
                 //this._stage._debugdraw(this);
                 this._stage.render(this);
 
-                this.notify(this._mainlooptask,CanvasRenderer.MainLoop,[this]);
+                AppNotifyable.notify(this._mainlooptask,CanvasRenderer.MainLoop,[this]);
 
                 animationFrame(this.render,this);
             }
