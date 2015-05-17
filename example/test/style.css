@@ -1,0 +1,12 @@
+body,html{
+    margin: 0;
+    height:100%;
+}
+
+.alcedo-canvas-container{
+    width: 100%;height: inherit
+}
+
+#aperturetest1{
+    display:block;width: 100%;height: inherit
+}

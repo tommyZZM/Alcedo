@@ -69,7 +69,7 @@ var example;
                 this.canvas.parent().css({ top: "0px", left: "0px" });
                 this.canvas.parent().rotate(0);
             }
-            this.stage.gasket.css({ width: this.canvas.width(), height: this.canvas.height() });
+            this.stage.gasket.css({ width: this.canvas.styleWidth, height: this.canvas.styleHeight });
         };
         ExampleCycler.prototype.run = function () {
         };
@@ -99,22 +99,22 @@ var example;
             });
             // Add a box
             var boxShape = new p2.Rectangle(100, 100);
-            this.boxbody = new p2.Body({ mass: 1, position: [this.stage.width() / 2, this.stage.height() / 2], angularVelocity: 1 });
+            this.boxbody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2, this.stage.stageHeight / 2], angularVelocity: 1 });
             this.boxbody.addShape(boxShape);
             this.world.addBody(this.boxbody);
             // Add a plane
             var planeShape = new p2.Plane();
-            var planeBody = new p2.Body({ position: [this.stage.width() / 2, 0] });
+            var planeBody = new p2.Body({ position: [this.stage.width / 2, 0] });
             planeBody.addShape(planeShape);
             this.world.addBody(planeBody);
             this.boxskin = new alcedo.canvas.graphic.Rectangle(0, 0, 100, 100);
-            this.boxskin.pivotX(0.5);
-            this.boxskin.pivotY(0.5);
+            this.boxskin.pivotX = 0.5;
+            this.boxskin.pivotY = 0.5;
             this.boxskin.x = this.boxbody.position[0];
             this.boxskin.y = this.boxbody.position[1];
             this.stage.addChild(this.boxskin);
-            this.stage.scaleY(-1);
-            this.stage.y = this.stage._stageHeight;
+            this.stage.scaleY = -1;
+            this.stage.y = this.stage.stageHeight;
             this.stage.addEventListener(alcedo.canvas.Stage.ENTER_FRAME, function (e) {
                 _this.world.step(1 / 60);
                 _this.boxskin.x = _this.boxbody.position[0];

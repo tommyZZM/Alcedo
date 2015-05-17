@@ -7,6 +7,12 @@ module alcedo {
          *
          * 组合了DomContext、TouchContext、RenderContext
          */
+        export var canvasStyleClass = {
+            alcedo_canvas:"alcedo-canvas",
+            alcedo_canvas_ui:"alcedo-canvas-ui",
+            alcedo_canvas_container:"alcedo-canvas-container",
+            alcedo_canvas_profiler:"alcedo-canvas-profiler",
+        };
 
         export class CanvasMainContext extends EventDispatcher {
             //private static MainLoopTask:string = "CanvasMainContext_MainLoopTask";
@@ -34,8 +40,10 @@ module alcedo {
                 this._designw2h    = this._designwidth/this._designheight;
 
                 this._canvas = canvas;
+                this._canvas.addClass(canvasStyleClass.alcedo_canvas);
 
                 this._canvascontainer = d$.query("<div></div>")[0];
+                this._canvascontainer.addClass(canvasStyleClass.alcedo_canvas_container);
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
 
@@ -72,7 +80,8 @@ module alcedo {
                 if(this._canvasui){
                     this._canvasui.id = id;
                     this._canvasui.insertBefore(this._canvas);
-                    this._canvasui.css({position:"absolute",overflow: "hidden",width:"100%",height:"100%"});
+                    this._canvasui.addClass(canvasStyleClass.alcedo_canvas_ui);
+                    this._canvasui.css({position:"absolute",overflow: "hidden"});//,width:"100%",height:"100%"
                     if(typeof this.canvas.index == "number"){
                         this._canvasui.css({"z-index":Math.add(this.canvas.index,1)})
                     }else{
@@ -93,8 +102,8 @@ module alcedo {
                 this._canvasrenderer.executeMainLoop(this._stage,<any>this._canvas.node);
                 this._canvasrenderer.registMainLoopTask(this.mainloop,this);
 
-                this._canvascontainer.transition = 100;
-                this._canvascontainer.addEventListener(dom.StyleEvent.TRAN_SITION_END,this.onResizeComplete,this)
+                this._canvascontainer.transition = 500;
+                this._canvascontainer.addEventListener(dom.StyleEvent.TRAN_SITION_END,this.onResizeComplete,this);
                 //this._stage = new Stage();
             }
 
@@ -106,7 +115,7 @@ module alcedo {
                 this._stage["_orientchanged"] = false;
                 var currstylew2h = this.containerStyleW2h;
 
-                trace(this._designw2h,currstylew2h);
+                //trace(this._designw2h,currstylew2h);
                 if(this._stage.options.orient===true){
                     if(this._designw2h>1){//Horizontal
                         if(!(currstylew2h>1)){
@@ -121,6 +130,7 @@ module alcedo {
                     }
                 }
 
+                trace(this._canvas.abscss().width,toValue(this._canvas.abscss().height),currstylew2h,this._designw2h,this._stage.stageWidth,this._stage.stageHeight)
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
                     this._stage.setStageHeight(this._designheight);
@@ -132,6 +142,7 @@ module alcedo {
 
                 this._stage.emit(Stage.RESIZE);
 
+                trace(this._stage.stageWidth,this._stage.stageHeight)
                 this._canvas.node["width"] = this._stage.stageWidth;
                 this._canvas.node["height"] = this._stage.stageHeight;
 

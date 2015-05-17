@@ -33,6 +33,10 @@ module alcedo {
                 this._basedir = window.location.href.replace(/\w+\.(html|htm)$/,"");
             }
 
+            /**
+             * 通过url,加载一个资源文件配置
+             * @param configurl
+             */
             public addConfig(configurl:string){
                 if(this._assets_configs.has(configurl)){return;}
                 var _configurl = configurl.indexOf("://")<0?(this._basedir+"/"+configurl):configurl;
@@ -56,6 +60,10 @@ module alcedo {
                 })
             }
 
+            /**
+             * 加载组
+             * @param names
+             */
             public loadGroup(...names){
                 var i,j,_names,_name;
                 if(Array.isArray(names[0]))names = names[0];
@@ -110,6 +118,11 @@ module alcedo {
                 }
             }
 
+            /**
+             * 加载单个资源
+             * @type {Array}
+             * @private
+             */
             private _assets_loading_tasks = [];
             public loadAsset(asset,groupname,basedir){
                 if(this._threadCound>=this._thread){

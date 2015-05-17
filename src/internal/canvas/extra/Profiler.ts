@@ -21,6 +21,8 @@ module alcedo {
                     "<p style='margin: 0;'>CPU</p>"+
                     "</div>")[0];
                 this._profilerdiv.css({position:"absolute"});
+
+                this._profilerdiv.addClass(canvasStyleClass.alcedo_canvas_profiler);
                 //this._profilerdiv.id = this._maincontext.canvas.id+"_profiler";
 
                 this._maincontext.stage.addEventListener(Stage.ENTER_SECOND,this.update,this);

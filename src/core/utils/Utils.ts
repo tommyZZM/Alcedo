@@ -17,6 +17,12 @@ module alcedo{
         return _str;
     }
 
+    /**
+     * TryCatch∏Ù¿Î
+     * @param fn
+     * @param onerror
+     * @param thisObject
+     */
     export function tryExecute(fn:Function,onerror?:Function,thisObject?:any){
         try{
             thisObject?fn.apply(thisObject):fn();

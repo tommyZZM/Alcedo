@@ -29,23 +29,11 @@ module alcedo {
 
             private initevent(){
                 //TODO:点击事件可能会有BUG,待优化.
-                var touchcallback = (e,fn)=>{
-                    e.preventDefault();
-                    e.stopPropagation()
-                    fn.call(this,e);
-                };
-
-                this._node.addEventListener("mousedown",(e)=>{touchcallback(e,this._onmouse)},false);
-                this._node.addEventListener("mouseup",(e)=>{touchcallback(e,this._onmouse)},false);
-                this._node.addEventListener("click",(e)=>{touchcallback(e,this._onmouse)},false);
-                this._node.addEventListener("mouseenter",(e)=>{touchcallback(e,this._onmouse)},false);
-                this._node.addEventListener("mouseleave",(e)=>{touchcallback(e,this._onmouse)},false);
-                this._node.addEventListener("touchstart",(e)=>{touchcallback(e,this.ontouchbegin)},false);
-                this._node.addEventListener("touchmove",(e)=>{touchcallback(e,this.ontouchmove)},false);
-                this._node.addEventListener("touchend",(e)=>{touchcallback(e,this.ontouchend)},false);
-                this._node.addEventListener("touchcancel",(e)=>{touchcallback(e,this.ontouchend)},false);
-                this._node.addEventListener("tap",(e)=>{touchcallback(e,this.ontouchtap)},false);
-
+                this._node.addEventListener("touchstart",(e)=>{this.ontouchbegin(e)},false);
+                this._node.addEventListener("touchmove",(e)=>{this.ontouchmove(e)},false);
+                this._node.addEventListener("touchend",(e)=>{this.ontouchend(e)},false);
+                this._node.addEventListener("touchcancel",(e)=>{this.ontouchend(e)},false);
+                this._node.addEventListener("tap",(e)=>{this.ontouchtap(e)},false);
 
                 this._node.addEventListener("DOMSubtreeModified",this._onmodified.bind(this));
 
@@ -70,20 +58,12 @@ module alcedo {
                 }
             }
 
-            //private _touchObserver:any;
             private ontouchbegin(e){
                 this.emitTouchEvent(e,TouchEvent.TOUCH_BEGIN)
             }
 
             private ontouchmove(e){
-                //this.emit(TouchEvent.TOUCH_MOVE)
 
-                //if (Math.abs(e.touches[0].clientX - this._touchObserver.startx) > 20
-                //    || Math.abs(e.touches[0].clientY - this._touchObserver.starty) > 20) {
-                //    this._touchObserver.moved = true;
-                //    this._touchObserver.lastx = e.touches[0].clientX - this._touchObserver.startx;
-                //    this._touchObserver.lasty = e.touches[0].clientY - this._touchObserver.starty;
-                //}
             }
 
             private ontouchend(e){
@@ -142,6 +122,7 @@ module alcedo {
             /**
              * CSS style
              */
+            //CSS 类
             public hasClass(className):boolean {
                 var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
                 return !!this._node.className.match(reg);
@@ -149,7 +130,11 @@ module alcedo {
 
             public addClass(className) {
                 if (!this.hasClass(className)) {
-                    this._node.className += " " + className;
+                    if(!this._node.className){
+                        this._node.className += className;
+                    }else{
+                        this._node.className += " " + className;
+                    }
                 }
             }
 
@@ -159,13 +144,13 @@ module alcedo {
                     this._node.className = this._node.className.replace(reg, '');
                 }
             }
-            //public get style():any{return this._node.style}
             public get styleClass():string[]{
                 this._node.className = this._node.className.replace('  ', ' ');
                 var result = this.node.className.split(" ")
                 return result
             }
 
+            //CSS 属性
             public css(cssprops:any):DomElement {
                 if(cssprops){
                     for(var prop in cssprops){
@@ -344,7 +329,6 @@ module alcedo {
             /**
              * Html Document Object Model Data
              */
-
             public data(key,value?:string):any{
                 if(value)this._node.setAttribute("data-"+key,value);
                 return this._node.getAttribute("data-"+key);

@@ -6,6 +6,8 @@ module example {
 
     export class HelloWorld extends ExampleCycler {
 
+
+
         protected run(){
             console.log("run",this.stage.orientchanged);
 
