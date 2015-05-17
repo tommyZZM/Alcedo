@@ -69,7 +69,6 @@ var example;
                 this.canvas.parent().css({ top: "0px", left: "0px" });
                 this.canvas.parent().rotate(0);
             }
-            this.stage.gasket.css({ width: this.canvas.styleWidth, height: this.canvas.styleHeight });
         };
         ExampleCycler.prototype.run = function () {
         };
@@ -87,6 +86,10 @@ var example;
         __extends(HelloWorld, _super);
         function HelloWorld() {
             _super.apply(this, arguments);
+            this.size = {
+                width: 480,
+                height: 320
+            };
         }
         HelloWorld.prototype.run = function () {
             console.log("run", this.stage.orientchanged);

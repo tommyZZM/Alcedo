@@ -143,7 +143,7 @@ module alcedo {
 
                 this._stage.emit(Stage.RESIZE);
 
-                trace(this._stage.stageWidth,this._stage.stageHeight)
+                //trace(this._stage.stageWidth,this._stage.stageHeight)
                 this._canvas.node["width"] = this._stage.stageWidth;
                 this._canvas.node["height"] = this._stage.stageHeight;
 

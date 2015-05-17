@@ -327,13 +327,17 @@ module alcedo {
             }
 
             /**
-             * Html Document Object Model Data
+             * 读取或更改一个自定义属性
              */
             public data(key,value?:string):any{
                 if(value)this._node.setAttribute("data-"+key,value);
                 return this._node.getAttribute("data-"+key);
             }
 
+            /**
+             * 设置ID
+             * @param id
+             */
             public set id(id:string){
                 if(!document.getElementById(id) || d$.compare(this._node,document.getElementById(id))){
                     this._node.id = id;
@@ -343,6 +347,10 @@ module alcedo {
             }
             public get id(){return this._node.id}
 
+            /**
+             * 对于该DomElement元素的唯一ID
+             * @returns {number}
+             */
             public get apid():number{
                 return this._apid;
             }

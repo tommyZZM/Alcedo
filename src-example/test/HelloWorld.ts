@@ -6,7 +6,10 @@ module example {
 
     export class HelloWorld extends ExampleCycler {
 
-
+        protected size = {
+            width:480,
+            height:320
+        };
 
         protected run(){
             console.log("run",this.stage.orientchanged);

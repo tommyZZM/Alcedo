@@ -69,7 +69,6 @@ var example;
                 this.canvas.parent().css({ top: "0px", left: "0px" });
                 this.canvas.parent().rotate(0);
             }
-            this.stage.gasket.css({ width: this.canvas.styleWidth, height: this.canvas.styleHeight });
         };
         ExampleCycler.prototype.run = function () {
         };

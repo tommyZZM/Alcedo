@@ -4,7 +4,10 @@ body,html{
 }
 
 .alcedo-canvas-container{
-    width: 100%;height: inherit
+    width: 100%;
+    height: inherit;
+    position: relative;
+    display: block;
 }
 
 #aperturetest1{
