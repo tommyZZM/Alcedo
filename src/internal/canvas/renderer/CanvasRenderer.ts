@@ -4,7 +4,7 @@
 module alcedo{
     export module canvas{
         export class CanvasRenderer extends AppSubCore{
-            public static MainLoop:string = "CanvasRenderer_MainLoop";
+            protected static RENDERER_MAIN_LOOP:string = "CanvasRenderer_MainLoop";
 
             protected _stage:Stage;
             protected _canvas:HTMLCanvasElement;
@@ -32,12 +32,23 @@ module alcedo{
 
             }
 
+            /**
+             * 注册主循环任务
+             * @param task
+             * @param thisObject
+             * @param priority
+             */
             public registMainLoopTask(task:Function, thisObject:any,priority?:number){
-                AppNotifyable.registNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject,null,priority);
+                AppNotifyable.registNotify(this._mainlooptask,CanvasRenderer.RENDERER_MAIN_LOOP,task,thisObject,null,priority);
             }
 
+            /**
+             * 取消主循环任务
+             * @param task
+             * @param thisObject
+             */
             public unregistMainLoopTask(task:Function, thisObject:any){
-                AppNotifyable.unregistNotify(this._mainlooptask,CanvasRenderer.MainLoop,task,thisObject);
+                AppNotifyable.unregistNotify(this._mainlooptask,CanvasRenderer.RENDERER_MAIN_LOOP,task,thisObject);
             }
 
             public setTransform(matrix:Matrix2D){

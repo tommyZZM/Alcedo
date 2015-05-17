@@ -19,7 +19,7 @@ module alcedo{
                 super();
 
                 this._stage = stage;
-                this._stage.enterframe(this.update,this)
+                this._stage.onenterframe(this.update,this)
 
                 this._lostfocustime = 0;
                 d$.addEventListener(dom.DomEvents.ON_FOCUS,this.onWindowFocus,this);

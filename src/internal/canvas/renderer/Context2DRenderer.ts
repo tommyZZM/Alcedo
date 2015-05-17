@@ -8,9 +8,12 @@ module alcedo{
                 super();
             }
 
+            /**
+             * 渲染主循环
+             */
             protected render(){
                 //transform
-                this._stage._transform();
+
                 this._canvasRenderContext.setTransform(1,0,0,1,0,0);//重置canvas的transform
                 this._canvasRenderContext.globalAlpha = 1;
                 this._canvasRenderContext.globalCompositeOperation = "source-over";
@@ -26,7 +29,7 @@ module alcedo{
                 //this._stage._debugdraw(this);
                 this._stage.render(this);
 
-                AppNotifyable.notify(this._mainlooptask,CanvasRenderer.MainLoop,[this]);
+                AppNotifyable.notify(this._mainlooptask,CanvasRenderer.RENDERER_MAIN_LOOP,[this]);
 
                 animationFrame(this.render,this);
             }
@@ -44,6 +47,7 @@ module alcedo{
 
             /**
              * context 2d
+             * 启动渲染循环
              */
             private _smoothProperty:string;
             public executeMainLoop(stage:Stage,canvas:HTMLCanvasElement):void {
@@ -76,6 +80,10 @@ module alcedo{
                 this.smooth = true;
 
                 animationFrame(this.render,this);
+            }
+
+            public get context():CanvasRenderingContext2D{
+                return this._canvasRenderContext
             }
 
             public set smooth(flag:boolean){

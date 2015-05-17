@@ -6,5 +6,9 @@ module alcedo{
         export class WebGLRenderer extends CanvasRenderer{
 
         }
+
+        //class WebGLRenderContext2D implements CanvasRenderingContext2D{
+        //
+        //}
     }
 }

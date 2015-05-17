@@ -69,9 +69,11 @@ module alcedo{
                 this._touchcontext = new TouchContext(this);
             }
 
-            //渲染
+            //渲染循环
             public render(renderer:CanvasRenderer){
-                this._render(renderer)
+                this._transform();//遍历显示对象树，计算每个显示对象变换矩阵
+                this._render(renderer);//绘制每个显示对象
+                this._distapchEnterFrame(renderer);//分发EnterFrame事件
             }
 
             private _startTime:number = 0;
@@ -80,8 +82,12 @@ module alcedo{
                 return Date.now()-this._startTime;
             }
 
-            /** @deprecated dont use outside*/
-            public _enterframe(renderer){
+            /**
+             * 分发EnterFrame消息
+             * @param renderer
+             * @private
+             */
+            private _distapchEnterFrame(renderer){
                 var nowTime:number = this._nowTime();
                 var dt = nowTime-this._lastTime;
                 //TODO:广播EnterFrame;
@@ -89,7 +95,7 @@ module alcedo{
                 this.emit(Stage.ENTER_FRAME,{dt:dt});
                 this._lastTime = nowTime;
             }
-            public enterframe(callback,thisOBject){
+            public onenterframe(callback,thisOBject){
                 AppNotifyable.registNotify(this._enterframemap,Stage.ENTER_FRAME,callback,thisOBject)
             }
 

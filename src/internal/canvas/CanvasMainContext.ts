@@ -99,7 +99,7 @@ module alcedo {
             }
 
             private mainloop(renderer:CanvasRenderer):void {
-                (<any>this._stage)._enterframe(renderer);
+                //(<any>this._stage)._enterframe(renderer);
             }
 
             private resizecontext(){

@@ -5,7 +5,7 @@ module alcedo {
     export module canvas {
         export class Matrix2D extends AppObject{
             /**
-             * 创建一个 canvas.Matrix2D 对象
+             * 创建一个 canvas.Matrix2D 对象 （3x3矩阵）
              * @param a {number} 缩放或旋转图像时影响像素沿 x 轴定位的值。
              * @param b {number} 旋转或倾斜图像时影响像素沿 y 轴定位的值。
              * @param c {number} 旋转或倾斜图像时影响像素沿 x 轴定位的值。
