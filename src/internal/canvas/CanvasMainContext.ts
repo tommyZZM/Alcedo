@@ -130,7 +130,8 @@ module alcedo {
                     }
                 }
 
-                trace(this._canvas.abscss().width,toValue(this._canvas.abscss().height),currstylew2h,this._designw2h,this._stage.stageWidth,this._stage.stageHeight)
+                //trace(this._canvas.abscss().width,
+                //    toValue(this._canvas.abscss().height),currstylew2h,this._designw2h,this._stage.stageWidth,this._stage.stageHeight)
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
                     this._stage.setStageHeight(this._designheight);

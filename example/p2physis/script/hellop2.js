@@ -22,7 +22,7 @@ var example;
             alcedo.d$.ready(this.onDomReady, this);
         };
         ExampleCycler.prototype.onDomReady = function () {
-            alcedo.d$.query("body")[0].css({ margin: 0, padding: 0, border: 0 });
+            //alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
             this.canvas = alcedo.d$.query("#aperturetest1")[0];
             this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0], this.size.width, this.size.height, {
                 background: "#ecf0f1",
@@ -97,22 +97,33 @@ var example;
             this.world = new p2.World({
                 gravity: [0, -98.1]
             });
-            // Add a box
-            var boxShape = new p2.Rectangle(100, 100);
-            this.boxbody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2, this.stage.stageHeight / 2], angularVelocity: 1 });
-            this.boxbody.addShape(boxShape);
-            this.world.addBody(this.boxbody);
             // Add a plane
             var planeShape = new p2.Plane();
             var planeBody = new p2.Body({ position: [this.stage.width / 2, 0] });
             planeBody.addShape(planeShape);
             this.world.addBody(planeBody);
+            // Add a box
+            var boxShape = new p2.Rectangle(100, 100);
+            this.boxbody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2, this.stage.stageHeight - 100], angularVelocity: 1 });
+            this.boxbody.addShape(boxShape);
+            this.world.addBody(this.boxbody);
             this.boxskin = new alcedo.canvas.graphic.Rectangle(0, 0, 100, 100);
             this.boxskin.pivotX = 0.5;
             this.boxskin.pivotY = 0.5;
             this.boxskin.x = this.boxbody.position[0];
             this.boxskin.y = this.boxbody.position[1];
             this.stage.addChild(this.boxskin);
+            // Add a circle
+            var circleshape = new p2.Circle(50);
+            this.circlebody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2, this.stage.stageHeight / 2], angularVelocity: 1 });
+            this.circlebody.addShape(circleshape);
+            this.world.addBody(this.circlebody);
+            this.circleskin = new alcedo.canvas.graphic.Circle(0, 0, 50);
+            this.circleskin.pivotX = 0.5;
+            this.circleskin.pivotY = 0.5;
+            this.circleskin.x = this.circleskin.position[0];
+            this.circleskin.y = this.circleskin.position[1];
+            this.stage.addChild(this.circleskin);
             this.stage.scaleY = -1;
             this.stage.y = this.stage.stageHeight;
             this.stage.addEventListener(alcedo.canvas.Stage.ENTER_FRAME, function (e) {
@@ -120,6 +131,9 @@ var example;
                 _this.boxskin.x = _this.boxbody.position[0];
                 _this.boxskin.y = _this.boxbody.position[1];
                 _this.boxskin.rotation = _this.boxbody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
+                _this.circleskin.x = _this.circlebody.position[0];
+                _this.circleskin.y = _this.circlebody.position[1];
+                _this.circleskin.rotation = _this.circlebody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
                 //console.log(this.boxbody.position)
             }, this);
         };

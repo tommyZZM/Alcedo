@@ -16,7 +16,7 @@ module example {
         }
 
         protected onDomReady(){
-            alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
+            //alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
             this.canvas = alcedo.d$.query("#aperturetest1")[0];
 
             this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0],this.size.width,this.size.height,{
