@@ -50,12 +50,12 @@ module alcedo{
                     this._fillcolour = coulour;
                     this.x = x;
                     this.y = y;
-                    this.width(width);
-                    this.height(height);
+                    this.width = width;
+                    this.height = height;
                     this._graphicfn = (context:CanvasRenderingContext2D)=>{
                         context.beginPath();
                         context.fillStyle = this._fillcolour;
-                        context.fillRect(0, 0, this.width(), this.height());
+                        context.fillRect(0, 0, this.width, this.height);
                         context.closePath();
                     }
                 }

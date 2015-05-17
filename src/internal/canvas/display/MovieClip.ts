@@ -26,8 +26,8 @@ module alcedo{
                 this._passtime = 0;
                 this._lasttime = 0;
 
-                this.width(this._moveclipdata.width);
-                this.height(this._moveclipdata.height);
+                this.width = this._moveclipdata.width;
+                this.height=this._moveclipdata.height;
 
                 this.gotoAndStop(1);
             }
@@ -63,7 +63,7 @@ module alcedo{
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                var result = (<Stage>this._root).viewPort().hitRectangelTest(this.actualBound());
+                var result = (<Stage>this._root).viewPort.hitRectangelTest(this.actualBound());
 
                 return result;
             }

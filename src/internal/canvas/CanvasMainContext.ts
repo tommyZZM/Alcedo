@@ -29,21 +29,18 @@ module alcedo {
             public constructor(stage:Stage,canvas:dom.DomElement){
                 super();
                 this._stage = stage;
-                this._designwidth = this._stage.width();
-                this._designheight = this._stage.height();
+                this._designwidth = this._stage.stageWidth;
+                this._designheight = this._stage.stageHeight;
                 this._designw2h    = this._designwidth/this._designheight;
 
                 this._canvas = canvas;
-                this._canvas.node["width"] = this._designwidth;
-                this._canvas.node["height"] = this._designheight;
 
                 this._canvascontainer = d$.query("<div></div>")[0];
-                //this._canvascontainer.id = this._canvas.id+"_container";
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
 
-                this._profiler = new Profiler(this);
                 if(this._stage.options.profiler===true){
+                    this._profiler = new Profiler(this);
                     this._profiler.visible = true;
                 }
 
@@ -83,11 +80,9 @@ module alcedo {
                     }
 
                     //在ui层底部插入control gasket, 作为canvas的控制传导垫片
-                    var control_gasket = d$.query("<div style='position: absolute;top:0;left: 0'></div>")[0];
-                    control_gasket.id = this._canvas.id+"_gasket";
-                    this._canvasui.appendChild(control_gasket);
-                    control_gasket.css({width:this._canvas.width(),height:this._canvas.height()});
-                    this._canvasgasket = control_gasket;
+                    this._canvasgasket = d$.query("<div style='position: absolute;top:0;left: 0'></div>")[0];
+                    this._canvasgasket.id = this._canvas.id+"_gasket";
+                    this._canvasui.appendChild(this._canvasgasket);
                     this._canvasgasket.css({"z-index":Math.add(this._canvasui.index,1)})
                 }
             }
@@ -111,6 +106,7 @@ module alcedo {
                 this._stage["_orientchanged"] = false;
                 var currstylew2h = this.containerStyleW2h;
 
+                trace(this._designw2h,currstylew2h);
                 if(this._stage.options.orient===true){
                     if(this._designw2h>1){//Horizontal
                         if(!(currstylew2h>1)){
@@ -127,20 +123,21 @@ module alcedo {
 
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
-                    this._stage["setHeight"](this._designheight);
-                    this._stage["setWidth"](this._stage._stageHeight*currstylew2h);
+                    this._stage.setStageHeight(this._designheight);
+                    this._stage.setStageWidth(this._stage.stageHeight*currstylew2h);
                 }else{
-                    this._stage["setWidth"](this._designwidth);
-                    this._stage["setHeight"](this._stage._stageWidth/currstylew2h);
+                    this._stage.setStageWidth(this._designwidth);
+                    this._stage.setStageHeight(this._stage.stageWidth/currstylew2h);
                 }
 
                 this._stage.emit(Stage.RESIZE);
 
-                this._canvas.node["width"] = this._stage.width();
-                this._canvas.node["height"] = this._stage.height();
+                this._canvas.node["width"] = this._stage.stageWidth;
+                this._canvas.node["height"] = this._stage.stageHeight;
 
+                this._canvasui.css({width: this._canvas.styleWidth, height: 0});
                 if(this._canvasgasket) {
-                    this._canvasgasket.css({width: this._canvas.width(), height: this._canvas.height()});
+                    this._canvasgasket.css({width: this._canvas.styleWidth, height: this._canvas.styleHeight});
                 }
                 //console.log("resized");
             }

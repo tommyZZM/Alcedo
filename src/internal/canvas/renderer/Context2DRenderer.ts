@@ -17,9 +17,9 @@ module alcedo{
 
                 if(this._renderoption.background){
                     this._canvasRenderContext.fillStyle = this._renderoption.background;
-                    this._canvasRenderContext.fillRect(0,0,this._stage._stageWidth,this._stage._stageHeight);
+                    this._canvasRenderContext.fillRect(0,0,this._stage.stageWidth,this._stage.stageHeight);
                 }else{
-                    this._canvasRenderContext.clearRect(0,0,this._stage._stageWidth,this._stage._stageHeight);
+                    this._canvasRenderContext.clearRect(0,0,this._stage.stageWidth,this._stage.stageHeight);
                 }
 
                 //render

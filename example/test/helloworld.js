@@ -69,7 +69,7 @@ var example;
                 this.canvas.parent().css({ top: "0px", left: "0px" });
                 this.canvas.parent().rotate(0);
             }
-            this.stage.gasket.css({ width: this.canvas.width(), height: this.canvas.height() });
+            this.stage.gasket.css({ width: this.canvas.styleWidth, height: this.canvas.styleHeight });
         };
         ExampleCycler.prototype.run = function () {
         };
@@ -82,13 +82,18 @@ var example;
  */
 var example;
 (function (example) {
+    var alcanvas = alcedo.canvas;
     var HelloWorld = (function (_super) {
         __extends(HelloWorld, _super);
         function HelloWorld() {
             _super.apply(this, arguments);
         }
         HelloWorld.prototype.run = function () {
-            console.log("run");
+            console.log("run", this.stage.orientchanged);
+            var sp = new alcanvas.graphic.Rectangle(0, 0, 100, 100);
+            sp.x = this.stage.stageWidth >> 1;
+            sp.y = this.stage.stageHeight >> 1;
+            this.stage.addChild(sp);
         };
         return HelloWorld;
     })(example.ExampleCycler);

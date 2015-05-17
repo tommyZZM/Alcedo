@@ -33,8 +33,8 @@ module alcedo{
 
             public set texture(texture:Texture){
                 this._texture = texture;
-                this.width(this._texture._sourceWidth);
-                this.height(this._texture._sourceHeight);
+                this.width = this._texture._sourceWidth;
+                this.height = this._texture._sourceHeight;
                 //this._visualboundingbox = this._staticboundingbox.clone();
             }
 
@@ -45,7 +45,7 @@ module alcedo{
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                var result = (<Stage>this._root).viewPort().hitRectangelTest(this.actualBound());
+                var result = (<Stage>this._root).viewPort.hitRectangelTest(this.actualBound());
 
                 return result;
             }

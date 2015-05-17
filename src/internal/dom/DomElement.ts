@@ -176,13 +176,6 @@ module alcedo {
                 return this;
             }
 
-            private getcsspropvalue(name:string):any{
-                //var result:any = this.css()[name];
-                var result:any = this.node.style[name];
-                if(!result||result=="auto")result = this.abscss()[name];
-                return result
-            }
-
             public abscss():any{
                 var result;
                 if(window.getComputedStyle){
@@ -193,11 +186,18 @@ module alcedo {
                 return result;
             }
 
-            public width():string{
+            private getcsspropvalue(name:string):any{
+                //var result:any = this.css()[name];
+                var result:any = this.node.style[name];
+                if(!result||result=="auto")result = this.abscss()[name];
+                return result
+            }
+
+            public get styleWidth():string{
                 return this.getcsspropvalue("width")
             }
 
-            public height():string{
+            public get styleHeight():string{
                 return this.getcsspropvalue("height")
             }
 

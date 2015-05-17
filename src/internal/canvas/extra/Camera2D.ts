@@ -25,7 +25,7 @@ module alcedo{
                 this._position = new Point2D();
 
                 this._stage = stage;
-                this._vieworigin = new Rectangle(stage.x,stage.y,stage.width(),stage.height());
+                this._vieworigin = new Rectangle(stage.x,stage.y,stage.width,stage.height);
                 this._viewfinder = this._vieworigin.clone();
                 this._viewsafe   = this._vieworigin.clone();
 
@@ -35,14 +35,14 @@ module alcedo{
             public get x(){return this._position.x}
             public set x(x:number){
                 this._position.x = x;
-                this._stage.pivotOffsetX(this._position.x);
+                this._stage.pivotOffsetX = this._position.x;
                 this._updateView();
             }
 
             public get y(){return this._position.y}
             public set y(y:number){
                 this._position.y = y;
-                this._stage.pivotOffsetY(this._position.y);
+                this._stage.pivotOffsetY = this._position.y;
                 this._updateView();
             }
 
@@ -62,10 +62,10 @@ module alcedo{
 
             public zoomTo(x:number,y:number,focal:number,yawx:number=0.5,yawy:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
                 this._position.x = x;
-                this._stage.pivotOffsetX(this._position.x);
+                this._stage.pivotOffsetX = this._position.x;
 
                 this._position.y = y;
-                this._stage.pivotOffsetY(this._position.y);
+                this._stage.pivotOffsetY = this._position.y;
 
                 this._focal = 1/focal;
 
@@ -76,12 +76,12 @@ module alcedo{
 
             private _updateView():void{
                 //TODO:现在的Viewport计算不正确！
-                this._stage.x = this._stage.width()*this._yaw.x;
-                this._stage.y = this._stage.height()*this._yaw.y;
+                this._stage.x = this._stage.width*this._yaw.x;
+                this._stage.y = this._stage.height*this._yaw.y;
                 this._stage.scaleALL(1/this._focal);
 
-                this._viewfinder.width = this._focal*this._stage.width();
-                this._viewfinder.height = this._focal*this._stage.height();
+                this._viewfinder.width = this._focal*this._stage.width;
+                this._viewfinder.height = this._focal*this._stage.height;
 
                 this._viewfinder.x = this._position.x-this._viewfinder.width/2;
                 this._viewfinder.y = this._position.y-this._viewfinder.height/2;

@@ -11,10 +11,14 @@ module alcedo{
             public static RESIZED:string = "Stage_RESIZED";
             public static RESIZE:string = "Stage_RESIZE";
 
-            //private _canvas:dom.DomElement;
-
-            public _stageWidth:number;
-            public _stageHeight:number;
+            private _stageWidth:number;
+            public get stageWidth():number{
+                return this._stageWidth
+            }
+            private _stageHeight:number;
+            public get stageHeight():number{
+                return this._stageHeight
+            }
 
             private _maincontext:CanvasMainContext;
             private _touchcontext:TouchContext;
@@ -33,8 +37,8 @@ module alcedo{
                 super();
                 this._enterframemap = new Dict();
 
-                this.setWidth(width);
-                this.setHeight(height);
+                this.setStageWidth(width);
+                this.setStageHeight(height);
                 this._options = opts;
                 this.initcomponent();
 
@@ -42,45 +46,32 @@ module alcedo{
                 this.initcontext();
             }
 
-            public width():any{
-                return this._staticboundingbox.width;
-            }
-            private setWidth(width:number){
-                this._staticboundingbox.width =width;
+            //设置渲染宽度
+            public setStageWidth(width:number){
                 this._stageWidth = width;
             }
 
-            public height():any{
-                return this._staticboundingbox.height;
-            }
-            private setHeight(height:number){
-                this._staticboundingbox.height =height;
+            //设置渲染高度
+            public setStageHeight(height:number){
                 this._stageHeight = height;
             }
 
+            //初始化组件
             private initcomponent(){
                 this._ticker = new Ticker(this);
                 this._camera = new Camera2D(this);
-                //this._tweens = (new Tweens()).init(this);
 
                 this._startTime = Date.now();
             }
 
+            //初始化子Context
             private initcontext(){
                 this._touchcontext = new TouchContext(this);
             }
 
+            //渲染
             public render(renderer:CanvasRenderer){
                 this._render(renderer)
-            }
-
-            public _transform(){
-                var wt = this._worldtransform;
-                wt.identity();
-                this._getMatrix(wt);
-                this.eachChilder((child)=>{
-                    child._transform();
-                })
             }
 
             private _startTime:number = 0;
@@ -102,34 +93,59 @@ module alcedo{
                 AppNotifyable.registNotify(this._enterframemap,Stage.ENTER_FRAME,callback,thisOBject)
             }
 
+            /**
+             * 获得Canvas
+             * @returns {alcedo.dom.DomElement}
+             */
             public get canvas():dom.DomElement{
                 return this._maincontext.canvas;
             }
 
+            /**
+             * 获得夹层
+             * @returns {alcedo.dom.DomElement}
+             */
             public get gasket():dom.DomElement{
                 return this._maincontext.gasket;
             }
 
+            /**
+             * 获得UI层
+             * @returns {alcedo.dom.DomElement}
+             */
             public get canvasui():dom.DomElement{
                 return this._maincontext.canvasui;
             }
 
 
+            //Stage的设置
             public get options():any{
                 return this._options;
             }
 
             public resizecontext(){}//Dont Remove!! 该方法会在CanvasMainCOntext被覆盖重写,
+            //获得轴向是否改变了
             public get orientchanged():boolean{
                 return this._orientchanged;
             }
 
-            public viewPort():Rectangle{
+            //获得取景器
+            public get viewPort():Rectangle{
                 return this._camera.viewsafe();
             }
 
-            public camera():Camera2D{
+            //获得镜头
+            public get camera():Camera2D{
                 return this._camera;
+            }
+
+            public _transform(){
+                var wt = this._worldtransform;
+                wt.identity();
+                this._getMatrix(wt);
+                this.eachChilder((child)=>{
+                    child._transform();
+                })
             }
 
             public isInViewPort():boolean{

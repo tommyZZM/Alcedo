@@ -15,7 +15,7 @@ module example {
             alcedo.d$.ready(this.onDomReady, this);
         }
 
-        private onDomReady(){
+        protected onDomReady(){
             alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
             this.canvas = alcedo.d$.query("#aperturetest1")[0];
 
@@ -66,7 +66,7 @@ module example {
                 this.canvas.parent().rotate(0)
             }
 
-            this.stage.gasket.css({width:this.canvas.width(),height:this.canvas.height()});
+            this.stage.gasket.css({width:this.canvas.styleWidth,height:this.canvas.styleHeight});
 
         }
 
