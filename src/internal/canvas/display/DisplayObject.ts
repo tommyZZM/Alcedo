@@ -84,15 +84,16 @@ module alcedo {
             }
 
             public get x(){return this._position.x}
-            public set x(x:number){
-                this._position.x = x;
-                this.updateBound(x)
+            public set x(px:number){
+                this._position.x = px;
+                this._staticboundingbox.x =px-this.pivotOffsetY;
+                this.updateBound(px)
             }
             public get y(){return this._position.y}
-            public set y(y:number){
-                this._position.y = y;
-                this._staticboundingbox.y =y-this.pivotOffsetY();
-                this.updateBound(null,y);
+            public set y(px:number){
+                this._position.y = px;
+                this._staticboundingbox.y =px-this.pivotOffsetY;
+                this.updateBound(null,px);
             }
 
             //待测试.可能有BUg
@@ -113,73 +114,83 @@ module alcedo {
                 }
             }
 
-            public width(width?:number):any{
-                if(!width&&typeof width!="number")return this._staticboundingbox.width;
-                this.updateBound(null,null,width);
-
-                this._staticboundingbox.width =width;
-                return this;
+            public set width(px:number){
+                this.updateBound(null,null,px);
+                this._staticboundingbox.width =px;
+            }
+            public get width(){
+                return this._staticboundingbox.width;
             }
 
-            public height(height?:number):any{
-                if(!height&&typeof height!="number")return this._staticboundingbox.height;
-                this.updateBound(null,null,null,height);
-                return this;
+            public set height(px:number){
+                this.updateBound(null,null,null,px);
+                this._staticboundingbox.height =px;
+            }
+            public get height(){
+                return this._staticboundingbox.height;
             }
 
             private updateBound(x?,y?,width?,height?){
-                if(typeof x == "number")this._staticboundingbox.x =x-this.pivotOffsetX();
-                if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY();
+                if(typeof x == "number")this._staticboundingbox.x =x-this.pivotOffsetX;
+                if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY;
                 if(typeof width == "number")this._staticboundingbox.width =width;
                 if(typeof height =="number")this._staticboundingbox.height =height;
                 //this.emit(DisplayObject.ON_UPDATE_BOUND,{x:x,y:y,width:width,height:height});
             }
 
-            public pivotX(x?:number){
-                if(x===undefined)return this._pivot.x;
-                this._pivot.x =x;
+            public get pivotX(){
+                return this._pivot.x;
+            }
+            public set pivotX(value:number){
+                this._pivot.x =value;
                 this.updateBound(this.x);
             }
+            public get pivotOffsetX(){
+                return this._pivot.x*this._staticboundingbox.width;
+            }
+            public set pivotOffsetX(px:number){
+                this.pivotX = px/this._staticboundingbox.width;
+            }
 
-            public pivotY(y?:number){
-                if(y===undefined)return this._pivot.y;
-                this._pivot.y =y;
+            public get pivoty(){
+                return this._pivot.y;
+            }
+            public set pivotY(value:number){
+                this._pivot.y =value;
                 this.updateBound(null,this.y);
             }
-
-            public pivotOffsetX(offsetx?:number){
-                if(offsetx===undefined)return this._pivot.x*this._staticboundingbox.width;
-                this.pivotX(offsetx/this._staticboundingbox.width);
+            public get pivotOffsetY(){
+                return this._pivot.y*this._staticboundingbox.height;
             }
-
-            public pivotOffsetY(offsety?:number){
-                if(offsety===undefined)return this._pivot.y*this._staticboundingbox.height;
-                this.pivotY(offsety/this._staticboundingbox.height);
+            public set pivotOffsetY(px:number){
+                this.pivotY = px/this._staticboundingbox.height;
             }
-
             public scaleToWidth(width:number){
                 var _scale = width/this._staticboundingbox.width;
                 this.scaleALL(_scale);
             }
-
             public scaleToHeight(height:number){
                 var _scale = height/this._staticboundingbox.height;
                 this.scaleALL(_scale);
             }
 
             public scaleALL(value:number){
-                this.scaleX(value);
-                this.scaleY(value);
+                this.scaleX = value;
+                this.scaleY = value;
             }
 
-            public scaleX(scalex?:number){
-                if(!scalex)return this._scale.x;
-                this._scale.x = scalex;
+            public get scaleX():number{
+                return this._scale.x;
+            }
+            public set scaleX(value:number){
+                this._scale.x = value;
             }
 
-            public scaleY(scaley?:number){
-                if(!scaley)return this._scale.y;
-                this._scale.y = scaley;
+            public get scaleY():number{
+                return this._scale.y;
+            }
+            public set scaleY(value:number){
+                this._scale.y = value;
             }
 
             /**
@@ -205,7 +216,7 @@ module alcedo {
             public isInViewPort():boolean{
                 if(!this.isAddtoStage()){return false;}
 
-                return (<Stage>this._root).viewPort().hitRectangelTest(this.boundBox());
+                return (<Stage>this._root).viewPort.hitRectangelTest(this.boundBox());
             }
 
             /**
@@ -288,7 +299,7 @@ module alcedo {
                             bounds.width * o._pivot.x, bounds.height * o._pivot.y);
                     }
                     else {
-                        matrix.prependTransform(o._position.x, o._position.y, o._scale.x, o._scale.y, o._rotation, 0, 0, o.pivotOffsetX(), o.pivotOffsetY());
+                        matrix.prependTransform(o._position.x, o._position.y, o._scale.x, o._scale.y, o._rotation, 0, 0, o.pivotOffsetX, o.pivotOffsetY);
                     }
                     o = o._parent;
                 }
