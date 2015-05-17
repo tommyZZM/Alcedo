@@ -106,7 +106,7 @@ gulp.task('watchcolorjet', function(){
     srcconfig.out = "./demo/script/";
     srcconfig.outfile = "colorjet.js";
     srcconfig.require_dts = ["./out/alcedo.d.ts","./demo/require/**/*.d.ts"];
-    srcconfig.require_js = "./demo/require/**/*.js";
+    //srcconfig.require_js = "./demo/require/**/*.js";
 
     srcconfig.id = "colorjet";
 

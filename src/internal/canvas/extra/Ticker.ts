@@ -22,8 +22,8 @@ module alcedo{
                 this._stage.onenterframe(this.update,this)
 
                 this._lostfocustime = 0;
-                d$.addEventListener(dom.DomEvents.ON_FOCUS,this.onWindowFocus,this);
-                d$.addEventListener(dom.DomEvents.ON_LOST_FOCUS,this.onWindowLostFocus,this);
+                dom.addEventListener(dom.DomEvents.ON_FOCUS,this.onWindowFocus,this);
+                dom.addEventListener(dom.DomEvents.ON_LOST_FOCUS,this.onWindowLostFocus,this);
             }
 
             private _lostfocustime:number;

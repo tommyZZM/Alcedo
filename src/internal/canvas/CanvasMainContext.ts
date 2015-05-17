@@ -42,8 +42,9 @@ module alcedo {
                 this._canvas = canvas;
                 this._canvas.addClass(canvasStyleClass.alcedo_canvas);
 
-                this._canvascontainer = d$.query("<div></div>")[0];
+                this._canvascontainer = dom.query("<div></div>")[0];
                 this._canvascontainer.addClass(canvasStyleClass.alcedo_canvas_container);
+                this._canvascontainer.css({overflow: "hidden"})
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
 
@@ -64,32 +65,32 @@ module alcedo {
             private createui(){
                 var id = "";
                 if(this._stage.options.ui===true){
-                    this._canvasui = d$.query("<div></div>")[0];
+                    this._canvasui = dom.query("<div></div>")[0];
                     id = this._canvas.id+"_ui";
                 }
 
                 if(typeof this._stage.options.ui == "string"){
-                    this._canvasui = d$.query("#"+this._stage.options.ui)[0];
+                    this._canvasui = dom.query("#"+this._stage.options.ui)[0];
                     id = this._stage.options.ui;
                 }
 
                 if(!this._canvasui){
-                    this._canvasui = d$.query("<div></div>")[0];
+                    this._canvasui = dom.query("<div></div>")[0];
                 }
 
                 if(this._canvasui){
                     this._canvasui.id = id;
                     this._canvasui.insertBefore(this._canvas);
                     this._canvasui.addClass(canvasStyleClass.alcedo_canvas_ui);
-                    this._canvasui.css({position:"absolute",overflow: "hidden"});//,width:"100%",height:"100%"
+                    this._canvasui.css({position:"absolute"});//,width:"100%",height:"100%"
                     if(typeof this.canvas.index == "number"){
                         this._canvasui.css({"z-index":Math.add(this.canvas.index,1)})
                     }else{
-                        this._canvasui.css({"z-index":1})
+                        //this._canvasui.css({"z-index":1})
                     }
 
                     //在ui层底部插入control gasket, 作为canvas的控制传导垫片
-                    this._canvasgasket = d$.query("<div style='position: absolute;top:0;left: 0'></div>")[0];
+                    this._canvasgasket = dom.query("<div style='position: absolute;top:0;left: 0'></div>")[0];
                     this._canvasgasket.id = this._canvas.id+"_gasket";
                     this._canvasui.appendChild(this._canvasgasket);
                     this._canvasgasket.css({"z-index":Math.add(this._canvasui.index,1)})

@@ -12,14 +12,14 @@ module example {
         };
 
         protected cmdStartup() {
-            alcedo.d$.ready(this.onDomReady, this);
+            alcedo.___d$.ready(this.onDomReady, this);
         }
 
         protected onDomReady(){
             //alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
-            this.canvas = alcedo.d$.query("#aperturetest1")[0];
+            this.canvas = alcedo.___d$.query("#aperturetest1")[0];
 
-            this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0],this.size.width,this.size.height,{
+            this.stage = new alcedo.canvas.Stage(alcedo.___d$.query("#aperturetest1")[0],this.size.width,this.size.height,{
                 background:"#ecf0f1",
                 profiler:true,
                 orient:true,
@@ -40,7 +40,7 @@ module example {
                 border:0,
                 margin:"0"
             });
-            alcedo.d$.resize(this.onResize,this);
+            alcedo.___d$.resize(this.onResize,this);
 
             this.run();
         }

@@ -72,7 +72,7 @@ module alcedo {
                 var lasttouch,l = e.changedTouches.length;
                 for (var i:number = 0; i < l; i++) {
                     lasttouch = e.changedTouches[i];
-                    if(d$.compare(this._node,document.elementFromPoint(lasttouch.clientX,lasttouch.clientY))){
+                    if(dom.compare(this._node,document.elementFromPoint(lasttouch.clientX,lasttouch.clientY))){
                         var evt;
                         if (window["CustomEvent"]) {
                             evt = new window["CustomEvent"]('tap', {
@@ -268,18 +268,18 @@ module alcedo {
                 this._lasttransition = ms;
             }
 
-            public then(fn:(_this?:DomElement)=>void,waittime_ms:number = 0):void{
-                this.addEventListener(StyleEvent.TRAN_SITION_END,()=>{
-                    this.removeEventListener(StyleEvent.TRAN_SITION_END, <any>arguments.callee,this);
-                    //trace("lastindex",this._lastindex)
-                    //this.index(this._lastindex);
-                    if(waittime_ms>100){
-                        setTimeout(fn,waittime_ms,this);
-                    }else{
-                        fn(this);
-                    }
-                },this);
-            }
+            //public then(fn:(_this?:DomElement)=>void,waittime_ms:number = 0):void{
+            //    this.addEventListener(StyleEvent.TRAN_SITION_END,()=>{
+            //        this.removeEventListener(StyleEvent.TRAN_SITION_END, <any>arguments.callee,this);
+            //        //trace("lastindex",this._lastindex)
+            //        //this.index(this._lastindex);
+            //        if(waittime_ms>100){
+            //            setTimeout(fn,waittime_ms,this);
+            //        }else{
+            //            fn(this);
+            //        }
+            //    },this);
+            //}
 
             /**
              * Html Document Object Model
@@ -307,7 +307,7 @@ module alcedo {
             public parent():DomElement{
                 var parent:DomElement;
                 if(this._node.parentElement){
-                    parent = d$.query(this._node.parentElement)[0]
+                    parent = dom.query(this._node.parentElement)[0]
                 }
                 return parent
             }
@@ -317,7 +317,7 @@ module alcedo {
                     eles = Sizzle(selector,this.node);
                 //console.log(selector,eles)
                 for(var i=0;i<eles.length;i++){
-                    results.push(d$.htmlele2domele(eles[i]));
+                    results.push(___d$.htmlele2domele(eles[i]));
                 }
                 return results;
             }
@@ -339,7 +339,7 @@ module alcedo {
              * @param id
              */
             public set id(id:string){
-                if(!document.getElementById(id) || d$.compare(this._node,document.getElementById(id))){
+                if(!document.getElementById(id) || ___d$.compare(this._node,document.getElementById(id))){
                     this._node.id = id;
                 }else{
                     warn("duplicate id assignment. ",id);

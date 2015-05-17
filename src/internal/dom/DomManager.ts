@@ -3,9 +3,33 @@
  * TODO:Dom元素操作优化
  */
 module alcedo{
-    export var d$:dom.DomManager;
+    export var ___d$:dom.DomManager;
 
     export module dom{
+        export function ready(callback:Function,thisObject?:any,...param){
+            ___d$.ready.apply(___d$,[callback,thisObject].concat(param));
+        }
+
+        export function resize(callback:Function,thisObject?:any,...param){
+            ___d$.resize.apply(___d$,[callback,thisObject].concat(param));
+        }
+
+        export function query(selector:HTMLElement|string):DomElement[]{
+            return ___d$.query(selector);
+        }
+
+        export function compare(node1:Node,node2:Node):boolean{
+            return ___d$.compare(node1,node2)
+        }
+
+        export function addEventListener(event:string, listener:Function, thisObject:any,priority?:number){
+            ___d$.addEventListener(event,listener,thisObject,priority)
+        }
+
+        export function removeEventListener(event:string, listener:Function, thisObject:any,priority?:number){
+            ___d$.removeEventListener(event,listener,thisObject)
+        }
+
         export class DomManager extends EventDispatcher{
 
             private _readytask:string;
@@ -222,7 +246,7 @@ module alcedo{
             "resize":"resize"
         };
 
-        d$ =  dom.DomManager.instance;
+        ___d$ =  dom.DomManager.instance;
 
         //var _rquickExpr:RegExp = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
         var _rsingleTag:RegExp = (/^<(\w+)\s*\/?>(?:<\/\1>|)$/);

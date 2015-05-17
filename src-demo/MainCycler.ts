@@ -13,7 +13,7 @@ module game{
         protected stage:canvas.Stage;
 
         protected cmdStartup(){
-            this.canvas = alcedo.d$.query("#colorjet")[0];
+            this.canvas = dom.query("#colorjet")[0];
 
             //≥ı ºªØGameStage
             this.stage = new alcedo.canvas.Stage(this.canvas,640,480,{
@@ -23,7 +23,10 @@ module game{
                 ui:"colorjet-ui"
             });
 
-            alcedo.d$.resize(this.onResize,this);
+            dom.resize(this.onResize,this);
+
+            TweenLite.to(dom.query(".gsaptest")[0].node, 2, {position:"relative",left:"100px"})
+            trace("here",dom.query(".gsaptest")[0].node);
         }
 
         private onResize(){

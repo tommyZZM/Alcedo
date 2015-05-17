@@ -12,9 +12,10 @@ workshop/
 resource/
 node_modules/
 out/
-demo/script/
+#demo/script/
 __tmpup/
 
 #tsconfig.json
 
 example/p2physis/test.html
+demo/script/colorjet.js
