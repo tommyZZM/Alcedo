@@ -37,6 +37,10 @@ module alcedo{
                 super();
                 this._enterframemap = new Dict();
 
+                //Stage的宽高一旦被初始化之后就不会改变
+                this._staticboundingbox.width = width;
+                this._staticboundingbox.height = height;
+
                 this.setStageWidth(width);
                 this.setStageHeight(height);
                 this._options = opts;
@@ -45,6 +49,15 @@ module alcedo{
                 this._maincontext = new CanvasMainContext(this,canvas);
                 this.resizecontext();
                 this.initcontext();
+            }
+
+            //只读
+            public get width(){
+                return this._staticboundingbox.width;
+            }
+
+            public get height(){
+                return this._staticboundingbox.height;
             }
 
             //设置渲染宽度

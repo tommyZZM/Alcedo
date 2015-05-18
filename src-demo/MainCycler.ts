@@ -18,7 +18,7 @@ module game{
 
             //初始化GameStage
             this.stage = new alcedo.canvas.Stage(dom.query("#colorjet")[0],640,480,{
-                background:"#ecf0f1",
+                background:"#8edced",
                 profiler:true,
                 orient:true,
                 ui:"colorjet-ui"
@@ -37,6 +37,7 @@ module game{
         //资源加载完成
         private onAssetLoaded(){
             trace("loadcomplete");
+            alcedo.core(GameCycler).startUp();
             alcedo.core(GUIManager).toggleToScreen("start");
         }
 

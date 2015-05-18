@@ -15,11 +15,11 @@ module game{
         }
 
         public show(callback?:Function){
-
+            if(callback)callback();
         }
 
         public hide(callback:Function){
-
+            callback();
         }
 
         protected onresize(){

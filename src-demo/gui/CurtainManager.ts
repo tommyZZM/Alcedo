@@ -12,13 +12,17 @@ module game{
             trace("here",dom.width());
         }
 
-        public show(){
+        public show(callback?:Function,delay:number=0){
             this.curtain.css({height:dom.height()});
+            TweenMax.to(this.curtain.node,1,{opacity:1,delay:delay,onComplete:()=>{
+                if(callback)callback();
+            }})
         }
 
-        public hide(callback?:Function){
-            TweenMax.to(this.curtain.node,1,{opacity:0,onComplete:()=>{
-                callback();
+        public hide(callback?:Function,delay:number=0){
+            TweenMax.to(this.curtain.node,1,{opacity:0,delay:delay,onComplete:()=>{
+                if(callback)callback();
+                //trace("cur hrer");
                 this.curtain.css({height:0});
             }})
         }

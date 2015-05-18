@@ -15,7 +15,7 @@ module alcedo {
         }
 
         public setNotify(core:any,notify:string, courier?:any){
-            this._core = _AppOverCore.getCoreFullName(core);
+            this._core = alcedo["@AppOverCore"].getCoreFullName(core);
             this._notify = notify;
             this._courier = courier;
         }

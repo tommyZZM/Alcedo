@@ -3,8 +3,6 @@
  */
 //var ap:any = aperture;
 module alcedo{
-    export var a$:_AppOverCore;
-
     export class AppLauncher{
         public static START_UP:string = "AppLauncher.START_UP";
 
@@ -23,7 +21,7 @@ module alcedo{
             info("gitHub:",'https://github.com/tommyZZM/Alcedo');
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
             "Welcome! And remember: Testing is the future, and the future starts with you.");
-            a$ =  _AppOverCore.instance;
+            a$ =  alcedo["@AppOverCore"].instance;
         }
 
         public launch(app:AppCycler,courier?){

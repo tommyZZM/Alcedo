@@ -7,7 +7,8 @@ declare module Bounce{
     export var BounceInOut;
 }
 
-declare var Elastic:EaseObject
+declare var Elastic:EaseObject;
+declare var Back:EaseObject;
 
 declare class EaseObject{
     easeIn:Ease;

@@ -26,15 +26,15 @@ module game{
             }
             if(this.currscreen){
                 this.currscreen.hide(()=>{
-                    trace(callback)
                     this.currscreen.ele.removeClass("active");
                     screen.ele.addClass("active");
                     screen.show(callback);
+                    this.currscreen = screen;
                 })
             }else{
                 screen.show(callback);
+                this.currscreen = screen;
             }
-            this.currscreen = screen;
         }
 
         private screenDict:Dict;

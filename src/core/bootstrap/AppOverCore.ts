@@ -2,6 +2,8 @@
  * Created by tommyZZM on 2015/4/4.
  */
 module alcedo{
+    export var a$:any;
+
     export var isdebug = false;
 
     /**
@@ -11,7 +13,7 @@ module alcedo{
      * @param name
      */
     export function core(core:any,name?:string):any|AppSubCore{
-        return _AppOverCore.instance.core(core,name);
+        return a$.core(core,name);
     }
 
     /**
@@ -21,7 +23,7 @@ module alcedo{
      * @param courier
      */
     export function dispatchCmd(core:any,cmd:string, courier:Array<any> = []):void{
-        _AppOverCore.instance.dispatchCmd(core, cmd, courier)
+        a$.dispatchCmd(core, cmd, courier)
     }
 
     /**
@@ -33,13 +35,13 @@ module alcedo{
      * @returns {boolean}
      */
     export function addDemandListener(core:any, type:string, callback:Function, thisObject:any):boolean {
-        return _AppOverCore.instance.addDemandListener(core, type, callback, thisObject)
+        return a$.addDemandListener(core, type, callback, thisObject)
     }
 
     /**
      * 业务核心管理器
      */
-    export class _AppOverCore extends EventDispatcher{
+    class AppOverCore extends EventDispatcher{
         private _subcore:Dict;
 
         private _cmdpool:Dict;//Map<string,GameCmder>;//存放所有命令
@@ -50,7 +52,7 @@ module alcedo{
 
         public constructor() {
             super();
-            if (_AppOverCore._instance != null) {
+            if (AppOverCore._instance != null) {
                 //console.error(core.log_code(1001))
             }
 
@@ -87,7 +89,7 @@ module alcedo{
                     error(core,"could be select")
                     return;
                 }
-                var corename = getClassName(core)+"_"+_AppOverCore.getCoreId(core);
+                var corename = getClassName(core)+"_"+AppOverCore.getCoreId(core);
 
                 var result = this._proxypool.get(corename);
                 if (core.instanceable === true){
@@ -158,13 +160,14 @@ module alcedo{
         }
 
         //instance mode
-        private static _instance:_AppOverCore;
-        public static get instance():_AppOverCore{
-            if (!_AppOverCore._instance) {
-                _AppOverCore._instance = new _AppOverCore();
-                _AppOverCore._instance.init();
+        private static _instance:AppOverCore;
+        public static get instance():AppOverCore{
+            if (!AppOverCore._instance) {
+                AppOverCore._instance = new AppOverCore();
+                AppOverCore._instance.init();
             }
-            return _AppOverCore._instance;
+            return AppOverCore._instance;
         }
     }
+    alcedo["@AppOverCore"] = AppOverCore;
 }

@@ -24,13 +24,13 @@ module example{
 
             // Add a plane
             var planeShape = new p2.Plane();
-            var planeBody = new p2.Body({position:[this.stage.width/2,0]});
+            var planeBody = new p2.Body({position:[0,0]});
             planeBody.addShape(planeShape);
             this.world.addBody(planeBody);
 
             // Add a box
             var boxShape = new p2.Rectangle(100,100);
-            this.boxbody = new p2.Body({ mass:1, position:[this.stage.stageWidth/2,this.stage.stageHeight-100],angularVelocity:1 });
+            this.boxbody = new p2.Body({ mass:1, position:[this.stage.stageWidth/2+Math.randomFrom(-20,20),this.stage.stageHeight-100],angularVelocity:1 });
             this.boxbody.addShape(boxShape);
             this.world.addBody( this.boxbody);
             this.boxskin = new alcedo.canvas.graphic.Rectangle(0,0,100,100);
@@ -40,11 +40,12 @@ module example{
             this.stage.addChild(this.boxskin);
 
             // Add a circle
-            var circleshape = new p2.Circle(50);
-            this.circlebody = new p2.Body({ mass:1, position:[this.stage.stageWidth/2,this.stage.stageHeight/2],angularVelocity:1 });
+            var r = +Math.randomFrom(25,60)
+            var circleshape = new p2.Circle(r);
+            this.circlebody = new p2.Body({ mass:1, position:[this.stage.stageWidth/2+Math.randomFrom(-50,50),this.stage.stageHeight/2],angularVelocity:1 });
             this.circlebody.addShape(circleshape);
             this.world.addBody( this.circlebody);
-            this.circleskin = new alcedo.canvas.graphic.Circle(0,0,50);
+            this.circleskin = new alcedo.canvas.graphic.Circle(0,0,r);
             this.circleskin.pivotX = 0.5;this.circleskin.pivotY = 0.5;
             this.circleskin.x = this.circleskin.position[0];
             this.circleskin.y = this.circleskin.position[1];

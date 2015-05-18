@@ -5,24 +5,31 @@ module game{
     export class StartScreen extends GUIScreen{
 
         private _title:dom.DomElement;
-        private _startbtn:dom.DomElement;
-        private _aboutbtn:dom.DomElement;
+        private _startbtn:GUIButton;
+        private _aboutbtn:GUIButton;
 
         public constructor(){
             super();
             this._title = dom.query(".start .title").first;
-            this._startbtn = dom.query(".btn.start").first;
-            this._aboutbtn = dom.query(".btn.about").first;
+            this._startbtn = new GUIButton(dom.query(".btn.start").first);
+            this._aboutbtn = new GUIButton(dom.query(".btn.about").first);
 
             this._title.css({top:-100});
-            this._startbtn.css({top:100+client.height});
-            this._aboutbtn.css({top:100+client.width});
+            this._startbtn.ele.css({top:100+client.height});
+            this._aboutbtn.ele.css({top:100+client.width});
 
-            this._startbtn.node.addEventListener("touchstart",this.onstart.bind(this),true)
+            this._startbtn.ele.addEventListener(dom.TouchEvent.TOUCH_TAP,this.onstart,this);
         }
 
         private onstart(){
             alcedo.core(GUIManager).toggleToScreen("playing")
+            alcedo.core(CurtainManager).show(()=>{
+               //TODO:发送开始游戏信号
+                alcedo.core(CurtainManager).hide(()=>{
+
+                },0.2)
+            },0.8);
+
         }
 
         public show(){
@@ -39,13 +46,12 @@ module game{
         }
 
         public hide(callback){
-            TweenMax.to(this._title.node,0.6,{top:-100});
-            TweenMax.to(this._startbtn.node,0.6,{top:100+client.height});
-            TweenMax.to(this._aboutbtn.node,0.6,{top:100+client.width,onComplete:()=>{
-                trace(callback)
+            TweenMax.to(this._title.node,0.3,{top:-100,delay:0.1});
+            TweenMax.to(this._startbtn.node,0.5,{top:100+client.height,delay:0.3,onComplete:()=>{
                 stage.removeEventListener(canvas.Stage.RESIZED,this.onresize,this);
                 callback();
-            }});
+            },ease:Back.easeIn.config(2)});
+            TweenMax.to(this._aboutbtn.node,0.5,{top:100+client.width,delay:0.2,ease:Back.easeIn.config(2)});
         }
 
         protected onresize(){
