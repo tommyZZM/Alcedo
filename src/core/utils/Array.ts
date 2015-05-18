@@ -13,6 +13,13 @@ Object.defineProperty(Array.prototype, 'fastRemove', {
     },enumerable: false
 });
 
+Object.defineProperty(Array.prototype, 'first', {
+    get : function () {
+        return this[0];
+    },
+    enumerable: false
+});
+
 Object.defineProperty(Array.prototype, 'last', {
     get : function () {
         return this[this.length-1];
@@ -36,6 +43,7 @@ interface Array<T>{
      */
     fastRemove(index:number);
 
+    first:any
     //最后一个元素
     last:any
 

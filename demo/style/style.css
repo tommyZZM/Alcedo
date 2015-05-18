@@ -1,3 +1,7 @@
+*{
+
+}
+
 body,html{
     margin: 0;
     height:100%;
@@ -11,6 +15,32 @@ body,html{
     display: block;
 }
 
+.screen,
+#curtain{
+    width: 100%;
+    position: absolute;
+}
+
+.screen{
+    display: none;
+}
+.screen.active{
+    display: block;
+}
+
+.screen .btn,
 .alcedo-canvas{
     display: block;
 }
+
+.block-center{
+    display: block;
+    margin: 0 auto;
+}
+
+/**.screen.start**/
+.screen.start *{
+    display: block;
+    position: relative;
+}
+

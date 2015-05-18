@@ -43,6 +43,7 @@ module alcedo{
                 this.initcomponent();
 
                 this._maincontext = new CanvasMainContext(this,canvas);
+                this.resizecontext();
                 this.initcontext();
             }
 
@@ -99,6 +100,10 @@ module alcedo{
                 AppNotifyable.registNotify(this._enterframemap,Stage.ENTER_FRAME,callback,thisOBject)
             }
 
+            public get container():dom.DomElement{
+                return this._maincontext["_canvascontainer"];
+            }
+
             /**
              * 获得Canvas
              * @returns {alcedo.dom.DomElement}
@@ -129,10 +134,13 @@ module alcedo{
                 return this._options;
             }
 
-            public resizecontext(){}//Dont Remove!! 该方法会在CanvasMainCOntext被覆盖重写,
+            //resize
+            public resizecontext(){
+                this._maincontext.resizecontext();
+            }
             //获得轴向是否改变了
             public get orientchanged():boolean{
-                return this._orientchanged;
+                return this._maincontext.checkorient();
             }
 
             //获得取景器

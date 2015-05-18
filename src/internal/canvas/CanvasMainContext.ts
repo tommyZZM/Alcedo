@@ -44,7 +44,7 @@ module alcedo {
 
                 this._canvascontainer = dom.query("<div></div>")[0];
                 this._canvascontainer.addClass(canvasStyleClass.alcedo_canvas_container);
-                this._canvascontainer.css({overflow: "hidden"})
+                this._canvascontainer.css({})
                 this._canvascontainer.insertBefore(this._canvas);
                 this._canvascontainer.appendChild(this._canvas);
 
@@ -54,9 +54,6 @@ module alcedo {
                 }
 
                 this.createui();
-
-                this.resizecontext();
-                this._stage.resizecontext = this.resizecontext.bind(this);
 
                 this.run();
             }
@@ -103,7 +100,7 @@ module alcedo {
                 this._canvasrenderer.executeMainLoop(this._stage,<any>this._canvas.node);
                 this._canvasrenderer.registMainLoopTask(this.mainloop,this);
 
-                this._canvascontainer.transition = 500;
+                this._canvascontainer.css_transition = 10;
                 this._canvascontainer.addEventListener(dom.StyleEvent.TRAN_SITION_END,this.onResizeComplete,this);
                 //this._stage = new Stage();
             }
@@ -112,27 +109,30 @@ module alcedo {
                 //(<any>this._stage)._enterframe(renderer);
             }
 
-            private resizecontext(){
-                this._stage["_orientchanged"] = false;
+            public checkorient():boolean{
                 var currstylew2h = this.containerStyleW2h;
 
-                //trace(this._designw2h,currstylew2h);
                 if(this._stage.options.orient===true){
                     if(this._designw2h>1){//Horizontal
                         if(!(currstylew2h>1)){
-                            this._stage["_orientchanged"] = true;
-                            currstylew2h = 1/currstylew2h;
+                           return true;
                         }
                     }else{//Vertical
                         if(currstylew2h>1){
-                            this._stage["_orientchanged"] = true;
-                            currstylew2h = 1/currstylew2h;
+                            return true;
                         }
                     }
                 }
+                return false;
+            }
 
-                //trace(this._canvas.abscss().width,
-                //    toValue(this._canvas.abscss().height),currstylew2h,this._designw2h,this._stage.stageWidth,this._stage.stageHeight)
+            public resizecontext(){
+                var currstylew2h = this.containerStyleW2h;
+
+                if(this.stage.orientchanged){
+                    currstylew2h = 1/currstylew2h;
+                }
+
                 if(currstylew2h>this._designw2h){
                     //this._stage._stageHeight = toValue(this._canvas.abscss().height);
                     this._stage.setStageHeight(this._designheight);

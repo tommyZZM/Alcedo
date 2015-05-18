@@ -1,55 +1,84 @@
 /**
  * Created by tommyZZM on 2015/5/17.
- * 重构指南
- * 所有界面组件动画能够用CSS实现就尽量用CSS
+ * 閲嶆瀯鎸囧崡
+ * 鎵�鏈夌晫闈㈢粍浠跺姩鐢昏兘澶熺敤CSS瀹炵幇灏卞敖閲忕敤CSS
  *
  */
 module game{
     export import canvas = alcedo.canvas;
     export import dom = alcedo.dom;
+    export import net = alcedo.net;
+
+    export var stage:canvas.Stage;
 
     export class MainCycler extends alcedo.AppCycler{
-        protected canvas:dom.DomElement;
         protected stage:canvas.Stage;
 
         protected cmdStartup(){
-            this.canvas = dom.query("#colorjet")[0];
 
-            //初始化GameStage
-            this.stage = new alcedo.canvas.Stage(this.canvas,640,480,{
+            //鍒濆鍖朑ameStage
+            this.stage = new alcedo.canvas.Stage(dom.query("#colorjet")[0],640,480,{
                 background:"#ecf0f1",
                 profiler:true,
                 orient:true,
                 ui:"colorjet-ui"
             });
+            stage = this.stage;
 
             dom.resize(this.onResize,this);
 
-            TweenLite.to(dom.query(".gsaptest")[0].node, 2, {position:"relative",left:"100px"})
-            trace("here",dom.query(".gsaptest")[0].node);
+            alcedo.core(GUIManager).startUp();
+
+            alcedo.core(net.AsyncAssetsLoader).addEventListener(net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
+            alcedo.core(net.AsyncAssetsLoader).addConfig("res/resource.json");
+            alcedo.core(net.AsyncAssetsLoader).loadGroup("preload","bgcloud","fgcloud","levels","character");
         }
 
+        //璧勬簮鍔犺浇瀹屾垚
+        private onAssetLoaded(){
+            trace("loadcomplete");
+            alcedo.core(GUIManager).toggleToScreen("start");
+        }
+
+        //灞忓箷閫傞厤瑙ｅ喅鏂规
         private onResize(){
             var _domwidth = alcedo.dom.width();
             var _domheight = alcedo.dom.height();
 
-            this.canvas.css({width:_domwidth+"px",height:_domheight+"px"});
-            this.stage.resizecontext();
-
+            this.stage.canvas.css({width:_domwidth+"px",height:_domheight+"px"});
+            //trace(this.stage.orientchanged)
             if(this.stage.orientchanged){
-                this.canvas.css({width:_domheight+"px",height:_domwidth+"px"});
-                this.canvas.parent().css({
+                this.stage.canvas.css({width:_domheight+"px",height:_domwidth+"px"});
+                this.stage.container.css({
                     width:_domheight+"px",
                     height:_domwidth+"px"
                 });
-                this.canvas.parent().css({left:(_domwidth-_domheight)/2+"px"});
-                this.canvas.parent().css({top:(_domheight-_domwidth)/2+"px"});
-                this.canvas.parent().rotate(-90)
+                this.stage.container.css({left:(_domwidth-_domheight)/2+"px"});
+                this.stage.container.css({top:(_domheight-_domwidth)/2+"px"});
+                this.stage.container.css_transform_rotate(-90)
             }else{
-                this.canvas.parent().css({width:_domwidth+"px",height:_domheight+"px"});
-                this.canvas.parent().css({top:"0px",left:"0px"});
-                this.canvas.parent().rotate(0)
+                this.stage.container.css({width:_domwidth+"px",height:_domheight+"px"});
+                this.stage.container.css({top:"0px",left:"0px"});
+                this.stage.container.css_transform_rotate(0)
             }
+            this.stage.resizecontext();
+            //trace(this.stage.orientchanged)
+        }
+    }
+
+    export class client{
+        public static get width():number{
+            if(dom.height()>dom.width()){
+                return dom.height()
+            }
+            return dom.width()
+        }
+
+        public static get height():number{
+            if(dom.height()>dom.width()){
+                return dom.width()
+            }
+            return dom.height()
         }
     }
 }

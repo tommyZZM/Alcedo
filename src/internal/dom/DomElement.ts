@@ -3,6 +3,7 @@
  */
 module alcedo {
     export module dom {
+        var pixable_css_prop = ["width","height","top"];
         var _rcssprop:RegExp = /^(\d+\.?\d+)(\w+)$/i;
 
         export class DomElement extends EventDispatcher{
@@ -154,7 +155,11 @@ module alcedo {
             public css(cssprops:any):DomElement {
                 if(cssprops){
                     for(var prop in cssprops){
-                        this._node.style[prop+""] = cssprops[prop+""];
+                        var unit = "";
+                        if((pixable_css_prop.indexOf(prop+"")>=0) && (typeof cssprops[prop+""]==="number")){
+                            unit = "px";
+                        }
+                        this._node.style[prop+""] = cssprops[prop+""]+unit;
                     }
                     //this.notify(this._domEventnotify,"onstylechanged");
                 }
@@ -221,17 +226,17 @@ module alcedo {
 
 
             //CSS3动画效果
-            public to(cssprops:any, transition:number = 660):DomElement {
+            public css_transform_to(cssprops:any, transition:number = 660):DomElement {
                 if(this._lastindex!=this.index)this._lastindex = this.index;
 
-                this.transition = transition;
+                this.css_transition = transition;
                 this.css(cssprops);
                 return this;
             }
 
             private _rotation:number;
-            public rotate(angle:number, transition:number = 660):DomElement{
-                this.transition = transition;
+            public css_transform_rotate(angle:number, transition:number = 660):DomElement{
+                this.css_transition = transition;
                 if (angle == 0 || angle ||angle!=this._rotation) {
                     var rotate = angle;// - this._rotation;
                     //trace(this._rotation);
@@ -242,22 +247,22 @@ module alcedo {
                 return this;
             }
 
-            public scale(scale:number, transition:number = 660):DomElement{
-                this.transition = transition;
+            public css_transform_scale(scale:number, transition:number = 660):DomElement{
+                this.css_transition = transition;
                 this._node.style.transform = "scale(" + scale + ","+scale+")";
                 this._node.style["-webkit-transform"] = "scale(" + scale + ","+scale+")";
                 return this;
             }
 
-            public translate(x:number,y:number,transition:number = 660):DomElement{
-                this.transition = transition;
+            public css_transform_translate(x:number,y:number,transition:number = 660):DomElement{
+                this.css_transition = transition;
                 this._node.style.transform = "translate(" + x + "px,"+y+"px)";
                 this._node.style["-webkit-transform"] = "translate(" + x + "px,"+y+"px)";
                 return this;
             }
 
             private _lasttransition:number;
-            public set transition(ms:number){
+            public set css_transition(ms:number){
                 if(ms<=0 || !ms){
                     delete this._node.style["transition-duration"];
                     delete this._node.style["-webkit-transition-duration"];
@@ -314,10 +319,10 @@ module alcedo {
 
             public find(selector:string):DomElement[]{
                 var results:any = [],
-                    eles = Sizzle(selector,this.node);
+                    eles = DomManager.instance.ElementSelector(selector,this.node);
                 //console.log(selector,eles)
                 for(var i=0;i<eles.length;i++){
-                    results.push(___d$.htmlele2domele(eles[i]));
+                    results.push(DomManager.instance.htmlele2domele(eles[i]));
                 }
                 return results;
             }
@@ -329,8 +334,13 @@ module alcedo {
             /**
              * 读取或更改一个自定义属性
              */
+            public attr(key,value?:string):any{
+                if(value)this._node.setAttribute(key,value);
+                return this._node.getAttribute(key);
+            }
+
             public data(key,value?:string):any{
-                if(value)this._node.setAttribute("data-"+key,value);
+                if(value)this.attr("data-"+key,value);
                 return this._node.getAttribute("data-"+key);
             }
 
@@ -339,7 +349,7 @@ module alcedo {
              * @param id
              */
             public set id(id:string){
-                if(!document.getElementById(id) || ___d$.compare(this._node,document.getElementById(id))){
+                if(!document.getElementById(id) || dom.compare(this._node,document.getElementById(id))){
                     this._node.id = id;
                 }else{
                     warn("duplicate id assignment. ",id);

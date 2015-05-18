@@ -3,7 +3,7 @@
  * TODO:Dom元素操作优化
  */
 module alcedo{
-    export var ___d$:dom.DomManager;
+    var ___d$:dom.DomManager;//DomManager instance
 
     export module dom{
         export function ready(callback:Function,thisObject?:any,...param){
@@ -176,9 +176,18 @@ module alcedo{
                 return result;
             }
 
+            public ElementSelector(e, context = document) {
+                return (typeof(context) === "undefined") ?
+                    e : (context.querySelectorAll ? context.querySelectorAll(e)
+                    : context.getElementById((e.charAt(0) === "#") ? e.substr(1) : e));
+            }
+
             private prase(selector):Array<HTMLElement>{
                 var match,elem,
                     result=[];
+
+                //console.log("here")
+
                 if ( typeof selector === "string" ) {
                     if ( selector[0] === "<" && selector[ selector.length - 1 ] === ">" && selector.length >= 3 ) {
                         match = [ null, selector, null ];
@@ -205,10 +214,10 @@ module alcedo{
                             }
                             result = [elem];
                         }else{
-                            result = Sizzle(selector)
+                            result = this.ElementSelector(selector)
                         }
                     }else{
-                        result = Sizzle(selector);
+                        result = this.ElementSelector(selector);
                         //console.log(result)
                     }
                 }else if ( selector.nodeType == NodeType.ELEMENT ) {

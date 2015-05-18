@@ -83,7 +83,10 @@ module alcedo{
         private static _subcoreid:number = 0;
         public core(core:any,name?:string){
             if (isOfClass(core, AppSubCore)){
-                if(core.uncreateable)return;
+                if(core === AppSubCore){
+                    error(core,"could be select")
+                    return;
+                }
                 var corename = getClassName(core)+"_"+_AppOverCore.getCoreId(core);
 
                 var result = this._proxypool.get(corename);
@@ -93,7 +96,6 @@ module alcedo{
                     }
                     return this._proxypool.get(corename);
                 }else if(name){
-                    //
                     var proxydict = this._proxypool.get(corename);
                     if (!proxydict || !(proxydict instanceof Dict)) {
                         this._proxypool.set(corename, new Dict())
@@ -102,7 +104,6 @@ module alcedo{
                         this._proxypool.get(corename).set(name, new core());
                     }
                     return this._proxypool.get(corename).get(name);
-
                 }else{
                     error("Are you want a instanceable core? create a static var instanceable==true");
                     return null;

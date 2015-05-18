@@ -1,22 +1,22 @@
 /**
  * Created by tommyZZM on 2015/5/16.
  */
-//本类将取缔AppCycle和AppProxyer
+//鍙栦唬AppCycle鍜孉ppProxyer
 module alcedo{
     export class AppSubCore extends EventDispatcher{
 
-        private static uncreateable:boolean = true;
+        //private static uncreateable:boolean = true;
 
         public constructor(){
             super();
         }
 
         public startUp(...anyarg){
-            //子系统启动
+            //鍚姩
         }
 
         public shutDown(...anyarg){
-            //子系统关闭
+            //鍏抽棴
         }
 
         protected addCmdHandler(notify: string, callback: Function):void{

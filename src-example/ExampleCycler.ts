@@ -12,14 +12,14 @@ module example {
         };
 
         protected cmdStartup() {
-            alcedo.___d$.ready(this.onDomReady, this);
+            alcedo.dom.ready(this.onDomReady, this);
         }
 
         protected onDomReady(){
             //alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
-            this.canvas = alcedo.___d$.query("#aperturetest1")[0];
+            this.canvas = alcedo.dom.query("#aperturetest1")[0];
 
-            this.stage = new alcedo.canvas.Stage(alcedo.___d$.query("#aperturetest1")[0],this.size.width,this.size.height,{
+            this.stage = new alcedo.canvas.Stage(alcedo.dom.query("#aperturetest1")[0],this.size.width,this.size.height,{
                 background:"#ecf0f1",
                 profiler:true,
                 orient:true,
@@ -40,7 +40,7 @@ module example {
                 border:0,
                 margin:"0"
             });
-            alcedo.___d$.resize(this.onResize,this);
+            alcedo.dom.resize(this.onResize,this);
 
             this.run();
         }
@@ -59,11 +59,11 @@ module example {
                 });
                 this.canvas.parent().css({left:(_domwidth-_domheight)/2+"px"});
                 this.canvas.parent().css({top:(_domheight-_domwidth)/2+"px"});
-                this.canvas.parent().rotate(-90)
+                this.canvas.parent().css_transform_rotate(-90)
             }else{
                 this.canvas.parent().css({width:_domwidth+"px",height:_domheight+"px"});
                 this.canvas.parent().css({top:"0px",left:"0px"});
-                this.canvas.parent().rotate(0)
+                this.canvas.parent().css_transform_rotate(0)
             }
         }
 
