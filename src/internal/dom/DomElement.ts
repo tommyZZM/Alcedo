@@ -60,6 +60,7 @@ module alcedo {
             }
 
             private ontouchbegin(e){
+                //trace("ontouchbegin",e);
                 this.emitTouchEvent(e,TouchEvent.TOUCH_BEGIN)
             }
 
@@ -68,6 +69,7 @@ module alcedo {
             }
 
             private ontouchend(e){
+                //trace("ontouchend",e);
                 this.emitTouchEvent(e,TouchEvent.TOUCH_END);
 
                 var lasttouch,l = e.changedTouches.length;
@@ -96,6 +98,7 @@ module alcedo {
             }
 
             private ontouchtap(e){
+                //trace("ontouchtap",this.node);
                 this.emit(TouchEvent.TOUCH_TAP,e.touchTarget);
             }
 
@@ -319,7 +322,7 @@ module alcedo {
 
             public find(selector:string):DomElement[]{
                 var results:any = [],
-                    eles = DomManager.instance.ElementSelector(selector,this.node);
+                    eles = DomManager.instance.ElementSelector(selector,<any>this.node);
                 //console.log(selector,eles)
                 for(var i=0;i<eles.length;i++){
                     results.push(DomManager.instance.htmlele2domele(eles[i]));
@@ -365,7 +368,7 @@ module alcedo {
                 return this._apid;
             }
 
-            public get node():HTMLElement|any {
+            public get node():HTMLElement {
                 return this._node;
             }
 

@@ -11,6 +11,8 @@ module game{
 
             this.registScreen("loading",new LoadingScreen());
             this.registScreen("start",new StartScreen());
+            this.registScreen("playing",new PlayingScreen());
+            this.registScreen("over",new OverScreen());
 
             this.toggleToScreen("loading");
         }
@@ -24,6 +26,7 @@ module game{
             }
             if(this.currscreen){
                 this.currscreen.hide(()=>{
+                    trace(callback)
                     this.currscreen.ele.removeClass("active");
                     screen.ele.addClass("active");
                     screen.show(callback);

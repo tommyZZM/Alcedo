@@ -1,6 +1,8 @@
 /**
  * Created by tommyZZM on 2015/5/18.
  */
-module game{
+module game {
+    export class OverScreen extends GUIScreen {
 
+    }
 }

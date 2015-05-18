@@ -13,11 +13,14 @@ module game{
         }
 
         public show(){
-            this.curtain.css({width:dom.width(),height:dom.height(),background:"black"});
+            this.curtain.css({height:dom.height()});
         }
 
         public hide(callback?:Function){
-            TweenMax.to(this.curtain.node,1,{opacity:0,onComplete:callback})
+            TweenMax.to(this.curtain.node,1,{opacity:0,onComplete:()=>{
+                callback();
+                this.curtain.css({height:0});
+            }})
         }
     }
 }

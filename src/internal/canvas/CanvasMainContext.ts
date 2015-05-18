@@ -89,8 +89,8 @@ module alcedo {
                     //在ui层底部插入control gasket, 作为canvas的控制传导垫片
                     this._canvasgasket = dom.query("<div style='position: absolute;top:0;left: 0'></div>")[0];
                     this._canvasgasket.id = this._canvas.id+"_gasket";
-                    this._canvasui.appendChild(this._canvasgasket);
-                    this._canvasgasket.css({"z-index":Math.add(this._canvasui.index,1)})
+                    this._canvasgasket.insertBefore(this._canvasui);
+                    //this._canvasgasket.css({"z-index":Math.add(this._canvasui.index,1)})
                 }
             }
 

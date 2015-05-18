@@ -17,6 +17,12 @@ module game{
             this._title.css({top:-100});
             this._startbtn.css({top:100+client.height});
             this._aboutbtn.css({top:100+client.width});
+
+            this._startbtn.node.addEventListener("touchstart",this.onstart.bind(this),true)
+        }
+
+        private onstart(){
+            alcedo.core(GUIManager).toggleToScreen("playing")
         }
 
         public show(){
@@ -30,6 +36,16 @@ module game{
             stage.addEventListener(canvas.Stage.RESIZED,this.onresize,this)
             //trace(Elastic.easeOut)
             //TweenLite.to(box, 2.5, { ease: Elastic..config(1, 0.3), x: "400%" });
+        }
+
+        public hide(callback){
+            TweenMax.to(this._title.node,0.6,{top:-100});
+            TweenMax.to(this._startbtn.node,0.6,{top:100+client.height});
+            TweenMax.to(this._aboutbtn.node,0.6,{top:100+client.width,onComplete:()=>{
+                trace(callback)
+                stage.removeEventListener(canvas.Stage.RESIZED,this.onresize,this);
+                callback();
+            }});
         }
 
         protected onresize(){
