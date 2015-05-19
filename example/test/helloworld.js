@@ -19,12 +19,12 @@ var example;
             };
         }
         ExampleCycler.prototype.cmdStartup = function () {
-            alcedo.d$.ready(this.onDomReady, this);
+            alcedo.dom.ready(this.onDomReady, this);
         };
         ExampleCycler.prototype.onDomReady = function () {
             //alcedo.d$.query("body")[0].css({margin:0,padding:0,border: 0});
-            this.canvas = alcedo.d$.query("#aperturetest1")[0];
-            this.stage = new alcedo.canvas.Stage(alcedo.d$.query("#aperturetest1")[0], this.size.width, this.size.height, {
+            this.canvas = alcedo.dom.query("#aperturetest1")[0];
+            this.stage = new alcedo.canvas.Stage(alcedo.dom.query("#aperturetest1")[0], this.size.width, this.size.height, {
                 background: "#ecf0f1",
                 profiler: true,
                 orient: true,
@@ -46,7 +46,7 @@ var example;
                 border: 0,
                 margin: "0"
             });
-            alcedo.d$.resize(this.onResize, this);
+            alcedo.dom.resize(this.onResize, this);
             this.run();
         };
         ExampleCycler.prototype.onResize = function () {
@@ -62,12 +62,12 @@ var example;
                 });
                 this.canvas.parent().css({ left: (_domwidth - _domheight) / 2 + "px" });
                 this.canvas.parent().css({ top: (_domheight - _domwidth) / 2 + "px" });
-                this.canvas.parent().rotate(-90);
+                this.canvas.parent().css_transform_rotate(-90);
             }
             else {
                 this.canvas.parent().css({ width: _domwidth + "px", height: _domheight + "px" });
                 this.canvas.parent().css({ top: "0px", left: "0px" });
-                this.canvas.parent().rotate(0);
+                this.canvas.parent().css_transform_rotate(0);
             }
         };
         ExampleCycler.prototype.run = function () {
@@ -94,9 +94,10 @@ var example;
         HelloWorld.prototype.run = function () {
             console.log("run", this.stage.orientchanged);
             var sp = new alcanvas.graphic.Rectangle(0, 0, 100, 100);
-            sp.x = this.stage.stageWidth >> 1;
-            sp.y = this.stage.stageHeight >> 1;
+            sp.x = 0;
+            sp.y = 0;
             this.stage.addChild(sp);
+            trace(sp);
         };
         return HelloWorld;
     })(example.ExampleCycler);

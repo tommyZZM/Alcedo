@@ -10,11 +10,12 @@ module game{
         private _frontGround:FrontGround;
 
         public startUp(){
+            alcedo.core(CameraManager).startUp();
+            alcedo.core(ParallaxManager).startUp();
+
             this._backGround = new BackGround();
             this._playGround = new PlayGround();
             this._frontGround = new FrontGround();
-
-            alcedo.core(CameraManager).startUp();
 
             //初始化前景|舞台|背景
             stage.addChild(this._backGround);
@@ -31,6 +32,17 @@ module game{
             //test.x = stage.stageWidth/2;
             //test.y = stage.stageHeight/2;
             //trace(test);
+        }
+    }
+
+    export class SceneryGround extends alcedo.canvas.DisplatObjectContainer {
+        public constructor(){
+            super();
+            this.startUp();
+        }
+
+        protected startUp(){
+
         }
     }
 }

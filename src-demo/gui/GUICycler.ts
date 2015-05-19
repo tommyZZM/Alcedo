@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/5/18.
  */
 module game{
-    export class GUIManager extends alcedo.AppSubCore{
+    export class GUICycler extends alcedo.AppSubCore{
         private static instanceable = true;
 
         public startUp(){

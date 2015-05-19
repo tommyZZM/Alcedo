@@ -21,24 +21,24 @@ module game {
             //speed.plane = speed.plane_lazy;
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this);
 
-            this.playlayer = new alcedo.canvas.DisplatObjectContainer();
-            this.levellayer = new alcedo.canvas.DisplatObjectContainer();
-            this.addChild(this.levellayer);
-            this.addChild(this.playlayer);
-
-            this._myplane = new game.He162S("paopaotucao");
-            this._myplane.b.x = 0;
-            this._myplane.b.y = stage.stageHeight;
-            this._myplane.b.pivotX=0.5;this._myplane.b.pivotY=0.5;
-            //this._myplane.speed = 0;
-            this.addPlayObject(this._myplane);
-
-
-            alcedo.core(CameraManager).lookAt(this._myplane.b);
-            stage.camera.focal = 1;
-
-            this.resHello()
-            //trace(this.className,"init");
+            //this.playlayer = new alcedo.canvas.DisplatObjectContainer();
+            //this.levellayer = new alcedo.canvas.DisplatObjectContainer();
+            //this.addChild(this.levellayer);
+            //this.addChild(this.playlayer);
+            //
+            //this._myplane = new game.He162S("paopaotucao");
+            //this._myplane.b.x = 0;
+            //this._myplane.b.y = stage.stageHeight;
+            //this._myplane.b.pivotX=0.5;this._myplane.b.pivotY=0.5;
+            ////this._myplane.speed = 0;
+            //this.addPlayObject(this._myplane);
+            //
+            //
+            //alcedo.core(CameraManager).lookAt(this._myplane.b);
+            //stage.camera.focal = 1;
+            //
+            //this.resHello()
+            ////trace(this.className,"init");
         }
 
         private onEachTime(e){

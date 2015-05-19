@@ -29,8 +29,20 @@ Object.defineProperty(Array.prototype, 'last', {
 
 Object.defineProperty(Array.prototype, 'randomselect', {
     value: function () {
+        if(this.length<1){return;}
+        if(this.length==1){return this[0];}
         var i = Math.randomFrom(0,this.length)^0;
         return this[i];
+    },enumerable: false
+});
+
+Object.defineProperty(Array.prototype, 'copy', {
+    value: function () {
+        var result = [];
+        for(var i=0;i<this.length;i++){
+            result[i]=this[i];
+        }
+        return result;
     },enumerable: false
 });
 
@@ -49,4 +61,7 @@ interface Array<T>{
 
     //随机选取一个元素
     randomselect();
+
+    //复制一个数组
+    copy():Array<T>;
 }

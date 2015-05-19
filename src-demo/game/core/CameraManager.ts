@@ -17,25 +17,27 @@ module game {
 
         public startUp(){
             this._camera = stage.camera;
-            //this._lookat = new alcedo.canvas.Point2D(stage.width()/2,stage.stageHeight()/2);
+            this._lookat = new alcedo.canvas.Point2D(stage.width/2,stage.height/2);
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,-10)
         }
 
         public lookAt(target:alcedo.canvas.DisplayObject){
+            if(!target)return;
             this._lookat = <any>target;
         }
 
         private onEachTime(){
-            if(this._lookat){
-                this.updateCamera();
-                this.limitTation();
-            }
+            this.updateCamera();
+            this.limitTation();
         }
 
         /**更新镜头**/ //TODO:镜头缓动;
+        private _dx:number = 0;
         private updateCamera(){
+            this._dx = this._lookat.x-stage.camera.x;
             stage.camera.zoomTo(this._lookat.x,this._lookat.y,1,this.yawX,this.yawY);
+            //trace(this._lookat.x, this._lookat.y);
         }
 
         private limitTation(){

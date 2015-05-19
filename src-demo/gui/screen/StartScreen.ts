@@ -22,7 +22,7 @@ module game{
         }
 
         private onstart(){
-            alcedo.core(GUIManager).toggleToScreen("playing")
+            alcedo.core(GUICycler).toggleToScreen("playing");//切换场景不应该在这里执行
             alcedo.core(CurtainManager).show(()=>{
                //TODO:发送开始游戏信号
                 alcedo.core(CurtainManager).hide(()=>{

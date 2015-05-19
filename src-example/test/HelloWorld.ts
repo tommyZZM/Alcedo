@@ -15,9 +15,11 @@ module example {
             console.log("run",this.stage.orientchanged);
 
             var sp:alcanvas.graphic.Rectangle = new alcanvas.graphic.Rectangle(0,0,100,100);
-            sp.x = this.stage.stageWidth>>1;
-            sp.y = this.stage.stageHeight>>1;
+            sp.x = 0;
+            sp.y = 0;
             this.stage.addChild(sp);
+
+            trace(sp)
         }
     }
 }

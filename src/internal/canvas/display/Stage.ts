@@ -74,6 +74,8 @@ module alcedo{
             private initcomponent(){
                 this._ticker = new Ticker(this);
                 this._camera = new Camera2D(this);
+                //this._camera.zoomTo(this.width>>1,this.height*1,1);
+                //trace(this)
 
                 this._startTime = Date.now();
             }

@@ -3,18 +3,18 @@
  */
 module game{
     export class BackGround extends SceneryGround {
-        private _clouds:BackGroundClouds;
+        private _clouds:any;
         protected startUp(){
-            this._clouds = new BackGroundClouds(0.8);
-            this.addChild(this._clouds);
-        }
-
-        protected resResetScenery(e:any){
-            //TODO:
-            this._clouds.eachChilder((child)=>{
-                child.x-=e.x;
-                //child.x+= this._clouds.opts.startpos;
-            })
+            this._clouds = alcedo.core(ParallaxManager).addParallaxSceneryAt(this
+                ,alcedo.core(canvas.TextureRepository).find(/bgcloud\d{2}/)
+                ,{
+                    name:"clouds",
+                    depth:2,
+                    widthprecent:1.6,
+                    y:stage.height-10
+                });
+            this.addChild(this._clouds)
+            //trace(this._clouds);
         }
     }
 }

@@ -85,15 +85,21 @@ module alcedo {
 
             public get x(){return this._position.x}
             public set x(px:number){
+                if(isNaN(px)){
+                    error("nan",px);
+                    return;
+                }
                 this._position.x = px;
                 this._staticboundingbox.x =px-this.pivotOffsetY;
                 this.updateBound(px)
             }
-            public get y(){return this._position.y}
+            public get y(){return -this._position.y}
             public set y(px:number){
-                this._position.y = px;
-                this._staticboundingbox.y =px-this.pivotOffsetY;
-                this.updateBound(null,px);
+                if(isNaN(px))return;
+                var _px = -px
+                this._position.y = _px;
+                this._staticboundingbox.y =_px-this.pivotOffsetY;
+                this.updateBound(null,_px);
             }
 
             //待测试.可能有BUg
@@ -115,6 +121,7 @@ module alcedo {
             }
 
             public set width(px:number){
+                if(isNaN(px))return;
                 this.updateBound(null,null,px);
                 this._staticboundingbox.width =px;
             }
@@ -123,6 +130,7 @@ module alcedo {
             }
 
             public set height(px:number){
+                if(isNaN(px))return;
                 this.updateBound(null,null,null,px);
                 this._staticboundingbox.height =px;
             }
@@ -232,9 +240,9 @@ module alcedo {
                     ,this._staticboundingbox.height);
                 var _pointleftbottom = this.localToGlobal(0,this._staticboundingbox.height);
 
-                Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._actualboundingbox)
-
-                //trace(this._maxboundingbox);
+                Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._actualboundingbox);
+                //
+                //trace(this._actualboundingbox);
                 return this._actualboundingbox;
             }
 

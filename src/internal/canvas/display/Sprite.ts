@@ -14,6 +14,8 @@ module alcedo{
 
                 if(texture){
                     this.texture = texture;
+                }else{
+                    warn("texture undefined")
                 }
             }
 

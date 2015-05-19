@@ -60,7 +60,7 @@ module alcedo{
                 this._updateView();
             }
 
-            public zoomTo(x:number,y:number,focal:number,yawx:number=0.5,yawy:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
+            public zoomTo(x:number,y:number,focal:number=1,yawx:number=0.5,yawy:number=0.5){//,duration:number=0,callback?:Function,thisObject?:any
                 this._position.x = x;
                 this._stage.pivotOffsetX = this._position.x;
 

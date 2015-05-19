@@ -27,7 +27,7 @@ module game{
 
             dom.resize(this.onResize,this);
 
-            alcedo.core(GUIManager).startUp();
+            alcedo.core(GUICycler).startUp();
 
             alcedo.core(net.AsyncAssetsLoader).addEventListener(net.AsyncRESEvent.ASSETS_COMPLETE,this.onAssetLoaded,this);
             alcedo.core(net.AsyncAssetsLoader).addConfig("res/resource.json");
@@ -38,7 +38,7 @@ module game{
         private onAssetLoaded(){
             trace("loadcomplete");
             alcedo.core(GameCycler).startUp();
-            alcedo.core(GUIManager).toggleToScreen("start");
+            alcedo.core(GUICycler).toggleToScreen("start");
         }
 
         //屏幕适配解决方案
