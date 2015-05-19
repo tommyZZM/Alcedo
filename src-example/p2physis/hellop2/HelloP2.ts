@@ -51,17 +51,14 @@ module example{
             this.circleskin.y = this.circleskin.position[1];
             this.stage.addChild(this.circleskin);
 
-            this.stage.scaleY = -1;
-            this.stage.y = this.stage.stageHeight;
-
             this.stage.addEventListener(alcedo.canvas.Stage.ENTER_FRAME,(e:alcedo.canvas.ITickerEvent)=>{
                 this.world.step(1/60);
-                this.boxskin.x = this.boxbody.position[0];
-                this.boxskin.y = this.boxbody.position[1];
+                this.boxskin.x = this.stage.width-this.boxbody.position[0];
+                this.boxskin.y = this.stage.height-this.boxbody.position[1];
                 this.boxskin.rotation = this.boxbody.angle*alcedo.canvas.Constant.RAD_TO_DEG;
 
-                this.circleskin.x = this.circlebody.position[0];
-                this.circleskin.y = this.circlebody.position[1];
+                this.circleskin.x = this.stage.width-this.circlebody.position[0];
+                this.circleskin.y = this.stage.height-this.circlebody.position[1];
                 this.circleskin.rotation = this.circlebody.angle*alcedo.canvas.Constant.RAD_TO_DEG;
 
                 //console.log(this.boxbody.position)

@@ -9,6 +9,7 @@ var __extends = this.__extends || function (d, b) {
  */
 var example;
 (function (example) {
+    example.canvas = alcedo.canvas;
     var ExampleCycler = (function (_super) {
         __extends(ExampleCycler, _super);
         function ExampleCycler() {
@@ -81,7 +82,6 @@ var example;
  */
 var example;
 (function (example) {
-    var alcanvas = alcedo.canvas;
     var HelloWorld = (function (_super) {
         __extends(HelloWorld, _super);
         function HelloWorld() {
@@ -93,7 +93,7 @@ var example;
         }
         HelloWorld.prototype.run = function () {
             console.log("run", this.stage.orientchanged);
-            var sp = new alcanvas.graphic.Rectangle(0, 0, 100, 100);
+            var sp = new example.canvas.graphic.Rectangle(0, 0, 100, 100);
             sp.x = 0;
             sp.y = 0;
             this.stage.addChild(sp);

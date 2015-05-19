@@ -2,6 +2,8 @@
  * Created by tommyZZM on 2015/4/25.
  */
 module example {
+    export import canvas = alcedo.canvas;
+
     export class ExampleCycler extends alcedo.AppCycler {
         private canvas:alcedo.dom.DomElement;
         protected stage:alcedo.canvas.Stage;

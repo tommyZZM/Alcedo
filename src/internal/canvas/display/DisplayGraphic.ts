@@ -39,6 +39,9 @@ module alcedo{
                         context.fill();
                     }
                 }
+                public get radius():number{
+                    return this._radius;
+                }
             }
 
             export class Rectangle extends DisplayGraphic{

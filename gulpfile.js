@@ -113,6 +113,32 @@ gulp.task('watchcolorjet', function(){
     gulp.start(['src-watch'])
 });
 
+//debug
+try{
+   var server = require('gulp-easy-server');
+}catch (e){
+}
+gulp.task('startserver', function() {
+   if(server){
+      gulp.src('./')
+          .pipe(server({port:2099,index:"demo/test.html",bowser:"chrome"}));
+   }
+});
+
+//devlope
+gulp.task('default', ["alcedo"]);
+
+//example
+gulp.task('watchhello', function(){
+    srcconfig.src = ['./src-example/ExampleCycler.ts','./src-example/test/HelloWorld.ts'];
+    srcconfig.out = './example/test/';
+    srcconfig.outfile = "helloworld.js";
+    srcconfig.require_dts = ["./out/alcedo.d.ts"];
+    srcconfig.require_js = [];
+
+    gulp.start(['src-watch']);
+});
+
 //example
 gulp.task('watchp2', function(){
     var example = (function(){
@@ -139,31 +165,13 @@ gulp.task('watchp2', function(){
     gulp.start(['src-watch'])
 });
 
-
-
-
-//debug
-try{
-   var server = require('gulp-easy-server');
-}catch (e){
-}
-gulp.task('startserver', function() {
-   if(server){
-      gulp.src('./')
-          .pipe(server({port:2099,index:"demo/test.html",bowser:"chrome"}));
-   }
-});
-
-//example
-gulp.task('watchhello', function(){
-    srcconfig.src = ['./src-example/ExampleCycler.ts','./src-example/test/HelloWorld.ts'];
-    srcconfig.out = './example/test/';
-    srcconfig.outfile = "helloworld.js";
-    srcconfig.require_dts = ["./out/alcedo.d.ts"];
+gulp.task('watchsat', function(){
+    console.log("watching sat example");
+    srcconfig.src = ['./src-example/ExampleCycler.ts','./src-example/sat/**/*.ts'];
+    srcconfig.out = './example/sat/script/';
+    srcconfig.outfile = "hellosat.js";
+    srcconfig.require_dts = ["./out/alcedo.d.ts","./example/sat/require/**/*.d.ts"];
     srcconfig.require_js = [];
 
-    gulp.start(['src-watch']);
+    gulp.start(['src-watch'])
 });
-
-//devlope
-gulp.task('default', ["alcedo"]);

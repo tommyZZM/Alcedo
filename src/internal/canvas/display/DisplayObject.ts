@@ -93,10 +93,10 @@ module alcedo {
                 this._staticboundingbox.x =px-this.pivotOffsetY;
                 this.updateBound(px)
             }
-            public get y(){return -this._position.y}
+            public get y(){return this._position.y}
             public set y(px:number){
                 if(isNaN(px))return;
-                var _px = -px
+                var _px = px;
                 this._position.y = _px;
                 this._staticboundingbox.y =_px-this.pivotOffsetY;
                 this.updateBound(null,_px);

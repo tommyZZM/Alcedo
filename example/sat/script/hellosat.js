@@ -78,65 +78,83 @@ var example;
     example.ExampleCycler = ExampleCycler;
 })(example || (example = {}));
 /**
- * Created by tommyZZM on 2015/5/14.
+ * Created by tommyZZM on 2015/5/19.
  */
 var example;
 (function (example) {
-    var HelloP2 = (function (_super) {
-        __extends(HelloP2, _super);
-        function HelloP2() {
+    var CircleR = 20;
+    var HelloSat = (function (_super) {
+        __extends(HelloSat, _super);
+        function HelloSat() {
             _super.apply(this, arguments);
         }
-        //protected size = {
-        //    width:480,
-        //    height:320
-        //};
-        //
-        HelloP2.prototype.run = function () {
+        HelloSat.prototype.run = function () {
             var _this = this;
-            this.world = new p2.World({
-                gravity: [0, -98.1]
-            });
-            // Add a plane
-            var planeShape = new p2.Plane();
-            var planeBody = new p2.Body({ position: [0, 0] });
-            planeBody.addShape(planeShape);
-            this.world.addBody(planeBody);
-            // Add a box
-            var boxShape = new p2.Rectangle(100, 100);
-            this.boxbody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2 + Math.randomFrom(-20, 20), this.stage.stageHeight - 100], angularVelocity: 1 });
-            this.boxbody.addShape(boxShape);
-            this.world.addBody(this.boxbody);
-            this.boxskin = new alcedo.canvas.graphic.Rectangle(0, 0, 100, 100);
-            this.boxskin.pivotX = 0.5;
-            this.boxskin.pivotY = 0.5;
-            this.boxskin.x = this.boxbody.position[0];
-            this.boxskin.y = this.boxbody.position[1];
-            this.stage.addChild(this.boxskin);
-            // Add a circle
-            var r = +Math.randomFrom(25, 60);
-            var circleshape = new p2.Circle(r);
-            this.circlebody = new p2.Body({ mass: 1, position: [this.stage.stageWidth / 2 + Math.randomFrom(-50, 50), this.stage.stageHeight / 2], angularVelocity: 1 });
-            this.circlebody.addShape(circleshape);
-            this.world.addBody(this.circlebody);
-            this.circleskin = new alcedo.canvas.graphic.Circle(0, 0, r);
-            this.circleskin.pivotX = 0.5;
-            this.circleskin.pivotY = 0.5;
-            this.circleskin.x = this.circleskin.position[0];
-            this.circleskin.y = this.circleskin.position[1];
-            this.stage.addChild(this.circleskin);
-            this.stage.addEventListener(alcedo.canvas.Stage.ENTER_FRAME, function (e) {
-                _this.world.step(1 / 60);
-                _this.boxskin.x = _this.stage.width - _this.boxbody.position[0];
-                _this.boxskin.y = _this.stage.height - _this.boxbody.position[1];
-                _this.boxskin.rotation = _this.boxbody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
-                _this.circleskin.x = _this.stage.width - _this.circlebody.position[0];
-                _this.circleskin.y = _this.stage.height - _this.circlebody.position[1];
-                _this.circleskin.rotation = _this.circlebody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
-                //console.log(this.boxbody.position)
+            window.onkeydown = this.keyconrol.bind(this);
+            this.resoponse = new SAT.Response();
+            this.circle = new alcedo.canvas.graphic.Circle(0, 0, CircleR);
+            this.circle.pivotX = 0.5;
+            this.circle.pivotY = 0.5;
+            this.circle.x = this.stage.width >> 1;
+            this.circle.y = this.stage.height >> 1;
+            this.circlebody = new SAT.Circle(new SAT.Vector(this.circle.x, this.circle.y), this.circle.radius);
+            var boxw = Math.randomFrom(60, 120);
+            var boxh = Math.randomFrom(60, 120);
+            this.box = new alcedo.canvas.graphic.Rectangle(0, 0, boxw, boxh);
+            this.box.pivotX = 0.5;
+            this.circle.pivotY = 0.5;
+            this.box.x = Math.randomFrom(120, this.stage.width - 120);
+            this.box.y = Math.randomFrom(120, this.stage.height - 120);
+            this.boxbody = new SAT.Box(new SAT.Vector(this.box.x - this.box.pivotOffsetX, this.box.y - this.box.pivotOffsetY), this.box.width, this.box.height);
+            this.stage.addChild(this.box);
+            this.stage.addChild(this.circle);
+            this.stage.addEventListener(example.canvas.Stage.ENTER_MILLSECOND10, function () {
+                _this.circlebody.pos.x = _this.circle.x;
+                _this.circlebody.pos.y = _this.circle.y;
+                _this.resoponse.clear();
+                if (SAT.testCirclePolygon(_this.circlebody, _this.boxbody.toPolygon(), _this.resoponse)) {
+                    //trace(this.resoponse,this.resoponse.bInA,this.resoponse.aInB)
+                    if (_this.resoponse.aInB) {
+                        _this.circle.fillcolour = "#e98b39";
+                    }
+                    else {
+                        _this.circle.fillcolour = "#2ecc71";
+                    }
+                }
+                else {
+                    _this.circle.fillcolour = "#000000";
+                }
             }, this);
         };
-        return HelloP2;
+        HelloSat.prototype.keyconrol = function (e) {
+            switch (e.keyCode) {
+                case 38:
+                    {
+                        this.circle.y--;
+                        break;
+                    }
+                case 40:
+                    {
+                        this.circle.y++;
+                        break;
+                    }
+                case 37:
+                    {
+                        this.circle.x--;
+                        break;
+                    }
+                case 39:
+                    {
+                        this.circle.x++;
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        };
+        return HelloSat;
     })(example.ExampleCycler);
-    example.HelloP2 = HelloP2;
+    example.HelloSat = HelloSat;
 })(example || (example = {}));
