@@ -23,16 +23,23 @@ module game{
             stage.addChild(this._playGround);
             stage.addChild(this._frontGround);
 
-            alcedo.core(canvas.MovieClipRepository)
-                .praseMovieClipData(alcedo.core(net.AsyncRES).get("smallalcedo_json")
-                ,alcedo.core(canvas.TextureRepository).get("smallalcedo_png"));
-
-            //var test = new alcedo.canvas.MovieClip(alcedo.core(canvas.MovieClipRepository).get("smallalcedo"));
+            //alcedo.core(canvas.MovieClipRepository)
+            //    .praseMovieClipData(alcedo.core(net.AsyncRES).get("smallalcedo_json")
+            //    ,alcedo.core(canvas.TextureRepository).get("smallalcedo_png"));
+            //
+            //var test = new JetBird();
             //stage.addChild(test);
-            //test.play();
             //test.x = stage.stageWidth/2;
             //test.y = stage.stageHeight/2;
-            //trace(test);
+
+            //var v = new alcedo.canvas.Vector2D(0,-5);
+            //var pe = new alcedo.canvas.ParticleEmitter({initial:v,spread:20,max:30,rate:16});
+            //pe.x = stage.width/2;
+            //pe.y = stage.height/2;
+            //
+            //stage.addChild(pe);
+            //pe.play();
+            //pe.applyForce(new alcedo.canvas.Vector2D(0,0.09));
         }
     }
 }

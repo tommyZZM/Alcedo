@@ -22,7 +22,7 @@ module game {
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,-10)
         }
 
-        public lookAt(target:alcedo.canvas.DisplayObject){
+        public lookAt(target:alcedo.canvas.Ixy){
             if(!target)return;
             this._lookat = <any>target;
         }

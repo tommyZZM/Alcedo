@@ -55,11 +55,11 @@ module example{
                 this.world.step(1/60);
                 this.boxskin.x = this.stage.width-this.boxbody.position[0];
                 this.boxskin.y = this.stage.height-this.boxbody.position[1];
-                this.boxskin.rotation = this.boxbody.angle*alcedo.canvas.Constant.RAD_TO_DEG;
+                this.boxskin.rotation = this.boxbody.angle*alcedo.Constant.RAD_TO_DEG;
 
                 this.circleskin.x = this.stage.width-this.circlebody.position[0];
                 this.circleskin.y = this.stage.height-this.circlebody.position[1];
-                this.circleskin.rotation = this.circlebody.angle*alcedo.canvas.Constant.RAD_TO_DEG;
+                this.circleskin.rotation = this.circlebody.angle*alcedo.Constant.RAD_TO_DEG;
 
                 //console.log(this.boxbody.position)
             },this)

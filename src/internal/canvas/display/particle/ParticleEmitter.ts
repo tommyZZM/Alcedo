@@ -30,13 +30,13 @@ module alcedo{
              */
             public constructor(opts:any={}){
                 super();
-                trace(opts)
+                //trace(opts)
 
                 this._particles = [];
                 this._particlespool = [];
 
                 this._currinitial = new Vector2D();
-                this._forcemoment = new Vector2D();
+                //this._forcemoment = new Vector2D();
                 this._force = new Vector2D();
                 this._shouldcreate = 0;
 
@@ -85,7 +85,7 @@ module alcedo{
             }
 
             private _ParticleInit(paricle:Particle){
-                paricle.create(this.x,this.y);
+                paricle.create(this.globalx,this.globaly);
 
                 this._currinitial.resetAs(this._initial);
                 if(this._spread){//计算散射角
@@ -110,9 +110,9 @@ module alcedo{
                     partile.update(e);
                 }
 
-                if(this._forcemoment.length>0){
-                    this._forcemoment.reset();
-                }
+                //if(this._forcemoment.length>0){
+                //    this._forcemoment.reset();
+                //}
 
                 this._shouldcreate+=(this._rate/100);
                 var delay = (this._shouldcreate)^0;
@@ -134,9 +134,9 @@ module alcedo{
             protected _updateOneParticle(partile:Particle){
                 partile.applyForce(this._force);
 
-                if(this._forcemoment.length>0){
-                    partile.applyForce(this._forcemoment);
-                }
+                //if(this._forcemoment.length>0){
+                //    partile.applyForce(this._forcemoment);
+                //}
 
 
             }
@@ -150,13 +150,9 @@ module alcedo{
              * 粒子行为控制
              */
             private _force:Vector2D;
-            private _forcemoment:Vector2D;
-            public applyForce(force:Vector2D,continute:boolean = true){
-                if(continute){
-                    this._force.add(force);
-                }else{
-                    this._forcemoment.add(force);
-                }
+            //private _forcemoment:Vector2D;
+            public applyForce(force:Vector2D){
+                this._force.add(force);
             }
 
             public set initialdegree(drgee:number){
@@ -193,7 +189,7 @@ module alcedo{
 
                 if(!this.isAddtoStage()){
                     this._playstatetmp = value;
-                    trace("'[dev]!this.isAddtoStage()");
+                    trace("'[dev particle]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;

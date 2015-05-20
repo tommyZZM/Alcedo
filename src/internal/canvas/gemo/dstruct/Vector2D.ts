@@ -42,12 +42,43 @@ module alcedo {
                 return this;
             }
             /** 除 **/
-            public divide(vector: Vector2D): Vector2D {
-                this.x /= vector.x;
-                this.y /= vector.y;
+            public divide(value: Vector2D|number): Vector2D {
+                var _vaule:any = value;
+                if(_vaule instanceof Vector2D){
+                    this.x /= _vaule.x;
+                    this.y /= _vaule.y;
+                }else{
+                    this.x /= <any>_vaule;
+                    this.y /= <any>_vaule;
+                }
+
 
                 return this;
             }
+
+            /**
+             * 向量积
+             * @param vector
+             * @returns {alcedo.canvas.Vector2D}
+             */
+            //public crossProduct(vector:Vector2D):Vector2D{
+            //    this.x *= -vector.y;
+            //    this.y *= vector.x;
+            //
+            //    return this
+            //}
+
+            /**
+             * 左手法向量
+             */
+            private _vectornormal:Vector2D;
+            public normalize():Vector2D{
+                if(!this._vectornormal)this._vectornormal = new Vector2D();
+                this._vectornormal.reset(this.y,-this.x);
+                this._vectornormal.length = 1;
+                return this._vectornormal;
+            }
+
 
             /**
              * 矢量对象长度

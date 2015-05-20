@@ -42,6 +42,10 @@ module alcedo{
                 public get radius():number{
                     return this._radius;
                 }
+
+                public set radius(value:number){
+                    this._radius =value;
+                }
             }
 
             export class Rectangle extends DisplayGraphic{

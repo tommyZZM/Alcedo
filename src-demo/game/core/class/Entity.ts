@@ -3,36 +3,30 @@
  */
 module game{
     export class Entity extends alcedo.EventDispatcher{
+        public static ON_UPDATE:string = "Entity.ON_UPDAATE";
+
         protected _display:alcedo.canvas.DisplayObject;
 
         protected _velocity:alcedo.canvas.Vector2D;//速度哦
 
         protected _acceleration:alcedo.canvas.Vector2D;//加速度哦
 
+        private _force:alcedo.canvas.Vector2D;
+
         protected _body:sat.Circle;
 
         protected _mass:number = 1;
 
-        public constructor(){
+        public gravityenable:boolean;
+
+        public constructor(display:alcedo.canvas.DisplayObject,opts?:any){
             super();
-        }
+            this._display = display;
+            this._velocity = new alcedo.canvas.Vector2D();
+            this._acceleration = new alcedo.canvas.Vector2D();
+            this._force = new alcedo.canvas.Vector2D();
 
-        public step(e){
-            this._applyForce(this._force);
-
-            if(this._forcemoment.length>0){
-                this._applyForce(this._forcemoment);
-                this._forcemoment.reset();
-            }
-
-            if( this._velocity.length){
-                this._velocity.x+=this._acceleration.x*e.delay;
-                this._display.x += this._velocity.x*e.delay;
-                this._velocity.y+=this._acceleration.y*e.delay;
-                this._display.y+=this._velocity.y*e.delay;
-            }
-
-            this._display.rotation = this._velocity.deg
+            this._body = new SAT.Circle(new SAT.Vector(0,0),0);
         }
 
         public sync(){
@@ -41,23 +35,17 @@ module game{
         }
 
         //TODO:突变力和渐变力;
-        private _force:alcedo.canvas.Vector2D;
-        private _forcemoment:alcedo.canvas.Vector2D;
-        public applyForce(force:alcedo.canvas.Vector2D,continute:boolean = true){
-            if(continute){
-                this._force.add(force);
-            }else{
-                this._forcemoment.add(force);
-            }
+        public applyForce(force:alcedo.canvas.Vector2D){
+            this._force.add(force);
+        }
+
+        public applyMomentForce(force:alcedo.canvas.Vector2D){
+            var momentforce = force;
+            this._velocity.add(momentforce.divide(this._mass));
         }
 
         public clearForce(){
             this._force.reset();
-            this._forcemoment.reset();
-        }
-
-        private _applyForce(vector:alcedo.canvas.Vector2D){
-            this._velocity.add(vector.divide(alcedo.canvas.Vector2D.identity(this._mass,this._mass)));
         }
 
         /**
@@ -66,6 +54,10 @@ module game{
          */
         public get velocity():alcedo.canvas.Vector2D{
             return this._velocity
+        }
+
+        public get  acceleration():canvas.Vector2D{
+            return this._acceleration;
         }
 
         public get speed():number{
@@ -80,8 +72,22 @@ module game{
             return this._display
         }
 
-        public get right(){
-            return this.display.actualBound().right
+        public set x(value:number){
+            this._display.x = value
+        }
+        public get x():number{
+            return this.display.x;
+        }
+
+        public set y(value:number){
+            this._display.y = value
+        }
+        public get y():number{
+            return this.display.y;
+        }
+
+        public get left(){
+            return this.display.actualBound().x
         }
 
         public get right(){

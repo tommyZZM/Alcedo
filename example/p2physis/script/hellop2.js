@@ -129,10 +129,10 @@ var example;
                 _this.world.step(1 / 60);
                 _this.boxskin.x = _this.stage.width - _this.boxbody.position[0];
                 _this.boxskin.y = _this.stage.height - _this.boxbody.position[1];
-                _this.boxskin.rotation = _this.boxbody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
+                _this.boxskin.rotation = _this.boxbody.angle * alcedo.Constant.RAD_TO_DEG;
                 _this.circleskin.x = _this.stage.width - _this.circlebody.position[0];
                 _this.circleskin.y = _this.stage.height - _this.circlebody.position[1];
-                _this.circleskin.rotation = _this.circlebody.angle * alcedo.canvas.Constant.RAD_TO_DEG;
+                _this.circleskin.rotation = _this.circlebody.angle * alcedo.Constant.RAD_TO_DEG;
                 //console.log(this.boxbody.position)
             }, this);
         };

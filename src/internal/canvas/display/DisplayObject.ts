@@ -86,7 +86,7 @@ module alcedo {
             public get x(){return this._position.x}
             public set x(px:number){
                 if(isNaN(px)){
-                    error("nan",px);
+                    //warn("nan",px);
                     return;
                 }
                 this._position.x = px;
@@ -390,13 +390,12 @@ module alcedo {
              */
             public _transform(){
                 var flag = !!this._parent,
-                    pt = Matrix2D.identity,
-                    wt = this._worldtransform;
+                    pt = Matrix2D.identity
 
                 if(flag)pt = this._parent._worldtransform;
 
-                wt.identityMatrix(pt);
-                this._worldtransform = this._getMatrix(wt);
+                this._worldtransform.identityMatrix(pt);
+                this._worldtransform = this._getMatrix(this._worldtransform);
 
                 this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
                 this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;
