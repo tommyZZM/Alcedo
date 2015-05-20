@@ -234,16 +234,32 @@ module alcedo {
             protected _actualboundingbox:Rectangle = new Rectangle();
             public actualBound():Rectangle{
                 //计算最大包围盒
-                var _pointlefttop = this.localToGlobal(0,0);
-                var _pointrighttop = this.localToGlobal(this._staticboundingbox.width,0);
-                var _pointrightbottom = this.localToGlobal(this._staticboundingbox.width
-                    ,this._staticboundingbox.height);
-                var _pointleftbottom = this.localToGlobal(0,this._staticboundingbox.height);
+                var _pointlefttop = this.actualLeftTop();
+                var _pointrighttop = this.actualRightTop();
+                var _pointrightbottom =this.actualRightBottom();
+                var _pointleftbottom = this.actualLeftBottom();
 
                 Rectangle.rectangleFromFourPoint(_pointlefttop,_pointrighttop,_pointrightbottom,_pointleftbottom,this._actualboundingbox);
                 //
                 //trace(this._actualboundingbox);
                 return this._actualboundingbox;
+            }
+
+            public actualLeftTop():Point2D{
+                return this.localToGlobal(0,0)
+            }
+
+            public actualRightTop():Point2D{
+                return this.localToGlobal(this._staticboundingbox.width,0);
+            }
+
+            public actualRightBottom():Point2D{
+                return this.localToGlobal(this._staticboundingbox.width
+                    ,this._staticboundingbox.height);
+            }
+
+            public actualLeftBottom():Point2D{
+                return this.localToGlobal(0,this._staticboundingbox.height);
             }
 
             public actualWidth():number{

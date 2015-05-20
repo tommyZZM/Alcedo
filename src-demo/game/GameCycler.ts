@@ -12,6 +12,7 @@ module game{
         public startUp(){
             alcedo.core(CameraManager).startUp();
             alcedo.core(ParallaxManager).startUp();
+            alcedo.core(WorldManager).startUp();
 
             this._backGround = new BackGround();
             this._playGround = new PlayGround();
@@ -32,17 +33,6 @@ module game{
             //test.x = stage.stageWidth/2;
             //test.y = stage.stageHeight/2;
             //trace(test);
-        }
-    }
-
-    export class SceneryGround extends alcedo.canvas.DisplatObjectContainer {
-        public constructor(){
-            super();
-            this.startUp();
-        }
-
-        protected startUp(){
-
         }
     }
 }

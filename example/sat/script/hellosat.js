@@ -100,19 +100,45 @@ var example;
             this.circlebody = new SAT.Circle(new SAT.Vector(this.circle.x, this.circle.y), this.circle.radius);
             var boxw = Math.randomFrom(60, 120);
             var boxh = Math.randomFrom(60, 120);
+            var rotate = Math.randomFrom(0, 360);
             this.box = new alcedo.canvas.graphic.Rectangle(0, 0, boxw, boxh);
             this.box.pivotX = 0.5;
-            this.circle.pivotY = 0.5;
+            this.box.pivotY = 0.5;
             this.box.x = Math.randomFrom(120, this.stage.width - 120);
             this.box.y = Math.randomFrom(120, this.stage.height - 120);
-            this.boxbody = new SAT.Box(new SAT.Vector(this.box.x - this.box.pivotOffsetX, this.box.y - this.box.pivotOffsetY), this.box.width, this.box.height);
+            this.box.rotation = rotate;
+            var box = new SAT.Box(new SAT.Vector(this.box.x, this.box.y), this.box.width, this.box.height);
+            this.boxbody = box.toPolygon();
+            this.boxbody.offset.x = -this.box.pivotOffsetX;
+            this.boxbody.offset.y = -this.box.pivotOffsetY;
+            this.boxbody.setAngle(rotate * alcedo.Constant.DEG_TO_RAD);
+            trace(this.boxbody, this.boxbody.edges[0].x, this.box.actualLeftTop());
+            var boxbound = new example.canvas.DisplayGraphic();
+            boxbound._graphicfn = function (ctx) {
+                ctx.beginPath();
+                for (var i = 0; i < _this.boxbody.edges.length; i++) {
+                    var next = i + 1;
+                    if (next == _this.boxbody.edges.length)
+                        next = 0;
+                    drawLineFromTo(ctx, { x: _this.boxbody.edges[i].x + _this.boxbody.pos.x, y: _this.boxbody.edges[i].y + _this.boxbody.pos.y }, { x: _this.boxbody.edges[next].x + _this.boxbody.pos.x, y: _this.boxbody.edges[next].y + _this.boxbody.pos.y });
+                }
+                ctx.stroke();
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = '#8e44ad';
+            };
+            boxbound.alpha = 0.66;
+            function drawLineFromTo(ctx, point, point2) {
+                ctx.moveTo(point.x, point.y);
+                ctx.lineTo(point2.x, point2.y);
+            }
+            this.stage.addChild(boxbound);
             this.stage.addChild(this.box);
             this.stage.addChild(this.circle);
             this.stage.addEventListener(example.canvas.Stage.ENTER_MILLSECOND10, function () {
                 _this.circlebody.pos.x = _this.circle.x;
                 _this.circlebody.pos.y = _this.circle.y;
                 _this.resoponse.clear();
-                if (SAT.testCirclePolygon(_this.circlebody, _this.boxbody.toPolygon(), _this.resoponse)) {
+                if (SAT.testCirclePolygon(_this.circlebody, _this.boxbody, _this.resoponse)) {
                     //trace(this.resoponse,this.resoponse.bInA,this.resoponse.aInB)
                     if (_this.resoponse.aInB) {
                         _this.circle.fillcolour = "#e98b39";

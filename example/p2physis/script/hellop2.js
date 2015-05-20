@@ -122,8 +122,8 @@ var example;
             this.circleskin = new alcedo.canvas.graphic.Circle(0, 0, r);
             this.circleskin.pivotX = 0.5;
             this.circleskin.pivotY = 0.5;
-            this.circleskin.x = this.circleskin.position[0];
-            this.circleskin.y = this.circleskin.position[1];
+            this.circleskin.x = this.circlebody.position[0];
+            this.circleskin.y = this.circlebody.position[1];
             this.stage.addChild(this.circleskin);
             this.stage.addEventListener(alcedo.canvas.Stage.ENTER_FRAME, function (e) {
                 _this.world.step(1 / 60);

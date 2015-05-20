@@ -15,8 +15,8 @@ module game{
             this._aboutbtn = new GUIButton(dom.query(".btn.about").first);
 
             this._title.css({top:-100});
-            this._startbtn.ele.css({top:100+client.height});
-            this._aboutbtn.ele.css({top:100+client.width});
+            this._startbtn.ele.css({top:100+screen.height});
+            this._aboutbtn.ele.css({top:100+screen.width});
 
             this._startbtn.ele.addEventListener(dom.TouchEvent.TOUCH_TAP,this.onstart,this);
         }
@@ -33,8 +33,8 @@ module game{
         }
 
         public show(){
-            var titletop = client.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
-            trace(client.height/2,alcedo.toValue(this._title.attr("height")))
+            var titletop = screen.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
+            trace(screen.height/2,alcedo.toValue(this._title.attr("height")))
 
             TweenMax.to(this._title.node,0.39,{top:titletop});
             TweenMax.to(this._startbtn.node,1,{top:titletop-6,delay:0.3,ease:Elastic.easeOut.config(0.9, 0.8)});
@@ -47,16 +47,16 @@ module game{
 
         public hide(callback){
             TweenMax.to(this._title.node,0.3,{top:-100,delay:0.1});
-            TweenMax.to(this._startbtn.node,0.5,{top:100+client.height,delay:0.3,onComplete:()=>{
+            TweenMax.to(this._startbtn.node,0.5,{top:100+screen.height,delay:0.3,onComplete:()=>{
                 stage.removeEventListener(canvas.Stage.RESIZED,this.onresize,this);
                 callback();
             },ease:Back.easeIn.config(2)});
-            TweenMax.to(this._aboutbtn.node,0.5,{top:100+client.width,delay:0.2,ease:Back.easeIn.config(2)});
+            TweenMax.to(this._aboutbtn.node,0.5,{top:100+screen.width,delay:0.2,ease:Back.easeIn.config(2)});
         }
 
         protected onresize(){
             trace("resize")
-            var titletop = client.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
+            var titletop = screen.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
             TweenMax.to(this._title.node,0.5,{top:titletop});
             TweenMax.to(this._startbtn.node,0.5,{top:titletop-6});
             TweenMax.to(this._aboutbtn.node,0.5,{top:titletop});//

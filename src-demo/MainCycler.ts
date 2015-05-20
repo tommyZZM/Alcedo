@@ -8,6 +8,7 @@ module game{
     export import canvas = alcedo.canvas;
     export import dom = alcedo.dom;
     export import net = alcedo.net;
+    export import sat = SAT;
 
     export var stage:canvas.Stage;
 
@@ -67,7 +68,7 @@ module game{
         }
     }
 
-    export class client{
+    export class screen{
         public static get width():number{
             if(dom.height()>dom.width()){
                 return dom.height()
