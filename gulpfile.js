@@ -101,7 +101,7 @@ gulp.task('watchalcedo', function(){
 });
 
 //对于小灰机的编译任务
-gulp.task('watchcolorjet', function(){
+gulp.task('watchgame', function(){
     srcconfig.src = './src-demo/**/*.ts';
     srcconfig.out = "./demo/script/";
     srcconfig.outfile = "colorjet.js";

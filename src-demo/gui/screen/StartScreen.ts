@@ -57,7 +57,7 @@ module game{
         }
 
         protected onresize(){
-            trace("resize")
+            //trace("resize")
             var titletop = screen.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
             TweenMax.to(this._title.node,0.5,{top:titletop});
             TweenMax.to(this._startbtn.node,0.5,{top:titletop-6});

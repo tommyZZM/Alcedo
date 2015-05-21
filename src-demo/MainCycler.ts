@@ -26,6 +26,8 @@ module game{
             });
             stage = this.stage;
 
+            dom.query("body")[0].node.addEventListener("touchmove",(e)=>{e.preventDefault()},false)
+
             dom.resize(this.onResize,this);
 
             alcedo.core(GUICycler).startUp();
@@ -63,6 +65,8 @@ module game{
                 this.stage.container.css_transform_rotate(0)
             }
             this.stage.resizecontext();
+
+
             //trace(this.stage.orientchanged)
         }
     }

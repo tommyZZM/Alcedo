@@ -11,7 +11,7 @@ module game{
                     name:"clouds",
                     depth:2,
                     widthprecent:1.6,
-                    y:stage.height-10
+                    offsety:10
                 });
             this.addChild(this._clouds)
             //trace(this._clouds);

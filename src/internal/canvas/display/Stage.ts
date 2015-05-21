@@ -63,11 +63,13 @@ module alcedo{
             //设置渲染宽度
             public setStageWidth(width:number){
                 this._stageWidth = width;
+                this._staticboundingbox.width = width;
             }
 
             //设置渲染高度
             public setStageHeight(height:number){
                 this._stageHeight = height;
+                this._staticboundingbox.height = height;
             }
 
             //初始化组件

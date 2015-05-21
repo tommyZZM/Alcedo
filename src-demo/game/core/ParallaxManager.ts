@@ -69,6 +69,8 @@ module game{
                 //检查并创建新的视差布景(每200毫秒检查一次)
                 //trace(i,parallax,this._checkdelay,this.CHECK_DELAY,this._checkdelay===this.CHECK_DELAY);
                 if(this._checkdelay===this.CHECK_DELAY){
+                    parallax.container.y = stage.height-parallax.offsety;
+                    //trace(parallax.container.y)
                     children = parallax.container.children.copy();
                     if(children.length<parallax.maxcount){
                         for(var k = 0;k<(parallax.maxcount-children.length);k++){
@@ -93,7 +95,7 @@ module game{
                                 //trace(child.x);
                                 //trace("first",child.x,parallax.beginx,stage.viewPort.x, parallax.beginx || stage.viewPort.x)
                             }
-                            child.y=parallax.y;
+                            child.y=0;
                             child.pivotX = 0;child.pivotY =1;
 
                             child.scaleToWidth(stage.stageWidth*parallax.widthprecent);
@@ -113,7 +115,7 @@ module game{
 
         public _parallaxscenery:Dict;
         public addParallaxSceneryAt(ground:SceneryGround,textures:Array<any>|canvas.Texture
-            ,opts:{name:string;depth:number;beginx?:number;y?:number;widthprecent?:number;alpha?:number;maxcount?:number}):canvas.DisplatObjectContainer{
+            ,opts:{name:string;depth:number;beginx?:number;offsety?:number;widthprecent?:number;alpha?:number;maxcount?:number}):canvas.DisplatObjectContainer{
             if(this._parallaxscenery.has(opts.name)){
                 warn(opts.name,"already be taken... moreinfo",opts)
             }
@@ -123,11 +125,11 @@ module game{
                 _textures = [textures];
             }
             //创建一个视差布景对象
-            var parrallax:IParallaxObject = {
+            var parallax:IParallaxObject = {
                 textures:_textures,//贴图
                 depth:1/opts.depth,//深度参数(视差偏移量)
                 beginx:opts.beginx?opts.beginx:0,//开始的x值
-                y:opts.y||stage.height,//
+                offsety:opts.offsety||0,//
                 widthprecent:opts.widthprecent||1,//宽度(相对于stage的百分百)
                 alpha:opts.alpha||1,//alpha值
                 maxcount:opts.maxcount||6,
@@ -135,16 +137,17 @@ module game{
                 pool:[]
             };
 
+            parallax.container.y = stage.height-parallax.offsety;
 
-            ground.addChild(parrallax.container);
-            this._parallaxscenery.set(opts.name,parrallax)
-            return parrallax.container;
+            ground.addChild(parallax.container);
+            this._parallaxscenery.set(opts.name,parallax)
+            return parallax.container;
         }
     }
 
     export interface IParallaxObject{
         beginx:number;
-        y:number;
+        offsety:number;
         depth:number;
         widthprecent:number
         maxcount:number;

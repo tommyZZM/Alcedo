@@ -20,6 +20,8 @@ module game {
             this._lookat = new alcedo.canvas.Point2D(stage.width/2,stage.height/2);
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.onEachTime,this,-10)
+
+            stage.addEventListener(canvas.Stage.RESIZED,this.onresize,this)
         }
 
         public lookAt(target:alcedo.canvas.Ixy){
@@ -60,6 +62,13 @@ module game {
                 this._camera.x = viewfinder.width/2;
                 //trace(viewfinder.width,this._camera.yawX,viewfinder.width*(this._camera.yawX),this._camera.viewfinder().x)
             }
+        }
+
+        private onresize(){
+            trace("onresize")
+
+            var viewfinder = this._camera.viewfinder();
+            trace(viewfinder.bottom,stage.height,stage.stageHeight,screen.height)
         }
     }
 }

@@ -46,6 +46,8 @@ module alcedo{
                     dt = e.dt-this._lostfocustime;//trace("ReFocus",e.dt,this._lostfocustime,dt)
                     this._lostfocustime = 0;
                 }
+
+                if(dt>102.20)dt=102.20;//Magic Number
                 this._countmicrosecond+=dt;
                 this._fps = 1000/dt;
 

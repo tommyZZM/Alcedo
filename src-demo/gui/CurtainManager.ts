@@ -8,12 +8,11 @@ module game{
         private curtain:dom.DomElement;
         public startUp(){
             this.curtain = dom.query("#curtain").first;
-            this.curtain.css({width:dom.width(),height:dom.height(),background:"black"});
-            trace("here",dom.width());
+            this.curtain.css({width:screen.width,height:screen.height,background:"black"});
         }
 
         public show(callback?:Function,delay:number=0){
-            this.curtain.css({height:dom.height()});
+            this.curtain.css({height:screen.height});
             TweenMax.to(this.curtain.node,1,{opacity:1,delay:delay,onComplete:()=>{
                 if(callback)callback();
             }})
