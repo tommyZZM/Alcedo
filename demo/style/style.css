@@ -30,7 +30,7 @@ body,html{
 
 .screen .btn,
 .alcedo-canvas{
-    display: block;
+    display: inline-block;
 }
 
 .block-center{
@@ -42,5 +42,16 @@ body,html{
 .screen.start *{
     display: block;
     position: relative;
+}
+
+.screen.over .btns{
+    position: relative;
+    width: 250px;
+}
+.screen.over .btn{
+    position: relative;
+}
+.screen.over .btn.right{
+    margin-left: 50px;
 }
 

@@ -41,7 +41,7 @@ module alcedo{
             private update(e){
                 var i,dt = e.dt,
                     _counter:number;
-                if(e.dt>=100)e.dt=100;
+                //if(e.dt>=100)e.dt=100;
                 if(this._lostfocustime>0 && e.dt>this._lostfocustime){//防止失去焦点时dt计算不正确
                     dt = e.dt-this._lostfocustime;//trace("ReFocus",e.dt,this._lostfocustime,dt)
                     this._lostfocustime = 0;

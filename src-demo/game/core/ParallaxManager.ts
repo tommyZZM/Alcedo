@@ -15,33 +15,49 @@ module game{
             if(!stage){warn(this.className,"startup fail")}
             this._parallaxscenery = new Dict();
             this._checkdelay = this.CHECK_DELAY;
-            stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10,this.update,this,-9)
+            stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10,this.update,this,-9);
+
+            alcedo.addDemandListener(GameState,GameState.PREPLAY,this.resetPosToZero,this,2);
         }
 
-        private _ref:IParalaxReference;
-        public referenceObject(ref:IParalaxReference){
+        private _ref:Entity;
+        public referenceObject(ref:Entity){
             this._ref = ref;
+        }
+
+        private resetPosToZero(){
+            //把布景重置
+            var parallaxs:any = this._parallaxscenery.values;
+            for(var i=0;i<parallaxs.length;i++) {
+                var parallax = parallaxs[i];
+                var child = parallax.container.children[0];
+                parallax.container.x = 0;
+                parallax.container.removeChildren();
+                child.x = 0;
+                parallax.container.addChild(child);
+                //trace((parallax.container.x+child.x),(stage.viewPort.x-60))
+            }
         }
 
         private update(e){
             //trace(alcedo.core(CameraManager).dx);
             var parallaxs:any = this._parallaxscenery.values;
-            var dx = alcedo.core(CameraManager).dx;
-            if(parallaxs.length===0 || alcedo.core(CameraManager).dx<0){
+            if(parallaxs.length===0 || !this._ref){
                 return;
             }
 
             //检查视差布景体是否已经离开场景
 
             for(var i=0;i<parallaxs.length;i++){
-                var parallax = parallaxs[i]
-                parallax.container.x += 0//(alcedo.core(CameraManager).dx * parallax.depth * e.delay);
+                var parallax = parallaxs[i];
+                //trace(this._ref.velocity.x);
+                parallax.container.x += (this._ref.velocity.x * parallax.depth * e.delay);
                 var children = parallax.container.children.copy();
                 var lastchild = children.last;
 
                 for(var j=0;j<children.length-1;j++){
                     var child:any = children[j];
-                    if((!child.isInViewPort())&&((parallax.container.x+child.x)<(stage.viewPort.x-60))){
+                    if((!child.isInViewPort())&&((child.globalx)<(stage.viewPort.x-child.actualWidth()))){
                         parallax.pool.push(child);
                         child.removeFromParent();
                         //trace("remove");

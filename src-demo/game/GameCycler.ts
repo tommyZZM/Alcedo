@@ -25,9 +25,8 @@ module game{
 
             alcedo.core(GameState).startUp();
 
-            alcedo.core(GUICycler).toggleToScreen("start",()=>{
-                alcedo.dispatchCmd(GameState,GameState.HELLO);
-            });
+            alcedo.dispatchCmd(GameState,GameState.HELLO);
+            alcedo.core(GUICycler).toggleToScreen("start");
 
         }
     }

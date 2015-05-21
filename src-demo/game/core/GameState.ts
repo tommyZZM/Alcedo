@@ -18,21 +18,31 @@ module game{
         }
 
         private cmdHello(e){
-            trace("resHello",e);
+            trace("cmdHello",e);
 
             this.dispatchDemand(GameState.HELLO,e);
         }
 
         private cmdPrePlay(e){
-
+            trace("cmdPreplay");
+            this.dispatchDemand(GameState.PREPLAY,e);
         }
 
+        private _isplaying:boolean;
         private cmdPlaying(e){
-
+            this._isplaying = true;
+            this.dispatchDemand(GameState.PLAYING,e);
         }
 
         private cmdOver(e){
+            this._isplaying = false;
+            trace("cmdOver")
+            alcedo.core(GUICycler).toggleToScreen("over");
+            this.dispatchDemand(GameState.OVER,e);
+        }
 
+        public get isplaying():boolean{
+            return this._isplaying;
         }
 
     }

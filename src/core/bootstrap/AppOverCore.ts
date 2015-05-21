@@ -22,7 +22,7 @@ module alcedo{
      * @param cmd
      * @param courier
      */
-    export function dispatchCmd(core:any,cmd:string, courier:any):void{
+    export function dispatchCmd(core:any,cmd:string, courier:any={}):void{
         a$.dispatchCmd(core, cmd, courier)
     }
 
@@ -34,8 +34,8 @@ module alcedo{
      * @param thisObject
      * @returns {boolean}
      */
-    export function addDemandListener(core:any, type:string, callback:Function, thisObject:any):boolean {
-        return a$.addDemandListener(core, type, callback, thisObject)
+    export function addDemandListener(core:any, type:string, callback:Function, thisObject:any,priority?:number):boolean {
+        return a$.addDemandListener(core, type, callback, thisObject,priority)
     }
 
     /**
@@ -151,10 +151,10 @@ module alcedo{
         }
 
         //侦听业务核心的回调
-        public addDemandListener(core:any,type: string, callback: Function,thisObject: any):boolean{
+        public addDemandListener(core:any,type: string, callback: Function,thisObject: any,priority?:number):boolean{
             if(isOfClass(core,AppSubCore)){
                 var c:AppSubCore = this.core(core);
-                c.addEventListener(type,callback,thisObject);
+                c.addEventListener(type,callback,thisObject,priority);
                 return true;
             }
             return false;

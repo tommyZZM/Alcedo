@@ -8,8 +8,7 @@ module game{
         private _startbtn:GUIButton;
         private _aboutbtn:GUIButton;
 
-        public constructor(){
-            super();
+        public startUp(){
             this._title = dom.query(".start .title").first;
             this._startbtn = new GUIButton(dom.query(".btn.start").first);
             this._aboutbtn = new GUIButton(dom.query(".btn.about").first);
@@ -22,11 +21,12 @@ module game{
         }
 
         private onstart(){
-            alcedo.core(GUICycler).toggleToScreen("playing");//切换场景不应该在这里执行
+            alcedo.core(GUICycler).toggleToScreen("playing");
             alcedo.core(CurtainManager).show(()=>{
                //TODO:发送开始游戏信号
+                alcedo.dispatchCmd(GameState,GameState.PREPLAY);
                 alcedo.core(CurtainManager).hide(()=>{
-
+                    alcedo.dispatchCmd(GameState,GameState.PLAYING);
                 },0.2)
             },0.8);
 
@@ -39,7 +39,7 @@ module game{
             TweenMax.to(this._title.node,0.39,{top:titletop});
             TweenMax.to(this._startbtn.node,1,{top:titletop-6,delay:0.3,ease:Elastic.easeOut.config(0.9, 0.8)});
             TweenMax.to(this._aboutbtn.node,1,{top:titletop,delay:0.6,ease:Elastic.easeOut.config(0.9, 0.8),onComplete:()=>{
-                callback();
+                if(callback)callback();
             }});//
 
             stage.addEventListener(canvas.Stage.RESIZED,this.onresize,this)
@@ -51,7 +51,7 @@ module game{
             TweenMax.to(this._title.node,0.3,{top:-100,delay:0.1});
             TweenMax.to(this._startbtn.node,0.5,{top:100+screen.height,delay:0.3,onComplete:()=>{
                 stage.removeEventListener(canvas.Stage.RESIZED,this.onresize,this);
-                callback();
+                if(callback)callback();
             },ease:Back.easeIn.config(2)});
             TweenMax.to(this._aboutbtn.node,0.5,{top:100+screen.width,delay:0.2,ease:Back.easeIn.config(2)});
         }

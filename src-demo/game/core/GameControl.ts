@@ -5,6 +5,9 @@ module game{
     export class GameControl extends alcedo.AppSubCore{
         private static instanceable = true;
 
+        public static CTR_FLY_BEGIN:string = "CTR_FLY_BEGIN";
+        public static CTR_FLY_RELEASE:string = "CTR_FLY_RELEASE";
+
         private _plane:Entity;
 
         private _speedmax:number = 6.9;
@@ -12,6 +15,9 @@ module game{
         public startUp(plane:Entity,opts?:any){
             this._plane = plane;
             this._plane.addEventListener(Entity.ON_UPDATE,this.eachTime,this);
+
+            this.addCmdHandler(GameControl.CTR_FLY_BEGIN,this.beginfly);
+            this.addCmdHandler(GameControl.CTR_FLY_RELEASE,this.endfly);
         }
 
         private eachTime(e){
@@ -28,6 +34,7 @@ module game{
 
         public enableAutoControl(boo:boolean = true){
             this._autocontrol = boo;
+            this._flystate = false;
         }
 
         private _flystate:boolean;

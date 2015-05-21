@@ -25,6 +25,7 @@ module game {
         public lookAt(target:alcedo.canvas.Ixy){
             if(!target)return;
             this._lookat = <any>target;
+            stage.camera.zoomTo(this._lookat.x,this._lookat.y,1,this.yawX,this.yawY);
         }
 
         private onEachTime(){
@@ -33,9 +34,9 @@ module game {
         }
 
         /**更新镜头**/ //TODO:镜头缓动;
-        private _dx:number = 0;
+        //private _dx:number = 0;
         private updateCamera(){
-            this._dx = this._lookat.x-stage.camera.x;
+            //this._dx = this._lookat.x-stage.camera.x;
             stage.camera.zoomTo(this._lookat.x,this._lookat.y,1,this.yawX,this.yawY);
             //trace(this._lookat.x, this._lookat.y);
         }

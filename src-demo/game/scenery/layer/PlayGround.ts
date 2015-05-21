@@ -17,19 +17,55 @@ module game {
             alcedo.core(WorldManager).addEntity(this._myplane);
             alcedo.core(CameraManager).lookAt(this._myplane);
             alcedo.core(GameControl).startUp(this._myplane);
+            alcedo.core(ParallaxManager).referenceObject(this._myplane);
 
             alcedo.addDemandListener(GameState,GameState.HELLO,this.resHello,this);
+            alcedo.addDemandListener(GameState,GameState.PREPLAY,this.resPrePlay,this,1);
+            alcedo.addDemandListener(GameState,GameState.PLAYING,this.resPlay,this);
+            alcedo.addDemandListener(GameState,GameState.OVER,this.resOver,this);
+
+            stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.eachTime,this);
+
         }
 
+        private eachTime(){
+            if(alcedo.core(GameState).isplaying){
+                //检测小鸟的位置
+                if(this._myplane.y>stage.height && this._myplane.velocity.y>0){
+                    //TODO：掉落云雾的特效
+                    alcedo.dispatchCmd(GameState,GameState.OVER,{scorx:0});
+                }
+            }
+        }
 
         private resHello(){
             alcedo.core(CameraManager).yawX = 0.23;
 
             this._myplane.clearForce();
+            this._myplane.velocity.reset();
             this._myplane.x = 30;
-            this._myplane.y = stage.height-100;
+            this._myplane.y = screen.height-50;
             this._myplane.applyMomentForce(new canvas.Vector2D(5,-5));
             alcedo.core(GameControl).enableAutoControl();
+        }
+
+        private resPrePlay(){
+            trace("resPrePlay");
+            this._myplane.clearForce();
+            this._myplane.velocity.reset();
+            this._myplane.x = 100;
+            this._myplane.y = stage.height-50;
+            this._myplane.gravityenable = false;
+            alcedo.core(GameControl).enableAutoControl(false);
+        }
+
+        private resPlay(){
+            this._myplane.gravityenable = true;
+            this._myplane.applyMomentForce(new canvas.Vector2D(10,-12));
+        }
+
+        private resOver(){
+
         }
     }
 }

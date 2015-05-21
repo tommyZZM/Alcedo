@@ -8,10 +8,15 @@ module game{
         public set ele(ele:dom.DomElement){
             if(!this._ele){
                 this._ele = ele;
+                this.startUp()
             }
         }
         public get ele():dom.DomElement{
             return this._ele;
+        }
+
+        protected startUp(){
+
         }
 
         public show(callback?:Function){
