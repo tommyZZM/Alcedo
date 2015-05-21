@@ -18,6 +18,7 @@ module game{
             stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10,this.update,this,-9);
 
             alcedo.addDemandListener(GameState,GameState.PREPLAY,this.resetPosToZero,this,2);
+            alcedo.addDemandListener(GameState,GameState.HELLO,this.resetPosToZero,this,2);
         }
 
         private _ref:Entity;
@@ -33,9 +34,10 @@ module game{
                 var child = parallax.container.children[0];
                 parallax.container.x = 0;
                 parallax.container.removeChildren();
-                child.x = 0;
-                parallax.container.addChild(child);
-                //trace((parallax.container.x+child.x),(stage.viewPort.x-60))
+                if(child){
+                    child.x = 0;
+                    parallax.container.addChild(child);
+                }
             }
         }
 
@@ -64,7 +66,7 @@ module game{
                     }
                     //trace(parallax.container.x+child.x,stage.viewPort.x-120)
                 }
-                //检查并创建新的视差布景
+                //检查并创建新的视差布景(每200毫秒检查一次)
                 //trace(i,parallax,this._checkdelay,this.CHECK_DELAY,this._checkdelay===this.CHECK_DELAY);
                 if(this._checkdelay===this.CHECK_DELAY){
                     children = parallax.container.children.copy();

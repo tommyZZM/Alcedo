@@ -5,6 +5,7 @@ module game {
     export class PlayGround extends SceneryGround {
 
         private _myplane:Entity;
+        private _levelroot:canvas.DisplatObjectContainer;
 
         protected startUp(){
             this._myplane = new game.Entity(new JetBird());
@@ -16,7 +17,6 @@ module game {
 
             alcedo.core(WorldManager).addEntity(this._myplane);
             alcedo.core(CameraManager).lookAt(this._myplane);
-            alcedo.core(GameControl).startUp(this._myplane);
             alcedo.core(ParallaxManager).referenceObject(this._myplane);
 
             alcedo.addDemandListener(GameState,GameState.HELLO,this.resHello,this);
@@ -26,6 +26,11 @@ module game {
 
             stage.addEventListener(alcedo.canvas.Stage.ENTER_MILLSECOND10,this.eachTime,this);
 
+            this._levelroot = new alcedo.canvas.DisplatObjectContainer();
+            this.addChild(this._levelroot);
+
+            alcedo.core(GameControl).startUp(this._myplane);
+            alcedo.core(LevelManager).startUp(this._levelroot);
         }
 
         private eachTime(){
@@ -57,10 +62,12 @@ module game {
             this._myplane.y = stage.height-50;
             this._myplane.gravityenable = false;
             alcedo.core(GameControl).enableAutoControl(false);
+            alcedo.core(LevelManager).run();
         }
 
         private resPlay(){
             this._myplane.gravityenable = true;
+            this._myplane.display["bird"].play(6);
             this._myplane.applyMomentForce(new canvas.Vector2D(10,-12));
         }
 
