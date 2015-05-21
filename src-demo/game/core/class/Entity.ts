@@ -11,7 +11,7 @@ module game{
 
         protected _acceleration:alcedo.canvas.Vector2D;//加速度哦
 
-        private _force:alcedo.canvas.Vector2D;
+        protected _force:alcedo.canvas.Vector2D;
 
         protected _body:sat.Circle;
 
@@ -52,6 +52,10 @@ module game{
          * Get
          * @returns {alcedo.canvas.Vector2D}
          */
+        public get curForce():alcedo.canvas.Vector2D{
+            return this._force;
+        }
+
         public get velocity():alcedo.canvas.Vector2D{
             return this._velocity
         }

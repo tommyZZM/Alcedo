@@ -22,7 +22,7 @@ module alcedo{
      * @param cmd
      * @param courier
      */
-    export function dispatchCmd(core:any,cmd:string, courier:Array<any> = []):void{
+    export function dispatchCmd(core:any,cmd:string, courier:any):void{
         a$.dispatchCmd(core, cmd, courier)
     }
 
@@ -78,7 +78,7 @@ module alcedo{
                 this._postals.set(e.core,new Dict());
             }
             var ant:any = this._postals.get(e.core).get(e.notify);
-            if(ant && ant.callback && ant.thisobj){ant.callback.apply(ant.thisobj,e.courier);}
+            if(ant && ant.callback && ant.thisobj){ant.callback.apply(ant.thisobj,[e.courier]);}
         }
 
         //获得一枚业务核心
@@ -86,13 +86,13 @@ module alcedo{
         public core(core:any,name?:string){
             if (isOfClass(core, AppSubCore)){
                 if(core === AppSubCore){
-                    error(core,"could be select")
+                    error(core,"could be select");
                     return;
                 }
                 var corename = getClassName(core)+"_"+AppOverCore.getCoreId(core);
 
                 var result = this._proxypool.get(corename);
-                if (core.instanceable === true){
+                if (core.instanceable === true || !name){
                     if(!result){
                         this._proxypool.set(corename,new core());
                     }
@@ -143,8 +143,9 @@ module alcedo{
         }
 
         //发布命令给业务核心
-        public dispatchCmd(core:any,cmd:string, courier:Array<any> = []){
+        public dispatchCmd(core:any|AppSubCore,cmd:string, courier:any = {}){
             if(!(core instanceof AppSubCore))this.core(core);
+            courier._cmd = cmd;
             this._postman.setNotify(core,cmd,courier);
             this.dispatchEvent(this._postman);
         }

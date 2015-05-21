@@ -8,7 +8,7 @@ module alcedo{
 
             protected _linecolour:string;
 
-            protected _graphicfn:(context:CanvasRenderingContext2D|any)=>void;
+            public _graphicfn:(context:CanvasRenderingContext2D|any)=>void;
             //public graphic(fn:(context:CanvasRenderingContext2D|any)=>void):void{
             //    this._graphicfn = fn;
             //}

@@ -39,7 +39,6 @@ module game{
         private onAssetLoaded(){
             trace("loadcomplete");
             alcedo.core(GameCycler).startUp();
-            alcedo.core(GUICycler).toggleToScreen("start");
         }
 
         //屏幕适配解决方案

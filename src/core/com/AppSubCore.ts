@@ -9,6 +9,13 @@ module alcedo{
 
         public constructor(){
             super();
+            var _startup:any = this.startUp;
+            _startup.started = false;
+            this.startUp = (...anyarg)=>{
+                if(_startup.started)return;
+                _startup.apply(this,anyarg);
+                _startup.started = true;
+            }
         }
 
         public startUp(...anyarg){

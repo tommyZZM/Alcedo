@@ -32,13 +32,15 @@ module game{
 
         }
 
-        public show(){
+        public show(callback){
             var titletop = screen.height/2-(alcedo.toValue(this._title.attr("height"))*1.3);
             trace(screen.height/2,alcedo.toValue(this._title.attr("height")))
 
             TweenMax.to(this._title.node,0.39,{top:titletop});
             TweenMax.to(this._startbtn.node,1,{top:titletop-6,delay:0.3,ease:Elastic.easeOut.config(0.9, 0.8)});
-            TweenMax.to(this._aboutbtn.node,1,{top:titletop,delay:0.6,ease:Elastic.easeOut.config(0.9, 0.8)});//
+            TweenMax.to(this._aboutbtn.node,1,{top:titletop,delay:0.6,ease:Elastic.easeOut.config(0.9, 0.8),onComplete:()=>{
+                callback();
+            }});//
 
             stage.addEventListener(canvas.Stage.RESIZED,this.onresize,this)
             //trace(Elastic.easeOut)

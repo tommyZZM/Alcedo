@@ -10,22 +10,22 @@ module game {
             this._myplane = new game.Entity(new JetBird());
             this.addChild(this._myplane.display);
 
-            this._myplane.display.x = stage.stageWidth/2;
-            this._myplane.display.y = stage.stageHeight/2;
+            this._myplane.display.x = -100;
+            this._myplane.display.y = stage.stageHeight+100;
             this._myplane.gravityenable = true;
 
             alcedo.core(WorldManager).addEntity(this._myplane);
             alcedo.core(CameraManager).lookAt(this._myplane);
-
             alcedo.core(GameControl).startUp(this._myplane);
 
-            this.resHello();
+            alcedo.addDemandListener(GameState,GameState.HELLO,this.resHello,this);
         }
 
 
         private resHello(){
             alcedo.core(CameraManager).yawX = 0.23;
 
+            this._myplane.clearForce();
             this._myplane.x = 30;
             this._myplane.y = stage.height-100;
             this._myplane.applyMomentForce(new canvas.Vector2D(5,-5));

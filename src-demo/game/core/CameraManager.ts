@@ -49,11 +49,9 @@ module game {
             if(viewfinder.bottom>stage.height){
                 this._camera.y = stage.height-(viewfinder.height*(1-this._camera.yawY))
             }else if(viewfinder.y<=0){
-                this._camera.focal = stage.height/(stage.height-viewfinder.y)
-                //trace(this._camera.focal);
+                this._camera.focal = (stage.height-viewfinder.y)/stage.height
+                //trace(stage.height/(stage.height-viewfinder.y));
                 if(this._camera.focal>2.3)this._camera.focal=2.3;
-                //this._camera.y = viewfinder.height*this._camera.yawY
-                //trace(this._camera.y,this._camera.yawY)
             }
 
             viewfinder = this._camera.viewfinder();

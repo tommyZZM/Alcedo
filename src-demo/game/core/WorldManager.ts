@@ -12,19 +12,21 @@ module game{
         }
 
         private update(e){
-            this.updateEntitiesPos(e);
-            this.precheckEntities();
-            this.collisionCheck();
+            this.updateEntitiesPos(e);//物体运动
+            this.precheckEntities();//筛选并激活物体
+            this.collisionCheck();//对激活物体进行碰撞检测
         }
 
         private updateEntitiesPos(e){
             for(var i=0;i<this._entities.length;i++){
                 var entitie = this._entities[i];
-                entitie._acceleration = entitie._force.divide(entitie._mass);
+
+                if(entitie.static){continue;}//对于静态物体，不更新位置.
 
                 if(entitie.gravityenable){
-                    entitie._acceleration.add(canvas.Vector2D.identity(0,0.0009).divide(entitie._mass))
+                    entitie.applyMomentForce(canvas.Vector2D.identity(0,0.09*e.delay))
                 }
+                entitie._acceleration = entitie._force.divide(entitie._mass);
 
                 entitie._velocity.x+=(entitie._acceleration.x*e.delay);
                 entitie._display.x += entitie._velocity.x*e.delay;
@@ -32,6 +34,8 @@ module game{
                 entitie._display.y+=entitie._velocity.y*e.delay;
 
                 entitie._display.rotation = entitie._velocity.deg;
+
+                //trace(entitie.speed);
 
                 entitie.sync();
                 entitie.emit(Entity.ON_UPDATE,e);
