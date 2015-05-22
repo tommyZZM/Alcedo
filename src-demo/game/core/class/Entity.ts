@@ -34,8 +34,8 @@ module game{
             this._body.pos["x"] = this._display.globalx;
             this._body.pos["y"] = this._display.globaly;
             if(this._body instanceof sat.Polygon){
-                this._body["offset"].x = -this.display.pivotOffsetX;
-                this._body["offset"].y = -this.display.pivotOffsetY;
+                this._body["offset"].x = -this.display.pivotOffsetX*this.display.scaleX;
+                this._body["offset"].y = -this.display.pivotOffsetY*this.display.scaleY;
                 this._body.setAngle(this.display.rotation * alcedo.Constant.DEG_TO_RAD);
             }
         }

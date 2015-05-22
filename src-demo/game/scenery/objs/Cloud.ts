@@ -21,15 +21,6 @@ module game{
             this.disactive();
         }
 
-        public sync(){
-            super.sync();
-            this._debugdisplay.x = this._body.pos.x;
-            this._debugdisplay.y = this._body.pos.y;
-            this._debugdisplay.rotation = this.display.rotation;
-
-            //trace(this._body.pos.x, this._body.pos.y);
-        }
-
         public active(){
             //trace("active");
             if (this._debugdisplay) {
@@ -51,10 +42,8 @@ module game{
 
             //debug.pivotX = debug.pivotY = 0.5;
             debug.alpha = 0.9;
-            this.display.addEventListener(canvas.DisplayObjectEvent.ON_ADD_TO_STAGE,()=>{
-                (<any>this.display).root.addChild(debug)
-            },this)
             this._debugdisplay = debug;
+            this.display.addChild(debug);
         }
     }
 }

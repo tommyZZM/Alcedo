@@ -88,20 +88,25 @@ var example;
             _super.apply(this, arguments);
         }
         HelloWorld.prototype.run = function () {
-            //var v = new alcedo.canvas.Vector2D(0,-5);
-            //var pe = new alcedo.canvas.ParticleEmitter({initial:v,spread:20,max:30,rate:16});
-            //
-            //pe.play();
-            //pe.applyForce(new alcedo.canvas.Vector2D(0,0.09));
-            //
-            //var a = new alcedo.canvas.DisplatObjectContainer();
-            //a.addChild(pe);
-            //this.stage.addChild(a);
-            //a.x = this.stage.width/2;
-            //a.y = this.stage.height/2;
-            //
-            //pe.rotation = 10;
-            //trace(pe)
+            var v = new alcedo.canvas.Vector2D(0, -5);
+            var pe = new alcedo.canvas.ParticleEmitter({ initial: v, spread: 20, max: 30, rate: 16 });
+            pe.play();
+            pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
+            var a = new alcedo.canvas.DisplatObjectContainer();
+            a.addChild(pe);
+            this.stage.addChild(a);
+            a.x = this.stage.width / 2;
+            a.y = this.stage.height / 2;
+            var sp = new example.canvas.graphic.Circle(this.stage.width >> 1, this.stage.height >> 1);
+            sp.radius = 10;
+            a.addChild(sp);
+            a.scaleALL(0.5);
+            pe.rotation = 10;
+            trace(pe);
+            this.stage.addEventListener(example.canvas.Stage.ENTER_MILLSECOND10, function () {
+                //trace(a.worldtransform)
+            }, this);
+            return;
             var sp = new example.canvas.graphic.Circle(this.stage.width >> 1, this.stage.height >> 1);
             sp.radius = 10;
             this.stage.addChild(sp);

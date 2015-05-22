@@ -388,9 +388,10 @@ module alcedo {
              * 矩阵运算物体在场景中的位置
              * @private
              */
+            //private _transformMatrix:Matrix2D = new Matrix2D();
             public _transform(){
                 var flag = !!this._parent,
-                    pt = Matrix2D.identity
+                    pt = Matrix2D.identity;
 
                 if(flag)pt = this._parent._worldtransform;
 
@@ -398,7 +399,9 @@ module alcedo {
                 this._worldtransform = this._getMatrix(this._worldtransform);
 
                 this._worldalpha = flag?(this._alpha*this._parent._worldalpha):this._alpha;
-                this._worldscale = flag?(this._scale.multiply(this._parent._worldscale)):this._scale;
+
+                this._worldscale.resetAs(this._scale);//shax
+                if(flag)this._worldscale.multiply(this._parent._worldscale);
             }
 
             /**

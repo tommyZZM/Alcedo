@@ -6,28 +6,17 @@ module game{
     export class JetBird extends Entity{
         public constructor(){
             super(new JetBirdSkin());
-            this._body = new sat.Box(new sat.Vector(0,0),this.display.bird.actualWidth()
-                ,this.display.bird.actualHeight()).toPolygon();
-            trace(this._body,this.display.bird)
-            this.debugBody();
-        }
+            this._body = new sat.Box(new sat.Vector(0,0),this.display.width*this.display.scaleX
+                ,this.display.height*this.display.scaleY).toPolygon();
 
-        public sync(){
-            if(!this._body)return;
-            this._body.pos["x"] = this._display.globalx;
-            this._body.pos["y"] = this._display.globaly;
-            if(this._body instanceof sat.Polygon){
-                this._body["offset"].x = -this.display.bird.pivotX*this.display.bird.actualWidth();
-                this._body["offset"].y = -this.display.bird.pivotY*this.display.bird.actualHeight();
-                this._body.setAngle(this.display.rotation * alcedo.Constant.DEG_TO_RAD);
-            }
+            this.debugBody();
         }
 
         private debugBody(){
             if(!alcedo.core(GameCycler).debug)return;
-            var debug = new canvas.graphic.Rectangle(this.display["bird"].actualWidth()
-                ,this.display["bird"].actualHeight(),"#e74c3c");
-            debug.pivotX = debug.pivotY = 0.5;
+            var debug = new canvas.graphic.Rectangle(this.display.width
+                ,this.display.height,"#e74c3c");
+            //debug.pivotX = debug.pivotY = 0.5;
             debug.alpha = 0.3;
             (<any>this.display).addChild(debug);
 
@@ -74,20 +63,25 @@ module game{
                 ,alcedo.core(canvas.TextureRepository).get("smallalcedo_png"));
 
             this.bird = new alcedo.canvas.MovieClip(alcedo.core(canvas.MovieClipRepository).get("smallalcedo"));
-            this.bird.pivotX = 0.5;
-            this.bird.pivotY = 0.5;
-            this.bird.scaleALL(0.5);
+            //this.bird.pivotX = 0.5;
+            //this.bird.pivotY = 0.5;
 
             this.pivotX = 0.5;
             this.pivotY = 0.5;
+            this.scaleALL(0.5);
+
+            this.width = this.bird.width;
+            this.height = this.bird.height;
+
+            trace(this.bird.width,this.bird.height);
 
             this._smoke =  new alcedo.canvas.ParticleEmitter({spread:6,max:60,rate:20});
             this._smoke.play();
 
             this._smokepos = new alcedo.canvas.Vector2D(-0.5,-0.5);
 
-            var pos:any = this.bird.localToGlobal(this.bird.actualBound().width*this._smokepos.x+this.bird.pivotOffsetX
-                ,this.bird.actualBound().height*this._smokepos.y+this.bird.pivotOffsetY);//
+            var pos:any = this.bird.localToGlobal(this.width*this._smokepos.x+this.pivotOffsetX
+                ,this.height*this._smokepos.y+this.pivotOffsetY);//
             this._smoke.x = pos.x;
             this._smoke.y = pos.y;
 
