@@ -101,7 +101,7 @@ var example;
             var boxw = Math.randomFrom(60, 120);
             var boxh = Math.randomFrom(60, 120);
             var rotate = Math.randomFrom(0, 360);
-            this.box = new alcedo.canvas.graphic.Rectangle(0, 0, boxw, boxh);
+            this.box = new alcedo.canvas.graphic.Rectangle(boxw, boxh);
             this.box.pivotX = 0.5;
             this.box.pivotY = 0.5;
             this.box.x = Math.randomFrom(120, this.stage.width - 120);
@@ -135,6 +135,8 @@ var example;
             this.stage.addChild(this.box);
             this.stage.addChild(this.circle);
             this.stage.addEventListener(example.canvas.Stage.ENTER_MILLSECOND10, function () {
+                _this.box.rotation++;
+                _this.boxbody.setAngle(_this.box.rotation * alcedo.Constant.DEG_TO_RAD);
                 _this.circlebody.pos.x = _this.circle.x;
                 _this.circlebody.pos.y = _this.circle.y;
                 _this.resoponse.clear();

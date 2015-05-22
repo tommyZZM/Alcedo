@@ -13,7 +13,7 @@ module game{
 
         protected _force:alcedo.canvas.Vector2D;
 
-        protected _body:sat.Circle;
+        protected _body:sat.Polygon;
 
         protected _mass:number = 1;
 
@@ -26,12 +26,18 @@ module game{
             this._acceleration = new alcedo.canvas.Vector2D();
             this._force = new alcedo.canvas.Vector2D();
 
-            this._body = new SAT.Circle(new SAT.Vector(0,0),0);
+            //this._body = new SAT.Circle(new SAT.Vector(0,0),0);
         }
 
         public sync(){
-            this._body.pos.x = this._display.x-this._display.pivotOffsetX;
-            this._body.pos.y = this._display.y-this._display.pivotOffsetY;
+            if(!this._body)return;
+            this._body.pos["x"] = this._display.globalx;
+            this._body.pos["y"] = this._display.globaly;
+            if(this._body instanceof sat.Polygon){
+                this._body["offset"].x = -this.display.pivotOffsetX;
+                this._body["offset"].y = -this.display.pivotOffsetY;
+                this._body.setAngle(this.display.rotation * alcedo.Constant.DEG_TO_RAD);
+            }
         }
 
         //TODO:突变力和渐变力;
@@ -72,7 +78,7 @@ module game{
             this._velocity.length =value;
         }
 
-        public get display(){
+        public get display():any{
             return this._display
         }
 

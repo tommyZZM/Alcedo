@@ -41,12 +41,12 @@ module game {
             var levelobj:any;
             var level:Level;
             var tmplevel:Level;
-            trace(this._checkdelay,CHECK_DELAY);
+            //trace(this._checkdelay,CHECK_DELAY);
             if(this._checkdelay===CHECK_DELAY && this._runstate){
 
                 if(this._activelevels.length<MAX_LEVE_COUNT){
                     levelobj = this._levelobjs.randomselect();
-                    trace(levelobj.id,this._levelspool.get(levelobj.id));
+                    //trace(levelobj.id,this._levelspool.get(levelobj.id));
                     tmplevel = this._levelspool.get(levelobj.id).pop();
                     if(this._activelevels.length===0){
                         //首次创建
@@ -55,20 +55,22 @@ module game {
                         this._root.addChild(level);
                         this._activelevels.push(level);
                     }else{
-                        trace("hi");
+                        //trace("hi");
                         level = tmplevel||new Level(levelobj);
                         level.x = this._activelevels.last.x+this._activelevels.last.width+100;
                         this._root.addChild(level);
                         this._activelevels.push(level);
                     }
+                    level.render();
                 }
 
                 var headlevel = this._activelevels.first;
                 if(headlevel.right<stage.viewPort.x){
                     this._activelevels.shift();
                     headlevel.removeFromParent();
+                    headlevel.clear();
                     this._levelspool.get(headlevel.levelconfig.id).push(headlevel);
-                    trace("remove and pool",headlevel.levelconfig.id,this._levelspool.get(headlevel.levelconfig.id))
+                    //trace("remove and pool",headlevel.levelconfig.id,this._levelspool.get(headlevel.levelconfig.id))
                 }
             }
 
@@ -86,10 +88,14 @@ module game {
         }
 
         public stop(){
-
+            this._runstate = false;
+            return this;
         }
 
         public reset(){
+            for(var i = 0;i<this._activelevels.length;i++){
+                this._activelevels[i].clear();
+            }
             this._activelevels = [];
             this._levelpassed = 0;
             this._root.removeChildren();

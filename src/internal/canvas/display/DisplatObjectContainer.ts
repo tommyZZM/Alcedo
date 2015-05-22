@@ -3,6 +3,11 @@
  */
 module alcedo{
     export module canvas{
+        /**
+         * Bug to fix;
+         * 容器Scale有莫名其妙的BUG
+         *
+         */
         export class DisplatObjectContainer extends DisplayObject implements IDisplatObjectContainer{
             protected _children:Array<DisplayObject>;
 
@@ -23,6 +28,7 @@ module alcedo{
             }
 
             protected _render(renderer:CanvasRenderer){
+                //super._render(renderer);
                 this.eachChilder((child)=>{
                     child._render(renderer);
                 })

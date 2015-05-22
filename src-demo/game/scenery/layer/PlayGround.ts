@@ -8,12 +8,16 @@ module game {
         private _levelroot:canvas.DisplatObjectContainer;
 
         protected startUp(){
-            this._myplane = new game.Entity(new JetBird());
-            this.addChild(this._myplane.display);
+            this._myplane = new game.JetBird();
 
             this._myplane.display.x = -100;
             this._myplane.display.y = stage.stageHeight+100;
             this._myplane.gravityenable = true;
+
+            //debug
+            if(alcedo.core(GameCycler).debug){
+
+            }
 
             alcedo.core(WorldManager).addEntity(this._myplane);
             alcedo.core(CameraManager).lookAt(this._myplane);
@@ -28,9 +32,10 @@ module game {
 
             this._levelroot = new alcedo.canvas.DisplatObjectContainer();
             this.addChild(this._levelroot);
+            this.addChild(this._myplane.display);
 
-            alcedo.core(GameControl).startUp(this._myplane);
             alcedo.core(LevelManager).startUp(this._levelroot);
+            alcedo.core(GameControl).startUp(this._myplane);
         }
 
         private eachTime(){
@@ -52,7 +57,7 @@ module game {
             this._myplane.y = screen.height-50;
             this._myplane.applyMomentForce(new canvas.Vector2D(5,-5));
             alcedo.core(GameControl).enableAutoControl();
-
+            alcedo.core(LevelManager).reset();
         }
 
         private resPrePlay(){
@@ -74,7 +79,7 @@ module game {
         }
 
         private resOver(){
-
+            alcedo.core(LevelManager).stop();
         }
     }
 }

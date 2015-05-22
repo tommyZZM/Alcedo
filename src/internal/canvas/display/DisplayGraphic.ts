@@ -52,11 +52,11 @@ module alcedo{
                 //private _shapewidth:number;
                 //private _shapeheight:number;
 
-                public constructor(x:number,y:number,width:number=100,height:number=100,coulour:string = "#000"){
+                public constructor(width:number=100,height:number=100,coulour:string = "#000"){
                     super();
                     this._fillcolour = coulour;
-                    this.x = x;
-                    this.y = y;
+                    //this.x = x;
+                    //this.y = y;
                     this.width = width;
                     this.height = height;
                     this._graphicfn = (context:CanvasRenderingContext2D)=>{

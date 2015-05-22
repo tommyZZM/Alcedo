@@ -160,7 +160,7 @@ module alcedo {
                 this.pivotX = px/this._staticboundingbox.width;
             }
 
-            public get pivoty(){
+            public get pivotY(){
                 return this._pivot.y;
             }
             public set pivotY(value:number){

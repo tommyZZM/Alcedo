@@ -9,6 +9,8 @@ module game{
         private _playGround:PlayGround;
         private _frontGround:FrontGround;
 
+        public debug:boolean = true;
+
         public startUp(){
             alcedo.core(CameraManager).startUp();
             alcedo.core(ParallaxManager).startUp();

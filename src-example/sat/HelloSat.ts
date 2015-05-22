@@ -28,7 +28,7 @@ module example {
             var boxh = Math.randomFrom(60,120);
             var rotate = Math.randomFrom(0,360);
 
-            this.box = new alcedo.canvas.graphic.Rectangle(0,0,boxw,boxh);
+            this.box = new alcedo.canvas.graphic.Rectangle(boxw,boxh);
             this.box.pivotX = 0.5;this.box.pivotY = 0.5;
             this.box.x = Math.randomFrom(120,this.stage.width-120);
             this.box.y = Math.randomFrom(120,this.stage.height-120);
@@ -68,6 +68,10 @@ module example {
             this.stage.addChild(this.circle);
 
             this.stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10,()=>{
+
+                this.box.rotation++;
+                this.boxbody.setAngle(this.box.rotation * alcedo.Constant.DEG_TO_RAD);
+
                 this.circlebody.pos.x = this.circle.x;
                 this.circlebody.pos.y = this.circle.y;
                 this.resoponse.clear();
