@@ -12,10 +12,23 @@ module game {
             super();
             if(!levelconfig)warn("level config invaild");
             this._levelconfig = levelconfig;
-            this.width = this._levelconfig.width;
-            this.height = this._levelconfig.height;
+            this.width = this._levelconfig.pixelwidth;
+            this.height = this._levelconfig.pixelheight;
 
             this.debugArea(true);
+        }
+
+        public get right(){
+            return this.x+this.width;
+        }
+
+        public get levelconfig(){
+            return this._levelconfig;
+        }
+
+        //显示场景中的物体
+        public render(){
+
         }
 
 

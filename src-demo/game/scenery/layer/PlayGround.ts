@@ -52,17 +52,19 @@ module game {
             this._myplane.y = screen.height-50;
             this._myplane.applyMomentForce(new canvas.Vector2D(5,-5));
             alcedo.core(GameControl).enableAutoControl();
+
         }
 
         private resPrePlay(){
             trace("resPrePlay");
             this._myplane.clearForce();
             this._myplane.velocity.reset();
-            this._myplane.x = 100;
+            this._myplane.x = 0;
             this._myplane.y = stage.height-50;
             this._myplane.gravityenable = false;
             alcedo.core(GameControl).enableAutoControl(false);
-            alcedo.core(LevelManager).run();
+
+            alcedo.core(LevelManager).reset().run();
         }
 
         private resPlay(){

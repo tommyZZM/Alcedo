@@ -5,14 +5,14 @@ module game {
     /**
      * 游戏关卡,地图管理器...
      */
-    var CHECK_DELAY:number = 20;
+    var CHECK_DELAY:number = 3;
     var MAX_LEVE_COUNT:number = 3;
 
     export class LevelManager extends alcedo.AppSubCore {
 
         private _root:alcedo.canvas.DisplatObjectContainer;
         private _levelobjs:Array<any>;
-        private _levels:Dict;
+        private _levelspool:Dict;
 
         private _checkdelay:number = 0;
 
@@ -21,14 +21,14 @@ module game {
         public startUp(root:canvas.DisplatObjectContainer){
             this._root = root;
             this._levelobjs = [];
-            this._levels = new Dict();
+            this._levelspool = new Dict();
             this._activelevels = [];
             var levels = alcedo.core(net.AsyncRES).find(/level_\w+/i);
             if(levels.length>0){
                 for(var i=0;i<levels.length;i++){
                     levels[i].id = i;
                     this._levelobjs.push(levels[i])
-                    this._levels.set(i+"",[])
+                    this._levelspool.set(i+"",[])
                 }
             }
             trace("LevelManager initilize",this._levelobjs);
@@ -40,21 +40,35 @@ module game {
 
             var levelobj:any;
             var level:Level;
+            var tmplevel:Level;
+            trace(this._checkdelay,CHECK_DELAY);
             if(this._checkdelay===CHECK_DELAY && this._runstate){
 
                 if(this._activelevels.length<MAX_LEVE_COUNT){
                     levelobj = this._levelobjs.randomselect();
+                    trace(levelobj.id,this._levelspool.get(levelobj.id));
+                    tmplevel = this._levelspool.get(levelobj.id).pop();
                     if(this._activelevels.length===0){
-
-                        level = new Level(levelobj)
-                        level.x = 660;
-                        this._root.addChild(level)
-                        trace("start..");
-
                         //首次创建
+                        level = tmplevel||new Level(levelobj);
+                        level.x = stage.viewPort.right+300;
+                        this._root.addChild(level);
+                        this._activelevels.push(level);
                     }else{
-
+                        trace("hi");
+                        level = tmplevel||new Level(levelobj);
+                        level.x = this._activelevels.last.x+this._activelevels.last.width+100;
+                        this._root.addChild(level);
+                        this._activelevels.push(level);
                     }
+                }
+
+                var headlevel = this._activelevels.first;
+                if(headlevel.right<stage.viewPort.x){
+                    this._activelevels.shift();
+                    headlevel.removeFromParent();
+                    this._levelspool.get(headlevel.levelconfig.id).push(headlevel);
+                    trace("remove and pool",headlevel.levelconfig.id,this._levelspool.get(headlevel.levelconfig.id))
                 }
             }
 
@@ -66,8 +80,9 @@ module game {
 
         private _runstate:boolean;
         public run(){
-            this._checkdelay = CHECK_DELAY
+            this._checkdelay = CHECK_DELAY;
             this._runstate = true;
+            return this;
         }
 
         public stop(){
@@ -77,6 +92,8 @@ module game {
         public reset(){
             this._activelevels = [];
             this._levelpassed = 0;
+            this._root.removeChildren();
+            return this;
         }
 
         public get root():canvas.DisplatObjectContainer{
