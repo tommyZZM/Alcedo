@@ -4,18 +4,22 @@
 module game{
 
     export class JetBird extends Entity{
+
+        private _bodybox:sat.Box;
+
         public constructor(){
             super(new JetBirdSkin());
-            this._body = new sat.Box(new sat.Vector(0,0),this.display.width*this.display.scaleX
-                ,this.display.height*this.display.scaleY).toPolygon();
+            this._bodybox = new sat.Box(new sat.Vector(0,0),(this.display.width-42)*this.display.scaleX
+                ,this.display.height*this.display.scaleY);
+            this._body = this._bodybox.toPolygon();
 
             this.debugBody();
         }
 
         private debugBody(){
             if(!alcedo.core(GameCycler).debug)return;
-            var debug = new canvas.graphic.Rectangle(this.display.width
-                ,this.display.height,"#e74c3c");
+            var debug = new canvas.graphic.Rectangle(this._bodybox.w/this.display.scaleX
+                ,this._bodybox.h/this.display.scaleY,"#e74c3c");
             //debug.pivotX = debug.pivotY = 0.5;
             debug.alpha = 0.3;
             (<any>this.display).addChild(debug);
@@ -78,10 +82,10 @@ module game{
             this._smoke =  new alcedo.canvas.ParticleEmitter({spread:6,max:60,rate:20});
             this._smoke.play();
 
-            this._smokepos = new alcedo.canvas.Vector2D(-0.5,-0.5);
+            this._smokepos = new alcedo.canvas.Vector2D(0.2,0.16);
 
-            var pos:any = this.bird.localToGlobal(this.width*this._smokepos.x+this.pivotOffsetX
-                ,this.height*this._smokepos.y+this.pivotOffsetY);//
+            var pos:any = this.bird.localToGlobal(this.width*this._smokepos.x
+                ,this.height*this._smokepos.y);//
             this._smoke.x = pos.x;
             this._smoke.y = pos.y;
 

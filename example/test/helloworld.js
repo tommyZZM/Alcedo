@@ -99,7 +99,7 @@ var example;
             a.y = this.stage.height / 2;
             var sp = new example.canvas.graphic.Circle(this.stage.width >> 1, this.stage.height >> 1);
             sp.radius = 10;
-            a.addChild(sp);
+            //a.addChild(sp);
             a.scaleALL(0.5);
             pe.rotation = 10;
             trace(pe);
