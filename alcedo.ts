@@ -10,12 +10,7 @@ var _server:any    = require('gulp-easy-server');
 
 var through:any  = require('through');
 
-//gulp.task('startserver', function() {
-//    gulp.src("./")
-//        .pipe(server({port:2099,index:alcedo.debugserver.index,bowser:"chrome"}));
-//});
 console.log("hello world!");
- through
 var projectHashDict = {};
 
 module alcedo{
@@ -177,6 +172,7 @@ module alcedo{
     }
 }
 
+//源码编译任务
 var sourcecodetask:any = new alcedo.ProjectCreater({
     projectid:"alcedo",
     outdts:true,
