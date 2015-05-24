@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-up" width="600" height="80" tilewidth="5" tileheight="5" nextobjectid="56">
- <objectgroup color="#2980b9" name="clourpower">
+ <objectgroup color="#2980b9" name="colourpower">
   <object id="50" x="732" y="277">
    <polyline points="-57,15 235,-280 553,29 802,-85"/>
   </object>

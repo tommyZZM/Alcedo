@@ -30,6 +30,8 @@ module game{
             alcedo.dispatchCmd(GameState,GameState.HELLO);
             alcedo.core(GUICycler).toggleToScreen("start");
 
+            trace(new Bezier(10,10, 20,20 ,30,30))
+
         }
     }
 }

@@ -8,7 +8,7 @@ module game{
         public startUp(){
             this._entities =[];
             stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10,this.update,this);
-            trace("start",this)
+            //trace("start",this)
         }
 
         private update(e){

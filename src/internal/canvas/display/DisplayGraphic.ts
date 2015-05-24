@@ -25,11 +25,11 @@ module alcedo{
 
             export class Circle extends DisplayGraphic{
                 private _radius:number;
-                public constructor(x:number,y:number,r:number = 5,coulour:string = "#000"){
+                public constructor(r:number = 5,coulour:string = "#000"){//x:number,y:number,
                     super();
                     this._fillcolour = coulour;
-                    this.x = x;
-                    this.y = y;
+                    //this.x = x;
+                    //this.y = y;
                     this._radius = r;
                     this._graphicfn = (context:CanvasRenderingContext2D)=>{
                         context.beginPath();

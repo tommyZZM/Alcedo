@@ -7,7 +7,7 @@
     "pixelwidth": 3000,
     "pixelheight": 400,
     "objects": {
-        "clourpower": [
+        "colourpower": [
             {
                 "type": 3,
                 "points": [
@@ -26,6 +26,15 @@
                     {
                         "x": 1534,
                         "y": 192
+                    }
+                ]
+            },
+            {
+                "type": 3,
+                "points": [
+                    {
+                        "x": 1254,
+                        "y": -127
                     }
                 ]
             }

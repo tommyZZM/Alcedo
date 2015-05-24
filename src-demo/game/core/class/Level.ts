@@ -43,6 +43,11 @@ module game {
                     this.addChild(cloud.display);
                 }
             }
+
+            var colourpower = this._levelconfig.objects.colourpower;
+            if(Array.isArray(colourpower)){
+                trace(colourpower)
+            }
         }
 
         public clear(){
@@ -51,7 +56,6 @@ module game {
             }
             this.removeChildren();
         }
-
 
         private _debugdraw:alcedo.canvas.graphic.Rectangle;
         private debugArea(active:boolean){
