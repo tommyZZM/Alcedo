@@ -9,7 +9,7 @@ module example {
             var v = new alcedo.canvas.Vector2D(0,-5);
             var pe = new alcedo.canvas.ParticleEmitter({initial:v,spread:20,max:30,rate:16});
             pe.x = this.stage.width/2;
-            pe.y = this.stage.height/2;
+            pe.y = this.stage.height/2+50;
 
             this.stage.addChild(pe);
             pe.play();

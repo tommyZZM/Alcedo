@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+#node_modules/
+alcedo.ts
+definitely/
+.gitattributes
+index.html
+test.js
+tsconfig.json
+.idea/
+#src-example
+example
+example-*
+src-*

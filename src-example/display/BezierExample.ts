@@ -2,10 +2,8 @@
  * Created by tommyZZM on 2015/5/16.
  */
 module example {
-    export class HelloWorld extends ExampleCycler {
-
+    export class BezierExample extends ExampleCycler {
         protected run(){
-
             var points = [{x:100,y:100},{x:100,y:300},{x:250,y:300},{x:200,y:100}];
 
             var curvebesizer = BezierMaker.create(points);
@@ -55,7 +53,6 @@ module example {
 
             return new canvas.Bezier2D(curvepoints);
         }
-
         private static tmppoint:canvas.Vector2D = new canvas.Vector2D();
         private static tmplength:canvas.Vector2D = new canvas.Vector2D();
 

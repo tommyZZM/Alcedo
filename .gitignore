@@ -1,22 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/
-bin-debug/lib
-bin-debug/script
-ref
-#demo/res
-bin-debug/test.html
-lib/alcedo/alcedo.d.ts
-tsccorxProject_ori.json
-tsccorxProject_demo.json
-workshop/
-resource/
 node_modules/
 out/
-#demo/script/
-__tmpup/
-
-#tsconfig.json
-
-example/p2physis/test.html
-demo/script/colorjet.js
-beta/
+.idea/
