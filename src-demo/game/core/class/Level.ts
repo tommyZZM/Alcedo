@@ -15,6 +15,7 @@ module game {
             this.width = this._levelconfig.pixelwidth;
             this.height = this._levelconfig.pixelheight;
             this._clouds = [];
+            this._powers = [];
         }
 
         public get right(){
@@ -27,9 +28,9 @@ module game {
 
         //显示场景中的物体
         private _clouds:Array<any>;
+        private _powers:Array<any>;
         public render(){
             trace(this._levelconfig)
-            this.debugArea(true);
 
             var i=0;
             var cloudsdata = this._levelconfig.objects.obstacle_darkcloud;
@@ -44,9 +45,25 @@ module game {
                 }
             }
 
-            var colourpower = this._levelconfig.objects.colourpower;
-            if(Array.isArray(colourpower)){
-                trace(colourpower)
+            var colourpowerdata = this._levelconfig.objects.colourpower;
+            if(Array.isArray(colourpowerdata)){
+                for(var i=0;i<colourpowerdata.length;i++){
+                    var colourpower = colourpowerdata[i];
+                    if(!colourpower.bezier){
+                        var sc = colourpower.points.length-1;
+                        colourpower.bezier = BezierMaker.create(colourpower.points,sc*8);
+                    }
+
+                    var curve = colourpower.bezier.curve;
+                    for(var j=0;j<curve.length;j++){
+                        var singlepower = new ColourPower();
+                        singlepower.x = curve[j].x;
+                        singlepower.y = curve[j].y;
+                        this._powers.push(singlepower);
+                        alcedo.core(WorldManager).addEntity(singlepower);
+                        this.addChild(singlepower.display);
+                    }
+                }
             }
         }
 
@@ -54,7 +71,12 @@ module game {
             for(var i=0;i<this._clouds.length;i++){
                 alcedo.core(WorldManager).removeEntity(this._clouds[i]);
             }
+            for(var i=0;i<this._powers.length;i++){
+                alcedo.core(WorldManager).removeEntity(this._powers[i]);
+            }
             this.removeChildren();
+            this._clouds = [];
+            this._powers = [];
         }
 
         private _debugdraw:alcedo.canvas.graphic.Rectangle;

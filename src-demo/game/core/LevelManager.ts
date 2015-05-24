@@ -46,7 +46,7 @@ module game {
 
                 if(this._activelevels.length<MAX_LEVE_COUNT){
                     levelobj = this._levelobjs.randomselect();
-                    //trace(levelobj.id,this._levelspool.get(levelobj.id));
+                    trace(levelobj.id,this._levelspool.get(levelobj.id));
                     tmplevel = this._levelspool.get(levelobj.id).pop();
                     if(this._activelevels.length===0){
                         //首次创建

@@ -19,7 +19,7 @@ module game{
 
         public gravityenable:boolean;
 
-        public constructor(display:alcedo.canvas.DisplayObject,opts?:any){
+        public constructor(display?:alcedo.canvas.DisplayObject,opts?:any){
             super();
             this._display = display;
             this._velocity = new alcedo.canvas.Vector2D();
@@ -30,7 +30,7 @@ module game{
         }
 
         public sync(){
-            if(!this._body)return;
+            if(!this._body || !this._display)return;
             this._body.pos["x"] = this._display.globalx;
             this._body.pos["y"] = this._display.globaly;
             if(this._body instanceof sat.Polygon){

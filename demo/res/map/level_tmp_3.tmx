@@ -6,9 +6,9 @@
   </object>
  </objectgroup>
  <objectgroup color="#e67e22" name="obstacle_darkcloud">
-  <object id="46" x="675.75" y="44.25" width="100.5" height="59.5"/>
+  <object id="46" x="618.75" y="28.25" width="100.5" height="59.5"/>
   <object id="47" x="1354.75" y="19.25" width="131.5" height="75.5"/>
-  <object id="48" x="450.75" y="82.25" width="158.5" height="95.5"/>
+  <object id="48" x="396.75" y="32.25" width="158.5" height="95.5"/>
   <object id="53" x="955.25" y="271.25" width="131.5" height="75.5"/>
   <object id="54" x="1804.25" y="215.25" width="131.5" height="75.5"/>
   <object id="55" x="2161.25" y="63.25" width="131.5" height="75.5"/>

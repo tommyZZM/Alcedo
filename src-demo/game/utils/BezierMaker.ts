@@ -3,10 +3,10 @@
  */
 module game{
     export class BezierMaker {
-        public static create(points:Array<any>):canvas.Bezier2D {
+        public static create(points:Array<any>,accuracy:number=10):canvas.Bezier2D {
             var curve = this.createcontrolpoint(points);
 
-            return new canvas.Bezier2D(curve);
+            return new canvas.Bezier2D(curve,accuracy);
         }
 
         private static tmppoint:canvas.Vector2D = new canvas.Vector2D();

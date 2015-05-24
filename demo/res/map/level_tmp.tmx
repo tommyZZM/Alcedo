@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="600" height="80" tilewidth="5" tileheight="5" nextobjectid="50">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="600" height="80" tilewidth="5" tileheight="5" nextobjectid="61">
  <objectgroup color="#2980b9" name="colourpower">
-  <object id="42" x="636" y="87">
-   <polyline points="0,0 214,-30 337,144"/>
+  <object id="51" x="543" y="259">
+   <polyline points="0,0 250,-187 551,52"/>
   </object>
-  <object id="43" x="1015" y="306">
-   <polyline points="6,-64 197,-11 311,-52 359,-190"/>
+  <object id="52" x="1259" y="305">
+   <polyline points="0,0 252,-228 472,-27"/>
   </object>
-  <object id="44" x="1433" y="117">
-   <polyline points="0,0 163,-62 302,118"/>
+  <object id="59" x="1874" y="270">
+   <polyline points="0,0 205,-200 394,48"/>
+  </object>
+  <object id="60" x="2363" y="144">
+   <polyline points="-63,20 248,196 530,-14"/>
   </object>
  </objectgroup>
  <objectgroup color="#e67e22" name="obstacle_darkcloud">
-  <object id="25" x="702.25" y="277.25" width="102.5" height="64.5"/>
+  <object id="25" x="739.25" y="335.25" width="102.5" height="64.5"/>
   <object id="33" x="1078.25" y="38.75" width="158.5" height="95.5"/>
   <object id="34" x="1484.75" y="251.75" width="86.5" height="56.5"/>
-  <object id="46" x="1930.75" y="34.25" width="118.5" height="73.5"/>
-  <object id="47" x="1929.75" y="270.25" width="133.5" height="79.5"/>
-  <object id="48" x="2384.75" y="150.25" width="118.5" height="73.5"/>
+  <object id="46" x="1824.75" y="13.25" width="118.5" height="73.5"/>
+  <object id="47" x="1957.75" y="296.25" width="133.5" height="79.5"/>
+  <object id="48" x="2529.75" y="55.25" width="118.5" height="73.5"/>
+  <object id="56" x="421.75" y="6.25" width="123.5" height="77.5"/>
+  <object id="57" x="288.75" y="6.25" width="100.5" height="63.5"/>
  </objectgroup>
 </map>
