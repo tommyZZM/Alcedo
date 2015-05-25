@@ -3,7 +3,7 @@
  */
 var gulp = require('gulp');
 
-var alcedo = require("./alcedo.js");
+var alcedo = require("./alcedoproj.js");
 
 require("./examples");
 
