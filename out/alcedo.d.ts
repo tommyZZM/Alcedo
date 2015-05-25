@@ -857,7 +857,7 @@ declare module alcedo {
             hasClass(className: any): boolean;
             addClass(className: any): void;
             removeClass(className: any): void;
-            styleClass: string[];
+            styleClass: string;
             css(cssprops: any): DomElement;
             abscss(): any;
             private getcsspropvalue(name);

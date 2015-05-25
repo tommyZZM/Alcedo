@@ -1,7 +1,7 @@
 /**
  * Created by tommyZZM on 2015/5/24.
  */
-var alcedo = require("./alcedo.js");
+var alcedo = require("./alcedoproj.js");
 var gulp = require('gulp');
 
 //例子项目

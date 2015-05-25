@@ -2,3 +2,5 @@
 node_modules/
 #out/
 .idea/
+test/alcedo.d.ts
+test/alcedo.js

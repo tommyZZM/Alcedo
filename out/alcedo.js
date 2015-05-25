@@ -2716,9 +2716,10 @@ var alcedo;
             };
             Object.defineProperty(DomElement.prototype, "styleClass", {
                 get: function () {
-                    this._node.className = this._node.className.replace('  ', ' ');
-                    var result = this.node.className.split(" ");
-                    return result;
+                    return this._node.className;
+                },
+                set: function (calss) {
+                    this._node.className = calss;
                 },
                 enumerable: true,
                 configurable: true
@@ -3493,7 +3494,7 @@ var alcedo;
             function Profiler(context) {
                 _super.call(this);
                 this._maincontext = context;
-                this._profilerdiv = alcedo.dom.query("<div style='font-family:Microsoft Yahei;background-color: black;opacity: 0.6;color: #fff;line-height: 1.3;padding: 3px'>" + "<p style='margin: 0;'>FPS:<span class='fps'>60</span></p>" + "<p style='margin: 0;'>CPU</p>" + "</div>")[0];
+                this._profilerdiv = alcedo.dom.query("<div style='font-family:Microsoft Yahei;background-color: black;opacity: 0.6;color: #fff;line-height: 1.3;padding: 3px'>" + "<p style='margin: 0;'>FPS:<span class='fps'>60</span></p>" + "<p style='margin: 0;'>Canvas</p>" + "</div>")[0];
                 this._profilerdiv.css({ position: "absolute" });
                 this._profilerdiv.addClass(canvas.canvasStyleClass.alcedo_canvas_profiler);
                 //this._profilerdiv.id = this._maincontext.canvas.id+"_profiler";
