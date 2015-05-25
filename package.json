@@ -2,7 +2,7 @@
   "name": "alcedo",
   "version": "0.0.11",
   "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
-  "main": "alcedo.js",
+  "main": "alcedoproj.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
