@@ -563,14 +563,6 @@ declare module alcedo {
     }
 }
 /**
- * Created by tommyZZM on 2015/4/6.
- */
-declare module alcedo {
-    module dom {
-        function log_code(code: number): string;
-    }
-}
-/**
  * Created by tommyZZM on 2015/4/4.
  */
 declare module alcedo {

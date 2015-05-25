@@ -11,7 +11,24 @@ gulp.task('default', ["startserver","alcedo"]);
 
 gulp.task('startserver', function() {
     gulp.src("./")
-        .pipe(alcedo.server({port:2099,index:"./example/index.html",bowser:"chrome"}));
+        .pipe(alcedo.server({port:20210,index:"./example/index.html",bowser:"chrome"}));
+});
+
+
+gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);
+
+alcedo.ProjectCreater.alcedoSourceCodeCompile("alcedopixi-proj",{
+    outdir:"./test",
+    outfile:"alcedo.js"
+},["dom","net","beta-pixi"]);
+
+new alcedo.ProjectCreater({
+    projectid:"hellopixi",
+    src:["./test/src/**/*.ts"],
+    outdir:"./test/scripts",
+    outfile:"hellopixi.js",
+    alcedo:"./test/alcedo.d.ts",
+    reqdts:"./lib/pixi.d.ts"
 });
 
 

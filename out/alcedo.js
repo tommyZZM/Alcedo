@@ -1814,22 +1814,6 @@ var alcedo;
     alcedo.AppNotifyable = AppNotifyable;
 })(alcedo || (alcedo = {}));
 /**
- * Created by tommyZZM on 2015/4/6.
- */
-var alcedo;
-(function (alcedo) {
-    //canvas 心跳控制器
-    var dom;
-    (function (dom) {
-        var _log_code = {};
-        _log_code["dom" + 1001] = "DomManager是内部使用的单例,无需在外部实例化,请使用d$访问";
-        function log_code(code) {
-            return _log_code["dom" + code];
-        }
-        dom.log_code = log_code;
-    })(dom = alcedo.dom || (alcedo.dom = {}));
-})(alcedo || (alcedo = {}));
-/**
  * Created by tommyZZM on 2015/4/4.
  */
 //var ap:any = aperture;
@@ -2008,7 +1992,6 @@ var alcedo;
             function DomManager() {
                 _super.call(this);
                 if (DomManager._instance != null) {
-                    console.error(dom.log_code(1001));
                 }
                 this._querypool = new Dict();
                 this._domtask = new Dict();
@@ -5447,12 +5430,3 @@ var alcedo;
         net.AsyncAssetsLoader = AsyncAssetsLoader;
     })(net = alcedo.net || (alcedo.net = {}));
 })(alcedo || (alcedo = {}));
-/**
- * Created by tommyZZM on 2015/4/13.
- */
-// 当开启GPU渲染时，Chrome的canvas绘制会锁定在30帧（不接电源的时候是这样。）
-// 加入要打包成原生应用，首选考虑工具CocoonJS
-// Dom元素操作尽量通过add Class操作
-//
-//
-//

@@ -5,8 +5,14 @@ var concat = require('gulp-concat');
 var _server = require('gulp-easy-server');
 var through = require('through');
 console.log("hello world!");
-through;
 var projectHashDict = {};
+var alcedocore = __dirname + "/src/core/**/*.ts";
+var alcedomodules = {
+    "canvas": __dirname + "/src/internal/canvas/**/*.ts",
+    "dom": __dirname + "/src/internal/dom/**/*.ts",
+    "net": __dirname + "/src/internal/net/**/*.ts",
+    "beta-pixi": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]
+};
 var alcedo;
 (function (alcedo) {
     alcedo.server = _server;
@@ -23,6 +29,8 @@ var alcedo;
                 this.config.reqdts = [];
             if (!this.config.reqjs)
                 this.config.reqjs = [];
+            if (!this.config.alcedo)
+                this.config.alcedo = "./out/alcedo.d.ts";
             if (this.config.watch !== false)
                 this.config.watch = true;
             this.createTasks();
@@ -41,7 +49,7 @@ var alcedo;
                 var alcedoTsFiles = _this.srcfiles;
                 var sourceTsFiles = Array.isArray(_this.config.reqdts) ? _this.config.reqdts : [_this.config.reqdts];
                 if (!_this["sourcecode"]) {
-                    sourceTsFiles.push("./out/alcedo.d.ts");
+                    sourceTsFiles.push(_this.config.alcedo);
                 }
                 sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles);
                 _this.tscproject = ts.createProject({
@@ -77,13 +85,6 @@ var alcedo;
                 gulp.start([_this.taskname('src-watch')]);
             });
         };
-        Object.defineProperty(ProjectCreater.prototype, "task", {
-            get: function () {
-                return this.taskname('src-watch');
-            },
-            enumerable: true,
-            configurable: true
-        });
         ProjectCreater.prototype.taskname = function (name) {
             return name + "-" + this.config.projectid;
         };
@@ -123,16 +124,43 @@ var alcedo;
             };
             return through(onFile, onEnd);
         };
+        ProjectCreater.alcedoSourceCodeCompile = function (name, opts, modules) {
+            if (opts === void 0) { opts = {}; }
+            var pushmodule = function (name) {
+                if (Array.isArray(alcedomodules[name])) {
+                    src = src.concat(alcedomodules[name]);
+                }
+                else if (typeof alcedomodules[name] === "string") {
+                    src.push(alcedomodules[name]);
+                }
+            };
+            var src = [];
+            src.push(alcedocore);
+            if (!modules) {
+                pushmodule("canvas");
+                pushmodule("dom");
+                pushmodule("net");
+            }
+            else {
+                for (var i in modules) {
+                    pushmodule(modules[i]);
+                }
+            }
+            var proj = new alcedo.ProjectCreater({
+                projectid: name,
+                outdts: true,
+                src: src,
+                outdir: opts.outdir || "./out",
+                outfile: opts.outfile || "alcedo.js"
+            });
+            proj["sourcecode"] = true;
+            this.alcedolib[name] = proj.config.outdir + "/" + proj.config.outfile;
+            return proj;
+        };
+        ProjectCreater.alcedolib = {};
         return ProjectCreater;
     })();
     alcedo.ProjectCreater = ProjectCreater;
 })(alcedo || (alcedo = {}));
-var sourcecodetask = new alcedo.ProjectCreater({
-    projectid: "alcedo",
-    outdts: true,
-    src: __dirname + "/src/**/*.ts",
-    outdir: "./out",
-    outfile: "alcedo.js"
-});
-sourcecodetask.sourcecode = true;
+alcedo.ProjectCreater.alcedoSourceCodeCompile("alcedo", "alcedo.js");
 module.exports = alcedo;

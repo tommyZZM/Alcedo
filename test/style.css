@@ -1,0 +1,19 @@
+body,html{
+    margin: 0;
+    height:100%;
+}
+
+.alcedo-canvas-container{
+    width: 100%;
+    height: inherit;
+    position: relative;
+    display: block;
+}
+
+canvas{
+    display: block;
+    padding: 0;
+    border: 0;
+    margin: 0 auto;
+    outline: none;
+}

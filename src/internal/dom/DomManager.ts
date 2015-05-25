@@ -39,7 +39,7 @@ module alcedo{
                 super();
 
                 if (DomManager._instance != null) {
-                    console.error(dom.log_code(1001))
+                    //console.error(dom.log_code(1001))
                 }
 
                 this._querypool = new Dict();

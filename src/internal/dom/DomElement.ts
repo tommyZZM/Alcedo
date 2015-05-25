@@ -52,7 +52,7 @@ module alcedo {
                 if(e.changedTouches){
                     var l = e.changedTouches.length;
                     for (var i:number = 0; i < l; i++) {
-                        var touchtarget= e.changedTouches[i];
+                        var touchtarget:any= e.changedTouches[i];
                         touchtarget.type = event;
                         this.emit(event,e.changedTouches[i]);
                     }
@@ -148,10 +148,12 @@ module alcedo {
                     this._node.className = this._node.className.replace(reg, '');
                 }
             }
-            public get styleClass():string[]{
-                this._node.className = this._node.className.replace('  ', ' ');
-                var result = this.node.className.split(" ")
-                return result
+            public get styleClass():string{
+                return this._node.className
+            }
+
+            public set styleClass(calss:string){
+                this._node.className = calss;
             }
 
             //CSS 属性
