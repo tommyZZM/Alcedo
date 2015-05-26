@@ -2712,6 +2712,9 @@ var alcedo;
                 if (this.hasClass(className)) {
                     var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
                     this._node.className = this._node.className.replace(reg, '');
+                    if (this._node.className === '') {
+                        this._node.removeAttribute("class");
+                    }
                 }
             };
             Object.defineProperty(DomElement.prototype, "styleClass", {

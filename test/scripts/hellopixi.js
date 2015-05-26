@@ -24,6 +24,19 @@ var example;
             this.stage.addEventListener(alcedo.Stage.ENTER_SECOND, function () {
                 //trace("hi");
             }, this);
+            trace(this.stage);
+            var sprite = PIXI.Sprite.fromImage('res/paopaoxieyanxiao.png');
+            sprite.position.set(this.stage.width / 2, this.stage.height / 2 - 100);
+            sprite.interactive = true;
+            sprite.on('mousedown', onDown);
+            sprite.on('touchstart', onDown);
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+            this.stage.root.addChild(sprite);
+            function onDown(eventData) {
+                sprite.scale.x += 0.3;
+                sprite.scale.y += 0.3;
+            }
             alcedo.dom.resize(this.onResize, this);
         };
         HelloPixi.prototype.onResize = function () {

@@ -26,6 +26,7 @@ module alcedo {
             this._maincontext.container.prependChild(this._profilerdiv);
 
             this._rendertype = this._profilerdiv.find(".rendertype")[0];
+            this._rendertype.removeClass("rendertype");
         }
 
         public set renderType(renderer:PIXI.SystemRenderer|any){

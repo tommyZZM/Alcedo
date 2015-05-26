@@ -19,6 +19,10 @@ module alcedo{
         public constructor(canvas:dom.DomElement,width:number=320,height:number=480,opts:any={}) {
             super();
             this._options = opts;
+
+            this._width = width;
+            this._height = height;
+
             this.setStageWidth(width);
             this.setStageHeight(height);
             this._enterframemap = new Dict();
@@ -28,6 +32,35 @@ module alcedo{
             this._maincontext = new MainContext(this,canvas);
 
             this.resizeContext();
+        }
+
+        private _stageWidth:number;
+        public get stageWidth():number{
+            return this._stageWidth
+        }
+        private _stageHeight:number;
+        public get stageHeight():number{
+            return this._stageHeight
+        }
+
+        //设置渲染宽度
+        public setStageWidth(width:number){
+            this._stageWidth = width;
+        }
+
+        //设置渲染高度
+        public setStageHeight(height:number){
+            this._stageHeight = height;
+        }
+
+        //只读
+        private _width:number;
+        public get width(){
+            return this._width;
+        }
+        private _height:number;
+        public get height(){
+            return this._height;
         }
 
         //渲染循环
@@ -59,25 +92,7 @@ module alcedo{
             AppNotifyable.registNotify(this._enterframemap,Stage.ENTER_FRAME,callback,thisOBject)
         }
 
-        private _stageWidth:number;
-        public get stageWidth():number{
-            return this._stageWidth
-        }
-        private _stageHeight:number;
-        public get stageHeight():number{
-            return this._stageHeight
-        }
-
-        //设置渲染宽度
-        public setStageWidth(width:number){
-            this._stageWidth = width;
-        }
-
-        //设置渲染高度
-        public setStageHeight(height:number){
-            this._stageHeight = height;
-        }
-
+        //Dom
         public get warpper():dom.DomElement{
             return this._maincontext["_canvascontainer"];
         }

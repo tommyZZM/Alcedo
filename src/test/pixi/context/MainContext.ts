@@ -93,12 +93,12 @@ module alcedo{
             this._canvasrenderer = PIXI.autoDetectRenderer(this._designwidth, this._designheight
                 ,{
                     view:<HTMLCanvasElement>this.canvas.node,
-                    antialiasing: false,
+                    antialiasing: this._stage.options.antialiasing,
                     transparent: false,
                     resolution: 1,
-                    clearBeforeRendering:false,
-                    preserveDrawingBuffer:false,
-                    forceFXAA:false,
+                    clearBeforeRendering:this._stage.options.clearBeforeRendering,
+                    preserveDrawingBuffer:this._stage.options.preserveDrawingBuffer,
+                    forceFXAA:this._stage.options.forceFXAA,
                     backgroundColor:this._stage.options.backgroundColor
                 });
             if(this._profiler){
