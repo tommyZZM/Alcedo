@@ -209,7 +209,7 @@ module alcedo{
 
                 if(!this.isAddtoStage()){
                     this._playstatetmp = value;
-                    trace("'[dev]!this.isAddtoStage()");
+                    //trace("'[dev]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;

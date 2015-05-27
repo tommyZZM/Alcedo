@@ -103,7 +103,7 @@ var example;
             pe.play();
             pe.applyForce(new alcedo.canvas.Vector2D(0, 0.09));
             this._startcolour = Art.HexToRGB(ColourfulParticleExample.colour);
-            this._currcolour = this._startcolour.clone();
+            this._currcolour = this._startcolour.copy();
             this.targetcolour = this.getTargetColour();
             var step = [];
             step.push(parseInt(((this.targetcolour[0] - this._startcolour[0]) / 60)));

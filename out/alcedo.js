@@ -879,6 +879,8 @@ var alcedo;
              */
             DisplayObject.prototype._render = function (renderer) {
                 //处理其他通用的渲染步骤（滤镜，遮罩等）
+                if (!this._visible || this._worldalpha == 0)
+                    return;
                 renderer.context.globalAlpha = this._worldalpha;
                 renderer.setTransform(this._worldtransform);
                 this._draw(renderer);
@@ -3871,7 +3873,7 @@ var alcedo;
                 }
                 if (!this.isAddtoStage()) {
                     this._playstatetmp = value;
-                    trace("'[dev]!this.isAddtoStage()");
+                    //trace("'[dev]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;
@@ -4438,15 +4440,15 @@ var alcedo;
                 }
                 if (!this.isAddtoStage()) {
                     this._playstatetmp = value;
-                    trace("'[dev particle]!this.isAddtoStage()");
+                    //trace("'[dev particle]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;
                 if (value) {
-                    this._stage.addEventListener(canvas.Stage.ENTER_MILLSECOND10, this._updateParticles, this);
+                    this._stage.addEventListener(canvas.Stage.ENTER_FRAME, this._updateParticles, this);
                 }
                 else {
-                    this._stage.removeEventListener(canvas.Stage.ENTER_MILLSECOND10, this._updateParticles, this);
+                    this._stage.removeEventListener(canvas.Stage.ENTER_FRAME, this._updateParticles, this);
                 }
             };
             ParticleEmitter.prototype.dispose = function () {

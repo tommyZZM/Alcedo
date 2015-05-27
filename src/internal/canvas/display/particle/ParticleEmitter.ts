@@ -189,14 +189,14 @@ module alcedo{
 
                 if(!this.isAddtoStage()){
                     this._playstatetmp = value;
-                    trace("'[dev particle]!this.isAddtoStage()");
+                    //trace("'[dev particle]!this.isAddtoStage()");
                     return;
                 }
                 this._playstate = value;
                 if(value){
-                    this._stage.addEventListener(Stage.ENTER_MILLSECOND10,this._updateParticles, this);
+                    this._stage.addEventListener(Stage.ENTER_FRAME,this._updateParticles, this);
                 }else{
-                    this._stage.removeEventListener(Stage.ENTER_MILLSECOND10,this._updateParticles, this);
+                    this._stage.removeEventListener(Stage.ENTER_FRAME,this._updateParticles, this);
                 }
             }
 

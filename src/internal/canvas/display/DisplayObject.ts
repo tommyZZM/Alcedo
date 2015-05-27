@@ -410,6 +410,7 @@ module alcedo {
              */
             protected _render(renderer:CanvasRenderer){
                 //处理其他通用的渲染步骤（滤镜，遮罩等）
+                if(!this._visible || this._worldalpha === 0)return;
                 renderer.context.globalAlpha = this._worldalpha;
                 renderer.setTransform(this._worldtransform);
                 this._draw(renderer);
