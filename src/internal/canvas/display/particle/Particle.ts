@@ -96,7 +96,12 @@ module alcedo{
 
                 this._isdecayed = false;
                 this._currphase = 0;
+                this.oncreate(x,y,mass);
                 this._lifephase = [this.prebron,this.alive,this.decaying];
+            }
+
+            protected oncreate(x:number,y:number,mass:number=1){
+
             }
 
             /**

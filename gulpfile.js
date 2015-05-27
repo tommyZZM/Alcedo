@@ -7,7 +7,7 @@ var alcedo = require("./alcedoproj.js");
 
 require("./examples");
 
-gulp.task('default', ["startserver","alcedo"]);
+gulp.task('default', ["alcedo"]);
 
 gulp.task('startserver', function() {
     gulp.src("./")

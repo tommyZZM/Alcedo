@@ -962,7 +962,10 @@ declare module alcedo {
  * Created by tommyZZM on 2015/4/8.
  */
 declare module Art {
-    function toColorString(value: number): string;
+    function HexToColorString(value: number): string;
+    function StringToColorHex(value: string): number;
+    function HexToRGB(value: number | string): Array<number>;
+    function RGBToHex(r: number | Array<any>, g?: number, b?: number): string;
 }
 /**
  * Created by tommyZZM on 2015/4/11.
@@ -1289,6 +1292,7 @@ declare module alcedo {
             _stagetransform(stage: Stage): void;
             _transform(): void;
             _draw(renderer: CanvasRenderer | any): void;
+            protected display(renderer: CanvasRenderer): void;
             /**
              * [控制栗子运动的接口]
              * 给栗子施加一个力
@@ -1303,6 +1307,7 @@ declare module alcedo {
              * @param preserve
              */
             create(x: number, y: number, mass?: number, ...preserve: any[]): void;
+            protected oncreate(x: number, y: number, mass?: number): void;
             /**
              * 栗子生命周期相位.可变，会在Update方法中调用
              */

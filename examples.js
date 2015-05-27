@@ -6,21 +6,11 @@ var gulp = require('gulp');
 
 //例子项目
 
-gulp.task('example', ["example-bezier","example-particel","example-hello"]);
+gulp.task('example', ["example-bezier","example-particel","example-hello","example-color-particel"]);
 
-new alcedo.ProjectCreater({
-    projectid:"example-bezier",
-    src:["./src-example/display/BezierExample.ts","./src-example/ExampleCycler.ts"],
-    outdir:"./example/scripts",
-    outfile:"example-bezier.js"
-});
-
-new alcedo.ProjectCreater({
-    projectid:"example-particel",
-    src:["./src-example/display/ParticleExample.ts","./src-example/ExampleCycler.ts"],
-    outdir:"./example/scripts",
-    outfile:"example-particel.js"
-});
+newExample("example-bezier","./src-example/display/BezierExample.ts");
+newExample("example-particel","./src-example/display/ParticleExample.ts");
+newExample("example-color-particel","./src-example/display/ColourfulParticleExample.ts");
 
 new alcedo.ProjectCreater({
     projectid:"example-hello",
@@ -28,3 +18,12 @@ new alcedo.ProjectCreater({
     outdir:"./example/scripts",
     outfile:"test.js"
 });
+
+function newExample(name,script){
+    new alcedo.ProjectCreater({
+        projectid:name,
+        src:Array.isArray(script)?["./src-example/ExampleCycler.ts"].concat(script):["./src-example/ExampleCycler.ts",script],
+        outdir:"./example/scripts",
+        outfile:name+".js"
+    });
+}

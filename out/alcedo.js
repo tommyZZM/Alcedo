@@ -3083,7 +3083,7 @@ var alcedo;
  */
 var Art;
 (function (Art) {
-    function toColorString(value) {
+    function HexToColorString(value) {
         if (isNaN(value) || value < 0)
             value = 0;
         if (value > 16777215)
@@ -3094,7 +3094,37 @@ var Art;
         }
         return "#" + color;
     }
-    Art.toColorString = toColorString;
+    Art.HexToColorString = HexToColorString;
+    var _rcolourhex = /(0x|#)?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i;
+    function StringToColorHex(value) {
+        var _result = _rcolourhex.exec(value + "");
+        if (_result && _result[2] && _result[3] && _result[4]) {
+            _result = "0x" + _result[2] + _result[3] + _result[4];
+        }
+        return +_result;
+        //return "#"+color;
+    }
+    Art.StringToColorHex = StringToColorHex;
+    function HexToRGB(value) {
+        var _result = _rcolourhex.exec(value + "");
+        _result = [
+            parseInt(_result[2], 16),
+            parseInt(_result[3], 16),
+            parseInt(_result[4], 16)
+        ];
+        return _result;
+    }
+    Art.HexToRGB = HexToRGB;
+    function RGBToHex(r, g, b) {
+        var _r = r, _g = g, _b = b;
+        if (Array.isArray(r)) {
+            _r = r[0];
+            _g = r[1];
+            _b = r[2];
+        }
+        return "#" + _r.toString(16) + _g.toString(16) + _b.toString(16);
+    }
+    Art.RGBToHex = RGBToHex;
 })(Art || (Art = {}));
 /**
  * Created by tommyZZM on 2015/4/24.
@@ -4152,6 +4182,10 @@ var alcedo;
                 this.worldtransform.appendTransform(this.position.x, this.position.y, this.scale.x, this.scale.y, this.rotation, 0, 0, this.pivot.x, this.pivot.y);
             };
             Particle.prototype._draw = function (renderer) {
+                this.display(renderer);
+            };
+            Particle.prototype.display = function (renderer) {
+                //be overriden
                 var context = renderer.context;
                 context.beginPath();
                 context.arc(0, 0, 6, 0, 2 * Math.PI, false);
@@ -4194,7 +4228,11 @@ var alcedo;
                 this._mass = mass;
                 this._isdecayed = false;
                 this._currphase = 0;
+                this.oncreate(x, y, mass);
                 this._lifephase = [this.prebron, this.alive, this.decaying];
+            };
+            Particle.prototype.oncreate = function (x, y, mass) {
+                if (mass === void 0) { mass = 1; }
             };
             Particle.prototype.readPhase = function (e) {
                 if (this._isdecayed)
