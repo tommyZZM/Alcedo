@@ -20,7 +20,7 @@ newExample("example-sat",["./src-example/tests/HelloSat.ts","./example/sat/scrip
 new alcedo.ProjectCreater({
     projectid:"example-hello",
     src:["./src-example/tests/HelloWorld.ts","./src-example/ExampleCycler.ts"],
-    outdir:"./example/script",
+    outdir:"./example/scripts",
     outfile:"test.js"
 });
 

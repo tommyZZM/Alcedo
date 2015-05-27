@@ -95,6 +95,15 @@ var example;
         }
         HelloWorld.prototype.run = function () {
             trace("hi");
+            var game = function () {
+                var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"], counter;
+                for (counter = 0; counter < names.length; counter++) {
+                    console.log(names[counter]);
+                }
+            };
+            game();
+            var test = function () { return function () { return function (game) {
+            }; }; };
         };
         return HelloWorld;
     })(example.ExampleCycler);
