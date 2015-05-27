@@ -20,8 +20,8 @@ module alcedo{
             /**
              * 这个纹理的纹理x,Y,width,height
              */
-            public _textureX:number = 0;
-            public _textureY:number = 0;
+            //public _textureX:number = 0;
+            //public _textureY:number = 0;
             public _textureWidth:number = 0;
             public _textureHeight:number = 0;
 
@@ -54,8 +54,8 @@ module alcedo{
             public constructor(value?:HTMLImageElement|ImageData,args?:any){
                 super();
                 this._bitmapData = value;
-                this._sourceWidth = value.width;
-                this._sourceHeight = value.height;
+                this._sourceWidth = this._textureWidth = value.width;
+                this._sourceHeight = this._textureHeight = value.height;
                 this._sourceW2H = this._sourceWidth/this._sourceHeight;
                 this._bound = new alcedo.canvas.Rectangle();
             }

@@ -138,7 +138,7 @@ module alcedo {
                 return this._staticboundingbox.height;
             }
 
-            private updateBound(x?,y?,width?,height?){
+            protected updateBound(x?,y?,width?,height?){
                 if(typeof x == "number")this._staticboundingbox.x =x-this.pivotOffsetX;
                 if(typeof y == "number")this._staticboundingbox.y =y-this.pivotOffsetY;
                 if(typeof width == "number")this._staticboundingbox.width =width;

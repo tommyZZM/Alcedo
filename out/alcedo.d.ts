@@ -247,7 +247,7 @@ declare module alcedo {
             private _updateGlobalPosition();
             width: number;
             height: number;
-            private updateBound(x?, y?, width?, height?);
+            protected updateBound(x?: any, y?: any, width?: any, height?: any): void;
             pivotX: number;
             pivotOffsetX: number;
             pivotY: number;
@@ -1598,8 +1598,6 @@ declare module alcedo {
             /**
              * 这个纹理的纹理x,Y,width,height
              */
-            _textureX: number;
-            _textureY: number;
             _textureWidth: number;
             _textureHeight: number;
             _offsetX: number;

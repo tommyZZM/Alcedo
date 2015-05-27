@@ -22,16 +22,18 @@ module alcedo{
             public _draw(renderer:CanvasRenderer){
                 //if(!this.isInViewPort())return;
 
-                this._texture_to_render = this._texture;
+                this._texture_to_render = (<Texture>this._texture);
 
                 //console.log(this._position)
                 if (this._texture_to_render && this._texture_to_render.bitmapData && this._alpha>0 && this._visible){
                     renderer.context.drawImage(<any>this._texture_to_render.bitmapData
                         ,this._texture_to_render._sourceX,this._texture_to_render._sourceY
-                        ,this._texture_to_render._sourceWidth,this._texture_to_render._sourceHeight)
+                        ,this._texture_to_render._sourceWidth,this._texture_to_render._sourceHeight,
+                        this._texture_to_render._offsetX,this._texture_to_render._offsetY,
+                        this.width,this.height
+                    )
                 }
             }
-
 
             public set texture(texture:Texture){
                 this._texture = texture;

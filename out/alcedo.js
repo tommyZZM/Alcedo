@@ -3881,7 +3881,7 @@ var alcedo;
                 this._texture_to_render = this._texture;
                 //console.log(this._position)
                 if (this._texture_to_render && this._texture_to_render.bitmapData && this._alpha > 0 && this._visible) {
-                    renderer.context.drawImage(this._texture_to_render.bitmapData, this._texture_to_render._sourceX, this._texture_to_render._sourceY, this._texture_to_render._sourceWidth, this._texture_to_render._sourceHeight);
+                    renderer.context.drawImage(this._texture_to_render.bitmapData, this._texture_to_render._sourceX, this._texture_to_render._sourceY, this._texture_to_render._sourceWidth, this._texture_to_render._sourceHeight, this._texture_to_render._offsetX, this._texture_to_render._offsetY, this.width, this.height);
                 }
             };
             Object.defineProperty(Sprite.prototype, "texture", {
@@ -4885,8 +4885,8 @@ var alcedo;
                 /**
                  * 这个纹理的纹理x,Y,width,height
                  */
-                this._textureX = 0;
-                this._textureY = 0;
+                //public _textureX:number = 0;
+                //public _textureY:number = 0;
                 this._textureWidth = 0;
                 this._textureHeight = 0;
                 this._offsetX = 0;
@@ -4897,8 +4897,8 @@ var alcedo;
                 this._sourceW2H = 0;
                 this._bitmapData = null;
                 this._bitmapData = value;
-                this._sourceWidth = value.width;
-                this._sourceHeight = value.height;
+                this._sourceWidth = this._textureWidth = value.width;
+                this._sourceHeight = this._textureHeight = value.height;
                 this._sourceW2H = this._sourceWidth / this._sourceHeight;
                 this._bound = new alcedo.canvas.Rectangle();
             }

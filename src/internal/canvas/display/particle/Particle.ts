@@ -50,6 +50,11 @@ module alcedo{
             }
 
             public _draw(renderer:CanvasRenderer|any){
+                this.display(renderer);
+            }
+
+            protected display(renderer:CanvasRenderer){
+                //be overriden
                 var context = renderer.context;
                 context.beginPath();
                 context.arc(0, 0, 6, 0, 2 * Math.PI, false);
