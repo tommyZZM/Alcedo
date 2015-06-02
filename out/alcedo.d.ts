@@ -23,7 +23,6 @@ declare module alcedo {
  */
 declare module alcedo {
     class EventDispatcher extends AppObject {
-        protected _eventTarget: any;
         protected _eventsMap: Dict;
         constructor();
         addEventListener(event: string, listener: Function, thisObject: any, priority?: number): void;
@@ -200,7 +199,10 @@ declare module alcedo {
         shutDown(...anyarg: any[]): void;
         protected addCmdHandler(notify: string, callback: Function): void;
         protected removeCmdHandler(notify: string, callback: Function): void;
-        protected dispatchDemand(event: string, courier?: any): void;
+        private _demandMap;
+        dispatchDemand(event: string, courier?: any): void;
+        addDemandListener(event: string, listener: Function, thisObject: any, priority?: number): void;
+        removeDemandListener(event: string, listener: Function, thisObject: any, priority?: number): void;
     }
 }
 /**

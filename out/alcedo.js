@@ -45,7 +45,6 @@ var alcedo;
         __extends(EventDispatcher, _super);
         function EventDispatcher() {
             _super.call(this);
-            this._eventTarget = this;
             this._eventsMap = new Dict();
         }
         EventDispatcher.prototype.addEventListener = function (event, listener, thisObject, priority) {
@@ -399,6 +398,7 @@ var alcedo;
                 _startup.apply(_this, anyarg);
                 _startup.started = true;
             };
+            this._demandMap = new Dict();
         }
         AppSubCore.prototype.startUp = function () {
             var anyarg = [];
@@ -427,7 +427,13 @@ var alcedo;
             alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).delete(notify);
         };
         AppSubCore.prototype.dispatchDemand = function (event, courier) {
-            this.emit(event, courier);
+            alcedo.AppNotifyable.notify(this._demandMap, event, [courier]);
+        };
+        AppSubCore.prototype.addDemandListener = function (event, listener, thisObject, priority) {
+            alcedo.AppNotifyable.registNotify(this._demandMap, event, listener, thisObject, null, priority);
+        };
+        AppSubCore.prototype.removeDemandListener = function (event, listener, thisObject, priority) {
+            alcedo.AppNotifyable.unregistNotify(this._demandMap, event, listener, thisObject);
         };
         return AppSubCore;
     })(alcedo.EventDispatcher);

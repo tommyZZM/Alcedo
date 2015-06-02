@@ -4,13 +4,10 @@
 module alcedo{
     export class EventDispatcher extends AppObject{
 
-        protected _eventTarget:any;
-
         protected _eventsMap:Dict;
 
         public constructor() {
             super();
-            this._eventTarget = this;
             this._eventsMap = new Dict();
         }
 
