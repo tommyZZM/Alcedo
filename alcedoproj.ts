@@ -187,7 +187,7 @@ module alcedo{
         public static projectSourceCode(name:string,opts:any = {}){
             new Project({
                 projectid:name,
-                outdts:true,
+                outdts:false,
                 src:opts.src,
                 outdir:opts.outdir||"./out",
                 outfile:opts.outfile||"alcedo.js",

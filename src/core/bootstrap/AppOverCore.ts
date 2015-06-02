@@ -26,17 +26,6 @@ module alcedo{
         a$.dispatchCmd(core, cmd, courier)
     }
 
-    /**
-     * 侦听业务核心的回调
-     * @param core
-     * @param type
-     * @param callback
-     * @param thisObject
-     * @returns {boolean}
-     */
-    export function addDemandListener(core:any, type:string, callback:Function, thisObject:any,priority?:number):boolean {
-        return a$.addDemandListener(core, type, callback, thisObject,priority)
-    }
 
     /**
      * 业务核心管理器
@@ -148,16 +137,6 @@ module alcedo{
             courier._cmd = cmd;
             this._postman.setNotify(core,cmd,courier);
             this.dispatchEvent(this._postman);
-        }
-
-        //侦听业务核心的回调
-        public addDemandListener(core:any,type: string, callback: Function,thisObject: any,priority?:number):boolean{
-            if(isOfClass(core,AppSubCore)){
-                var c:AppSubCore = this.core(core);
-                c.addEventListener(type,callback,thisObject,priority);
-                return true;
-            }
-            return false;
         }
 
         //instance mode

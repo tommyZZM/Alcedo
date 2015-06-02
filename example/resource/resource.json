@@ -1,0 +1,18 @@
+{
+	"groups":[
+	{
+		"keys":"smallstarling_json,smallstarling_png",
+		"name":"preload"
+	}],
+	"resources":[
+	{
+		"name":"smallstarling_json",
+		"type":"json",
+		"url":"smallstarling.json"
+	},
+	{
+		"name":"smallstarling_png",
+		"type":"image",
+		"url":"smallstarling.png"
+	}]
+}

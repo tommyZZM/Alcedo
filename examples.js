@@ -14,6 +14,7 @@ gulp.task('example', ["example-bezier"
 newExample("example-bezier","./src-example/display/BezierExample.ts");
 newExample("example-particel","./src-example/display/ParticleExample.ts");
 newExample("example-color-particel","./src-example/display/ColourfulParticleExample.ts");
+newExample("example-movieclip","./src-example/display/MovieClipExample.ts");
 
 newExample("example-sat",["./src-example/tests/HelloSat.ts","./example/sat/script/SAT.d.ts"],"./example/sat/script");
 

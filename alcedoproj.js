@@ -133,7 +133,7 @@ var alcedo;
             if (opts === void 0) { opts = {}; }
             new Project({
                 projectid: name,
-                outdts: true,
+                outdts: false,
                 src: opts.src,
                 outdir: opts.outdir || "./out",
                 outfile: opts.outfile || "alcedo.js",

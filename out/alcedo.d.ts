@@ -528,15 +528,6 @@ declare module alcedo {
      * @param courier
      */
     function dispatchCmd(core: any, cmd: string, courier?: any): void;
-    /**
-     * 侦听业务核心的回调
-     * @param core
-     * @param type
-     * @param callback
-     * @param thisObject
-     * @returns {boolean}
-     */
-    function addDemandListener(core: any, type: string, callback: Function, thisObject: any, priority?: number): boolean;
 }
 /**
  * Created by tommyZZM on 2015/4/3.

@@ -6,8 +6,8 @@ module alcedo{
         var lastTime = 0;
         var vendors = ['ms', 'moz', 'webkit', 'o'];
         for(var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
-            window.requestAnimationFrame = window[vendors[i] + 'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[i] + 'CancelAnimationFrame'] ||
+            window.requestAnimationFrame = <any>window[vendors[i] + 'RequestAnimationFrame'];
+            window.cancelAnimationFrame = <any>window[vendors[i] + 'CancelAnimationFrame'] ||
             window[vendors[i] + 'CancelRequestAnimationFrame'];
         }
 

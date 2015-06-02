@@ -1576,18 +1576,6 @@ var alcedo;
     }
     alcedo.dispatchCmd = dispatchCmd;
     /**
-     * 侦听业务核心的回调
-     * @param core
-     * @param type
-     * @param callback
-     * @param thisObject
-     * @returns {boolean}
-     */
-    function addDemandListener(core, type, callback, thisObject, priority) {
-        return alcedo.a$.addDemandListener(core, type, callback, thisObject, priority);
-    }
-    alcedo.addDemandListener = addDemandListener;
-    /**
      * 业务核心管理器
      */
     var AppOverCore = (function (_super) {
@@ -1691,15 +1679,6 @@ var alcedo;
             courier._cmd = cmd;
             this._postman.setNotify(core, cmd, courier);
             this.dispatchEvent(this._postman);
-        };
-        //侦听业务核心的回调
-        AppOverCore.prototype.addDemandListener = function (core, type, callback, thisObject, priority) {
-            if (isOfClass(core, alcedo.AppSubCore)) {
-                var c = this.core(core);
-                c.addEventListener(type, callback, thisObject, priority);
-                return true;
-            }
-            return false;
         };
         Object.defineProperty(AppOverCore, "instance", {
             get: function () {
