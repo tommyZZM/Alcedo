@@ -17,16 +17,14 @@ newExample("example-color-particel","./src-example/display/ColourfulParticleExam
 
 newExample("example-sat",["./src-example/tests/HelloSat.ts","./example/sat/script/SAT.d.ts"],"./example/sat/script");
 
-new alcedo.ProjectCreater({
-    projectid:"example-hello",
+alcedo.projectSourceCode("example-hello",{
     src:["./src-example/tests/HelloWorld.ts","./src-example/ExampleCycler.ts"],
     outdir:"./example/scripts",
     outfile:"test.js"
 });
 
 function newExample(name,script,outdir){
-    new alcedo.ProjectCreater({
-        projectid:name,
+    alcedo.projectSourceCode(name,{
         src:Array.isArray(script)?["./src-example/ExampleCycler.ts"].concat(script):["./src-example/ExampleCycler.ts",script],
         outdir:outdir||"./example/scripts",
         outfile:name+".js"

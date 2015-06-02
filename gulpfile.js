@@ -17,13 +17,12 @@ gulp.task('startserver', function() {
 
 gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);
 
-alcedo.ProjectCreater.alcedoSourceCodeCompile("alcedopixi-proj",{
+alcedo.alcedoSourceCode("alcedopixi-proj",{
     outdir:"./test",
     outfile:"alcedo.js"
 },["dom","net","beta-pixi"]);
 
-new alcedo.ProjectCreater({
-    projectid:"hellopixi",
+alcedo.projectSourceCode("hellopixi",{
     src:["./test/src/**/*.ts"],
     outdir:"./test/scripts",
     outfile:"hellopixi.js",

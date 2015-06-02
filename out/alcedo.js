@@ -879,7 +879,7 @@ var alcedo;
              */
             DisplayObject.prototype._render = function (renderer) {
                 //处理其他通用的渲染步骤（滤镜，遮罩等）
-                if (!this._visible || this._worldalpha == 0)
+                if (!this._visible || this._worldalpha === 0)
                     return;
                 renderer.context.globalAlpha = this._worldalpha;
                 renderer.setTransform(this._worldtransform);
@@ -2582,6 +2582,13 @@ var alcedo;
  */
 var alcedo;
 (function (alcedo) {
+    var testMoblileDeviceType = function () {
+        if (!this["navigator"]) {
+            return true;
+        }
+        var ua = navigator.userAgent.toLowerCase();
+        return (ua.indexOf('mobile') != -1 || ua.indexOf('android') != -1);
+    };
     var dom;
     (function (dom) {
         var pixable_css_prop = ["width", "height", "top"];
@@ -2602,21 +2609,34 @@ var alcedo;
             DomElement.prototype.initevent = function () {
                 var _this = this;
                 //TODO:点击事件可能会有BUG,待优化.
-                this._node.addEventListener("touchstart", function (e) {
-                    _this.ontouchbegin(e);
-                }, false);
-                this._node.addEventListener("touchmove", function (e) {
-                    _this.ontouchmove(e);
-                }, false);
-                this._node.addEventListener("touchend", function (e) {
-                    _this.ontouchend(e);
-                }, false);
-                this._node.addEventListener("touchcancel", function (e) {
-                    _this.ontouchend(e);
-                }, false);
-                this._node.addEventListener("tap", function (e) {
-                    _this.ontouchtap(e);
-                }, false);
+                if (testMoblileDeviceType()) {
+                    this._node.addEventListener("touchstart", function (e) {
+                        _this.ontouchbegin(e);
+                    }, false);
+                    this._node.addEventListener("touchmove", function (e) {
+                        _this.ontouchmove(e);
+                    }, false);
+                    this._node.addEventListener("touchend", function (e) {
+                        _this.ontouchend(e);
+                    }, false);
+                    this._node.addEventListener("touchcancel", function (e) {
+                        _this.ontouchend(e);
+                    }, false);
+                    this._node.addEventListener("tap", function (e) {
+                        _this.ontouchtap(e);
+                    }, false);
+                }
+                else {
+                    this._node.addEventListener("mousedown", function (e) {
+                        _this.onmousedown(e);
+                    }, false);
+                    this._node.addEventListener("mouseup", function (e) {
+                        _this.onmouseup(e);
+                    }, false);
+                    this._node.addEventListener("click", function (e) {
+                        _this.onmouseclick(e);
+                    }, false);
+                }
                 this._node.addEventListener("DOMSubtreeModified", this._onmodified.bind(this));
                 this._node.addEventListener('transitionend', this._oncsstransitionend.bind(this), false);
                 this._node.addEventListener("webkitTransitionEnd", this._oncsstransitionend.bind(this), false);
@@ -2624,6 +2644,18 @@ var alcedo;
             /**
              * Event
              **/
+            DomElement.prototype.onmousedown = function (e) {
+                e.identifier = 0;
+                this.emit(dom.TouchEvent.TOUCH_BEGIN, e);
+            };
+            DomElement.prototype.onmouseup = function (e) {
+                e.identifier = 0;
+                this.emit(dom.TouchEvent.TOUCH_END, e);
+            };
+            DomElement.prototype.onmouseclick = function (e) {
+                e.identifier = 0;
+                this.emit(dom.TouchEvent.TOUCH_TAP, e);
+            };
             /**
              * Touch事件
              **/
@@ -2673,9 +2705,6 @@ var alcedo;
             DomElement.prototype.ontouchtap = function (e) {
                 //trace("ontouchtap",this.node);
                 this.emit(dom.TouchEvent.TOUCH_TAP, e.touchTarget);
-            };
-            DomElement.prototype._onmouse = function (e) {
-                //trace("_onmouse",e);
             };
             DomElement.prototype._onmodified = function (e) {
                 //console.log(e);

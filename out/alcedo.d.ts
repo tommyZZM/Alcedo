@@ -839,6 +839,9 @@ declare module alcedo {
             /**
              * Event
              **/
+            private onmousedown(e);
+            private onmouseup(e);
+            private onmouseclick(e);
             /**
              * Touch事件
              **/
@@ -847,7 +850,6 @@ declare module alcedo {
             private ontouchmove(e);
             private ontouchend(e);
             private ontouchtap(e);
-            private _onmouse(e);
             private _onmodified(e);
             private _csstransitionSleep;
             private _oncsstransitionend(e);

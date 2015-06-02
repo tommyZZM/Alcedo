@@ -2,6 +2,14 @@
  * Created by tommyZZM on 2015/4/6.
  */
 module alcedo {
+    var testMoblileDeviceType = function () {
+        if (!this["navigator"]) {
+            return true
+        }
+        var ua = navigator.userAgent.toLowerCase();
+        return (ua.indexOf('mobile') != -1 || ua.indexOf('android') != -1);
+    };
+
     export module dom {
         var pixable_css_prop = ["width","height","top"];
         var _rcssprop:RegExp = /^(\d+\.?\d+)(\w+)$/i;
@@ -30,11 +38,17 @@ module alcedo {
 
             private initevent(){
                 //TODO:点击事件可能会有BUG,待优化.
-                this._node.addEventListener("touchstart",(e)=>{this.ontouchbegin(e)},false);
-                this._node.addEventListener("touchmove",(e)=>{this.ontouchmove(e)},false);
-                this._node.addEventListener("touchend",(e)=>{this.ontouchend(e)},false);
-                this._node.addEventListener("touchcancel",(e)=>{this.ontouchend(e)},false);
-                this._node.addEventListener("tap",(e)=>{this.ontouchtap(e)},false);
+                if(testMoblileDeviceType()){
+                    this._node.addEventListener("touchstart",(e)=>{this.ontouchbegin(e)},false);
+                    this._node.addEventListener("touchmove",(e)=>{this.ontouchmove(e)},false);
+                    this._node.addEventListener("touchend",(e)=>{this.ontouchend(e)},false);
+                    this._node.addEventListener("touchcancel",(e)=>{this.ontouchend(e)},false);
+                    this._node.addEventListener("tap",(e)=>{this.ontouchtap(e)},false);
+                }else{
+                    this._node.addEventListener("mousedown",(e)=>{this.onmousedown(e)},false);
+                    this._node.addEventListener("mouseup",(e)=>{this.onmouseup(e)},false);
+                    this._node.addEventListener("click",(e)=>{this.onmouseclick(e)},false);
+                }
 
                 this._node.addEventListener("DOMSubtreeModified",this._onmodified.bind(this));
 
@@ -45,6 +59,21 @@ module alcedo {
             /**
              * Event
              **/
+            private onmousedown(e){
+                e.identifier = 0;
+                this.emit(TouchEvent.TOUCH_BEGIN,e);
+            }
+
+            private onmouseup(e){
+                e.identifier = 0;
+                this.emit(TouchEvent.TOUCH_END,e);
+            }
+
+            private onmouseclick(e){
+                e.identifier = 0;
+                this.emit(TouchEvent.TOUCH_TAP,e);
+            }
+
             /**
              * Touch事件
              **/
@@ -100,10 +129,6 @@ module alcedo {
             private ontouchtap(e){
                 //trace("ontouchtap",this.node);
                 this.emit(TouchEvent.TOUCH_TAP,e.touchTarget);
-            }
-
-            private _onmouse(e){
-                //trace("_onmouse",e);
             }
             
             private _onmodified(e){

@@ -23,7 +23,7 @@ var alcedomodules = {
 
 module alcedo{
     export var server = _server;
-    export class ProjectCreater{
+    export class Project{
         private config:any;
         private srcfiles:any;
         private tscproject:any;
@@ -127,7 +127,11 @@ module alcedo{
             });
 
             gulp.task(this.projectid,()=>{
-                gulp.start([this.taskname('src-watch')])
+                if(this.config.watch){
+                    gulp.start([this.taskname('src-watch')])
+                }else{
+                    gulp.start([this.taskname('src-build')])
+                }
             })
         }
 
@@ -180,8 +184,19 @@ module alcedo{
             return through(onFile, onEnd);
         }
 
+        public static projectSourceCode(name:string,opts:any = {}){
+            new Project({
+                projectid:name,
+                outdts:true,
+                src:opts.src,
+                outdir:opts.outdir||"./out",
+                outfile:opts.outfile||"alcedo.js",
+                watch:opts.watch
+            })
+        }
+
         private static alcedolib = {};
-        public static alcedoSourceCodeCompile(name:string,opts:any = {},modules?:Array<string>):alcedo.ProjectCreater{
+        public static alcedoSourceCode(name:string,opts:any = {},modules?:Array<string>):alcedo.Project{
             var pushmodule = (name:string)=>{
                 if(Array.isArray(alcedomodules[name])){
                     src = src.concat(alcedomodules[name])
@@ -204,22 +219,25 @@ module alcedo{
 
             //console.log(src,modules);
 
-            var proj = new alcedo.ProjectCreater({
+            var proj = new alcedo.Project({
                 projectid:name,
                 outdts:true,
                 src:src,
                 outdir:opts.outdir||"./out",
-                outfile:opts.outfile||"alcedo.js"
+                outfile:opts.outfile||"alcedo.js",
+                watch:opts.watch
             });
             proj["sourcecode"] = true;
 
-            this.alcedolib[name] =proj.config.outdir +"/"+ proj.config.outfile;
+            Project.alcedolib[name] =proj.config.outdir +"/"+ proj.config.outfile;
 
             return proj;
         }
     }
 }
 
-alcedo.ProjectCreater.alcedoSourceCodeCompile("alcedo","alcedo.js");
+alcedo.Project.alcedoSourceCode("alcedo","alcedo.js");
 
-module.exports = alcedo;
+exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
+exports.projectSourceCode = alcedo.Project.projectSourceCode;
+exports.server = _server;

@@ -16,8 +16,8 @@ var alcedomodules = {
 var alcedo;
 (function (alcedo) {
     alcedo.server = _server;
-    var ProjectCreater = (function () {
-        function ProjectCreater(config) {
+    var Project = (function () {
+        function Project(config) {
             if (!config.projectid) {
                 console.log("ProjectCreater require a unique projectid as name~");
                 return;
@@ -35,7 +35,7 @@ var alcedo;
                 this.config.watch = true;
             this.createTasks();
         }
-        ProjectCreater.prototype.createTasks = function () {
+        Project.prototype.createTasks = function () {
             //源文件排序
             //console.log("createTasks",this.config.src);
             var _this = this;
@@ -82,20 +82,25 @@ var alcedo;
                 gulp.watch(_this.config.src, [_this.taskname('src-build')]);
             });
             gulp.task(this.projectid, function () {
-                gulp.start([_this.taskname('src-watch')]);
+                if (_this.config.watch) {
+                    gulp.start([_this.taskname('src-watch')]);
+                }
+                else {
+                    gulp.start([_this.taskname('src-build')]);
+                }
             });
         };
-        ProjectCreater.prototype.taskname = function (name) {
+        Project.prototype.taskname = function (name) {
             return name + "-" + this.config.projectid;
         };
-        Object.defineProperty(ProjectCreater.prototype, "projectid", {
+        Object.defineProperty(Project.prototype, "projectid", {
             get: function () {
                 return this.config.projectid;
             },
             enumerable: true,
             configurable: true
         });
-        ProjectCreater.prototype.preGetfilelist = function () {
+        Project.prototype.preGetfilelist = function () {
             var _this = this;
             this.prefilelist = {};
             var files = [];
@@ -111,7 +116,7 @@ var alcedo;
             };
             return through(onFile, onEnd);
         };
-        ProjectCreater.prototype.getfilelist = function () {
+        Project.prototype.getfilelist = function () {
             var _this = this;
             this.srcfiles = [];
             var onFile = function (file) {
@@ -124,7 +129,18 @@ var alcedo;
             };
             return through(onFile, onEnd);
         };
-        ProjectCreater.alcedoSourceCodeCompile = function (name, opts, modules) {
+        Project.projectSourceCode = function (name, opts) {
+            if (opts === void 0) { opts = {}; }
+            new Project({
+                projectid: name,
+                outdts: true,
+                src: opts.src,
+                outdir: opts.outdir || "./out",
+                outfile: opts.outfile || "alcedo.js",
+                watch: opts.watch
+            });
+        };
+        Project.alcedoSourceCode = function (name, opts, modules) {
             if (opts === void 0) { opts = {}; }
             var pushmodule = function (name) {
                 if (Array.isArray(alcedomodules[name])) {
@@ -146,21 +162,24 @@ var alcedo;
                     pushmodule(modules[i]);
                 }
             }
-            var proj = new alcedo.ProjectCreater({
+            var proj = new alcedo.Project({
                 projectid: name,
                 outdts: true,
                 src: src,
                 outdir: opts.outdir || "./out",
-                outfile: opts.outfile || "alcedo.js"
+                outfile: opts.outfile || "alcedo.js",
+                watch: opts.watch
             });
             proj["sourcecode"] = true;
-            this.alcedolib[name] = proj.config.outdir + "/" + proj.config.outfile;
+            Project.alcedolib[name] = proj.config.outdir + "/" + proj.config.outfile;
             return proj;
         };
-        ProjectCreater.alcedolib = {};
-        return ProjectCreater;
+        Project.alcedolib = {};
+        return Project;
     })();
-    alcedo.ProjectCreater = ProjectCreater;
+    alcedo.Project = Project;
 })(alcedo || (alcedo = {}));
-alcedo.ProjectCreater.alcedoSourceCodeCompile("alcedo", "alcedo.js");
-module.exports = alcedo;
+alcedo.Project.alcedoSourceCode("alcedo", "alcedo.js");
+exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
+exports.projectSourceCode = alcedo.Project.projectSourceCode;
+exports.server = _server;

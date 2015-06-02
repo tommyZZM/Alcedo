@@ -16,14 +16,18 @@
         "!./src/**/*.ts"
     ],
     "files": [
-        "./alcedo.ts",
+        "./alcedoproj.ts",
         "./definitely/node.d.ts",
+        "./example/sat/script/SAT.d.ts",
         "./lib/pixi.d.ts",
         "./out/alcedo.d.ts",
-        "./out/test/alcedo.d.ts",
         "./src-example/ExampleCycler.ts",
         "./src-example/display/BezierExample.ts",
+        "./src-example/display/ColourfulParticleExample.ts",
         "./src-example/display/ParticleExample.ts",
-        "./src-example/tests/HelloWorld.ts"
+        "./src-example/tests/HelloSat.ts",
+        "./src-example/tests/HelloWorld.ts",
+        "./test/alcedo.d.ts",
+        "./test/src/HelloPixi.ts"
     ]
 }
