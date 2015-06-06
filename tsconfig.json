@@ -19,7 +19,6 @@
         "./alcedoproj.ts",
         "./definitely/node.d.ts",
         "./example/sat/script/SAT.d.ts",
-        "./example/scripts/example-movieclip.d.ts",
         "./lib/pixi.d.ts",
         "./out/alcedo.d.ts",
         "./src-example/ExampleCycler.ts",

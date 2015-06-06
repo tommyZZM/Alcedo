@@ -238,6 +238,10 @@ module alcedo{
 
 alcedo.Project.alcedoSourceCode("alcedo","alcedo.js");
 
+exports.gulp = function(_gulp){
+  if(_gulp)gulp = _gulp;
+};
+
 exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
 exports.projectSourceCode = alcedo.Project.projectSourceCode;
 exports.server = _server;
