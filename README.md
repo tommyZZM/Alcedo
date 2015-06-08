@@ -1,17 +1,29 @@
 # Alcedo
-A Simple TypeScript HTML5 Game FrameWork!
+A Simple TypeScript HTML5 Game FrameWork For Test!
 
-# Thanks
-  http://www.egret-labs.org/
+# Useage
 
-  http://www.pixijs.com/
+install gulp and alcedo
 
-  http://createjs.com/
+```terminal
+npm install gulp --save
+npm install alcedo --save
+```
 
-  http://gamua.com
+then in gulpfile.js
 
-  http://piqnt.com/stage.js/
+```javascript
+alcedo.alcedoSourceCode("alcedo",{
+    outdir:"./out",
+    outfile:"alcedo.js",
+    watch:false
+},["dom","net","beta-pixi"]);
+```
 
-else.
+compile lib file
+
+```terminal
+gulp alcedo
+```
 
 Remember! Testing is the future, and the future starts with you
