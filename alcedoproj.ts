@@ -10,7 +10,7 @@ var _server:any    = require('gulp-easy-server');
 
 var through:any  = require('through');
 
-console.log("hello world!");
+//console.log("hello world!");
 var projectHashDict = {};
 
 var alcedocore = __dirname+"/src/core/**/*.ts";
