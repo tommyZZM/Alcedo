@@ -22,8 +22,31 @@ module alcedo{
      * @param cmd
      * @param courier
      */
-    export function dispatchCmd(core:any,cmd:string, courier:any={}):void{
-        a$.dispatchCmd(core, cmd, courier)
+    export function dispatchCmd2Core(core:any,cmd:string, courier:any={}):void{
+        a$.dispatchCmd2Core(core, cmd, courier)
+    }
+
+    /**
+     * 发布一个命令(所有业务核心)
+     * @param cmd
+     * @param courier
+     */
+    export function dispatchCmd(cmd:string, courier:any={}):void{
+        var cores = a$._proxypool.values;
+        for(var i=0;i<cores.length;i++){
+            var core = cores[i];
+            if(core instanceof AppSubCore){
+                a$.dispatchCmd2Core(core, cmd, courier)
+            }else if(core instanceof Dict){
+                var brothercores = core[i].values;
+                for(var j=0;j<brothercores.length;j++){
+                    var brothercore = brothercores[j];
+                    if(brothercore instanceof AppSubCore){
+                        a$.dispatchCmd2Core(brothercore, cmd, courier)
+                    }
+                }
+            }
+        }
     }
 
 
@@ -132,7 +155,7 @@ module alcedo{
         }
 
         //发布命令给业务核心
-        public dispatchCmd(core:any|AppSubCore,cmd:string, courier:any = {}){
+        private dispatchCmd2Core(core:any|AppSubCore,cmd:string, courier:any = {}){
             if(!(core instanceof AppSubCore))this.core(core);
             courier._cmd = cmd;
             this._postman.setNotify(core,cmd,courier);

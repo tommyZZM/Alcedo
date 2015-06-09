@@ -27,7 +27,7 @@ module alcedo{
         public launch(app:AppCycler,courier?){
             if(this._launched)return;
             this._launched = true;
-            a$.dispatchCmd(app,AppLauncher.START_UP,courier)
+            a$.dispatchCmd2Core(app,AppLauncher.START_UP,courier)
         }
 
         //instance mode

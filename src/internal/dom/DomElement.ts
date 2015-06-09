@@ -350,6 +350,18 @@ module alcedo {
                 return parent
             }
 
+            public children(fn?:(child)=>void):Array<DomElement>{
+                var result = [];
+                if(this._node.children){
+                    for(var i=0;i<this._node.children.length;i++){
+                        var child = dom.query(<any>this._node.children[i])[0];
+                        result.push(child);
+                        if(fn)fn(child)
+                    }
+                }
+                return result
+            }
+
             public find(selector:string):DomElement[]{
                 var results:any = [],
                     eles = DomManager.instance.ElementSelector(selector,<any>this.node);

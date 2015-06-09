@@ -333,6 +333,27 @@ declare module alcedo {
         }
     }
 }
+declare class Dict {
+    private _map;
+    private _keys;
+    constructor();
+    set(key: string, value: any): void;
+    get(key: string): any;
+    find(reg: RegExp): Array<any>;
+    delete(key: string): void;
+    has(key: string): boolean;
+    clear(): void;
+    /** @/deprecated */
+    forEach(callbackfn: (value, key?: string) => void, thisArg?: any): void;
+    values: any[];
+    keys: string[];
+    size: number;
+}
+interface IDict {
+    set(key: any, value: any): any;
+    get(key: any): any;
+    delete(key: any): any;
+}
 /**
  * Created by tommyZZM on 2015/4/3.
  */
@@ -489,27 +510,6 @@ declare function getClassName(obj: any): string;
  */
 declare function isOfClass(targetClass: any, testClass: any): boolean;
 declare function expandMethod(method: string | Function, target: Function, thisArg?: any): Function;
-declare class Dict {
-    private _map;
-    private _keys;
-    constructor();
-    set(key: string, value: any): void;
-    get(key: string): any;
-    find(reg: RegExp): Array<any>;
-    delete(key: string): void;
-    has(key: string): boolean;
-    clear(): void;
-    /** @/deprecated */
-    forEach(callbackfn: (value, key?: string) => void, thisArg?: any): void;
-    values: any[];
-    keys: string[];
-    size: number;
-}
-interface IDict {
-    set(key: any, value: any): any;
-    get(key: any): any;
-    delete(key: any): any;
-}
 /**
  * Created by tommyZZM on 2015/4/4.
  */
@@ -529,7 +529,13 @@ declare module alcedo {
      * @param cmd
      * @param courier
      */
-    function dispatchCmd(core: any, cmd: string, courier?: any): void;
+    function dispatchCmd2Core(core: any, cmd: string, courier?: any): void;
+    /**
+     * 发布一个命令(所有业务核心)
+     * @param cmd
+     * @param courier
+     */
+    function dispatchCmd(cmd: string, courier?: any): void;
 }
 /**
  * Created by tommyZZM on 2015/4/3.
@@ -878,6 +884,7 @@ declare module alcedo {
             insertBefore(ele: DomElement): DomElement;
             removeChild(ele: DomElement): DomElement;
             parent(): DomElement;
+            children(fn?: (child) => void): Array<DomElement>;
             find(selector: string): DomElement[];
             innerContent(anything: string): void;
             /**

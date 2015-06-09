@@ -922,6 +922,82 @@ var alcedo;
         canvas.DisplayObject = DisplayObject;
     })(canvas = alcedo.canvas || (alcedo.canvas = {}));
 })(alcedo || (alcedo = {}));
+var Dict = (function () {
+    function Dict() {
+        this._map = {};
+        this._keys = [];
+        //var a:Map = new Map()
+    }
+    Dict.prototype.set = function (key, value) {
+        if (!this._map[key]) {
+            this._keys.push(key);
+        }
+        this._map[key] = value;
+    };
+    Dict.prototype.get = function (key) {
+        return this._map[key];
+    };
+    Dict.prototype.find = function (reg) {
+        var i, keys = this._keys, result = [];
+        for (i = 0; i < keys.length; i++) {
+            if (reg.test(keys[i])) {
+                if (this.get(keys[i]))
+                    result.push(this.get(keys[i]));
+            }
+        }
+        return result;
+    };
+    Dict.prototype.delete = function (key) {
+        var index = this._keys.indexOf(key, 0);
+        if (index >= 0) {
+            this._keys.splice(index, 1);
+        }
+        if (this.has(key))
+            delete this._map[key];
+    };
+    Dict.prototype.has = function (key) {
+        return this._map[key] ? true : false;
+    };
+    Dict.prototype.clear = function () {
+        this._map = {};
+        this._keys = [];
+    };
+    /** @/deprecated */
+    Dict.prototype.forEach = function (callbackfn, thisArg) {
+        for (var i = 0; i < this._keys.length; i++) {
+            var key = this._keys[i];
+            var value = this._map[this._keys[i]];
+            callbackfn.apply(thisArg, [value, key]);
+        }
+    };
+    Object.defineProperty(Dict.prototype, "values", {
+        get: function () {
+            var values = [];
+            for (var i = 0; i < this._keys.length; i++) {
+                var value = this._map[this._keys[i]];
+                values.push(value);
+            }
+            return values;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Dict.prototype, "keys", {
+        get: function () {
+            return this._keys;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Dict.prototype, "size", {
+        get: function () {
+            return this._keys.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Dict;
+})();
 /**
  * Created by tommyZZM on 2015/4/3.
  */
@@ -1477,82 +1553,6 @@ function expandMethod(method, target, thisArg) {
     }
     return target;
 }
-var Dict = (function () {
-    function Dict() {
-        this._map = {};
-        this._keys = [];
-        //var a:Map = new Map()
-    }
-    Dict.prototype.set = function (key, value) {
-        if (!this._map[key]) {
-            this._keys.push(key);
-        }
-        this._map[key] = value;
-    };
-    Dict.prototype.get = function (key) {
-        return this._map[key];
-    };
-    Dict.prototype.find = function (reg) {
-        var i, keys = this._keys, result = [];
-        for (i = 0; i < keys.length; i++) {
-            if (reg.test(keys[i])) {
-                if (this.get(keys[i]))
-                    result.push(this.get(keys[i]));
-            }
-        }
-        return result;
-    };
-    Dict.prototype.delete = function (key) {
-        var index = this._keys.indexOf(key, 0);
-        if (index >= 0) {
-            this._keys.splice(index, 1);
-        }
-        if (this.has(key))
-            delete this._map[key];
-    };
-    Dict.prototype.has = function (key) {
-        return this._map[key] ? true : false;
-    };
-    Dict.prototype.clear = function () {
-        this._map = {};
-        this._keys = [];
-    };
-    /** @/deprecated */
-    Dict.prototype.forEach = function (callbackfn, thisArg) {
-        for (var i = 0; i < this._keys.length; i++) {
-            var key = this._keys[i];
-            var value = this._map[this._keys[i]];
-            callbackfn.apply(thisArg, [value, key]);
-        }
-    };
-    Object.defineProperty(Dict.prototype, "values", {
-        get: function () {
-            var values = [];
-            for (var i = 0; i < this._keys.length; i++) {
-                var value = this._map[this._keys[i]];
-                values.push(value);
-            }
-            return values;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dict.prototype, "keys", {
-        get: function () {
-            return this._keys;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dict.prototype, "size", {
-        get: function () {
-            return this._keys.length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Dict;
-})();
 /**
  * Created by tommyZZM on 2015/4/4.
  */
@@ -1576,9 +1576,34 @@ var alcedo;
      * @param cmd
      * @param courier
      */
-    function dispatchCmd(core, cmd, courier) {
+    function dispatchCmd2Core(core, cmd, courier) {
         if (courier === void 0) { courier = {}; }
-        alcedo.a$.dispatchCmd(core, cmd, courier);
+        alcedo.a$.dispatchCmd2Core(core, cmd, courier);
+    }
+    alcedo.dispatchCmd2Core = dispatchCmd2Core;
+    /**
+     * 发布一个命令(所有业务核心)
+     * @param cmd
+     * @param courier
+     */
+    function dispatchCmd(cmd, courier) {
+        if (courier === void 0) { courier = {}; }
+        var cores = alcedo.a$._proxypool.values;
+        for (var i = 0; i < cores.length; i++) {
+            var core = cores[i];
+            if (core instanceof alcedo.AppSubCore) {
+                alcedo.a$.dispatchCmd2Core(core, cmd, courier);
+            }
+            else if (core instanceof Dict) {
+                var brothercores = core[i].values;
+                for (var j = 0; j < brothercores.length; j++) {
+                    var brothercore = brothercores[j];
+                    if (brothercore instanceof alcedo.AppSubCore) {
+                        alcedo.a$.dispatchCmd2Core(brothercore, cmd, courier);
+                    }
+                }
+            }
+        }
     }
     alcedo.dispatchCmd = dispatchCmd;
     /**
@@ -1678,7 +1703,7 @@ var alcedo;
             }
         };
         //发布命令给业务核心
-        AppOverCore.prototype.dispatchCmd = function (core, cmd, courier) {
+        AppOverCore.prototype.dispatchCmd2Core = function (core, cmd, courier) {
             if (courier === void 0) { courier = {}; }
             if (!(core instanceof alcedo.AppSubCore))
                 this.core(core);
@@ -1822,7 +1847,7 @@ var alcedo;
             if (this._launched)
                 return;
             this._launched = true;
-            alcedo.a$.dispatchCmd(app, AppLauncher.START_UP, courier);
+            alcedo.a$.dispatchCmd2Core(app, AppLauncher.START_UP, courier);
         };
         AppLauncher.instance = function (debug) {
             if (this._instance == null) {
@@ -2904,6 +2929,18 @@ var alcedo;
                     parent = dom.query(this._node.parentElement)[0];
                 }
                 return parent;
+            };
+            DomElement.prototype.children = function (fn) {
+                var result = [];
+                if (this._node.children) {
+                    for (var i = 0; i < this._node.children.length; i++) {
+                        var child = dom.query(this._node.children[i])[0];
+                        result.push(child);
+                        if (fn)
+                            fn(child);
+                    }
+                }
+                return result;
             };
             DomElement.prototype.find = function (selector) {
                 var results = [], eles = dom.DomManager.instance.ElementSelector(selector, this.node);
