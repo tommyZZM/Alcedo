@@ -1,6 +1,6 @@
 {
   "name": "alcedo",
-  "version": "0.0.201",
+  "version": "0.0.21",
   "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
   "main": "alcedoproj.js",
   "scripts": {
