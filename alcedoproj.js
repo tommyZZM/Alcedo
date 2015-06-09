@@ -4,17 +4,16 @@ var tssort = require('gulp-typescript-easysort');
 var concat = require('gulp-concat');
 var _server = require('gulp-easy-server');
 var through = require('through');
-//console.log("hello world!");
 var projectHashDict = {};
 var alcedocore = __dirname + "/src/core/**/*.ts";
 var alcedomodules = {
-    "canvas": __dirname + "/src/internal/canvas/**/*.ts",
     "dom": __dirname + "/src/internal/dom/**/*.ts",
-    "net": __dirname + "/src/internal/net/**/*.ts",
+    "canvas-i": __dirname + "/src/internal/canvas/**/*.ts",
+    "net-i": __dirname + "/src/internal/net/**/*.ts",
     "beta-pixi": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]
 };
 var alcedo;
-(function (alcedo) {
+(function (alcedo) { 
     alcedo.server = _server;
     var Project = (function () {
         function Project(config) {
@@ -153,9 +152,6 @@ var alcedo;
             var src = [];
             src.push(alcedocore);
             if (!modules) {
-                pushmodule("canvas");
-                pushmodule("dom");
-                pushmodule("net");
             }
             else {
                 for (var i in modules) {

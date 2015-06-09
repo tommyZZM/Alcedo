@@ -110,14 +110,14 @@ module example {
                 })
             }
 
-            _curcepolygon.push(_sourcepoints.last);
+            _curcepolygon.push(_sourcepoints[_sourcepoints.length-1]);
             for(i = _sourcepoints.length-2;i>0;i--){
                 //trace(i);
                 _curcepolygon.push(_controlpints.pop());
                 _curcepolygon.push(_sourcepoints[i]);
                 _curcepolygon.push(_controlpints.pop());
             }
-            _curcepolygon.push(_sourcepoints.first);
+            _curcepolygon.push(_sourcepoints[0]);
 
             //trace(_curcepolygon);
             return _curcepolygon;

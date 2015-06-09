@@ -29,7 +29,7 @@ module alcedo {
                 }
 
                 //make sure the curve goes through the last point
-                points.push(this._controlpoints.last);
+                points.push(this._controlpoints[this._controlpoints.length-1]);
 
                 this._curve = points;
             }

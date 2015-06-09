@@ -15,9 +15,11 @@ var projectHashDict = {};
 
 var alcedocore = __dirname+"/src/core/**/*.ts";
 var alcedomodules = {
-    "canvas":__dirname+"/src/internal/canvas/**/*.ts",
     "dom":__dirname+"/src/internal/dom/**/*.ts",
-    "net":__dirname+"/src/internal/net/**/*.ts",
+
+    //test
+    "canvas-test":__dirname+"/src/test/canvas/**/*.ts",
+    "net-test":__dirname+"/src/test/net/**/*.ts",
     "beta-pixi":[__dirname+"/src/test/pixi/**/*.ts",__dirname+"/lib/pixi.d.ts"]
 };
 
@@ -208,9 +210,9 @@ module alcedo{
             var src = [];
             src.push(alcedocore);
             if(!modules){
-                pushmodule("canvas");
-                pushmodule("dom");
-                pushmodule("net");
+                //pushmodule("canvas");
+                //pushmodule("dom");
+                //pushmodule("net");
             }else{
                 for(var i in modules){
                     pushmodule(modules[i]);
