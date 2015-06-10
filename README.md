@@ -7,6 +7,8 @@ Alcedo(翠鸟)一个简单的TypeScript HTML5 游戏开发框架
 ## Core
 core模块,提供一套单例\业务核心的工厂机制,基于标准TypeScript编译,可以搭配任何框架使用
 
+dom模块,提供简单的Dom操作和选择方法。
+
 ## Test
 canvas-test模块,实现了一个简单的Canvas渲染机制,包括显示列表机制,以及常用显示对象(MovieClip、Particle等),主要用于个人学习
 
