@@ -10,6 +10,8 @@ core模块,提供一套单例\业务核心的工厂机制,基于标准TypeScript
 ## Test
 canvas-test模块,实现了一个简单的Canvas渲染机制,包括显示列表机制,以及常用显示对象(MovieClip、Particle等),主要用于个人学习
 
+Demo见:http://tommyzzm.github.io/ColorJet/
+
 async-test模块,异步请求与资源加载模块,加载机制与Egret RES模块类似
 
 pixi-test模块,测试学习Pixi渲染器
