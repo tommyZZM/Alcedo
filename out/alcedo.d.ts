@@ -116,7 +116,6 @@ declare function expandMethod(method: string | Function, target: Function, thisA
  * Created by tommyZZM on 2015/4/4.
  */
 declare module alcedo {
-    var a$: any;
     var isdebug: boolean;
     /**
      * 获得一个业务核心

@@ -401,7 +401,7 @@ function expandMethod(method, target, thisArg) {
  */
 var alcedo;
 (function (alcedo) {
-    alcedo.a$;
+    //export var a$:any;
     alcedo.isdebug = false;
     /**
      * 获得一个业务核心
@@ -410,7 +410,7 @@ var alcedo;
      * @param name
      */
     function core(core, name) {
-        return alcedo.a$.core(core, name);
+        return alcedo["@AppOverCore"].instance.core(core, name);
     }
     alcedo.core = core;
     /**
@@ -421,7 +421,7 @@ var alcedo;
      */
     function dispatchCmd2Core(core, cmd, courier) {
         if (courier === void 0) { courier = {}; }
-        alcedo.a$.dispatchCmd2Core(core, cmd, courier);
+        alcedo["@AppOverCore"].instance.dispatchCmd2Core(core, cmd, courier);
     }
     alcedo.dispatchCmd2Core = dispatchCmd2Core;
     /**
@@ -431,18 +431,19 @@ var alcedo;
      */
     function dispatchCmd(cmd, courier) {
         if (courier === void 0) { courier = {}; }
-        var cores = alcedo.a$._proxypool.values;
+        var a$ = alcedo["@AppOverCore"].instance;
+        var cores = a$._proxypool.values;
         for (var i = 0; i < cores.length; i++) {
             var core = cores[i];
             if (core instanceof alcedo.AppSubCore) {
-                alcedo.a$.dispatchCmd2Core(core, cmd, courier);
+                a$.dispatchCmd2Core(core, cmd, courier);
             }
             else if (core instanceof Dict) {
                 var brothercores = core[i].values;
                 for (var j = 0; j < brothercores.length; j++) {
                     var brothercore = brothercores[j];
                     if (brothercore instanceof alcedo.AppSubCore) {
-                        alcedo.a$.dispatchCmd2Core(brothercore, cmd, courier);
+                        a$.dispatchCmd2Core(brothercore, cmd, courier);
                     }
                 }
             }
@@ -609,13 +610,13 @@ var alcedo;
             info("%cAlcedo", "color:#1ac2ff;font-weight:bold;", "A Simple TypeScript HTML5 Game FrameWork!");
             info("gitHub:", 'https://github.com/tommyZZM/Alcedo');
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n" + "Welcome! And remember: Testing is the future, and the future starts with you.");
-            alcedo.a$ = alcedo["@AppOverCore"].instance;
+            alcedo["@AppOverCore"].instance;
         }
         AppLauncher.prototype.launch = function (app, courier) {
             if (this._launched)
                 return;
             this._launched = true;
-            alcedo.a$.dispatchCmd2Core(app, AppLauncher.START_UP, courier);
+            alcedo["@AppOverCore"].instance.dispatchCmd2Core(app, AppLauncher.START_UP, courier);
         };
         AppLauncher.instance = function (debug) {
             if (this._instance == null) {

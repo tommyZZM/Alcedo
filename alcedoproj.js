@@ -10,7 +10,7 @@ var alcedomodules = {
     "dom": __dirname + "/src/internal/dom/**/*.ts",
     "canvas-test": __dirname + "/src/test/canvas/**/*.ts",
     "async-test": __dirname + "/src/test/async/**/*.ts",
-    "beta-pixi": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]
+    "pixi-test": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]
 };
 var alcedo;
 (function (alcedo) {

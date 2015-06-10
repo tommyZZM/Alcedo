@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/4.
  */
 module alcedo{
-    export var a$:any;
+    //export var a$:any;
 
     export var isdebug = false;
 
@@ -13,7 +13,7 @@ module alcedo{
      * @param name
      */
     export function core(core:any,name?:string):any|AppSubCore{
-        return a$.core(core,name);
+        return alcedo["@AppOverCore"].instance.core(core,name);
     }
 
     /**
@@ -23,7 +23,7 @@ module alcedo{
      * @param courier
      */
     export function dispatchCmd2Core(core:any,cmd:string, courier:any={}):void{
-        a$.dispatchCmd2Core(core, cmd, courier)
+        alcedo["@AppOverCore"].instance.dispatchCmd2Core(core, cmd, courier)
     }
 
     /**
@@ -32,6 +32,7 @@ module alcedo{
      * @param courier
      */
     export function dispatchCmd(cmd:string, courier:any={}):void{
+        var a$:any = alcedo["@AppOverCore"].instance;
         var cores = a$._proxypool.values;
         for(var i=0;i<cores.length;i++){
             var core = cores[i];
@@ -49,6 +50,21 @@ module alcedo{
         }
     }
 
+    /**
+     * 广播
+     */
+    export function dispatchBoardCast(boardcast:string, courier:any={}){
+        var a$:any = alcedo["@AppOverCore"].instance;
+        AppNotifyable.notify(a$._boardCastMap,boardcast,[courier])
+    }
+
+    /**
+     * 广播侦听
+     */
+    export function addBoardCastListener(boardcast:string, listener:Function, thisObject:any,priority?:number){
+        var a$:any = alcedo["@AppOverCore"].instance;
+        AppNotifyable.registNotify(a$._boardCastMap,boardcast,listener,thisObject,null,priority);
+    }
 
     /**
      * 业务核心管理器
@@ -62,6 +78,8 @@ module alcedo{
         private _postman:FacadeEvent;
         private _postals:Dict;//Map<NotifyType, Map<string,{thisobj:any; callback: Function}>>;
 
+        private _boardCastMap:Dict;
+
         public constructor() {
             super();
             if (AppOverCore._instance != null) {
@@ -73,6 +91,7 @@ module alcedo{
             this._cmdpool = new Dict();
             this._proxypool = new Dict();
             this._postals = new Dict();
+            this._boardCastMap = new Dict();
 
             this._postman = new FacadeEvent();
             this.addEventListener(FacadeEvent.UNIQUE,this._postOffice,this);

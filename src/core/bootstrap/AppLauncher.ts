@@ -21,13 +21,13 @@ module alcedo{
             info("gitHub:",'https://github.com/tommyZZM/Alcedo');
             info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
             "Welcome! And remember: Testing is the future, and the future starts with you.");
-            a$ =  alcedo["@AppOverCore"].instance;
+            alcedo["@AppOverCore"].instance;
         }
 
         public launch(app:AppCycler,courier?){
             if(this._launched)return;
             this._launched = true;
-            a$.dispatchCmd2Core(app,AppLauncher.START_UP,courier)
+            alcedo["@AppOverCore"].instance.dispatchCmd2Core(app,AppLauncher.START_UP,courier)
         }
 
         //instance mode
