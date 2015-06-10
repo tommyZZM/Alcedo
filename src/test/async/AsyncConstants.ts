@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/9.
  */
 module alcedo{
-    export module net{
+    export module async{
         export class RequestMethod {
             public static GET:string = "get";
             public static POST:string = "post";

@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/8.
  */
 module alcedo{
-    export module net {
+    export module async {
         /**Ajax请求**/
         export function ajax(url:string,
                              args:{async?:boolean;success:Function;error?:Function;method?:string;data?:any;user?:string;password?:string;responseType?:string;courier?:any}, thisArg?:any):void {

@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/9.
  */
 module alcedo {
-    export module net {
+    export module async {
         export class AsyncAssetsLoader extends AppSubCore{
             private static instanceable:boolean = true;
 

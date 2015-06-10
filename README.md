@@ -1,8 +1,21 @@
-# Alcedo
+Alcedo
+--------------
 A Simple TypeScript HTML5 Game FrameWork For Test!
 
-# Useage
+Alcedo(翠鸟)一个简单的TypeScript HTML5 游戏开发框架
 
+## Core
+core模块,提供一套单例\业务核心的工厂机制,基于标准TypeScript编译,可以搭配任何框架使用
+
+## Test
+canvas-test模块,实现了一个简单的Canvas渲染机制,包括显示列表机制,以及常用显示对象(MovieClip、Particle等),主要用于个人学习
+
+async-test模块,异步请求与资源加载模块,加载机制与Egret RES模块类似
+
+pixi-test模块,测试学习Pixi渲染器
+
+Useage
+----------
 install gulp and alcedo
 
 ```terminal
@@ -17,7 +30,7 @@ alcedo.alcedoSourceCode("alcedo",{
     outdir:"./out",
     outfile:"alcedo.js",
     watch:false
-},["dom","net","beta-pixi"]);
+},["dom","async-test"]);//list of module name..
 ```
 
 compile lib file

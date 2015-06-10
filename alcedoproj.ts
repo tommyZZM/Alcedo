@@ -19,7 +19,7 @@ var alcedomodules = {
 
     //test
     "canvas-test":__dirname+"/src/test/canvas/**/*.ts",
-    "net-test":__dirname+"/src/test/net/**/*.ts",
+    "async-test":__dirname+"/src/test/async/**/*.ts",
     "beta-pixi":[__dirname+"/src/test/pixi/**/*.ts",__dirname+"/lib/pixi.d.ts"]
 };
 

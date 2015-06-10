@@ -8,12 +8,12 @@ var projectHashDict = {};
 var alcedocore = __dirname + "/src/core/**/*.ts";
 var alcedomodules = {
     "dom": __dirname + "/src/internal/dom/**/*.ts",
-    "canvas-i": __dirname + "/src/internal/canvas/**/*.ts",
-    "net-i": __dirname + "/src/internal/net/**/*.ts",
+    "canvas-test": __dirname + "/src/test/canvas/**/*.ts",
+    "async-test": __dirname + "/src/test/async/**/*.ts",
     "beta-pixi": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]
 };
 var alcedo;
-(function (alcedo) { 
+(function (alcedo) {
     alcedo.server = _server;
     var Project = (function () {
         function Project(config) {

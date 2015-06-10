@@ -2,7 +2,7 @@
  * Created by tommyZZM on 2015/4/9.
  */
 module alcedo {
-    export module net {
+    export module async {
         export class AsyncRESEvent extends Event{
             public static ASSETS_COMPLETE:string = "AsyncAssetsEvent_LOAD_COMPLETE";
             public static ASSETS_PROGRESSING:string = "AsyncAssetsEvent_LOAD_ASSETS_PROGRESSING";
