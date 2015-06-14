@@ -3,6 +3,10 @@
  */
 //var ap:any = aperture;
 module alcedo{
+    export var config = {
+        hellowords:true
+    };
+
     export class AppLauncher{
         public static START_UP:string = "AppLauncher.START_UP";
 
@@ -16,11 +20,13 @@ module alcedo{
 
             isdebug = debug;
             debuginit();
-            info("%cAlcedo","color:#1ac2ff;font-weight:bold;",
-                "A Simple TypeScript HTML5 Game FrameWork!");
-            info("gitHub:",'https://github.com/tommyZZM/Alcedo');
-            info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
-            "Welcome! And remember: Testing is the future, and the future starts with you.");
+            if(config.hellowords){
+                info("%cAlcedo","color:#1ac2ff;font-weight:bold;",
+                    "A Simple TypeScript HTML5 Game FrameWork!");
+                info("gitHub:",'https://github.com/tommyZZM/Alcedo');
+                info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n"+
+                "Welcome! And remember: Testing is the future, and the future starts with you.");
+            }
             alcedo["@AppOverCore"].instance;
         }
 

@@ -191,6 +191,7 @@ module alcedo{
                 projectid:name,
                 outdts:false,
                 src:opts.src,
+                alcedo:opts.alcedo,
                 outdir:opts.outdir||"./out",
                 outfile:opts.outfile||"alcedo.js",
                 watch:opts.watch
