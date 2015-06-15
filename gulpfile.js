@@ -5,13 +5,15 @@ var gulp = require('gulp');
 
 var alcedo = require("./alcedoproj.js");
 
+var server = require('gulp-easy-server');
+
 require("./examples");
 
 gulp.task('default', ["alcedo"]);
 
 gulp.task('startserver', function() {
     gulp.src("./")
-        .pipe(alcedo.server({port:20210,index:"./example/index.html",bowser:"chrome"}));
+        .pipe(server({port:20210,index:"./example/index.html",bowser:"chrome"}));
 });
 
 

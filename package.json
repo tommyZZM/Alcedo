@@ -1,6 +1,6 @@
 {
   "name": "alcedo",
-  "version": "0.0.237",
+  "version": "0.0.238",
   "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
   "main": "alcedoproj.js",
   "scripts": {
@@ -25,10 +25,10 @@
     "gulp-concat": "latest",
     "through": "latest",
     "gulp-typescript": "latest",
-    "gulp-typescript-easysort": "latest",
-    "gulp-easy-server":"latest"
+    "gulp-typescript-easysort": "latest"
   },
   "devDependencies": {
-    "gulp": ">=3.8.11"
+    "gulp": ">=3.8.11",
+    "gulp-easy-server":"latest"
   }
 }

@@ -6,7 +6,6 @@ var gulp:any  = require('gulp');
 var ts:any        = require('gulp-typescript');
 var tssort:any   = require('gulp-typescript-easysort');
 var concat:any    = require('gulp-concat');
-var _server:any    = require('gulp-easy-server');
 
 var through:any  = require('through');
 
@@ -24,7 +23,7 @@ var alcedomodules = {
 };
 
 module alcedo{
-    export var server = _server;
+    //export var server = _server;
     export class Project{
         private config:any;
         private srcfiles:any;
@@ -247,4 +246,4 @@ exports.gulp = function(_gulp){
 
 exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
 exports.projectSourceCode = alcedo.Project.projectSourceCode;
-exports.server = _server;
+//exports.server = _server;

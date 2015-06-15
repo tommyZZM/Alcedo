@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var tssort = require('gulp-typescript-easysort');
 var concat = require('gulp-concat');
-var _server = require('gulp-easy-server');
 var through = require('through');
 var projectHashDict = {};
 var alcedocore = __dirname + "/src/core/**/*.ts";
@@ -14,7 +13,6 @@ var alcedomodules = {
 };
 var alcedo;
 (function (alcedo) {
-    alcedo.server = _server;
     var Project = (function () {
         function Project(config) {
             if (!config.projectid) {
@@ -183,4 +181,3 @@ exports.gulp = function (_gulp) {
 };
 exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
 exports.projectSourceCode = alcedo.Project.projectSourceCode;
-exports.server = _server;
