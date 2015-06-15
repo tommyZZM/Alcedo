@@ -7,12 +7,12 @@ module alcedo{
         export function ajax(url:string,
                              args:{async?:boolean;success:Function;error?:Function;method?:string;data?:any;user?:string;password?:string;responseType?:string;courier?:any}, thisArg?:any):void {
             if(args.async==undefined){args.async = true}
-            (<AsyncProxy>a$.core(AsyncProxy)).ajax(url,<any>args,thisArg);
+            (<AsyncProxy>alcedo.core(AsyncProxy)).ajax(url,<any>args,thisArg);
         }
 
         /**异步载入图片**/
         export function asyncImage(url,args:{success:Function;error?:Function;courier?:any},thisArg?:any){
-            (<AsyncProxy>a$.core(AsyncProxy)).asyncImage(url,args,thisArg);
+            (<AsyncProxy>alcedo.core(AsyncProxy)).asyncImage(url,args,thisArg);
         }
 
         export class AsyncProxy extends AppSubCore{
