@@ -7,6 +7,7 @@ var projectHashDict = {};
 var alcedocore = __dirname + "/src/core/**/*.ts";
 var alcedomodules = {
     "dom": __dirname + "/src/internal/dom/**/*.ts",
+    "async": __dirname + "/src/internal/async/**/*.ts",
     "canvas-test": __dirname + "/src/test/canvas/**/*.ts",
     "async-test": __dirname + "/src/test/async/**/*.ts",
     "pixi-test": [__dirname + "/src/test/pixi/**/*.ts", __dirname + "/lib/pixi.d.ts"]

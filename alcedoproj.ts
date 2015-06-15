@@ -15,6 +15,7 @@ var projectHashDict = {};
 var alcedocore = __dirname+"/src/core/**/*.ts";
 var alcedomodules = {
     "dom":__dirname+"/src/internal/dom/**/*.ts",
+    "async":__dirname+"/src/internal/async/**/*.ts",
 
     //test
     "canvas-test":__dirname+"/src/test/canvas/**/*.ts",
