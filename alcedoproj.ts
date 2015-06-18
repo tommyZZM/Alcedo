@@ -194,6 +194,7 @@ module alcedo{
                 alcedo:opts.alcedo,
                 outdir:opts.outdir||"./out",
                 outfile:opts.outfile||"alcedo.js",
+                reqdts:opts.reqdts||"",
                 watch:opts.watch
             })
         }

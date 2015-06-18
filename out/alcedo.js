@@ -167,7 +167,6 @@ var alcedo;
                 _startup.apply(_this, anyarg);
                 _startup.started = true;
             };
-            this._demandMap = new Dict();
         }
         AppSubCore.prototype.startUp = function () {
             var anyarg = [];
@@ -195,18 +194,84 @@ var alcedo;
             }
             alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).delete(notify);
         };
-        AppSubCore.prototype.dispatchDemand = function (event, courier) {
-            alcedo.AppNotifyable.notify(this._demandMap, event, [courier]);
-        };
-        AppSubCore.prototype.addDemandListener = function (event, listener, thisObject, priority) {
-            alcedo.AppNotifyable.registNotify(this._demandMap, event, listener, thisObject, null, priority);
-        };
-        AppSubCore.prototype.removeDemandListener = function (event, listener, thisObject, priority) {
-            alcedo.AppNotifyable.unregistNotify(this._demandMap, event, listener, thisObject);
-        };
         return AppSubCore;
     })(alcedo.EventDispatcher);
     alcedo.AppSubCore = AppSubCore;
+})(alcedo || (alcedo = {}));
+/**
+ * Created by tommyZZM on 2015/4/4.
+ */
+var alcedo;
+(function (alcedo) {
+    var AppNotifyable = (function () {
+        function AppNotifyable() {
+        }
+        AppNotifyable.registNotify = function (notifymap, name, callback, thisObject, param, priority) {
+            if (!notifymap.has(name))
+                notifymap.set(name, []);
+            var map = notifymap.get(name);
+            var length = map.length;
+            var insertIndex = -1;
+            if (priority === undefined)
+                priority = 0;
+            for (var i = 0; i < length; i++) {
+                var bin = map[i];
+                if (bin && bin.callback === callback && bin.thisObject === thisObject) {
+                    return false; //防止重复插入
+                }
+                if (bin && insertIndex == -1 && bin.priority < priority) {
+                    insertIndex = i;
+                }
+            }
+            var bin = { callback: callback, thisObject: thisObject, param: param ? param : [], priority: priority };
+            if (insertIndex != -1) {
+                map.splice(insertIndex, 0, bin);
+            }
+            else {
+                map.push(bin);
+            }
+            notifymap.set(name, map);
+        };
+        AppNotifyable.unregistNotify = function (notifymap, name, callback, thisObject) {
+            if (!notifymap.has(name))
+                return;
+            var map = notifymap.get(name);
+            if (map) {
+                for (var i in map) {
+                    var bin = map[i];
+                    if (bin && bin.callback === callback && bin.thisObject === thisObject) {
+                        map.splice(i, 1);
+                    }
+                }
+                notifymap.set(name, map);
+            }
+        };
+        AppNotifyable.notify = function (notifymap, name, param) {
+            var map = notifymap.get(name);
+            if (map) {
+                this.notifyArray(map, param);
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        AppNotifyable.notifyArray = function (arr, param) {
+            var length = arr.length;
+            for (var i = 0; i < length; i++) {
+                var bin = arr[i];
+                if (bin && bin.callback) {
+                    if (!param)
+                        param = [];
+                    if (bin.param)
+                        param = bin.param.concat(param);
+                    bin.callback.apply(bin.thisObject, param);
+                }
+            }
+        };
+        return AppNotifyable;
+    })();
+    alcedo.AppNotifyable = AppNotifyable;
 })(alcedo || (alcedo = {}));
 /**
  * Created by tommyZZM on 2015/4/3.
@@ -451,6 +516,23 @@ var alcedo;
     }
     alcedo.dispatchCmd = dispatchCmd;
     /**
+     * 广播
+     */
+    function dispatchBoardCast(boardcast, courier) {
+        if (courier === void 0) { courier = {}; }
+        var a$ = alcedo["@AppOverCore"].instance;
+        alcedo.AppNotifyable.notify(a$._boardCastMap, boardcast, [courier]);
+    }
+    alcedo.dispatchBoardCast = dispatchBoardCast;
+    /**
+     * 广播侦听
+     */
+    function addBoardCastListener(boardcast, listener, thisObject, priority) {
+        var a$ = alcedo["@AppOverCore"].instance;
+        alcedo.AppNotifyable.registNotify(a$._boardCastMap, boardcast, listener, thisObject, null, priority);
+    }
+    alcedo.addBoardCastListener = addBoardCastListener;
+    /**
      * 业务核心管理器
      */
     var AppOverCore = (function (_super) {
@@ -463,6 +545,7 @@ var alcedo;
             this._cmdpool = new Dict();
             this._proxypool = new Dict();
             this._postals = new Dict();
+            this._boardCastMap = new Dict();
             this._postman = new alcedo.FacadeEvent();
             this.addEventListener(alcedo.FacadeEvent.UNIQUE, this._postOffice, this);
         }
@@ -600,6 +683,9 @@ var alcedo;
 //var ap:any = aperture;
 var alcedo;
 (function (alcedo) {
+    alcedo.config = {
+        hellowords: true
+    };
     var AppLauncher = (function () {
         function AppLauncher(debug) {
             if (AppLauncher._instance) {
@@ -607,9 +693,11 @@ var alcedo;
             }
             alcedo.isdebug = debug;
             alcedo.debuginit();
-            info("%cAlcedo", "color:#1ac2ff;font-weight:bold;", "A Simple TypeScript HTML5 Game FrameWork!");
-            info("gitHub:", 'https://github.com/tommyZZM/Alcedo');
-            info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n" + "Welcome! And remember: Testing is the future, and the future starts with you.");
+            if (alcedo.config.hellowords) {
+                info("%cAlcedo", "color:#1ac2ff;font-weight:bold;", "A Simple TypeScript HTML5 Game FrameWork!");
+                info("gitHub:", 'https://github.com/tommyZZM/Alcedo');
+                info("If you are a non-employee who has discovered this facility amid the ruins of civilization.\n" + "Welcome! And remember: Testing is the future, and the future starts with you.");
+            }
             alcedo["@AppOverCore"].instance;
         }
         AppLauncher.prototype.launch = function (app, courier) {
@@ -671,81 +759,6 @@ var alcedo;
         }
     }
     alcedo.debuginit = debuginit;
-})(alcedo || (alcedo = {}));
-/**
- * Created by tommyZZM on 2015/4/4.
- */
-var alcedo;
-(function (alcedo) {
-    var AppNotifyable = (function () {
-        function AppNotifyable() {
-        }
-        AppNotifyable.registNotify = function (notifymap, name, callback, thisObject, param, priority) {
-            if (!notifymap.has(name))
-                notifymap.set(name, []);
-            var map = notifymap.get(name);
-            var length = map.length;
-            var insertIndex = -1;
-            if (priority === undefined)
-                priority = 0;
-            for (var i = 0; i < length; i++) {
-                var bin = map[i];
-                if (bin && bin.callback === callback && bin.thisObject === thisObject) {
-                    return false; //防止重复插入
-                }
-                if (bin && insertIndex == -1 && bin.priority < priority) {
-                    insertIndex = i;
-                }
-            }
-            var bin = { callback: callback, thisObject: thisObject, param: param ? param : [], priority: priority };
-            if (insertIndex != -1) {
-                map.splice(insertIndex, 0, bin);
-            }
-            else {
-                map.push(bin);
-            }
-            notifymap.set(name, map);
-        };
-        AppNotifyable.unregistNotify = function (notifymap, name, callback, thisObject) {
-            if (!notifymap.has(name))
-                return;
-            var map = notifymap.get(name);
-            if (map) {
-                for (var i in map) {
-                    var bin = map[i];
-                    if (bin && bin.callback === callback && bin.thisObject === thisObject) {
-                        map.splice(i, 1);
-                    }
-                }
-                notifymap.set(name, map);
-            }
-        };
-        AppNotifyable.notify = function (notifymap, name, param) {
-            var map = notifymap.get(name);
-            if (map) {
-                this.notifyArray(map, param);
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        AppNotifyable.notifyArray = function (arr, param) {
-            var length = arr.length;
-            for (var i = 0; i < length; i++) {
-                var bin = arr[i];
-                if (bin && bin.callback) {
-                    if (!param)
-                        param = [];
-                    if (bin.param)
-                        param = bin.param.concat(param);
-                    bin.callback.apply(bin.thisObject, param);
-                }
-            }
-        };
-        return AppNotifyable;
-    })();
-    alcedo.AppNotifyable = AppNotifyable;
 })(alcedo || (alcedo = {}));
 /**
  * Created by tommyZZM on 2015/4/25.

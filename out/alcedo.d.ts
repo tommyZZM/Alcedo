@@ -63,10 +63,21 @@ declare module alcedo {
         shutDown(...anyarg: any[]): void;
         protected addCmdHandler(notify: string, callback: Function): void;
         protected removeCmdHandler(notify: string, callback: Function): void;
-        private _demandMap;
-        dispatchDemand(event: string, courier?: any): void;
-        addDemandListener(event: string, listener: Function, thisObject: any, priority?: number): void;
-        removeDemandListener(event: string, listener: Function, thisObject: any, priority?: number): void;
+    }
+}
+/**
+ * Created by tommyZZM on 2015/4/4.
+ */
+declare module alcedo {
+    class AppNotifyable {
+        static registNotify(notifymap: Dict, name: string, callback: Function, thisObject: any, param?: Array<any>, priority?: number): boolean;
+        static unregistNotify(notifymap: Dict, name: string, callback: Function, thisObject: any): void;
+        static notify(notifymap: Dict, name: string, param?: Array<any>): boolean;
+        static notifyArray(arr: Array<{
+            callback: Function;
+            thisObject: any;
+            param: Array<any>;
+        }>, param?: Array<any>): void;
     }
 }
 /**
@@ -137,6 +148,14 @@ declare module alcedo {
      * @param courier
      */
     function dispatchCmd(cmd: string, courier?: any): void;
+    /**
+     * 广播
+     */
+    function dispatchBoardCast(boardcast: string, courier?: any): void;
+    /**
+     * 广播侦听
+     */
+    function addBoardCastListener(boardcast: string, listener: Function, thisObject: any, priority?: number): void;
 }
 /**
  * Created by tommyZZM on 2015/4/3.
@@ -156,6 +175,9 @@ declare module alcedo {
  * Created by tommyZZM on 2015/4/4.
  */
 declare module alcedo {
+    var config: {
+        hellowords: boolean;
+    };
     class AppLauncher {
         static START_UP: string;
         private _launched;
@@ -172,21 +194,6 @@ declare function info(...msg: any[]): void;
 declare function error(...msg: any[]): void;
 declare module alcedo {
     function debuginit(): void;
-}
-/**
- * Created by tommyZZM on 2015/4/4.
- */
-declare module alcedo {
-    class AppNotifyable {
-        static registNotify(notifymap: Dict, name: string, callback: Function, thisObject: any, param?: Array<any>, priority?: number): boolean;
-        static unregistNotify(notifymap: Dict, name: string, callback: Function, thisObject: any): void;
-        static notify(notifymap: Dict, name: string, param?: Array<any>): boolean;
-        static notifyArray(arr: Array<{
-            callback: Function;
-            thisObject: any;
-            param: Array<any>;
-        }>, param?: Array<any>): void;
-    }
 }
 /**
  * Created by tommyZZM on 2015/4/8.

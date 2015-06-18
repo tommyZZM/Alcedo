@@ -16,8 +16,6 @@ module alcedo{
                 _startup.apply(this,anyarg);
                 _startup.started = true;
             };
-
-            this._demandMap = new Dict();
         }
 
         public startUp(...anyarg){
@@ -40,20 +38,6 @@ module alcedo{
                 return;
             }
             alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).delete(notify);
-        }
-
-        private _demandMap:Dict;
-
-        public dispatchDemand(event:string, courier?:any){
-            AppNotifyable.notify(this._demandMap,event,[courier]);
-        }
-
-        public addDemandListener(event: string, listener: Function, thisObject: any, priority?: number){
-            AppNotifyable.registNotify(this._demandMap,event,listener,thisObject,null,priority);
-        }
-
-        public removeDemandListener(event: string, listener: Function, thisObject: any, priority?: number){
-            AppNotifyable.unregistNotify(this._demandMap,event,listener,thisObject);
         }
     }
 }

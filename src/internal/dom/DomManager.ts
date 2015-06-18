@@ -48,7 +48,7 @@ module alcedo{
                 this._domtask.set(DomEventType.ready,[]);
 
                 this.usefulDomEvent();
-                this.windowConfigure()
+                //this.windowConfigure()
             }
 
             private usefulDomEvent(){
