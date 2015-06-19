@@ -19,6 +19,11 @@ gulp.task('startserver', function() {
 
 gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);
 
+alcedo.alcedoSourceCode("alcedo-all",{
+    outdir:"./out",
+    outfile:"alcedo.js"
+},["dom","async","async-test","canvas-test"]);
+
 alcedo.alcedoSourceCode("alcedopixi-proj",{
     outdir:"./test",
     outfile:"alcedo.js"

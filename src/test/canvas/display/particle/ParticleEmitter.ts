@@ -79,7 +79,13 @@ module alcedo{
                 this._ParticleInit(partile);
                 this._particles.push(partile);
                 partile.onDecay((particle)=>{
-                    this._particles.fastRemove(this._particles.indexOf(particle));//you dian diao a
+                    //this._particles.fastRemove(this._particles.indexOf(particle));//you dian diao a
+                    var index = this._particles.indexOf(particle)
+                    var result = this[index];
+                    if(this._particles.length==1){
+                        this._particles.length=0;
+                    }
+                    this[index] = this._particles.pop();
                     this._particlespool.push(particle);
                 },this);
             }

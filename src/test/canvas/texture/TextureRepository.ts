@@ -23,10 +23,10 @@ module alcedo {
             }
 
             get(key:string): Texture{
-                //trace(a$.proxy(net.AsyncRES))
+                //trace(a$.proxy(async.AsyncRES))
                 if(!this._texurespool.has(key)){
-                    if(core(net.AsyncRES).get(key) && core(net.AsyncRES).get(key)[0] instanceof HTMLImageElement){
-                        var img = core(net.AsyncRES).get(key)[0];
+                    if(core(async.AsyncRES).get(key) && core(async.AsyncRES).get(key)[0] instanceof HTMLImageElement){
+                        var img = core(async.AsyncRES).get(key)[0];
                         var texture = new Texture(img);
                         this._texurespool.set(key,texture);
                     }
@@ -35,7 +35,7 @@ module alcedo {
             }
 
             find(reg:RegExp):Array<any>{
-                var i,keys = core(net.AsyncRES).keys,
+                var i,keys = core(async.AsyncRES).keys,
                     result = [];
                 for(i=0;i<keys.length;i++){
                     if(reg.test(keys[i])){

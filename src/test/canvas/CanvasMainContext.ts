@@ -81,7 +81,7 @@ module alcedo {
                     this._canvasui.addClass(canvasStyleClass.alcedo_canvas_ui);
                     this._canvasui.css({position:"absolute"});//,width:"100%",height:"100%"
                     if(typeof this.canvas.index == "number"){
-                        this._canvasui.css({"z-index":Math.add(this.canvas.index,1)})
+                        this._canvasui.css({"z-index":+this.canvas.index+1})
                     }else{
                         //this._canvasui.css({"z-index":1})
                     }
