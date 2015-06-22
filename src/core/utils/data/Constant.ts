@@ -2,9 +2,12 @@
  * Created by tommyZZM on 2015/4/6.
  */
 module alcedo {
-    export class Constant {
+    var m:any = window["Math"];
 
-        public static PI:number = 3.14;
+    export class uMath {
+
+        public static PI:number = m.PI;
+
         /**
          * @property {Number} PI_2
          */
@@ -26,13 +29,7 @@ module alcedo {
          * @returns {number} sin值
          */
         public static sin(value:number):number {
-            var result = 0;
-            if (value % (Constant.PI_2*Constant.RAD_TO_DEG)) {
-                result = Math.sin(value)
-            } else {
-                result = 0;
-            }
-            return result;
+            return m.sin(value);
         }
 
         /**
@@ -41,13 +38,7 @@ module alcedo {
          * @returns {number} cos值
          */
         public static cos(value:number):number {
-            var result = 0;
-            if (value % (Constant.PI_2*Constant.RAD_TO_DEG)) {
-                result = Math.cos(value)
-            } else {
-                result = 1;
-            }
-            return Math.cos(value);
+            return m.cos(value);
         }
     }
 }

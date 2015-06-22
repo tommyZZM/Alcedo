@@ -61,16 +61,19 @@ module alcedo {
              **/
             private onmousedown(e){
                 e.identifier = 0;
+                //e.target = this;
                 this.emit(TouchEvent.TOUCH_BEGIN,e);
             }
 
             private onmouseup(e){
                 e.identifier = 0;
+                //e.target = this;
                 this.emit(TouchEvent.TOUCH_END,e);
             }
 
             private onmouseclick(e){
                 e.identifier = 0;
+                //e.target = this;
                 this.emit(TouchEvent.TOUCH_TAP,e);
             }
 
@@ -83,6 +86,7 @@ module alcedo {
                     for (var i:number = 0; i < l; i++) {
                         var touchtarget:any= e.changedTouches[i];
                         touchtarget.type = event;
+                        //e.changedTouches[i].target = this;
                         this.emit(event,e.changedTouches[i]);
                     }
                 }
@@ -410,8 +414,12 @@ module alcedo {
                 return this._apid;
             }
 
-            public get node():HTMLElement {
+            public get node():any {
                 return this._node;
+            }
+
+            public get bound():any{
+                return this._node.getBoundingClientRect();
             }
 
             public get tagname():string {

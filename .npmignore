@@ -9,7 +9,6 @@ tsconfig.json
 .idea/
 #src-example
 example
-example-*
 src-*
 test/
-src/test/
+out/
