@@ -3,38 +3,64 @@
  */
 var gulp = require('gulp');
 
-var alcedo = require("./alcedoproj.js");
+var alcedo = require("./tsGulpTaskGenerater.js");
 
 var server = require('gulp-easy-server');
 
+var ts     = require('gulp-typescript');
+
 require("./examples");
 
-gulp.task('default', ["alcedo"]);
+gulp.task('default',["generaterCompile"], function(){
+    gulp.watch("./tsGulpTaskGenerater.ts",["generaterCompile"])
+});
+
+gulp.task('generaterCompile',function(){
+    var tscproject = ts.createProject({
+        target: 'ES5',
+        declarationFiles: false,
+        noExternalResolve: true,
+        noEmitOnError :false,
+        sortOutput :true
+    });
+
+    //console.log("compiling ",sourceTsFiles)
+    var tsResult = gulp.src(["./definitely/**/*.d.ts","./tsGulpTaskGenerater.ts"])
+        .pipe(ts(tscproject));
+
+    return tsResult.js.pipe(gulp.dest("./"));
+});
 
 gulp.task('startserver', function() {
     gulp.src("./")
         .pipe(server({port:20210,index:"./example/index.html",bowser:"chrome"}));
 });
 
-
-gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);
-
-alcedo.alcedoSourceCode("alcedo-all",{
-    outdir:"./out",
-    outfile:"alcedo.js"
-},["dom","async","async-test","canvas-test"]);
-
-alcedo.alcedoSourceCode("alcedopixi-proj",{
-    outdir:"./test",
-    outfile:"alcedo.js"
-},["dom","net","beta-pixi"]);
-
-alcedo.projectSourceCode("hellopixi",{
-    src:["./test/src/**/*.ts"],
-    outdir:"./test/scripts",
-    outfile:"hellopixi.js",
-    alcedo:"./test/alcedo.d.ts",
-    reqdts:"./lib/pixi.d.ts"
+alcedo.compiletask("alcedo","alcedo.js",{
+    outdts:true,
+    outdir:"./out/",
+    watch:true,
+    modules:["core","dom"]
 });
+
+//gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);
+//
+//alcedo.alcedoSourceCode("alcedo-all",{
+//    outdir:"./out",
+//    outfile:"alcedo.js"
+//},["dom","async","async-test","canvas-test"]);
+//
+//alcedo.alcedoSourceCode("alcedopixi-proj",{
+//    outdir:"./test",
+//    outfile:"alcedo.js"
+//},["dom","net","beta-pixi"]);
+//
+//alcedo.projectSourceCode("hellopixi",{
+//    src:["./test/src/**/*.ts"],
+//    outdir:"./test/scripts",
+//    outfile:"hellopixi.js",
+//    alcedo:"./test/alcedo.d.ts",
+//    reqdts:"./lib/pixi.d.ts"
+//});
 
 

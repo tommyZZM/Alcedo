@@ -12,8 +12,8 @@ var through:any  = require('through');
 //console.log("hello world!");
 var projectHashDict = {};
 
-var alcedocore = __dirname+"/src/core/**/*.ts";
-var alcedomodules = {
+var alcedo_modules = {
+    "core": __dirname+"/src/core/**/*.ts",
     "dom":__dirname+"/src/internal/dom/**/*.ts",
     "async":__dirname+"/src/internal/async/**/*.ts",
 
@@ -39,7 +39,6 @@ module alcedo{
             reqdts?:Array<any>;
             reqjs?:Array<any>;
             watch?:boolean;
-            alcedo?:string
         }){
             if(!config.projectid){
                 console.log("ProjectCreater require a unique projectid as name~");
@@ -47,19 +46,12 @@ module alcedo{
             }
 
             projectHashDict[config.projectid] = this;
-            //if(projectHashDict[config.projectid]){
-            //    console.log(config.projectid,"has been taken.");
-            //    return;
-            //}else{
-            //    projectHashDict[config.projectid] = this;
-            //}
 
             this.config = config;
             this.srcfiles = [];
 
             if(!this.config.reqdts)this.config.reqdts = [];
             if(!this.config.reqjs)this.config.reqjs = [];
-            if(!this.config.alcedo)this.config.alcedo = "./out/alcedo.d.ts";
 
             if(this.config.watch!==false)this.config.watch = true;
 
@@ -82,14 +74,11 @@ module alcedo{
 
             //源文件编译
             gulp.task(this.taskname('src-compile'),[this.taskname('src-sort')], ()=>{
-                var alcedoTsFiles = this.srcfiles;
+                var sourceTsFiles = this.srcfiles;
                 //console.log("precomple",this.srcfiles);
-                var sourceTsFiles = Array.isArray(this.config.reqdts)?this.config.reqdts:[this.config.reqdts];
-                if (!this["sourcecode"]) {
-                    sourceTsFiles.push(this.config.alcedo);
-                }
+                var sourceDTsFiles = Array.isArray(this.config.reqdts)?this.config.reqdts:[this.config.reqdts];
 
-                sourceTsFiles = sourceTsFiles.concat(alcedoTsFiles);
+                sourceTsFiles = sourceDTsFiles.concat(sourceTsFiles);
 
                 this.tscproject = ts.createProject({
                     target: 'ES5',
@@ -145,11 +134,6 @@ module alcedo{
             return this.config.projectid;
         }
 
-        //public set src(src:Array<any>){
-        //    this.config.src = src;
-        //    this.createTasks();
-        //}
-
         private prefilelist:any;
         private preGetfilelist(){
             this.prefilelist = {};
@@ -186,66 +170,40 @@ module alcedo{
             return through(onFile, onEnd);
         }
 
-        public static projectSourceCode(name:string,opts:any = {}){
-            new Project({
-                projectid:name,
-                outdts:false,
-                src:opts.src,
-                alcedo:opts.alcedo,
-                outdir:opts.outdir||"./out",
-                outfile:opts.outfile||"alcedo.js",
-                reqdts:opts.reqdts||"",
-                watch:opts.watch
-            })
-        }
-
-        private static alcedolib = {};
-        public static alcedoSourceCode(name:string,opts:any = {},modules?:Array<string>):alcedo.Project{
-            var pushmodule = (name:string)=>{
-                if(Array.isArray(alcedomodules[name])){
-                    src = src.concat(alcedomodules[name])
-                }else if(typeof alcedomodules[name] === "string"){
-                    src.push(alcedomodules[name]);
-                }
-            };
-
+        public static compiletask(name:string,outfile:string,opts:any = {}){
             var src = [];
-            src.push(alcedocore);
-            if(!modules){
-                //pushmodule("canvas");
-                //pushmodule("dom");
-                //pushmodule("net");
-            }else{
-                for(var i in modules){
-                    pushmodule(modules[i]);
+            if(!opts.src)opts.src = [];
+            if(opts.modules && Array.isArray(opts.modules)){
+                for(var i in opts.modules){
+                    var m = opts.modules[i];
+                    if(m in alcedo_modules){
+                        src.push(alcedo_modules[m]);
+                    }
                 }
             }
 
-            //console.log(src,modules);
+            src = src.concat(opts.src);
 
-            var proj = new alcedo.Project({
+            new Project({
                 projectid:name,
-                outdts:true,
+                outdts:opts.outdts,
                 src:src,
-                outdir:opts.outdir||"./out",
-                outfile:opts.outfile||"alcedo.js",
-                watch:opts.watch
-            });
-            proj["sourcecode"] = true;
-
-            Project.alcedolib[name] =proj.config.outdir +"/"+ proj.config.outfile;
-
-            return proj;
+                alcedo:opts.alcedo,
+                outdir:opts.outdir,
+                outfile:outfile,
+                reqdts:opts.reqdts||"",
+                watch:opts.watch===true?opts.watch:false
+            })
         }
     }
 }
 
-alcedo.Project.alcedoSourceCode("alcedo","alcedo.js");
+//alcedo.Project.alcedoSourceCode("alcedo","alcedo.js");
 
 exports.gulp = function(_gulp){
   if(_gulp)gulp = _gulp;
 };
 
-exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
-exports.projectSourceCode = alcedo.Project.projectSourceCode;
+//exports.alcedoSourceCode = alcedo.Project.alcedoSourceCode;
+exports.task = alcedo.Project.compiletask;
 //exports.server = _server;

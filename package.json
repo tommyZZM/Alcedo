@@ -1,8 +1,8 @@
 {
   "name": "alcedo",
-  "version": "0.0.25",
+  "version": "0.0.262",
   "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
-  "main": "alcedoproj.js",
+  "main": "tsGulpTaskGenerater.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
