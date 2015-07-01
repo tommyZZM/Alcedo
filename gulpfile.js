@@ -36,11 +36,11 @@ gulp.task('startserver', function() {
         .pipe(server({port:20210,index:"./example/index.html",bowser:"chrome"}));
 });
 
-alcedo.compiletask("alcedo","alcedo.js",{
+alcedo.task("alcedo","alcedo.js",{
+    src:["core"],
     outdts:true,
     outdir:"./out/",
-    watch:true,
-    modules:["core","dom"]
+    watch:true
 });
 
 //gulp.task('alcedopixi', ["alcedopixi-proj","hellopixi"]);

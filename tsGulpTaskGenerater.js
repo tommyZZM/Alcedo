@@ -75,7 +75,7 @@ var alcedo;
                     buildfiles = [_this.config.reqjs, buildfiles[0]];
                 }
                 gulp.src(buildfiles).pipe(concat(_this.tscproject.input.options.out)).pipe(gulp.dest(_this.config.outdir));
-                console.log(_this.projectid + " build success");
+                console.log(buildfiles, _this.projectid + " build success");
             });
             gulp.task(this.taskname('src-watch'), [this.taskname('src-build')], function () {
                 gulp.watch(_this.config.src, [_this.taskname('src-build')]);
@@ -132,22 +132,22 @@ var alcedo;
         };
         Project.compiletask = function (name, outfile, opts) {
             if (opts === void 0) { opts = {}; }
-            var src = [];
-            if (!opts.src)
-                opts.src = [];
-            if (opts.modules && Array.isArray(opts.modules)) {
-                for (var i in opts.modules) {
-                    var m = opts.modules[i];
+            //if(!opts.src)opts.src = [];
+            if (opts.src && Array.isArray(opts.src)) {
+                for (var i in opts.src) {
+                    var m = opts.src[i];
                     if (m in alcedo_modules) {
-                        src.push(alcedo_modules[m]);
+                        opts.src[i] = alcedo_modules[m];
                     }
                 }
             }
-            src = src.concat(opts.src);
+            else {
+                return;
+            }
             new Project({
                 projectid: name,
                 outdts: opts.outdts,
-                src: src,
+                src: opts.src,
                 alcedo: opts.alcedo,
                 outdir: opts.outdir,
                 outfile: outfile,

@@ -1,6 +1,6 @@
 {
   "name": "alcedo",
-  "version": "0.0.262",
+  "version": "0.0.3",
   "description": "Alcedo ~A Simple TypeScript HTML5 Game FrameWork!",
   "main": "tsGulpTaskGenerater.js",
   "scripts": {
