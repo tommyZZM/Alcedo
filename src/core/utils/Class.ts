@@ -41,86 +41,54 @@ if (!Function.prototype.bind) {
     };
 }
 
-/**
- * 获取类名,不包括命名空间
- * @param obj
- * @returns {string}
- */
-function getClassName(obj:any):string{
-    //class?
-    if(obj.prototype && obj.prototype.constructor){
-        return obj.prototype.constructor["name"];
-    }else if (obj.__proto__ && obj.__proto__.constructor) {
-        return obj.__proto__.constructor["name"];
-    }else if(obj instanceof Object){
-        return "Object";
-    }else{
-        //console.warn(obj,'is not a class!');
-        return undefined;
-    }
-}
-
-
-/**
- * 判断类型是否继承?类型
- * @returns {boolean}
- * @param targetClass
- * @param testClass
- */
-function isOfClass(targetClass,testClass):boolean{
-    if(!targetClass.prototype||!targetClass.prototype.constructor){
-        //console.warn("not typescript class");
-        return false;
+module alcedo{
+    /**
+     * 获取类名,不包括命名空间
+     * @param obj
+     * @returns {string}
+     */
+    export function getClassName(obj:any):string{
+        //class?
+        if(obj.prototype && obj.prototype.constructor){
+            return obj.prototype.constructor["name"];
+        }else if (obj.__proto__ && obj.__proto__.constructor) {
+            return obj.__proto__.constructor["name"];
+        }else if(obj instanceof Object){
+            return "Object";
+        }else{
+            //console.warn(obj,'is not a class!');
+            return undefined;
+        }
     }
 
-    return (targetClass.prototype.constructor.prototype instanceof testClass)
-}
-//function isOfClass(target,test):boolean{
-//    if(!target||!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
-//        console.warn(target,"not typescript class");
-//        return false;
-//    }
-//
-//    if(target.prototype['__class__']==test.prototype['__class__']){
-//        return true;
-//    }else{
-//        var flag:number = 0;
-//        var protoTest = (target,test)=>{
-//            //console.log(target.__class__,test.prototype['__class__'])
-//            if(target){
-//                if(target.__class__){
-//                    if(target.__class__ == test.prototype['__class__']){
-//                        return 1;
-//                    }else{
-//                        return 0;
-//                    }
-//                }
-//                return -1
-//            }
-//            return -1
-//        };
-//
-//        target = target.prototype.__proto__;
-//        while(flag==0){
-//            flag = protoTest(target,test);
-//            target = target.__proto__;
-//        }
-//        return flag == 1;
-//    }
-//}
 
+    /**
+     * 判断类型是否继承?类型
+     * @returns {boolean}
+     * @param targetClass
+     * @param testClass
+     */
+    export function isOfClass(targetClass,testClass):boolean{
+        if(!targetClass.prototype||!targetClass.prototype.constructor){
+            //console.warn("not typescript class");
+            return false;
+        }
 
-function expandMethod(method:string|Function,target:Function,thisArg?:any):Function{
-    var _method:Function;
-    if(typeof method=="string"){
-        if(!thisArg || !thisArg['__proto__'][<any>method] || !(thisArg['__proto__'][<any>method] instanceof Function)){return target;}
-        _method = thisArg['__proto__'][<any>method];
-        target["_origin"] = _method.bind(thisArg);
-        thisArg['__proto__'][<any>method] = target;
-    }else{
-        if(!(<any>method instanceof Function)){return target;}
-        _method = <Function>method;
-        target["_origin"] = _method.bind(thisArg);
+        return (targetClass.prototype.constructor.prototype instanceof testClass)
     }
-    return target;
+
+    export function expandMethod(method:string|Function,target:Function,thisArg?:any):Function{
+        var _method:Function;
+        if(typeof method=="string"){
+            if(!thisArg || !thisArg['__proto__'][<any>method] || !(thisArg['__proto__'][<any>method] instanceof Function)){return target;}
+            _method = thisArg['__proto__'][<any>method];
+            target["_origin"] = _method.bind(thisArg);
+            thisArg['__proto__'][<any>method] = target;
+        }else{
+            if(!(<any>method instanceof Function)){return target;}
+            _method = <Function>method;
+            target["_origin"] = _method.bind(thisArg);
+        }
+        return target;
+    }
 }

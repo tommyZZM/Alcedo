@@ -18,7 +18,7 @@ module alcedo{
     }
 
     /**
-     * TryCatch¸ôÀë
+     * TryCatchéš”ç¦»
      * @param fn
      * @param onerror
      * @param thisObject

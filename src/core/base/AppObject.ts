@@ -24,9 +24,4 @@ module alcedo{
             return this._classname;
         }
     }
-
-    export interface ICycable{
-        onCreate();
-        onDestory();
-    }
 }
