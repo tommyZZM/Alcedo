@@ -4,11 +4,11 @@
 module alcedo{
     export class EventDispatcher extends AppObject{
 
-        protected _eventsMap:Dict;
+        protected _eventsMap:any;
 
         public constructor() {
             super();
-            this._eventsMap = new Dict();
+            this._eventsMap = {};
         }
 
         public addEventListener(event:string, listener:Function, thisObject:any,priority?:number):void{
@@ -16,7 +16,7 @@ module alcedo{
         }
 
         public clearEventListener(event:string){
-            this._eventsMap.set(event,[]);
+            this._eventsMap[event]=[];
         }
 
         public removeEventListener(event:string, listener:Function, thisObject:any):void{

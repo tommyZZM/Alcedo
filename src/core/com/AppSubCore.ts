@@ -27,17 +27,18 @@ module alcedo{
         }
 
         protected addCmdHandler(notify: string, callback: Function):void{
-            if(!alcedo["@AppOverCore"].instance.postals.has(alcedo["@AppOverCore"].getCoreFullName(this))){
-                alcedo["@AppOverCore"].instance.postals.set(alcedo["@AppOverCore"].getCoreFullName(this),new Dict())
+            if(!alcedo["@AppOverCore"].instance.postals[alcedo["@AppOverCore"].getCoreFullName(this)]){
+                alcedo["@AppOverCore"].instance.postals[alcedo["@AppOverCore"].getCoreFullName(this)]={}
             }
-            alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).set(notify,{thisobj:this, callback: callback});
+            alcedo["@AppOverCore"].instance.postals[alcedo["@AppOverCore"].getCoreFullName(this)][notify]
+                ={thisobj:this, callback: callback};
         }
 
         protected removeCmdHandler(notify: string, callback: Function):void{
-            if(!alcedo["@AppOverCore"].instance.postals.has(alcedo["@AppOverCore"].getCoreFullName(this))){
+            if(!alcedo["@AppOverCore"].instance.postals[alcedo["@AppOverCore"].getCoreFullName(this)]){
                 return;
             }
-            alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).delete(notify);
+            delete alcedo["@AppOverCore"].instance.postals[alcedo["@AppOverCore"].getCoreFullName(this)][notify];
         }
     }
 }

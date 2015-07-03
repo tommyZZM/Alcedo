@@ -38,7 +38,7 @@ module alcedo{
             var core = cores[i];
             if(core instanceof AppSubCore){
                 a$.dispatchCmd2Core(core, cmd, courier)
-            }else if(core instanceof Dict){
+            }else if(core["$subcoredict"]){
                 var brothercores = core[i].values;
                 for(var j=0;j<brothercores.length;j++){
                     var brothercore = brothercores[j];
@@ -70,15 +70,15 @@ module alcedo{
      * 业务核心管理器
      */
     class AppOverCore extends EventDispatcher{
-        private _subcore:Dict;
+        private _subcore:any;
 
-        private _cmdpool:Dict;//Map<string,GameCmder>;//存放所有命令
-        private _proxypool:Dict;//Map<string,GameProxyer>;//存放所有业务逻辑
+        //private _cmdpool:any;//Map<string,GameCmder>;//存放所有命令
+        //private _proxypool:any;//Map<string,GameProxyer>;//存放所有业务逻辑
 
         private _postman:FacadeEvent;
-        private _postals:Dict;//Map<NotifyType, Map<string,{thisobj:any; callback: Function}>>;
+        private _postals:any;//Map<NotifyType, Map<string,{thisobj:any; callback: Function}>>;
 
-        private _boardCastMap:Dict;
+        private _boardCastMap:any;
 
         public constructor() {
             super();
@@ -86,12 +86,10 @@ module alcedo{
                 //console.error(core.log_code(1001))
             }
 
-            this._subcore = new Dict();
+            this._subcore = {};
 
-            this._cmdpool = new Dict();
-            this._proxypool = new Dict();
-            this._postals = new Dict();
-            this._boardCastMap = new Dict();
+            this._postals = {};
+            this._boardCastMap = {};
 
             this._postman = new FacadeEvent();
             this.addEventListener(FacadeEvent.UNIQUE,this._postOffice,this);
@@ -99,16 +97,16 @@ module alcedo{
 
         private init(){}
 
-        public get postals():Dict{
+        public get postals():any{
             return this._postals
         }
 
         //邮局，传递子系统中的消息
         private _postOffice(e:FacadeEvent){
-            if(!this._postals.has(e.core)){
-                this._postals.set(e.core,new Dict());
+            if(!this._postals[e.core]){
+                this._postals[e.core] = {};
             }
-            var ant:any = this._postals.get(e.core).get(e.notify);
+            var ant:any = this._postals[e.core][e.notify];
             if(ant && ant.callback && ant.thisobj){ant.callback.apply(ant.thisobj,[e.courier]);}
         }
 
@@ -122,21 +120,22 @@ module alcedo{
                 }
                 var corename = getClassName(core)+"_"+AppOverCore.getCoreId(core);
 
-                var result = this._proxypool.get(corename);
+                var result = this._subcore[corename];
                 if (core.instanceable === true || !name){
                     if(!result){
-                        this._proxypool.set(corename,new core());
+                        this._subcore[corename]=new core();
                     }
-                    return this._proxypool.get(corename);
+                    return this._subcore[corename];
                 }else if(name){
-                    var proxydict = this._proxypool.get(corename);
-                    if (!proxydict || !(proxydict instanceof Dict)) {
-                        this._proxypool.set(corename, new Dict())
+                    var proxydict = this._subcore[corename];
+                    if (!proxydict || !proxydict["$subcoredict"]) {
+                        this._subcore[corename]={};
+                        this._subcore[corename]["$subcoredict"] = true;
                     }
-                    if(!this._proxypool.get(corename).has(name)){
-                        this._proxypool.get(corename).set(name, new core());
+                    if(!this._subcore[corename][name]){
+                        this._subcore[corename][name]=new core();
                     }
-                    return this._proxypool.get(corename).get(name);
+                    return this._subcore[corename][name];
                 }else{
                     error("Are you want a instanceable core? create a static var instanceable==true");
                     return null;

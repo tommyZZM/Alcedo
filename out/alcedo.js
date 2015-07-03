@@ -29,92 +29,65 @@ if (!Function.prototype.bind) {
         return fBound;
     };
 }
-/**
- * 获取类名,不包括命名空间
- * @param obj
- * @returns {string}
- */
-function getClassName(obj) {
-    //class?
-    if (obj.prototype && obj.prototype.constructor) {
-        return obj.prototype.constructor["name"];
-    }
-    else if (obj.__proto__ && obj.__proto__.constructor) {
-        return obj.__proto__.constructor["name"];
-    }
-    else if (obj instanceof Object) {
-        return "Object";
-    }
-    else {
-        //console.warn(obj,'is not a class!');
-        return undefined;
-    }
-}
-/**
- * 判断类型是否继承?类型
- * @returns {boolean}
- * @param targetClass
- * @param testClass
- */
-function isOfClass(targetClass, testClass) {
-    if (!targetClass.prototype || !targetClass.prototype.constructor) {
-        //console.warn("not typescript class");
-        return false;
-    }
-    return (targetClass.prototype.constructor.prototype instanceof testClass);
-}
-//function isOfClass(target,test):boolean{
-//    if(!target||!target.prototype||!target.prototype['__class__'] || !test.prototype['__class__']){
-//        console.warn(target,"not typescript class");
-//        return false;
-//    }
-//
-//    if(target.prototype['__class__']==test.prototype['__class__']){
-//        return true;
-//    }else{
-//        var flag:number = 0;
-//        var protoTest = (target,test)=>{
-//            //console.log(target.__class__,test.prototype['__class__'])
-//            if(target){
-//                if(target.__class__){
-//                    if(target.__class__ == test.prototype['__class__']){
-//                        return 1;
-//                    }else{
-//                        return 0;
-//                    }
-//                }
-//                return -1
-//            }
-//            return -1
-//        };
-//
-//        target = target.prototype.__proto__;
-//        while(flag==0){
-//            flag = protoTest(target,test);
-//            target = target.__proto__;
-//        }
-//        return flag == 1;
-//    }
-//}
-function expandMethod(method, target, thisArg) {
-    var _method;
-    if (typeof method == "string") {
-        if (!thisArg || !thisArg['__proto__'][method] || !(thisArg['__proto__'][method] instanceof Function)) {
-            return target;
+var alcedo;
+(function (alcedo) {
+    /**
+     * 获取类名,不包括命名空间
+     * @param obj
+     * @returns {string}
+     */
+    function getClassName(obj) {
+        //class?
+        if (obj.prototype && obj.prototype.constructor) {
+            return obj.prototype.constructor["name"];
         }
-        _method = thisArg['__proto__'][method];
-        target["_origin"] = _method.bind(thisArg);
-        thisArg['__proto__'][method] = target;
-    }
-    else {
-        if (!(method instanceof Function)) {
-            return target;
+        else if (obj.__proto__ && obj.__proto__.constructor) {
+            return obj.__proto__.constructor["name"];
         }
-        _method = method;
-        target["_origin"] = _method.bind(thisArg);
+        else if (obj instanceof Object) {
+            return "Object";
+        }
+        else {
+            //console.warn(obj,'is not a class!');
+            return undefined;
+        }
     }
-    return target;
-}
+    alcedo.getClassName = getClassName;
+    /**
+     * 判断类型是否继承?类型
+     * @returns {boolean}
+     * @param targetClass
+     * @param testClass
+     */
+    function isOfClass(targetClass, testClass) {
+        if (!targetClass.prototype || !targetClass.prototype.constructor) {
+            //console.warn("not typescript class");
+            return false;
+        }
+        return (targetClass.prototype.constructor.prototype instanceof testClass);
+    }
+    alcedo.isOfClass = isOfClass;
+    function expandMethod(method, target, thisArg) {
+        var _method;
+        if (typeof method == "string") {
+            if (!thisArg || !thisArg['__proto__'][method] || !(thisArg['__proto__'][method] instanceof Function)) {
+                return target;
+            }
+            _method = thisArg['__proto__'][method];
+            target["_origin"] = _method.bind(thisArg);
+            thisArg['__proto__'][method] = target;
+        }
+        else {
+            if (!(method instanceof Function)) {
+                return target;
+            }
+            _method = method;
+            target["_origin"] = _method.bind(thisArg);
+        }
+        return target;
+    }
+    alcedo.expandMethod = expandMethod;
+})(alcedo || (alcedo = {}));
 /**
  * Created by tommyZZM on 2015/4/3.
  */
@@ -122,7 +95,7 @@ var alcedo;
 (function (alcedo) {
     var AppObject = (function () {
         function AppObject() {
-            this._classname = getClassName(this);
+            this._classname = alcedo.getClassName(this);
             this._aperureHashIndex = AppObject.hashCount++;
         }
         Object.defineProperty(AppObject.prototype, "hashIndex", {
@@ -147,82 +120,6 @@ var alcedo;
     })();
     alcedo.AppObject = AppObject;
 })(alcedo || (alcedo = {}));
-var Dict = (function () {
-    function Dict() {
-        this._map = {};
-        this._keys = [];
-        //var a:Map = new Map()
-    }
-    Dict.prototype.set = function (key, value) {
-        if (!this._map[key]) {
-            this._keys.push(key);
-        }
-        this._map[key] = value;
-    };
-    Dict.prototype.get = function (key) {
-        return this._map[key];
-    };
-    Dict.prototype.find = function (reg) {
-        var i, keys = this._keys, result = [];
-        for (i = 0; i < keys.length; i++) {
-            if (reg.test(keys[i])) {
-                if (this.get(keys[i]))
-                    result.push(this.get(keys[i]));
-            }
-        }
-        return result;
-    };
-    Dict.prototype.delete = function (key) {
-        var index = this._keys.indexOf(key, 0);
-        if (index >= 0) {
-            this._keys.splice(index, 1);
-        }
-        if (this.has(key))
-            delete this._map[key];
-    };
-    Dict.prototype.has = function (key) {
-        return this._map[key] ? true : false;
-    };
-    Dict.prototype.clear = function () {
-        this._map = {};
-        this._keys = [];
-    };
-    /** @/deprecated */
-    Dict.prototype.forEach = function (callbackfn, thisArg) {
-        for (var i = 0; i < this._keys.length; i++) {
-            var key = this._keys[i];
-            var value = this._map[this._keys[i]];
-            callbackfn.apply(thisArg, [value, key]);
-        }
-    };
-    Object.defineProperty(Dict.prototype, "values", {
-        get: function () {
-            var values = [];
-            for (var i = 0; i < this._keys.length; i++) {
-                var value = this._map[this._keys[i]];
-                values.push(value);
-            }
-            return values;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dict.prototype, "keys", {
-        get: function () {
-            return this._keys;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dict.prototype, "size", {
-        get: function () {
-            return this._keys.length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Dict;
-})();
 /**
  * Created by tommyZZM on 2015/4/4.
  */
@@ -232,9 +129,9 @@ var alcedo;
         function AppNotifyable() {
         }
         AppNotifyable.registNotify = function (notifymap, name, callback, thisObject, param, priority) {
-            if (!notifymap.has(name))
-                notifymap.set(name, []);
-            var map = notifymap.get(name);
+            if (!notifymap[name])
+                notifymap[name] = [];
+            var map = notifymap[name];
             var length = map.length;
             var insertIndex = -1;
             if (priority === undefined)
@@ -255,12 +152,12 @@ var alcedo;
             else {
                 map.push(bin);
             }
-            notifymap.set(name, map);
+            notifymap[name] = map;
         };
         AppNotifyable.unregistNotify = function (notifymap, name, callback, thisObject) {
-            if (!notifymap.has(name))
+            if (!notifymap[name])
                 return;
-            var map = notifymap.get(name);
+            var map = notifymap[name];
             if (map) {
                 for (var i in map) {
                     var bin = map[i];
@@ -268,11 +165,11 @@ var alcedo;
                         map.splice(i, 1);
                     }
                 }
-                notifymap.set(name, map);
+                notifymap[name] = map;
             }
         };
         AppNotifyable.notify = function (notifymap, name, param) {
-            var map = notifymap.get(name);
+            var map = notifymap[name];
             if (map) {
                 this.notifyArray(map, param);
                 return true;
@@ -343,13 +240,13 @@ var alcedo;
         __extends(EventDispatcher, _super);
         function EventDispatcher() {
             _super.call(this);
-            this._eventsMap = new Dict();
+            this._eventsMap = {};
         }
         EventDispatcher.prototype.addEventListener = function (event, listener, thisObject, priority) {
             alcedo.AppNotifyable.registNotify(this._eventsMap, event, listener, thisObject, null, priority);
         };
         EventDispatcher.prototype.clearEventListener = function (event) {
-            this._eventsMap.set(event, []);
+            this._eventsMap[event] = [];
         };
         EventDispatcher.prototype.removeEventListener = function (event, listener, thisObject) {
             alcedo.AppNotifyable.unregistNotify(this._eventsMap, event, listener, thisObject);
@@ -406,7 +303,7 @@ var alcedo;
         };
         AppSubCore.prototype.addCmdHandler = function (notify, callback) {
             if (!alcedo["@AppOverCore"].instance.postals.has(alcedo["@AppOverCore"].getCoreFullName(this))) {
-                alcedo["@AppOverCore"].instance.postals.set(alcedo["@AppOverCore"].getCoreFullName(this), new Dict());
+                alcedo["@AppOverCore"].instance.postals.set(alcedo["@AppOverCore"].getCoreFullName(this), {});
             }
             alcedo["@AppOverCore"].instance.postals.get(alcedo["@AppOverCore"].getCoreFullName(this)).set(notify, { thisobj: this, callback: callback });
         };
@@ -497,7 +394,7 @@ var alcedo;
             if (core instanceof alcedo.AppSubCore) {
                 a$.dispatchCmd2Core(core, cmd, courier);
             }
-            else if (core instanceof Dict) {
+            else if (core["$subcoredict"]) {
                 var brothercores = core[i].values;
                 for (var j = 0; j < brothercores.length; j++) {
                     var brothercore = brothercores[j];
@@ -535,11 +432,9 @@ var alcedo;
             _super.call(this);
             if (AppOverCore._instance != null) {
             }
-            this._subcore = new Dict();
-            this._cmdpool = new Dict();
-            this._proxypool = new Dict();
-            this._postals = new Dict();
-            this._boardCastMap = new Dict();
+            this._subcore = {};
+            this._postals = {};
+            this._boardCastMap = {};
             this._postman = new alcedo.FacadeEvent();
             this.addEventListener(alcedo.FacadeEvent.UNIQUE, this._postOffice, this);
         }
@@ -554,37 +449,38 @@ var alcedo;
         });
         //邮局，传递子系统中的消息
         AppOverCore.prototype._postOffice = function (e) {
-            if (!this._postals.has(e.core)) {
-                this._postals.set(e.core, new Dict());
+            if (!this._postals[e.core]) {
+                this._postals[e.core] = {};
             }
-            var ant = this._postals.get(e.core).get(e.notify);
+            var ant = this._postals[e.core][e.notify];
             if (ant && ant.callback && ant.thisobj) {
                 ant.callback.apply(ant.thisobj, [e.courier]);
             }
         };
         AppOverCore.prototype.core = function (core, name) {
-            if (isOfClass(core, alcedo.AppSubCore)) {
+            if (alcedo.isOfClass(core, alcedo.AppSubCore)) {
                 if (core === alcedo.AppSubCore) {
                     error(core, "could be select");
                     return;
                 }
-                var corename = getClassName(core) + "_" + AppOverCore.getCoreId(core);
-                var result = this._proxypool.get(corename);
+                var corename = alcedo.getClassName(core) + "_" + AppOverCore.getCoreId(core);
+                var result = this._subcore[corename];
                 if (core.instanceable === true || !name) {
                     if (!result) {
-                        this._proxypool.set(corename, new core());
+                        this._subcore[corename] = new core();
                     }
-                    return this._proxypool.get(corename);
+                    return this._subcore[corename];
                 }
                 else if (name) {
-                    var proxydict = this._proxypool.get(corename);
-                    if (!proxydict || !(proxydict instanceof Dict)) {
-                        this._proxypool.set(corename, new Dict());
+                    var proxydict = this._subcore[corename];
+                    if (!proxydict || !proxydict["$subcoredict"]) {
+                        this._subcore[corename] = {};
+                        this._subcore[corename]["$subcoredict"] = true;
                     }
-                    if (!this._proxypool.get(corename).has(name)) {
-                        this._proxypool.get(corename).set(name, new core());
+                    if (!this._subcore[corename][name]) {
+                        this._subcore[corename][name] = new core();
                     }
-                    return this._proxypool.get(corename).get(name);
+                    return this._subcore[corename][name];
                 }
                 else {
                     error("Are you want a instanceable core? create a static var instanceable==true");
@@ -599,7 +495,7 @@ var alcedo;
         //获得业务核心的唯一ID
         AppOverCore.getCoreId = function (core) {
             var id;
-            if (isOfClass(core, alcedo.AppSubCore)) {
+            if (alcedo.isOfClass(core, alcedo.AppSubCore)) {
                 if (core.uncreateable)
                     return 0;
                 if (!core.prototype.___coreid) {
@@ -619,8 +515,8 @@ var alcedo;
         };
         //获得业务核心全名
         AppOverCore.getCoreFullName = function (core) {
-            if (isOfClass(core, alcedo.AppSubCore) || core instanceof alcedo.AppSubCore) {
-                return getClassName(core) + "_" + this.getCoreId(core);
+            if (alcedo.isOfClass(core, alcedo.AppSubCore) || core instanceof alcedo.AppSubCore) {
+                return alcedo.getClassName(core) + "_" + this.getCoreId(core);
             }
         };
         //发布命令给业务核心
@@ -761,160 +657,55 @@ var alcedo;
     alcedo.debuginit = debuginit;
 })(alcedo || (alcedo = {}));
 /**
- * Created by tommyZZM on 2015/4/25.
- *
- * Dont Try To Extend any interal Object
- *
- */
-//Object.defineProperty(Array.prototype, 'fastRemove', {
-//    value: function (index:number) {
-//        var result = this[index];
-//        if(this.length==1){
-//            this.length=0;
-//            return result;
-//        }
-//        this[index] = this.pop();
-//        return result;
-//    },enumerable: false
-//});
-//
-//Object.defineProperty(Array.prototype, 'first', {
-//    get : function () {
-//        return this[0];
-//    },
-//    enumerable: false
-//});
-//
-//Object.defineProperty(Array.prototype, 'last', {
-//    get : function () {
-//        return this[this.length-1];
-//    },
-//    enumerable: false
-//});
-//
-//Object.defineProperty(Array.prototype, 'randomselect', {
-//    value: function () {
-//        if(this.length<1){return;}
-//        if(this.length==1){return this[0];}
-//        var i = Math.randomFrom(0,this.length)^0;
-//        return this[i];
-//    },enumerable: false
-//});
-//
-//Object.defineProperty(Array.prototype, 'copy', {
-//    value: function () {
-//        var result = [];
-//        for(var i=0;i<this.length;i++){
-//            result[i]=this[i];
-//        }
-//        return result;
-//    },enumerable: false
-//});
-//
-//interface Array<T>{
-//    prototype;
-//
-//    /**
-//     * 快速移除某个元素，默认会以最后一个元素填充到移除元素的位置，返回移除的元素。
-//     * @param index
-//     */
-//    fastRemove(index:number);
-//
-//    first:any
-//    //最后一个元素
-//    last:any
-//
-//    //随机选取一个元素
-//    randomselect();
-//
-//    //复制一个数组
-//    copy():Array<T>;
-//} 
-/**
  * Created by tommyZZM on 2015/4/8.
- */
-var Art;
-(function (Art) {
-    function HexToColorString(value) {
-        if (isNaN(value) || value < 0)
-            value = 0;
-        if (value > 16777215)
-            value = 16777215;
-        var color = value.toString(16).toUpperCase();
-        while (color.length < 6) {
-            color = "0" + color;
-        }
-        return "#" + color;
-    }
-    Art.HexToColorString = HexToColorString;
-    var _rcolourhex = /(0x|#)?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i;
-    function StringToColorHex(value) {
-        var _result = _rcolourhex.exec(value + "");
-        if (_result && _result[2] && _result[3] && _result[4]) {
-            _result = "0x" + _result[2] + _result[3] + _result[4];
-        }
-        return +_result;
-        //return "#"+color;
-    }
-    Art.StringToColorHex = StringToColorHex;
-    function HexToRGB(value) {
-        var _result = _rcolourhex.exec(value + "");
-        _result = [
-            parseInt(_result[2], 16),
-            parseInt(_result[3], 16),
-            parseInt(_result[4], 16)
-        ];
-        return _result;
-    }
-    Art.HexToRGB = HexToRGB;
-    function RGBToHex(r, g, b) {
-        var _r = r, _g = g, _b = b;
-        if (Array.isArray(r)) {
-            _r = r[0];
-            _g = r[1];
-            _b = r[2];
-        }
-        return "#" + _r.toString(16) + _g.toString(16) + _b.toString(16);
-    }
-    Art.RGBToHex = RGBToHex;
-})(Art || (Art = {}));
-/**
- * Created by tommyZZM on 2015/4/9.
  */
 var alcedo;
 (function (alcedo) {
-    function checkNormalType(data) {
-        return (typeof data == "string" || typeof data == "number");
-    }
-    alcedo.checkNormalType = checkNormalType;
-    var _r2value = /(\w*)^((\d|\.)+)(\w*)$/i;
-    function toValue(str) {
-        //trace("toValue",_r2value.exec(str),str)
-        var _str, _rstr = _r2value.exec(str);
-        if (_rstr) {
-            _str = Number(_rstr[2]);
+    var art;
+    (function (art) {
+        function HexToColorString(value) {
+            if (isNaN(value) || value < 0)
+                value = 0;
+            if (value > 16777215)
+                value = 16777215;
+            var color = value.toString(16).toUpperCase();
+            while (color.length < 6) {
+                color = "0" + color;
+            }
+            return "#" + color;
         }
-        if (!_str) {
-            _str = 0;
+        art.HexToColorString = HexToColorString;
+        var _rcolourhex = /(0x|#)?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/i;
+        function StringToColorHex(value) {
+            var _result = _rcolourhex.exec(value + "");
+            if (_result && _result[2] && _result[3] && _result[4]) {
+                _result = "0x" + _result[2] + _result[3] + _result[4];
+            }
+            return +_result;
+            //return "#"+color;
         }
-        return _str;
-    }
-    alcedo.toValue = toValue;
-    /**
-     * TryCatch����
-     * @param fn
-     * @param onerror
-     * @param thisObject
-     */
-    function tryExecute(fn, onerror, thisObject) {
-        try {
-            thisObject ? fn.apply(thisObject) : fn();
+        art.StringToColorHex = StringToColorHex;
+        function HexToRGB(value) {
+            var _result = _rcolourhex.exec(value + "");
+            _result = [
+                parseInt(_result[2], 16),
+                parseInt(_result[3], 16),
+                parseInt(_result[4], 16)
+            ];
+            return _result;
         }
-        catch (e) {
-            thisObject ? onerror.apply(thisObject, e) : onerror(e);
+        art.HexToRGB = HexToRGB;
+        function RGBToHex(r, g, b) {
+            var _r = r, _g = g, _b = b;
+            if (Array.isArray(r)) {
+                _r = r[0];
+                _g = r[1];
+                _b = r[2];
+            }
+            return "#" + _r.toString(16) + _g.toString(16) + _b.toString(16);
         }
-    }
-    alcedo.tryExecute = tryExecute;
+        art.RGBToHex = RGBToHex;
+    })(art = alcedo.art || (alcedo.art = {}));
 })(alcedo || (alcedo = {}));
 /**
  * Created by tommyZZM on 2015/4/6.
@@ -957,4 +748,42 @@ var alcedo;
         return uMath;
     })();
     alcedo.uMath = uMath;
+})(alcedo || (alcedo = {}));
+/**
+ * Created by tommyZZM on 2015/4/9.
+ */
+var alcedo;
+(function (alcedo) {
+    function checkNormalType(data) {
+        return (typeof data == "string" || typeof data == "number");
+    }
+    alcedo.checkNormalType = checkNormalType;
+    var _r2value = /(\w*)^((\d|\.)+)(\w*)$/i;
+    function toValue(str) {
+        //trace("toValue",_r2value.exec(str),str)
+        var _str, _rstr = _r2value.exec(str);
+        if (_rstr) {
+            _str = Number(_rstr[2]);
+        }
+        if (!_str) {
+            _str = 0;
+        }
+        return _str;
+    }
+    alcedo.toValue = toValue;
+    /**
+     * TryCatch隔离
+     * @param fn
+     * @param onerror
+     * @param thisObject
+     */
+    function tryExecute(fn, onerror, thisObject) {
+        try {
+            thisObject ? fn.apply(thisObject) : fn();
+        }
+        catch (e) {
+            thisObject ? onerror.apply(thisObject, e) : onerror(e);
+        }
+    }
+    alcedo.tryExecute = tryExecute;
 })(alcedo || (alcedo = {}));

@@ -32,8 +32,7 @@ module alcedo{
 
         export class DomManager extends EventDispatcher{
 
-            private _readytask:string;
-            private _domtask:Dict;
+            private _domtask:any;
 
             public constructor(){
                 super();
@@ -42,10 +41,10 @@ module alcedo{
                     //console.error(dom.log_code(1001))
                 }
 
-                this._querypool = new Dict();
+                this._querypool = {};
 
-                this._domtask = new Dict();
-                this._domtask.set(DomEventType.ready,[]);
+                this._domtask = {};
+                this._domtask[DomEventType.ready]=[];
 
                 this.usefulDomEvent();
                 //this.windowConfigure()
@@ -101,7 +100,7 @@ module alcedo{
             private onready(){
                 this._readychekced = true;
                 AppNotifyable.notify(this._domtask,DomEventType.ready);
-                this._domtask.set(DomEventType.ready,[]);
+                this._domtask[DomEventType.ready]=[];
             }
             private checkready(){
                 if ( document.readyState === "complete" || this._readychekced) {
@@ -144,7 +143,7 @@ module alcedo{
             /**
              * ele queryer
              */
-            private _querypool:Dict;
+            private _querypool:any;
             public query(selector:HTMLElement|string):DomElement[]{
                 var results:any = [],
                     eles = this.prase(selector);
@@ -168,9 +167,9 @@ module alcedo{
                         _elecount++;
                         ele.setAttribute("data-"+_elemark,_elecount+"");
                         result = new DomElement(ele);
-                        this._querypool.set(result.apid+"",result);
+                        this._querypool[result.apid+""]=result;
                     }else{
-                        result = this._querypool.get(ele.getAttribute("data-"+_elemark));
+                        result = this._querypool[ele.getAttribute("data-"+_elemark)];
                     }
                 }
                 return result;

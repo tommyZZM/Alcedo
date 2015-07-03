@@ -4,9 +4,9 @@
 module alcedo {
     export class AppNotifyable{
 
-        public static registNotify(notifymap:Dict,name:string,callback:Function,thisObject:any,param?:Array<any>,priority?:number){//,reserve?:any
-            if(!notifymap.has(name))notifymap.set(name,[]);
-            var map = notifymap.get(name);
+        public static registNotify(notifymap:any,name:string,callback:Function,thisObject:any,param?:Array<any>,priority?:number){//,reserve?:any
+            if(!notifymap[name])notifymap[name]=[];
+            var map = notifymap[name];
 
             var length = map.length;
             var insertIndex:number = -1;
@@ -29,12 +29,12 @@ module alcedo {
             else {
                 map.push(bin);
             }
-            notifymap.set(name,map);
+            notifymap[name]=map;
         }
 
-        public static unregistNotify(notifymap:Dict,name:string,callback:Function,thisObject:any){
-            if(!notifymap.has(name))return;
-            var map = notifymap.get(name);
+        public static unregistNotify(notifymap:any,name:string,callback:Function,thisObject:any){
+            if(!notifymap[name])return;
+            var map = notifymap[name];
             if(map){
                 //var length = map.length;
                 for(var i in map){
@@ -43,12 +43,12 @@ module alcedo {
                         map.splice(i, 1);
                     }
                 }
-                notifymap.set(name,map);
+                notifymap[name]=map;
             }
         }
 
-        public static notify(notifymap:Dict, name:string,param?:Array<any>):boolean{
-            var map = notifymap.get(name);
+        public static notify(notifymap:any, name:string,param?:Array<any>):boolean{
+            var map = notifymap[name];
             if(map){
                 this.notifyArray(map,param);
                 return true;

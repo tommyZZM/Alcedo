@@ -1,17 +1,19 @@
-/**
- * 获取类名,不包括命名空间
- * @param obj
- * @returns {string}
- */
-declare function getClassName(obj: any): string;
-/**
- * 判断类型是否继承?类型
- * @returns {boolean}
- * @param targetClass
- * @param testClass
- */
-declare function isOfClass(targetClass: any, testClass: any): boolean;
-declare function expandMethod(method: string | Function, target: Function, thisArg?: any): Function;
+declare module alcedo {
+    /**
+     * 获取类名,不包括命名空间
+     * @param obj
+     * @returns {string}
+     */
+    function getClassName(obj: any): string;
+    /**
+     * 判断类型是否继承?类型
+     * @returns {boolean}
+     * @param targetClass
+     * @param testClass
+     */
+    function isOfClass(targetClass: any, testClass: any): boolean;
+    function expandMethod(method: string | Function, target: Function, thisArg?: any): Function;
+}
 /**
  * Created by tommyZZM on 2015/4/3.
  */
@@ -27,40 +29,15 @@ declare module alcedo {
         private _classname;
         className: string;
     }
-    interface ICycable {
-        onCreate(): any;
-        onDestory(): any;
-    }
-}
-declare class Dict {
-    private _map;
-    private _keys;
-    constructor();
-    set(key: string, value: any): void;
-    get(key: string): any;
-    find(reg: RegExp): Array<any>;
-    delete(key: string): void;
-    has(key: string): boolean;
-    clear(): void;
-    /** @/deprecated */
-    forEach(callbackfn: (value, key?: string) => void, thisArg?: any): void;
-    values: any[];
-    keys: string[];
-    size: number;
-}
-interface IDict {
-    set(key: any, value: any): any;
-    get(key: any): any;
-    delete(key: any): any;
 }
 /**
  * Created by tommyZZM on 2015/4/4.
  */
 declare module alcedo {
     class AppNotifyable {
-        static registNotify(notifymap: Dict, name: string, callback: Function, thisObject: any, param?: Array<any>, priority?: number): boolean;
-        static unregistNotify(notifymap: Dict, name: string, callback: Function, thisObject: any): void;
-        static notify(notifymap: Dict, name: string, param?: Array<any>): boolean;
+        static registNotify(notifymap: any, name: string, callback: Function, thisObject: any, param?: Array<any>, priority?: number): boolean;
+        static unregistNotify(notifymap: any, name: string, callback: Function, thisObject: any): void;
+        static notify(notifymap: any, name: string, param?: Array<any>): boolean;
         static notifyArray(arr: Array<{
             callback: Function;
             thisObject: any;
@@ -85,7 +62,7 @@ declare module alcedo {
  */
 declare module alcedo {
     class EventDispatcher extends AppObject {
-        protected _eventsMap: Dict;
+        protected _eventsMap: any;
         constructor();
         addEventListener(event: string, listener: Function, thisObject: any, priority?: number): void;
         clearEventListener(event: string): void;
@@ -197,25 +174,13 @@ declare module alcedo {
 /**
  * Created by tommyZZM on 2015/4/8.
  */
-declare module Art {
-    function HexToColorString(value: number): string;
-    function StringToColorHex(value: string): number;
-    function HexToRGB(value: number | string): Array<number>;
-    function RGBToHex(r: number | Array<any>, g?: number, b?: number): string;
-}
-/**
- * Created by tommyZZM on 2015/4/9.
- */
 declare module alcedo {
-    function checkNormalType(data: any): boolean;
-    function toValue(str: string): number;
-    /**
-     * TryCatch����
-     * @param fn
-     * @param onerror
-     * @param thisObject
-     */
-    function tryExecute(fn: Function, onerror?: Function, thisObject?: any): void;
+    module art {
+        function HexToColorString(value: number): string;
+        function StringToColorHex(value: string): number;
+        function HexToRGB(value: number | string): Array<number>;
+        function RGBToHex(r: number | Array<any>, g?: number, b?: number): string;
+    }
 }
 /**
  * Created by tommyZZM on 2015/4/6.
@@ -248,4 +213,20 @@ declare module alcedo {
          */
         static cos(value: number): number;
     }
+}
+declare module alcedo {
+}
+/**
+ * Created by tommyZZM on 2015/4/9.
+ */
+declare module alcedo {
+    function checkNormalType(data: any): boolean;
+    function toValue(str: string): number;
+    /**
+     * TryCatch隔离
+     * @param fn
+     * @param onerror
+     * @param thisObject
+     */
+    function tryExecute(fn: Function, onerror?: Function, thisObject?: any): void;
 }

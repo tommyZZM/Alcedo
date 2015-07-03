@@ -22,7 +22,7 @@ module alcedo {
 
             private _designedcss:any;
 
-            private _domEventnotify:Dict;
+            //private _domEventnotify:any;
 
             public constructor(ele:HTMLElement) {
                 super();
@@ -30,7 +30,6 @@ module alcedo {
                 if(this._node){
                     this._apid = +(ele.getAttribute("data-"+_elemark));
                     this._designedcss = this.abscss();
-                    this._domEventnotify = new Dict();
                     if(this.tagname!="body")this.initevent();
                 }
 
